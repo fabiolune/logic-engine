@@ -1,27 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
+using Moq;
 using Newtonsoft.Json;
-using NSubstitute;
 using NUnit.Framework;
 using Serilog;
 
 namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 {
     [TestFixture]
-    [ExcludeFromCodeCoverage]
     public class BusinessRulesManagerTests
     {
         private readonly BusinessRulesManager<TestModel> _sut;
 
         public BusinessRulesManagerTests()
         {
-            var logger = Substitute.For<ILogger>();
-            _sut = new BusinessRulesManager<TestModel>(new BusinessRulesCompiler(logger));
+            var logger = new Mock<ILogger>();
+            _sut = new BusinessRulesManager<TestModel>(new BusinessRulesCompiler(logger.Object));
         }
 
         [Test]
@@ -245,7 +243,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             // arrange
             _sut.SetCatalog(new RulesCatalog());
-            var item = Arg.Any<TestModel>();
+            var item = It.IsAny<TestModel>();
 
             // act
             var watch = Stopwatch.StartNew();
@@ -573,7 +571,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                 }
             };
             _sut.SetCatalog(catalog);
-            var item = Arg.Any<TestModel>();
+            var item = It.IsAny<TestModel>();
 
             // act
             var watch = Stopwatch.StartNew();

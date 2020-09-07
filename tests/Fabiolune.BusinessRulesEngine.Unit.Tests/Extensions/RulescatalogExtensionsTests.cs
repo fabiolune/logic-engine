@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Fabiolune.BusinessRulesEngine.Extensions;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
@@ -8,7 +7,6 @@ using NUnit.Framework;
 namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
 {
     [TestFixture]
-    [ExcludeFromCodeCoverage]
     public class RulesCatalogExtensionsTests
     {
         [Test]

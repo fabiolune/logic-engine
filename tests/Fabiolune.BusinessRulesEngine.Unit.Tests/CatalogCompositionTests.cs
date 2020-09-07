@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
 using NUnit.Framework;
@@ -7,7 +6,6 @@ using NUnit.Framework;
 namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 {
     [TestFixture]
-    [ExcludeFromCodeCoverage]
     public class CatalogCompositionTests
     {
         [TestCase(0, 0)]
