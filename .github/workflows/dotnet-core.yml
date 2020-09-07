@@ -23,7 +23,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: test
       run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
-    - name: Retrieve version
+    - name: retieve list of coverage info reports
       run: |
         echo ::set-env name=COVERAGE_REPORTS::$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";")
     - name: merge code coverage data
@@ -31,3 +31,8 @@ jobs:
       with:
         reports: '${{ env.COVERAGE_REPORTS }}'
         reporttypes: 'lcov;HtmlInline'
+    - name: publish code coverage results
+      uses: romeovs/lcov-reporter-action@v0.2.16
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        lcov-file: ./coverage/coverage.info 
