@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -10,7 +9,6 @@ using Serilog;
 namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 {
     [TestFixture]
-    [ExcludeFromCodeCoverage]
     public class BusinessRulesCompilerTests
     {
         private readonly BusinessRulesCompiler _sut;

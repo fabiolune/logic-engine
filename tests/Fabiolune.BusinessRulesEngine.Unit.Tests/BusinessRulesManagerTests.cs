@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
@@ -13,7 +12,6 @@ using Serilog;
 namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 {
     [TestFixture]
-    [ExcludeFromCodeCoverage]
     public class BusinessRulesManagerTests
     {
         private readonly BusinessRulesManager<TestModel> _sut;
