@@ -29,5 +29,5 @@ jobs:
     - name: merge code coverage data
       uses: danielpalme/ReportGenerator-GitHub-Action@4.6.6
       with:
-        reports: 
-        reporttypes: ${{ env.COVERAGE_REPORTS }}
+        reports: '${{ env.COVERAGE_REPORTS }}''
+        reporttypes: 'lcov;HtmlInline'
