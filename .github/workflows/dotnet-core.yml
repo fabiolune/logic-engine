@@ -31,6 +31,8 @@ jobs:
       with:
         reports: '${{ env.COVERAGE_REPORTS }}'
         reporttypes: 'lcov;HtmlInline'
+    - name: cat Html reporter
+      run: coveragereport/index.html
     # known issue in https://github.com/romeovs/lcov-reporter-action/issues/1
     - if: github.event_name == 'pull_request'
       name: publish code coverage results
