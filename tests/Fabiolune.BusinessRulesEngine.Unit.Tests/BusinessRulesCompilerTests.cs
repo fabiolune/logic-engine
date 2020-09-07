@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
+using Moq;
 using Newtonsoft.Json;
-using NSubstitute;
 using NUnit.Framework;
 using Serilog;
 
@@ -15,8 +15,8 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 
         public BusinessRulesCompilerTests()
         {
-            var logger = Substitute.For<ILogger>();
-            _sut = new BusinessRulesCompiler(logger);
+            var logger = new Mock<ILogger>();
+            _sut = new BusinessRulesCompiler(logger.Object);
         }
 
         [Test]
