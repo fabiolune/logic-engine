@@ -34,7 +34,7 @@ jobs:
     # known issue in https://github.com/romeovs/lcov-reporter-action/issues/1
     - if: github.event_name == 'pull_request'
       name: publish code coverage results
-      uses: romeovs/lcov-reporter-action@v0.2.16
+      uses: romeovs/lcov-reporter-action@v0.2.17
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coveragereport/lcov.info 
