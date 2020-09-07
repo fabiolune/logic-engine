@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabiolune.BusinessRulesEngine", "src\Fabiolune.BusinessRulesEngine\Fabiolune.BusinessRulesEngine.csproj", "{FA4C6C6D-0830-4CEC-824D-1A9C49BF0674}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E6F54007-2B42-4E67-B978-FCA137A4457B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fabiolune.BusinessRulesEngine.Unit.Tests", "tests\Fabiolune.BusinessRulesEngine.Unit.Tests\Fabiolune.BusinessRulesEngine.Unit.Tests.csproj", "{1215E27E-4751-460B-8B7B-D9D2BB7295A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A17FDBBD-8F5E-4D3D-84A2-3A00B0EFAF27}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA4C6C6D-0830-4CEC-824D-1A9C49BF0674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA4C6C6D-0830-4CEC-824D-1A9C49BF0674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA4C6C6D-0830-4CEC-824D-1A9C49BF0674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA4C6C6D-0830-4CEC-824D-1A9C49BF0674}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1215E27E-4751-460B-8B7B-D9D2BB7295A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1215E27E-4751-460B-8B7B-D9D2BB7295A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1215E27E-4751-460B-8B7B-D9D2BB7295A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1215E27E-4751-460B-8B7B-D9D2BB7295A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1215E27E-4751-460B-8B7B-D9D2BB7295A0} = {E6F54007-2B42-4E67-B978-FCA137A4457B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7B7AFE7E-1524-4803-B7CB-6B130E84A860}
+	EndGlobalSection
+EndGlobal
