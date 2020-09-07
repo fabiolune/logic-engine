@@ -32,7 +32,7 @@ jobs:
         reports: '${{ env.COVERAGE_REPORTS }}'
         reporttypes: 'lcov;HtmlChart'
     - name: cat Html reporter
-      run: coveragereport/index.html
+      run: cat ./coveragereport/CoverageHistory.html
     # known issue in https://github.com/romeovs/lcov-reporter-action/issues/1
     - if: github.event_name == 'pull_request'
       name: publish code coverage results
