@@ -30,7 +30,7 @@ jobs:
       uses: danielpalme/ReportGenerator-GitHub-Action@4.6.6
       with:
         reports: '${{ env.COVERAGE_REPORTS }}'
-        reporttypes: 'lcov;HtmlInline'
+        reporttypes: 'lcov;HtmlChart'
     - name: cat Html reporter
       run: coveragereport/index.html
     # known issue in https://github.com/romeovs/lcov-reporter-action/issues/1
