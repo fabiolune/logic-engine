@@ -21,5 +21,10 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true
+    - name: test
+      run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+    - name: merge code coverage data
+      uses: danielpalme/ReportGenerator-GitHub-Action@4.6.6
+      with:
+        reports: find ./[Tt]est*/ -name "*.cs" | paste -sd ";"
+        reporttypes: 'HtmlInline;lcov'
