@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Fabiolune.BusinessRulesEngine.Extensions;
+using Fabiolune.BusinessRulesEngine.Internals;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
 using NUnit.Framework;

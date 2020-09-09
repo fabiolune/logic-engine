@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Fabiolune.BusinessRulesEngine.Models;
 
-namespace Fabiolune.BusinessRulesEngine
+namespace Fabiolune.BusinessRulesEngine.Internals
 {
     internal static class OperationMappings
     {

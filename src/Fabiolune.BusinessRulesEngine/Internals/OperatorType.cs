@@ -1,4 +1,4 @@
-﻿namespace Fabiolune.BusinessRulesEngine
+﻿namespace Fabiolune.BusinessRulesEngine.Internals
 {
     public enum OperatorType
     {

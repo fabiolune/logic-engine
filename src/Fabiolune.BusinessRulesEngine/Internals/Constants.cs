@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Fabiolune.BusinessRulesEngine
+namespace Fabiolune.BusinessRulesEngine.Internals
 {
     internal static class Constants
     {
