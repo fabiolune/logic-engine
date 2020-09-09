@@ -10,66 +10,78 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
     {
         [TestCase(0, 0)]
         [TestCase(0, 1)]
+        [TestCase(1, 0)]
         [TestCase(1, 1)]
         [TestCase(2, 3)]
         public void When_AddingTwoCatalogs_ExpectSumOfRules(int rulesets1, int rulesets2)
         {
-            // arrange
             var c1 = new RulesCatalog
             {
                 Name = "name 1"
             };
-            var rules1 = new List<RuleSet>();
+            List<RuleSet> rules1 = null;
             for (var i = 0; i < rulesets1; i++)
+            {
+                if(rules1 == null)
+                    rules1 = new List<RuleSet>();
                 rules1.Add(new RuleSet());
+            }
             c1.RuleSets = rules1;
 
             var c2 = new RulesCatalog
             {
                 Name = "name 2"
             };
-            var rules2 = new List<RuleSet>();
+            List<RuleSet> rules2 = null;
             for (var i = 0; i < rulesets2; i++)
+            {
+                if (rules2 == null)
+                    rules2 = new List<RuleSet>();
                 rules2.Add(new RuleSet());
+            }
             c2.RuleSets = rules2;
 
-            // act
             var c = c1 + c2;
 
-            // assert
             c.RuleSets.Should().HaveCount(rulesets1 + rulesets2);
             c.Name.Should().Be("name 1 OR name 2");
         }
 
         [TestCase(0, 0)]
         [TestCase(0, 1)]
+        [TestCase(1, 0)]
         [TestCase(1, 1)]
         [TestCase(2, 3)]
         public void When_MultiplyingTwoCatalogs_ExpectProductOfRules(int rulesets1, int rulesets2)
         {
-            // arrange
             var c1 = new RulesCatalog
             {
                 Name = "name 1"
             };
-            var rules1 = new List<RuleSet>();
+            List<RuleSet> rules1 = null;
             for (var i = 0; i < rulesets1; i++)
+            {
+                if (rules1 == null)
+                    rules1 = new List<RuleSet>();
                 rules1.Add(new RuleSet());
+            }
             c1.RuleSets = rules1;
 
             var c2 = new RulesCatalog
             {
                 Name = "name 2"
             };
-            var rules2 = new List<RuleSet>();
+            List<RuleSet> rules2 = null;
             for (var i = 0; i < rulesets2; i++)
+            {
+                if (rules2 == null)
+                    rules2 = new List<RuleSet>();
                 rules2.Add(new RuleSet());
+            }
             c2.RuleSets = rules2;
 
-            // act
             var c = c1 * c2;
 
-            // assert
             c.RuleSets.Should().HaveCount(rulesets1 * rulesets2);
             c.Name.Should().Be("name 1 AND name 2");
         }
