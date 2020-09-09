@@ -25,9 +25,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 
             var catalog1 = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -39,9 +39,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 
             var catalog2 = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -80,9 +80,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 
             var catalog1 = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -95,9 +95,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 
             var catalog2 = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -144,9 +144,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 
             var catalog1 = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -158,9 +158,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 
             var catalog2 = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {

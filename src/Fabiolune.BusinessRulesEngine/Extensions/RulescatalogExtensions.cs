@@ -9,9 +9,9 @@ namespace Fabiolune.BusinessRulesEngine.Extensions
     public static class RulesCatalogExtensions
     {
         public static IEnumerable<IEnumerable<Rule>> ToSimplifiedCatalog(this RulesCatalog catalog)
-            => catalog?.RuleSets == null 
+            => catalog?.RulesSets == null 
                     ? Array.Empty<IEnumerable<Rule>>() 
-                    : catalog.RuleSets.Select(rs => rs.Rules);
+                    : catalog.RulesSets.Select(rs => rs.Rules);
 
         public static bool IsEquivalentTo(this RulesCatalog catalog, RulesCatalog comparedCatalog)
             => JsonConvert

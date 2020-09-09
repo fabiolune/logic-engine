@@ -15,7 +15,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
             var catalog2 = new RulesCatalog
             {
                 Name = "name 2",
-                RuleSets = new List<RuleSet>()
+                RulesSets = new List<RulesSet>()
             };
 
             ((RulesCatalog) null).IsEquivalentTo(catalog2).Should().BeTrue();
@@ -27,9 +27,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
             var catalog1 = new RulesCatalog
             {
                 Name = "name 1",
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "description 1",
                         Rules = new List<Rule>
@@ -44,9 +44,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
             var catalog2 = new RulesCatalog
             {
                 Name = "name 2",
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "description 2",
                         Rules = new List<Rule>
@@ -67,9 +67,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
             var catalog1 = new RulesCatalog
             {
                 Name = "name 1",
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "description 1",
                         Rules = new List<Rule>
@@ -83,9 +83,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
             var catalog2 = new RulesCatalog
             {
                 Name = "name 2",
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "description 2",
                         Rules = new List<Rule>

@@ -9,7 +9,7 @@ namespace Fabiolune.BusinessRulesEngine.Models
         [DataMember(Name = "name")]
         public string Name { get; set; }
         [DataMember(Name = "ruleSets")]
-        public IEnumerable<RuleSet> RuleSets { get; set; }
+        public IEnumerable<RulesSet> RulesSets { get; set; }
 
         // operators overload
 
@@ -23,7 +23,7 @@ namespace Fabiolune.BusinessRulesEngine.Models
             => new RulesCatalog
                 {
                     Name = $"{catalog1.Name} OR {catalog2.Name}",
-                    RuleSets = (catalog1.RuleSets ?? new List<RuleSet>()).Union(catalog2.RuleSets ?? new List<RuleSet>())
+                    RulesSets = (catalog1.RulesSets ?? new List<RulesSet>()).Union(catalog2.RulesSets ?? new List<RulesSet>())
                 };
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Fabiolune.BusinessRulesEngine.Models
             => new RulesCatalog
                 {
                     Name = $"{catalog1.Name} AND {catalog2.Name}",
-                    RuleSets = (from r1 in catalog1.RuleSets ?? new List<RuleSet>() from r2 in catalog2.RuleSets ?? new List<RuleSet>() select new RuleSet { Description = $"{r1.Description} AND {r2.Description}", Rules = (r1.Rules ?? new List<Rule>()).Union(r2.Rules ?? new List<Rule>()) }).ToList()
+                    RulesSets = (from r1 in catalog1.RulesSets ?? new List<RulesSet>() from r2 in catalog2.RulesSets ?? new List<RulesSet>() select new RulesSet { Description = $"{r1.Description} AND {r2.Description}", Rules = (r1.Rules ?? new List<Rule>()).Union(r2.Rules ?? new List<Rule>()) }).ToList()
                 };
     }
 }
