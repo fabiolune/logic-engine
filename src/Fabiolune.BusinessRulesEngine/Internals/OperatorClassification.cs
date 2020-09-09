@@ -1,21 +1,9 @@
 using System.Collections.Generic;
 
-namespace Fabiolune.BusinessRulesEngine
+namespace Fabiolune.BusinessRulesEngine.Internals
 {
     internal static class OperatorClassification
     {
-        internal enum OperatorCategory
-        {
-            None,
-            InternalDirect,
-            Direct,
-            Enumerable,
-            KeyValue,
-            InternalEnumerable,
-            InternalCrossEnumerable,
-            ExternalEnumerable
-        }
-
         private static readonly IDictionary<OperatorType, OperatorCategory> TypeCategoryMapping = new Dictionary<OperatorType, OperatorCategory>
         {
             {OperatorType.None,  OperatorCategory.None},

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Fabiolune.BusinessRulesEngine.Interfaces;
+using Fabiolune.BusinessRulesEngine.Internals;
 using Fabiolune.BusinessRulesEngine.Models;
 using Newtonsoft.Json;
 using Serilog;
@@ -53,7 +53,7 @@ namespace Fabiolune.BusinessRulesEngine
             try
             {
                 var genericType = Expression.Parameter(typeof(T));
-                var propertyType = typeof(T).GetProperty(rule.Property).PropertyType;
+                var propertyType = GetTypeFromPropertyName<T>(rule.Property);
 
                 var value = Expression.Constant(propertyType.BaseType == typeof(Enum)
                     ? Enum.Parse(propertyType, rule.Value)
@@ -83,11 +83,11 @@ namespace Fabiolune.BusinessRulesEngine
             {
                 var genericType = Expression.Parameter(typeof(T));
                 var key = Expression.Property(genericType, rule.Property);
-                var propertyType = typeof(T).GetProperty(rule.Property).PropertyType;
+                var propertyType = GetTypeFromPropertyName<T>(rule.Property);
                 var type1 = propertyType.FullName;
 
                 var key2 = Expression.Property(genericType, rule.Value);
-                var propertyType2 = typeof(T).GetProperty(rule.Value).PropertyType;
+                var propertyType2 = GetTypeFromPropertyName<T>(rule.Value);
                 var type2 = propertyType2.FullName;
 
                 if (type1 != type2)
@@ -119,7 +119,7 @@ namespace Fabiolune.BusinessRulesEngine
             {
                 var genericType = Expression.Parameter(typeof(T));
                 var key = Expression.Property(genericType, rule.Property);
-                var propertyType = typeof(T).GetProperty(rule.Property).PropertyType;
+                var propertyType = GetTypeFromPropertyName<T>(rule.Property);
                 var searchValuesType = propertyType.IsArray
                     ? propertyType.GetElementType()
                     : propertyType.GetGenericArguments().FirstOrDefault();
@@ -139,6 +139,9 @@ namespace Fabiolune.BusinessRulesEngine
             }
         }
 
+        private static Type GetTypeFromPropertyName<T>(string name)
+            => typeof(T).GetProperty(name).PropertyType;
+
         private ExpressionTypeCodeBinding CompileInternalEnumerableRule<T>(Rule rule)
         {
             const string method = nameof(CompileInternalEnumerableRule);
@@ -147,10 +150,10 @@ namespace Fabiolune.BusinessRulesEngine
                 var genericType = Expression.Parameter(typeof(T));
 
                 var key = Expression.Property(genericType, rule.Property);
-                var propertyType = typeof(T).GetProperty(rule.Property).PropertyType;
+                var propertyType = GetTypeFromPropertyName<T>(rule.Property);
                 var searchValueType = propertyType.IsArray ? propertyType.GetElementType() : propertyType.GetGenericArguments().FirstOrDefault();
                 var key2 = Expression.Property(genericType, rule.Value);
-                var propertyType2 = typeof(T).GetProperty(rule.Value).PropertyType;
+                var propertyType2 = GetTypeFromPropertyName<T>(rule.Value);
 
                 if (searchValueType.FullName != propertyType2.FullName)
                 {
@@ -183,23 +186,11 @@ namespace Fabiolune.BusinessRulesEngine
                 var genericType = Expression.Parameter(typeof(T));
 
                 var key = Expression.Property(genericType, rule.Property);
-                var propertyType = typeof(T).GetProperty(rule.Property).PropertyType;
-                Type searchValueType;
-                if (propertyType.IsArray)
-                {
-                    searchValueType = propertyType.GetElementType();
-                }
-                else
-                {
-                    searchValueType = propertyType.GetGenericArguments().FirstOrDefault();
-                }
+                var propertyType = GetTypeFromPropertyName<T>(rule.Property);
+                var searchValueType = propertyType.IsArray ? propertyType.GetElementType() : propertyType.GetGenericArguments().FirstOrDefault();
 
                 var key2 = Expression.Property(genericType, rule.Value);
-                var propertyType2 = typeof(T).GetProperty(rule.Value).PropertyType;
-
-                Console.WriteLine($"searchValueType: {searchValueType.Name}");
-                Console.WriteLine($"propertyType: {propertyType.FullName}");
-                Console.WriteLine($"propertyType2: {propertyType2.FullName}");
+                var propertyType2 = GetTypeFromPropertyName<T>(rule.Value);
 
                 if (propertyType != propertyType2)
                 {
@@ -229,7 +220,7 @@ namespace Fabiolune.BusinessRulesEngine
             try
             {
                 var genericType = Expression.Parameter(typeof(T));
-                var propertyType = typeof(T).GetProperty(rule.Property).PropertyType;
+                var propertyType = GetTypeFromPropertyName<T>(rule.Property);
 
                 return new ExpressionTypeCodeBinding
                 {
@@ -275,19 +266,19 @@ namespace Fabiolune.BusinessRulesEngine
         {
             switch (OperatorClassification.GetOperatorType(rule.Operator))
             {
-                case OperatorClassification.OperatorCategory.Direct:
+                case OperatorCategory.Direct:
                     return CompileDirectRule<T>(rule);
-                case OperatorClassification.OperatorCategory.Enumerable:
+                case OperatorCategory.Enumerable:
                     return CompileEnumerableRule<T>(rule);
-                case OperatorClassification.OperatorCategory.InternalDirect:
+                case OperatorCategory.InternalDirect:
                     return CompileInternalDirectRule<T>(rule);
-                case OperatorClassification.OperatorCategory.InternalEnumerable:
+                case OperatorCategory.InternalEnumerable:
                     return CompileInternalEnumerableRule<T>(rule);
-                case OperatorClassification.OperatorCategory.InternalCrossEnumerable:
+                case OperatorCategory.InternalCrossEnumerable:
                     return CompileInternalCrossEnumerableRule<T>(rule);
-                case OperatorClassification.OperatorCategory.ExternalEnumerable:
+                case OperatorCategory.ExternalEnumerable:
                     return CompileExternalEnumerableRule<T>(rule);
-                case OperatorClassification.OperatorCategory.KeyValue:
+                case OperatorCategory.KeyValue:
                     return CompileExternalKeyValueRule<T>(rule);
                 default:
                     return null;

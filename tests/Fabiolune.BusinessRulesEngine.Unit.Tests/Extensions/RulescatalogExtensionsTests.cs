@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Fabiolune.BusinessRulesEngine.Extensions;
+using Fabiolune.BusinessRulesEngine.Internals;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
 using NUnit.Framework;
@@ -10,52 +11,26 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
     public class RulesCatalogExtensionsTests
     {
         [Test]
-        public void WhenCatalogsDiffersJustForNameAndDescriptionShouldBeEquivalent()
+        public void NullAndEmptyCatalogShouldBeEquivalent()
         {
-            var catalog1 = new RulesCatalog()
-            {
-                Name = "name 1",
-                RuleSets = new List<RuleSet>
-                {
-                    new RuleSet
-                    {
-                        Description = "description 1",
-                        Rules = new List<Rule>
-                        {
-                            new Rule("prop1", OperatorType.Contains, "value1", "code1", "description 1")
-                        }
-                    }
-                }
-            };
-
-            var catalog2 = new RulesCatalog()
+            var catalog2 = new RulesCatalog
             {
                 Name = "name 2",
-                RuleSets = new List<RuleSet>
-                {
-                    new RuleSet
-                    {
-                        Description = "description 2",
-                        Rules = new List<Rule>
-                        {
-                            new Rule("prop1", OperatorType.Contains, "value1", "code1", "description 1")
-                        }
-                    }
-                }
+                RulesSets = new List<RulesSet>()
             };
 
-            catalog1.IsEquivalentTo(catalog2).Should().BeTrue();
+            ((RulesCatalog) null).IsEquivalentTo(catalog2).Should().BeTrue();
         }
 
         [Test]
         public void WhenCatalogsDiffersForTheRulesOrderShouldNotBeEquivalent()
         {
-            var catalog1 = new RulesCatalog()
+            var catalog1 = new RulesCatalog
             {
                 Name = "name 1",
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "description 1",
                         Rules = new List<Rule>
@@ -67,12 +42,12 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
                 }
             };
 
-            var catalog2 = new RulesCatalog()
+            var catalog2 = new RulesCatalog
             {
                 Name = "name 2",
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "description 2",
                         Rules = new List<Rule>
@@ -88,15 +63,41 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
         }
 
         [Test]
-        public void NullAndEmptyCatalogShouldBeEquivalent()
+        public void WhenCatalogsDiffersJustForNameAndDescriptionShouldBeEquivalent()
         {
+            var catalog1 = new RulesCatalog
+            {
+                Name = "name 1",
+                RulesSets = new List<RulesSet>
+                {
+                    new RulesSet
+                    {
+                        Description = "description 1",
+                        Rules = new List<Rule>
+                        {
+                            new Rule("prop1", OperatorType.Contains, "value1", "code1", "description 1")
+                        }
+                    }
+                }
+            };
+
             var catalog2 = new RulesCatalog
             {
                 Name = "name 2",
-                RuleSets = new List<RuleSet>()
+                RulesSets = new List<RulesSet>
+                {
+                    new RulesSet
+                    {
+                        Description = "description 2",
+                        Rules = new List<Rule>
+                        {
+                            new Rule("prop1", OperatorType.Contains, "value1", "code1", "description 1")
+                        }
+                    }
+                }
             };
 
-            ((RulesCatalog)null).IsEquivalentTo(catalog2).Should().BeTrue();
+            catalog1.IsEquivalentTo(catalog2).Should().BeTrue();
         }
     }
 }

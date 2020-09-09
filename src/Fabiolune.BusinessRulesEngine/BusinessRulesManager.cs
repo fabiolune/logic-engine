@@ -17,12 +17,10 @@ namespace Fabiolune.BusinessRulesEngine
             _businessRulesCompiler = businessRulesCompiler;
         }
 
-        public void SetCatalog(RulesCatalog catalog)
-        {
-            _rulesCatalog = catalog
+        public void SetCatalog(RulesCatalog catalog) 
+            => _rulesCatalog = catalog
                 .ToSimplifiedCatalog()
                 .Select(x => _businessRulesCompiler.CompileRules<T>(x).ToArray()).ToArray();
-        }
 
         /// <summary>
         ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR)
@@ -62,11 +60,10 @@ namespace Fabiolune.BusinessRulesEngine
             if (!_rulesCatalog.Any())
                 return true;
 
-            // the full rules catalog is satisfied if at least one ruleSet is satisfied (OR)
-            return _rulesCatalog
+            return _rulesCatalog.ToArray()
                 .Select(ruleSet => ruleSet as Func<T, RuleApplicationResult>[])
-                .Select(enumerable => enumerable.TakeWhile(rule => rule(item).Success)
-                .Count() == enumerable.Length).Any(satisfiesSet => satisfiesSet);
+                .Select(enumerable => enumerable.TakeWhile(rule => rule(item).Success).Count() == enumerable.Length)
+                .Any(satisfiesSet => satisfiesSet);
         }
     }
 }
