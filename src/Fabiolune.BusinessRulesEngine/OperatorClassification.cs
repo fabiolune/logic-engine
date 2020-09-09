@@ -12,6 +12,7 @@ namespace Fabiolune.BusinessRulesEngine
             Enumerable,
             KeyValue,
             InternalEnumerable,
+            InternalCrossEnumerable,
             ExternalEnumerable
         }
 
@@ -50,8 +51,9 @@ namespace Fabiolune.BusinessRulesEngine
             // ------------------------------------------
             {OperatorType.InnerContains, OperatorCategory.InternalEnumerable},
             {OperatorType.InnerNotContains, OperatorCategory.InternalEnumerable},
-            {OperatorType.InnerOverlaps, OperatorCategory.InternalEnumerable},
-            {OperatorType.InnerNotOverlaps, OperatorCategory.InternalEnumerable },
+            // ------------------------------------------
+            {OperatorType.InnerOverlaps, OperatorCategory.InternalCrossEnumerable},
+            {OperatorType.InnerNotOverlaps, OperatorCategory.InternalCrossEnumerable }
         };
 
         internal static OperatorCategory GetOperatorType(OperatorType type)

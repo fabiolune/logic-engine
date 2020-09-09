@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
 using Moq;
@@ -164,28 +165,32 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         [TestCase(OperatorType.InnerNotContains)]
         public void When_CompileRulesWithInternalEnumerableOperator_ShouldCompileRule(OperatorType op)
         {
-            var rule = new Rule(nameof(TestModel.IntEnumerableProperty), op, nameof(TestModel.IntProperty));
+            var rule1 = new Rule(nameof(TestModel.IntEnumerableProperty), op, nameof(TestModel.IntProperty));
+            var rule2 = new Rule(nameof(TestModel.StringArrayProperty), op, nameof(TestModel.StringProperty));
 
             var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
             {
-                rule
+                rule1,
+                rule2
             });
 
-            compiledRules.Should().HaveCount(1);
+            compiledRules.Should().HaveCount(2);
         }
 
         [TestCase(OperatorType.InnerOverlaps)]
         [TestCase(OperatorType.InnerNotOverlaps)]
         public void When_CompileRulesWithInternalEnumerableCompareOperator_ShouldCompileRule(OperatorType op)
         {
-            var rule = new Rule(nameof(TestModel.IntEnumerableProperty), op, nameof(TestModel.IntEnumerableProperty2));
+            var rule1 = new Rule(nameof(TestModel.IntEnumerableProperty), op, nameof(TestModel.IntEnumerableProperty2));
+            var rule2 = new Rule(nameof(TestModel.StringArrayProperty), op, nameof(TestModel.StringArrayProperty2));
 
             var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
             {
-                rule
+                rule1,
+                rule2
             });
-
-            compiledRules.Should().HaveCount(1);
+            
+            compiledRules.Should().HaveCount(2);
         }
 
         [TestCase("IntEnumerableProperty", "1,2", 1, OperatorType.Overlaps)]

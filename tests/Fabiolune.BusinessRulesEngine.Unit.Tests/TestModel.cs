@@ -17,6 +17,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         public IEnumerable<int> IntEnumerableProperty2 { get; set; }
         public IEnumerable<string> StringEnumerableProperty { get; set; }
         public string[] StringArrayProperty { get; set; }
+        public string[] StringArrayProperty2 { get; set; }
     }
 
     internal enum TestEnum
