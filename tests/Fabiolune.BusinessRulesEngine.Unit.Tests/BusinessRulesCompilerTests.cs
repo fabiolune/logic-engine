@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
 using Moq;
@@ -12,17 +13,45 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
     public class BusinessRulesCompilerTests
     {
         private readonly BusinessRulesCompiler _sut;
+        private readonly Mock<ILogger> _mockLogger;
 
         public BusinessRulesCompilerTests()
         {
-            var logger = new Mock<ILogger>();
-            _sut = new BusinessRulesCompiler(logger.Object);
+            _mockLogger = new Mock<ILogger>();
+            _sut = new BusinessRulesCompiler(_mockLogger.Object);
         }
 
-        [Test]
-        public void CompileRules_WhenPassedRuleWithWrongPropertyName_ShouldDiscardIt()
+        [TestCase(OperatorType.Equal)]
+        [TestCase(OperatorType.GreaterThan)]
+        [TestCase(OperatorType.GreaterThanOrEqual)]
+        [TestCase(OperatorType.LessThan)]
+        [TestCase(OperatorType.LessThanOrEqual)]
+        [TestCase(OperatorType.NotEqual)]
+        [TestCase(OperatorType.Contains)]
+        [TestCase(OperatorType.NotContains)]
+        [TestCase(OperatorType.Overlaps)]
+        [TestCase(OperatorType.NotOverlaps)]
+        [TestCase(OperatorType.ContainsKey)]
+        [TestCase(OperatorType.NotContainsKey)]
+        [TestCase(OperatorType.ContainsValue)]
+        [TestCase(OperatorType.NotContainsValue)]
+        [TestCase(OperatorType.KeyContainsValue)]
+        [TestCase(OperatorType.NotKeyContainsValue)]
+        [TestCase(OperatorType.IsContained)]
+        [TestCase(OperatorType.IsNotContained)]
+        [TestCase(OperatorType.InnerEqual)]
+        [TestCase(OperatorType.InnerGreaterThan)]
+        [TestCase(OperatorType.InnerGreaterThanOrEqual)]
+        [TestCase(OperatorType.InnerLessThan)]
+        [TestCase(OperatorType.InnerLessThanOrEqual)]
+        [TestCase(OperatorType.InnerNotEqual)]
+        [TestCase(OperatorType.InnerContains)]
+        [TestCase(OperatorType.InnerNotContains)]
+        [TestCase(OperatorType.InnerOverlaps)]
+        [TestCase(OperatorType.InnerNotOverlaps)]
+        public void CompileRules_WhenPassedRuleWithWrongPropertyName_ShouldDiscardIt(OperatorType type)
         {
-            var rule1 = new Rule("StringPropertyWrong", OperatorType.Equal, "value 1");
+            var rule1 = new Rule("StringPropertyWrong", type, "value 1");
 
             var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
             {
@@ -30,6 +59,8 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             });
 
             compiledRules.Should().HaveCount(0);
+            _mockLogger
+                .Verify(_ => _.Error(It.IsAny<Exception>(), "{Component} raised an exception with {Message} when compiling {Rule}", nameof(BusinessRulesCompiler), It.IsAny<string>(), JsonConvert.SerializeObject(rule1, Formatting.Indented)), Times.Once);
         }
 
         [Test]
@@ -225,7 +256,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         }
 
         [Test]
-        public void Test()
+        public void When_CompileRulesWithNotExistingOperatorType_ShouldNotCompileRules()
         {
             var rule = new Rule(nameof(TestModel.StringEnumerableProperty), (OperatorType)1000, "StringProperty");
 
