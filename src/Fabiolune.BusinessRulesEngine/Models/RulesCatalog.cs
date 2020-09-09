@@ -19,17 +19,12 @@ namespace Fabiolune.BusinessRulesEngine.Models
         /// <param name="catalog1"></param>
         /// <param name="catalog2"></param>
         /// <returns></returns>
-        public static RulesCatalog operator +(RulesCatalog catalog1, RulesCatalog catalog2)
-        {
-            var catalog = new RulesCatalog
-            {
-                Name = $"{catalog1.Name} OR {catalog2.Name}",
-                RuleSets = (catalog1.RuleSets ?? new List<RuleSet>()).Union(catalog2.RuleSets ?? new List<RuleSet>())
-            };
-
-
-            return catalog;
-        }
+        public static RulesCatalog operator +(RulesCatalog catalog1, RulesCatalog catalog2) 
+            => new RulesCatalog
+                {
+                    Name = $"{catalog1.Name} OR {catalog2.Name}",
+                    RuleSets = (catalog1.RuleSets ?? new List<RuleSet>()).Union(catalog2.RuleSets ?? new List<RuleSet>())
+                };
 
         /// <summary>
         ///     his represents the logical AND between two catalogs
@@ -37,29 +32,11 @@ namespace Fabiolune.BusinessRulesEngine.Models
         /// <param name="catalog1"></param>
         /// <param name="catalog2"></param>
         /// <returns></returns>
-        public static RulesCatalog operator *(RulesCatalog catalog1, RulesCatalog catalog2)
-        {
-            var catalog = new RulesCatalog();
-
-            var ruleSets = new List<RuleSet>();
-
-            catalog.Name = $"{catalog1.Name} AND {catalog2.Name}";
-
-            foreach (var r1 in catalog1.RuleSets ?? new List<RuleSet>())
-            foreach (var r2 in catalog2.RuleSets ?? new List<RuleSet>())
-            {
-                var ruleset = new RuleSet
+        public static RulesCatalog operator *(RulesCatalog catalog1, RulesCatalog catalog2) 
+            => new RulesCatalog
                 {
-                    Description = $"{r1.Description} AND {r2.Description}",
-                    Rules = (r1.Rules ?? new List<Rule>()).Union(r2.Rules ?? new List<Rule>())
+                    Name = $"{catalog1.Name} AND {catalog2.Name}",
+                    RuleSets = (from r1 in catalog1.RuleSets ?? new List<RuleSet>() from r2 in catalog2.RuleSets ?? new List<RuleSet>() select new RuleSet { Description = $"{r1.Description} AND {r2.Description}", Rules = (r1.Rules ?? new List<Rule>()).Union(r2.Rules ?? new List<Rule>()) }).ToList()
                 };
-
-
-                ruleSets.Add(ruleset);
-            }
-
-            catalog.RuleSets = ruleSets;
-            return catalog;
-        }
     }
 }
