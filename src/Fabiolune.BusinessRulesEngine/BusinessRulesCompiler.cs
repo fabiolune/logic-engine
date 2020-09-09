@@ -218,100 +218,85 @@ namespace Fabiolune.BusinessRulesEngine
 
                 var key = Expression.Property(genericType, rule.Property);
                 var propertyType = typeof(T).GetProperty(rule.Property).PropertyType;
-                var searchValuesType = propertyType.IsArray
-                    ? propertyType.GetElementType()
-                    : propertyType.GetGenericArguments().FirstOrDefault();
 
                 var key2 = Expression.Property(genericType, rule.Value);
                 var propertyType2 = typeof(T).GetProperty(rule.Value).PropertyType;
 
-                BinaryExpression boolExpression;
-
-                switch (rule.Operator)
+                var mapping = new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, BinaryExpression>>
                 {
-                    case OperatorType.InnerContains:
-                        if (searchValuesType.FullName != propertyType2.FullName)
+                    { OperatorType.InnerContains,  (r, k, pt, k2, pt2) =>
+                    {
+                        var svt = pt.IsArray ? pt.GetElementType() : pt.GetGenericArguments().FirstOrDefault();
+                        if (svt.FullName != pt2.FullName)
                         {
                             _logger.Error(
-                                "{Component} {Operation}: {Property1} is of type IENumerable[{Type1}] while {Property2} is of type {Type2}, no comparison possible",
-                                Component, method, propertyType, searchValuesType.FullName, propertyType2, propertyType2.FullName);
+                                "{Component} {Operation}: {Property1} is of type IEnumerable[{Type1}] while {Property2} is of type {Type2}, no comparison possible",
+                                Component, method, pt, svt.FullName, pt2, pt2.FullName);
                             return null;
                         }
-
-                        boolExpression = Expression.MakeBinary(ExpressionType.AndAlso,
-                            Expression.MakeBinary(ExpressionType.NotEqual, key, NullValue),
-                            Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] {searchValuesType},
-                                key, key2));
-                        break;
-
-                    case OperatorType.InnerNotContains:
-                        if (searchValuesType.FullName != propertyType2.FullName)
+                        return Expression.MakeBinary(ExpressionType.AndAlso, Expression.MakeBinary(ExpressionType.NotEqual, k, NullValue), Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] { svt }, k, k2));
+                    }},
+                    { OperatorType.InnerNotContains, (r, k, pt, k2, pt2) =>
+                    {
+                        var svt = pt.IsArray ? pt.GetElementType() : pt.GetGenericArguments().FirstOrDefault();
+                        if (svt.FullName != pt2.FullName)
                         {
                             _logger.Error(
-                                "{Component} {Operation}: {Property1} is of type IENumerable[{Type1}] while {Property2} is of type {Type2}, no comparison possible",
-                                Component, method, propertyType, searchValuesType.FullName, propertyType2, propertyType2.FullName);
+                                "{Component} {Operation}: {Property1} is of type IEnumerable[{Type1}] while {Property2} is of type {Type2}, no comparison possible",
+                                Component, method, pt, svt.FullName, pt2, pt2.FullName);
                             return null;
                         }
-
-                        boolExpression = Expression.MakeBinary(ExpressionType.OrElse,
-                            Expression.MakeBinary(ExpressionType.Equal, key, NullValue),
-                            Expression.IsFalse(Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains),
-                                new[] {searchValuesType}, key, key2)));
-                        break;
-
-                    case OperatorType.InnerOverlaps:
-                        if (propertyType != propertyType2)
+                        return Expression.MakeBinary(ExpressionType.OrElse, Expression.MakeBinary(ExpressionType.Equal, k, NullValue), Expression.IsFalse(Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] { svt }, k, k2)));
+                    } },
+                    { OperatorType.InnerOverlaps, (r, k, pt, k2, pt2) =>
+                    {
+                        var svt = pt.IsArray ? pt.GetElementType() : pt.GetGenericArguments().FirstOrDefault();
+                        if (pt != pt2)
                         {
                             _logger.Error(
                                 "{Component} {Operation}: {Property1} is of type {PropertyType1} while {Property2} is of type {PropertyType2}, no comparison possible",
-                                Component, method, propertyType, propertyType, propertyType2, propertyType2.FullName);
+                                Component, method, pt, pt, pt2, pt2.FullName);
                             return null;
                         }
-
-                        boolExpression = Expression.MakeBinary(ExpressionType.AndAlso, Expression.MakeBinary(
+                        return Expression.MakeBinary(ExpressionType.AndAlso, Expression.MakeBinary(
                             ExpressionType.AndAlso,
-                            Expression.MakeBinary(ExpressionType.NotEqual, key, NullValue),
-                            Expression.MakeBinary(ExpressionType.NotEqual, key2, NullValue)
+                            Expression.MakeBinary(ExpressionType.NotEqual, k, NullValue),
+                            Expression.MakeBinary(ExpressionType.NotEqual, k2, NullValue)
                         ), Expression.IsTrue(Expression.Call(
                             typeof(Enumerable),
                             nameof(Enumerable.Any),
-                            new[] {searchValuesType},
-                            Expression.Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] {searchValuesType},
-                                key, key2)
+                            new[] { svt },
+                            Expression.Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] { svt },
+                                k, k2)
                         )));
-                        break;
-
-                    case OperatorType.InnerNotOverlaps:
-                        if (propertyType != propertyType2)
+                    } },
+                    { OperatorType.InnerNotOverlaps, (r, k, pt, k2, pt2) =>
+                    {
+                        var svt = pt.IsArray ? pt.GetElementType() : pt.GetGenericArguments().FirstOrDefault();
+                        if (pt != pt2)
                         {
                             _logger.Error(
                                 "{Component} {Operation}: {Property1} is of type {PropertyType1} while {Property2} is of type {PropertyType2}, no comparison possible",
-                                Component, method, propertyType, propertyType, propertyType2, propertyType2.FullName);
+                                Component, method, pt, pt, pt2, pt2.FullName);
                             return null;
                         }
 
-                        boolExpression = Expression.MakeBinary(ExpressionType.OrElse, Expression.MakeBinary(
+                        return Expression.MakeBinary(ExpressionType.OrElse, Expression.MakeBinary(
                             ExpressionType.OrElse,
-                            Expression.MakeBinary(ExpressionType.Equal, key, NullValue),
-                            Expression.MakeBinary(ExpressionType.Equal, key2, NullValue)
+                            Expression.MakeBinary(ExpressionType.Equal, k, NullValue),
+                            Expression.MakeBinary(ExpressionType.Equal, k2, NullValue)
                         ), Expression.IsFalse(Expression.Call(
                             typeof(Enumerable),
                             nameof(Enumerable.Any),
-                            new[] {searchValuesType},
-                            Expression.Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] {searchValuesType},
-                                key, key2)
+                            new[] { svt },
+                            Expression.Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] { svt }, k, k2)
                         )));
-                        break;
-
-                    default:
-                        _logger.Error("{Component} Invalid operator in {Rule}", Component,
-                            JsonConvert.SerializeObject(rule, Formatting.Indented));
-                        return null;
-                }
+                    } }
+                };
 
                 return new ExpressionTypeCodeBinding
                 {
-                    BoolExpression = boolExpression,
+                    BoolExpression = mapping[rule.Operator](rule, key, propertyType, key2, propertyType2),
                     TypeExpression = genericType,
                     Code = rule.Code
                 };

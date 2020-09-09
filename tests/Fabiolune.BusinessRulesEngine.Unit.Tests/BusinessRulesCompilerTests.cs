@@ -68,13 +68,14 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var rule1 = new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "value 1");
             var rule2 = new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "value 2");
+            var rule3 = new Rule(nameof(TestModel.EnumProperty), OperatorType.Equal, "Two");
 
             var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
             {
-                rule1, rule2
+                rule1, rule2, rule3
             });
 
-            compiledRules.Should().HaveCount(2);
+            compiledRules.Should().HaveCount(3);
         }
 
         [Test]
