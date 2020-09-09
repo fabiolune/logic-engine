@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Fabiolune.BusinessRulesEngine.Internals;
 using Newtonsoft.Json;
 
 namespace Fabiolune.BusinessRulesEngine.Models

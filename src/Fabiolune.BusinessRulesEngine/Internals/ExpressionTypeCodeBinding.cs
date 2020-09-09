@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace Fabiolune.BusinessRulesEngine.Models
+namespace Fabiolune.BusinessRulesEngine.Internals
 {
     internal class ExpressionTypeCodeBinding
     {
