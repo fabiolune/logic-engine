@@ -19,33 +19,33 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             {
                 Name = "name 1"
             };
-            List<RuleSet> rules1 = null;
+            List<RulesSet> rules1 = null;
             for (var i = 0; i < ruleSets1; i++)
             {
                 if (rules1 == null)
-                    rules1 = new List<RuleSet>();
-                rules1.Add(new RuleSet());
+                    rules1 = new List<RulesSet>();
+                rules1.Add(new RulesSet());
             }
 
-            c1.RuleSets = rules1;
+            c1.RulesSets = rules1;
 
             var c2 = new RulesCatalog
             {
                 Name = "name 2"
             };
-            List<RuleSet> rules2 = null;
+            List<RulesSet> rules2 = null;
             for (var i = 0; i < ruleSets2; i++)
             {
                 if (rules2 == null)
-                    rules2 = new List<RuleSet>();
-                rules2.Add(new RuleSet());
+                    rules2 = new List<RulesSet>();
+                rules2.Add(new RulesSet());
             }
 
-            c2.RuleSets = rules2;
+            c2.RulesSets = rules2;
 
             var c = c1 + c2;
 
-            c.RuleSets.Should().HaveCount(ruleSets1 + ruleSets2);
+            c.RulesSets.Should().HaveCount(ruleSets1 + ruleSets2);
             c.Name.Should().Be("name 1 OR name 2");
         }
 
@@ -60,33 +60,33 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             {
                 Name = "name 1"
             };
-            List<RuleSet> rules1 = null;
+            List<RulesSet> rules1 = null;
             for (var i = 0; i < ruleSets1; i++)
             {
                 if (rules1 == null)
-                    rules1 = new List<RuleSet>();
-                rules1.Add(new RuleSet());
+                    rules1 = new List<RulesSet>();
+                rules1.Add(new RulesSet());
             }
 
-            c1.RuleSets = rules1;
+            c1.RulesSets = rules1;
 
             var c2 = new RulesCatalog
             {
                 Name = "name 2"
             };
-            List<RuleSet> rules2 = null;
+            List<RulesSet> rules2 = null;
             for (var i = 0; i < ruleSets2; i++)
             {
                 if (rules2 == null)
-                    rules2 = new List<RuleSet>();
-                rules2.Add(new RuleSet());
+                    rules2 = new List<RulesSet>();
+                rules2.Add(new RulesSet());
             }
 
-            c2.RuleSets = rules2;
+            c2.RulesSets = rules2;
 
             var c = c1 * c2;
 
-            c.RuleSets.Should().HaveCount(ruleSets1 * ruleSets2);
+            c.RulesSets.Should().HaveCount(ruleSets1 * ruleSets2);
             c.Name.Should().Be("name 1 AND name 2");
         }
     }

@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Fabiolune.BusinessRulesEngine.Models
 {
-    public class RuleSet
+    public class RulesSet
     {
         [DataMember(Name = "description")]
         public string Description { get; set; }

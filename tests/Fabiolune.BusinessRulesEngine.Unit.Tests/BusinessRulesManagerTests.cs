@@ -32,9 +32,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -70,9 +70,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -107,9 +107,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -144,9 +144,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -188,9 +188,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -219,9 +219,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -253,9 +253,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -284,9 +284,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -318,9 +318,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -349,9 +349,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -380,9 +380,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -414,9 +414,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -445,9 +445,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -490,9 +490,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule for enumerable containing 25 AND 28",
                         Rules = new List<Rule>
@@ -501,7 +501,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                             new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
                         }
                     },
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule for enumerable containing 27",
                         Rules = new List<Rule>
@@ -544,9 +544,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule for enumerable containing 25",
                         Rules = new List<Rule>
@@ -588,9 +588,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -629,9 +629,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -670,9 +670,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -711,9 +711,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -752,9 +752,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -793,9 +793,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -835,9 +835,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -876,9 +876,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -888,7 +888,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                                 null)
                         }
                     },
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -898,7 +898,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                                 null)
                         }
                     },
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -908,7 +908,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                                 null)
                         }
                     },
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -977,9 +977,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -1011,9 +1011,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -1045,9 +1045,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with wrong property name",
                         Rules = new List<Rule>
@@ -1080,9 +1080,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "valid rule with equality on a field",
                         Rules = new List<Rule>
@@ -1119,9 +1119,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule for string equals to value",
                         Rules = new List<Rule>
@@ -1129,7 +1129,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                             new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "some wrong value")
                         }
                     },
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule for string equals to another value",
                         Rules = new List<Rule>
@@ -1166,9 +1166,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -1205,9 +1205,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -1236,9 +1236,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -1266,9 +1266,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -1299,9 +1299,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             var rule = JsonConvert.DeserializeObject<Rule>(jsonString);
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Rules = new List<Rule>
                         {
@@ -1335,9 +1335,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
@@ -1366,9 +1366,9 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         {
             var catalog = new RulesCatalog
             {
-                RuleSets = new List<RuleSet>
+                RulesSets = new List<RulesSet>
                 {
-                    new RuleSet
+                    new RulesSet
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
