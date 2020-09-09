@@ -19,10 +19,4 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         public string[] StringArrayProperty { get; set; }
         public string[] StringArrayProperty2 { get; set; }
     }
-
-    internal enum TestEnum
-    {
-        One,
-        Two
-    }
 }
