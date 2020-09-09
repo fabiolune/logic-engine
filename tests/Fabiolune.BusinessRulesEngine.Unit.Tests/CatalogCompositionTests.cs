@@ -22,10 +22,11 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             List<RuleSet> rules1 = null;
             for (var i = 0; i < ruleSets1; i++)
             {
-                if(rules1 == null)
+                if (rules1 == null)
                     rules1 = new List<RuleSet>();
                 rules1.Add(new RuleSet());
             }
+
             c1.RuleSets = rules1;
 
             var c2 = new RulesCatalog
@@ -39,6 +40,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                     rules2 = new List<RuleSet>();
                 rules2.Add(new RuleSet());
             }
+
             c2.RuleSets = rules2;
 
             var c = c1 + c2;
@@ -65,6 +67,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                     rules1 = new List<RuleSet>();
                 rules1.Add(new RuleSet());
             }
+
             c1.RuleSets = rules1;
 
             var c2 = new RulesCatalog
@@ -78,6 +81,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                     rules2 = new List<RuleSet>();
                 rules2.Add(new RuleSet());
             }
+
             c2.RuleSets = rules2;
 
             var c = c1 * c2;

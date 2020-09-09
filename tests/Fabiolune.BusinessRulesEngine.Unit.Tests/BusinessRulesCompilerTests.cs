@@ -60,36 +60,11 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 
             compiledRules.Should().HaveCount(0);
             _mockLogger
-                .Verify(_ => _.Error(It.IsAny<Exception>(), "{Component} raised an exception with {Message} when compiling {Rule}", nameof(BusinessRulesCompiler), It.IsAny<string>(), JsonConvert.SerializeObject(rule1, Formatting.Indented)), Times.Once);
-        }
-
-        [Test]
-        public void CompileRules_WhenPassedValidRules_ShouldReturnCorrectAmountOfCompiledRules()
-        {
-            var rule1 = new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "value 1");
-            var rule2 = new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "value 2");
-            var rule3 = new Rule(nameof(TestModel.EnumProperty), OperatorType.Equal, "Two");
-
-            var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
-            {
-                rule1, rule2, rule3
-            });
-
-            compiledRules.Should().HaveCount(3);
-        }
-
-        [Test]
-        public void When_CompileRulesFromSerializedJson_ShouldReturnCompiledRules()
-        {
-            var jsonString = "{\"property\": \"StringProperty\", \"operator\": \"Equal\", \"value\": \"some value\", \"code\": \"some code\", \"description\": \"some description\"}";
-            var rule = JsonConvert.DeserializeObject<Rule>(jsonString);
-
-            var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
-            {
-                rule
-            });
-
-            compiledRules.Should().HaveCount(1);
+                .Verify(
+                    _ => _.Error(It.IsAny<Exception>(),
+                        "{Component} raised an exception with {Message} when compiling {Rule}",
+                        nameof(BusinessRulesCompiler), It.IsAny<string>(),
+                        JsonConvert.SerializeObject(rule1, Formatting.Indented)), Times.Once);
         }
 
         [TestCase(OperatorType.Equal)]
@@ -188,7 +163,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                 rule1,
                 rule2
             });
-            
+
             compiledRules.Should().HaveCount(2);
         }
 
@@ -202,7 +177,8 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         [TestCase("IntEnumerableProperty", "a,1", 0, OperatorType.NotOverlaps)]
         [TestCase("StringEnumerableProperty", "1,2", 1, OperatorType.NotOverlaps)]
         [TestCase("StringEnumerableProperty", "a,b", 1, OperatorType.NotOverlaps)]
-        public void When_CompileRulesWithOverlappingOperators_ShouldCompileRules(string propertyName, string constantValue, int expectedCount, OperatorType op)
+        public void When_CompileRulesWithOverlappingOperators_ShouldCompileRules(string propertyName,
+            string constantValue, int expectedCount, OperatorType op)
         {
             var rule = new Rule(propertyName, op, constantValue);
 
@@ -261,9 +237,39 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         }
 
         [Test]
+        public void CompileRules_WhenPassedValidRules_ShouldReturnCorrectAmountOfCompiledRules()
+        {
+            var rule1 = new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "value 1");
+            var rule2 = new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "value 2");
+            var rule3 = new Rule(nameof(TestModel.EnumProperty), OperatorType.Equal, "Two");
+
+            var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
+            {
+                rule1, rule2, rule3
+            });
+
+            compiledRules.Should().HaveCount(3);
+        }
+
+        [Test]
+        public void When_CompileRulesFromSerializedJson_ShouldReturnCompiledRules()
+        {
+            var jsonString =
+                "{\"property\": \"StringProperty\", \"operator\": \"Equal\", \"value\": \"some value\", \"code\": \"some code\", \"description\": \"some description\"}";
+            var rule = JsonConvert.DeserializeObject<Rule>(jsonString);
+
+            var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
+            {
+                rule
+            });
+
+            compiledRules.Should().HaveCount(1);
+        }
+
+        [Test]
         public void When_CompileRulesWithNotExistingOperatorType_ShouldNotCompileRules()
         {
-            var rule = new Rule(nameof(TestModel.StringEnumerableProperty), (OperatorType)1000, "StringProperty");
+            var rule = new Rule(nameof(TestModel.StringEnumerableProperty), (OperatorType) 1000, "StringProperty");
 
             var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
             {

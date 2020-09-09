@@ -19,6 +19,61 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         }
 
         [Test]
+        public void WhenItemDoesNotSatisfyTwoCatalogs_SumAndProductShouldGiveFalse()
+        {
+            TestModel item;
+
+            var catalog1 = new RulesCatalog
+            {
+                RuleSets = new List<RuleSet>
+                {
+                    new RuleSet
+                    {
+                        Rules = new List<Rule>
+                        {
+                            new Rule(nameof(item.StringProperty), OperatorType.Equal, "wrong value 1")
+                        }
+                    }
+                }
+            };
+
+            var catalog2 = new RulesCatalog
+            {
+                RuleSets = new List<RuleSet>
+                {
+                    new RuleSet
+                    {
+                        Rules = new List<Rule>
+                        {
+                            new Rule(nameof(item.StringProperty), OperatorType.Equal, "wrong value 2")
+                        }
+                    }
+                }
+            };
+
+            item = new TestModel
+            {
+                StringProperty = "test"
+            };
+
+            _sut.SetCatalog(catalog1);
+            var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
+            result1.Success.Should().BeFalse();
+
+            _sut.SetCatalog(catalog2);
+            var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
+            result2.Success.Should().BeFalse();
+
+            _sut.SetCatalog(catalog1 + catalog2);
+            var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
+            sumResult.Success.Should().BeFalse();
+
+            _sut.SetCatalog(catalog1 * catalog2);
+            var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
+            productResult.Success.Should().BeFalse();
+        }
+
+        [Test]
         public void WhenItemSatisfiesOneCatalogButNotTheOther_SumShouldGiveTrueAndProductFalse()
         {
             TestModel item;
@@ -79,61 +134,6 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             _sut.SetCatalog(catalog1 * catalog2);
             var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
             productResult.Success.Should().Be(_sut.ItemSatisfiesRules(item));
-            productResult.Success.Should().BeFalse();
-        }
-
-        [Test]
-        public void WhenItemDoesNotSatisfyTwoCatalogs_SumAndProductShouldGiveFalse()
-        {
-            TestModel item;
-
-            var catalog1 = new RulesCatalog
-            {
-                RuleSets = new List<RuleSet>
-                {
-                    new RuleSet
-                    {
-                        Rules = new List<Rule>
-                        {
-                            new Rule(nameof(item.StringProperty), OperatorType.Equal, "wrong value 1")
-                        }
-                    }
-                }
-            };
-
-            var catalog2 = new RulesCatalog
-            {
-                RuleSets = new List<RuleSet>
-                {
-                    new RuleSet
-                    {
-                        Rules = new List<Rule>
-                        {
-                            new Rule(nameof(item.StringProperty), OperatorType.Equal, "wrong value 2")
-                        }
-                    }
-                }
-            };
-
-            item = new TestModel
-            {
-                StringProperty = "test"
-            };
-
-            _sut.SetCatalog(catalog1);
-            var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result1.Success.Should().BeFalse();
-
-            _sut.SetCatalog(catalog2);
-            var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result2.Success.Should().BeFalse();
-
-            _sut.SetCatalog(catalog1 + catalog2);
-            var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            sumResult.Success.Should().BeFalse();
-
-            _sut.SetCatalog(catalog1 * catalog2);
-            var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
             productResult.Success.Should().BeFalse();
         }
 
