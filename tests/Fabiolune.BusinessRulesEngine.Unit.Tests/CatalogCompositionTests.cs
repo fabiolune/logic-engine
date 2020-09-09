@@ -13,14 +13,14 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         [TestCase(1, 0)]
         [TestCase(1, 1)]
         [TestCase(2, 3)]
-        public void When_AddingTwoCatalogs_ExpectSumOfRules(int rulesets1, int rulesets2)
+        public void When_AddingTwoCatalogs_ExpectSumOfRules(int ruleSets1, int ruleSets2)
         {
             var c1 = new RulesCatalog
             {
                 Name = "name 1"
             };
             List<RuleSet> rules1 = null;
-            for (var i = 0; i < rulesets1; i++)
+            for (var i = 0; i < ruleSets1; i++)
             {
                 if(rules1 == null)
                     rules1 = new List<RuleSet>();
@@ -33,7 +33,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                 Name = "name 2"
             };
             List<RuleSet> rules2 = null;
-            for (var i = 0; i < rulesets2; i++)
+            for (var i = 0; i < ruleSets2; i++)
             {
                 if (rules2 == null)
                     rules2 = new List<RuleSet>();
@@ -43,7 +43,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 
             var c = c1 + c2;
 
-            c.RuleSets.Should().HaveCount(rulesets1 + rulesets2);
+            c.RuleSets.Should().HaveCount(ruleSets1 + ruleSets2);
             c.Name.Should().Be("name 1 OR name 2");
         }
 
@@ -52,14 +52,14 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         [TestCase(1, 0)]
         [TestCase(1, 1)]
         [TestCase(2, 3)]
-        public void When_MultiplyingTwoCatalogs_ExpectProductOfRules(int rulesets1, int rulesets2)
+        public void When_MultiplyingTwoCatalogs_ExpectProductOfRules(int ruleSets1, int ruleSets2)
         {
             var c1 = new RulesCatalog
             {
                 Name = "name 1"
             };
             List<RuleSet> rules1 = null;
-            for (var i = 0; i < rulesets1; i++)
+            for (var i = 0; i < ruleSets1; i++)
             {
                 if (rules1 == null)
                     rules1 = new List<RuleSet>();
@@ -72,7 +72,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                 Name = "name 2"
             };
             List<RuleSet> rules2 = null;
-            for (var i = 0; i < rulesets2; i++)
+            for (var i = 0; i < ruleSets2; i++)
             {
                 if (rules2 == null)
                     rules2 = new List<RuleSet>();
@@ -82,7 +82,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 
             var c = c1 * c2;
 
-            c.RuleSets.Should().HaveCount(rulesets1 * rulesets2);
+            c.RuleSets.Should().HaveCount(ruleSets1 * ruleSets2);
             c.Name.Should().Be("name 1 AND name 2");
         }
     }

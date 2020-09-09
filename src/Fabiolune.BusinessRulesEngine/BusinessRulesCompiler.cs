@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -184,15 +183,7 @@ namespace Fabiolune.BusinessRulesEngine
 
                 var key = Expression.Property(genericType, rule.Property);
                 var propertyType = typeof(T).GetProperty(rule.Property).PropertyType;
-                Type searchValueType;
-                if (propertyType.IsArray)
-                {
-                    searchValueType = propertyType.GetElementType();
-                }
-                else
-                {
-                    searchValueType = propertyType.GetGenericArguments().FirstOrDefault();
-                }
+                var searchValueType = propertyType.IsArray ? propertyType.GetElementType() : propertyType.GetGenericArguments().FirstOrDefault();
 
                 var key2 = Expression.Property(genericType, rule.Value);
                 var propertyType2 = typeof(T).GetProperty(rule.Value).PropertyType;

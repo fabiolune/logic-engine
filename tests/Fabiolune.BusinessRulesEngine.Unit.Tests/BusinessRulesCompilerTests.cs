@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Fabiolune.BusinessRulesEngine.Models;
 using FluentAssertions;
 using Moq;

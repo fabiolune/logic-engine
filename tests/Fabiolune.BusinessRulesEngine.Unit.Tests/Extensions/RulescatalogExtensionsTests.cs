@@ -12,7 +12,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
         [Test]
         public void WhenCatalogsDiffersJustForNameAndDescriptionShouldBeEquivalent()
         {
-            var catalog1 = new RulesCatalog()
+            var catalog1 = new RulesCatalog
             {
                 Name = "name 1",
                 RuleSets = new List<RuleSet>
@@ -28,7 +28,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
                 }
             };
 
-            var catalog2 = new RulesCatalog()
+            var catalog2 = new RulesCatalog
             {
                 Name = "name 2",
                 RuleSets = new List<RuleSet>
@@ -50,7 +50,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
         [Test]
         public void WhenCatalogsDiffersForTheRulesOrderShouldNotBeEquivalent()
         {
-            var catalog1 = new RulesCatalog()
+            var catalog1 = new RulesCatalog
             {
                 Name = "name 1",
                 RuleSets = new List<RuleSet>
@@ -67,7 +67,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests.Extensions
                 }
             };
 
-            var catalog2 = new RulesCatalog()
+            var catalog2 = new RulesCatalog
             {
                 Name = "name 2",
                 RuleSets = new List<RuleSet>
