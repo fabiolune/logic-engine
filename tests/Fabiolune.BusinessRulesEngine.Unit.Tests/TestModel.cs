@@ -6,6 +6,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
     [ExcludeFromCodeCoverage]
     internal struct TestModel
     {
+        public TestEnum EnumProperty { get; set; }
         public string StringProperty { get; set; }
         public string StringProperty2 { get; set; }
         public int IntProperty { get; set; }
@@ -16,5 +17,11 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         public IEnumerable<int> IntEnumerableProperty2 { get; set; }
         public IEnumerable<string> StringEnumerableProperty { get; set; }
         public string[] StringArrayProperty { get; set; }
+    }
+
+    internal enum TestEnum
+    {
+        One,
+        Two
     }
 }
