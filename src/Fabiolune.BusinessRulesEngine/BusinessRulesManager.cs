@@ -70,7 +70,16 @@ namespace Fabiolune.BusinessRulesEngine
         ///     It filters the items keeping only those that satisfy the rules
         /// </summary>
         /// <param name="items"></param>
-        /// <returns></returns>
-        public IEnumerable<T> Filter(IEnumerable<T> items) => items.Where(ItemSatisfiesRules);
+        /// <returns><![CDATA[IEnumerable<T>]]></returns>
+        public IEnumerable<T> Filter(IEnumerable<T> items) 
+            => items.Where(ItemSatisfiesRules);
+
+        /// <summary>
+        ///     Returns the first item that matches the condition
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns>T</returns>
+        public T FirstOrDefault(IEnumerable<T> items) 
+            => items.FirstOrDefault(ItemSatisfiesRules);
     }
 }
