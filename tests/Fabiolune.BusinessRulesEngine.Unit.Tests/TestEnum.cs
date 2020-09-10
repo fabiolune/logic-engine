@@ -1,6 +1,6 @@
 namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 {
-    internal enum TestEnum
+    public enum TestEnum
     {
         One,
         Two

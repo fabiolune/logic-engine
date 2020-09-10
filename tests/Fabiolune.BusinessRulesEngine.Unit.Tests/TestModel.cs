@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Fabiolune.BusinessRulesEngine.Unit.Tests
 {
     [ExcludeFromCodeCoverage]
-    internal struct TestModel
+    public struct TestModel
     {
         public TestEnum EnumProperty { get; set; }
         public string StringProperty { get; set; }
