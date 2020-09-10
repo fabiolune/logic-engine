@@ -9,5 +9,6 @@ namespace Fabiolune.BusinessRulesEngine.Interfaces
         RulesCatalogApplicationResult ItemSatisfiesRulesWithMessage(T item);
         bool ItemSatisfiesRules(T item);
         IEnumerable<T> Filter(IEnumerable<T> items);
+        T FirstOrDefault(IEnumerable<T> items);
     }
 }

@@ -23,10 +23,10 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             _sut = new BusinessRulesManager<TestModel>(new BusinessRulesCompiler(logger.Object));
         }
 
-        [TestCase(new[] {1, 2}, new[] {1, 3}, true)]
-        [TestCase(new[] {1, 2}, new[] {3, 4}, false)]
-        [TestCase(null, new[] {3, 4}, false)]
-        [TestCase(new[] {1, 2}, null, false)]
+        [TestCase(new[] { 1, 2 }, new[] { 1, 3 }, true)]
+        [TestCase(new[] { 1, 2 }, new[] { 3, 4 }, false)]
+        [TestCase(null, new[] { 3, 4 }, false)]
+        [TestCase(new[] { 1, 2 }, null, false)]
         [TestCase(null, null, false)]
         public void When_ItemSatisfiesRulesWithInnerOverlapsOperator_ShouldReturnExpectedResult(
             IEnumerable<int> first,
@@ -61,10 +61,10 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             result.Should().Be(expectedResult);
         }
 
-        [TestCase(new[] {1, 2}, new[] {1, 3}, false)]
-        [TestCase(new[] {1, 2}, new[] {3, 4}, true)]
-        [TestCase(null, new[] {3, 4}, true)]
-        [TestCase(new[] {1, 2}, null, true)]
+        [TestCase(new[] { 1, 2 }, new[] { 1, 3 }, false)]
+        [TestCase(new[] { 1, 2 }, new[] { 3, 4 }, true)]
+        [TestCase(null, new[] { 3, 4 }, true)]
+        [TestCase(new[] { 1, 2 }, null, true)]
         [TestCase(null, null, true)]
         public void When_ApplyInnerNotOverlapsOperator_ShouldReturnExpectedResult(IEnumerable<int> first,
             IEnumerable<int> second, bool expectedResult)
@@ -323,6 +323,128 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                     }
                 }
             }, options => options.ComparingByMembers<TestModel>());
+        }
+
+        [Test]
+        public void When_FirstOrDefaultOnSetOfSomeMatchingItems_ShouldReturnFirst()
+        {
+            var catalog = new RulesCatalog
+            {
+                RulesSets = new List<RulesSet>
+                {
+                    new RulesSet
+                    {
+                        Description = "rule for enumerable containing 25 AND 28",
+                        Rules = new List<Rule>
+                        {
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
+                        }
+                    },
+                    new RulesSet
+                    {
+                        Description = "rule for enumerable containing 27",
+                        Rules = new List<Rule>
+                        {
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
+                        }
+                    }
+                }
+            };
+            _sut.SetCatalog(catalog);
+            var items = new List<TestModel>
+            {
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        28
+                    }
+                },
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        27
+                    }
+                },
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        25,
+                        28
+                    }
+                }
+            };
+
+            var result = _sut.FirstOrDefault(items);
+
+            result.Should().BeEquivalentTo(new TestModel
+            {
+                IntEnumerableProperty = new[]
+                    {
+                        27
+                    }
+            }, options => options.ComparingByMembers<TestModel>());
+        }
+
+        [Test]
+        public void When_FirstOrDefaultOnSetOfNonMatchingItems_ShouldReturnDefault()
+        {
+            var catalog = new RulesCatalog
+            {
+                RulesSets = new List<RulesSet>
+                {
+                    new RulesSet
+                    {
+                        Description = "rule for enumerable containing 25 AND 28",
+                        Rules = new List<Rule>
+                        {
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
+                        }
+                    },
+                    new RulesSet
+                    {
+                        Description = "rule for enumerable containing 27",
+                        Rules = new List<Rule>
+                        {
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
+                        }
+                    }
+                }
+            };
+            _sut.SetCatalog(catalog);
+            var items = new List<TestModel>
+            {
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        28
+                    }
+                },
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        26
+                    }
+                },
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        25,
+                        29
+                    }
+                }
+            };
+
+            var result = _sut.FirstOrDefault(items);
+
+            result.Should().BeEquivalentTo(default(TestModel), options => options.ComparingByMembers<TestModel>());
         }
 
         [Test]
@@ -716,7 +838,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             var item = new TestModel
             {
                 IntProperty = 2,
-                IntEnumerableProperty = new[] {1, 2, 3}
+                IntEnumerableProperty = new[] { 1, 2, 3 }
             };
 
 
@@ -757,7 +879,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             var item = new TestModel
             {
                 IntProperty = 5,
-                IntEnumerableProperty = new[] {1, 2, 3}
+                IntEnumerableProperty = new[] { 1, 2, 3 }
             };
 
 
@@ -922,7 +1044,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             var item = new TestModel
             {
                 IntProperty = 2,
-                IntEnumerableProperty = new[] {1, 2, 3}
+                IntEnumerableProperty = new[] { 1, 2, 3 }
             };
 
 
@@ -963,7 +1085,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             var item = new TestModel
             {
                 IntProperty = 5,
-                IntEnumerableProperty = new[] {1, 2, 3}
+                IntEnumerableProperty = new[] { 1, 2, 3 }
             };
 
 
