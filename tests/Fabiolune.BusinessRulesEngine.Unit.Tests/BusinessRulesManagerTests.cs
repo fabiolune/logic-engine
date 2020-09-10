@@ -28,8 +28,10 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         [TestCase(null, new[] {3, 4}, false)]
         [TestCase(new[] {1, 2}, null, false)]
         [TestCase(null, null, false)]
-        public void When_ItemSatisfiesRulesWithInnerOverlapsOperator_ShouldReturnExpectedResult(IEnumerable<int> first,
-            IEnumerable<int> second, bool expectedResult)
+        public void When_ItemSatisfiesRulesWithInnerOverlapsOperator_ShouldReturnExpectedResult(
+            IEnumerable<int> first,
+            IEnumerable<int> second,
+            bool expectedResult)
         {
             var catalog = new RulesCatalog
             {
@@ -54,9 +56,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                 IntEnumerableProperty2 = second
             };
 
-
             var result = _sut.ItemSatisfiesRules(item);
-
 
             result.Should().Be(expectedResult);
         }
@@ -213,6 +213,116 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRules(item);
 
             result.Should().Be(expectedResult);
+        }
+
+        [Test]
+        public void When_FilterOnSetOfMatchingItems_ShouldReturnEquivalentResult()
+        {
+            var catalog = new RulesCatalog
+            {
+                RulesSets = new List<RulesSet>
+                {
+                    new RulesSet
+                    {
+                        Description = "rule for enumerable containing 25 AND 28",
+                        Rules = new List<Rule>
+                        {
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
+                        }
+                    },
+                    new RulesSet
+                    {
+                        Description = "rule for enumerable containing 27",
+                        Rules = new List<Rule>
+                        {
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
+                        }
+                    }
+                }
+            };
+            _sut.SetCatalog(catalog);
+            var items = new List<TestModel>
+            {
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        25,
+                        28
+                    }
+                },
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        27
+                    }
+                }
+            };
+
+            var result = _sut.Filter(items);
+
+            result.Should().BeEquivalentTo(items);
+        }
+
+        [Test]
+        public void When_FilterOnSetOfSomeMatchingItems_ShouldFilterThemOut()
+        {
+            var catalog = new RulesCatalog
+            {
+                RulesSets = new List<RulesSet>
+                {
+                    new RulesSet
+                    {
+                        Description = "rule for enumerable containing 25 AND 28",
+                        Rules = new List<Rule>
+                        {
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
+                        }
+                    },
+                    new RulesSet
+                    {
+                        Description = "rule for enumerable containing 27",
+                        Rules = new List<Rule>
+                        {
+                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
+                        }
+                    }
+                }
+            };
+            _sut.SetCatalog(catalog);
+            var items = new List<TestModel>
+            {
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        28
+                    }
+                },
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        27
+                    }
+                }
+            };
+
+            var result = _sut.Filter(items);
+
+            result.Should().BeEquivalentTo(new List<TestModel>
+            {
+                new TestModel
+                {
+                    IntEnumerableProperty = new[]
+                    {
+                        27
+                    }
+                }
+            }, options => options.ComparingByMembers<TestModel>());
         }
 
         [Test]
@@ -1386,9 +1496,7 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
                 DoubleProperty = 1.3
             };
 
-
             var result = _sut.ItemSatisfiesRules(item);
-
 
             result.Should().BeTrue();
         }
