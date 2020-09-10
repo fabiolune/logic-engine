@@ -65,5 +65,12 @@ namespace Fabiolune.BusinessRulesEngine
                 .Select(enumerable => enumerable.TakeWhile(rule => rule(item).Success).Count() == enumerable.Length)
                 .Any(satisfiesSet => satisfiesSet);
         }
+
+        /// <summary>
+        ///     It filters the items keeping only those that satisfy the rules
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public IEnumerable<T> Filter(IEnumerable<T> items) => items.Where(ItemSatisfiesRules);
     }
 }
