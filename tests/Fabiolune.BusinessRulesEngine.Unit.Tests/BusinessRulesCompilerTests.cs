@@ -52,20 +52,18 @@ namespace Fabiolune.BusinessRulesEngine.Unit.Tests
         [TestCase(OperatorType.InnerNotOverlaps)]
         public void CompileRules_WhenPassedRuleWithWrongPropertyName_ShouldDiscardIt(OperatorType type)
         {
-            var rule1 = new Rule("StringPropertyWrong", type, "value 1");
+            var rule = new Rule("StringPropertyWrong", type, "value 1");
 
             var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
             {
-                rule1
+                rule
             });
 
             compiledRules.Should().HaveCount(0);
-            _mockLogger
-                .Verify(
-                    _ => _.Error(It.IsAny<Exception>(),
-                        "{Component} raised an exception with {Message} when compiling {Rule}",
-                        nameof(BusinessRulesCompiler), It.IsAny<string>(),
-                        JsonConvert.SerializeObject(rule1, Formatting.Indented)), Times.Once);
+            _mockLogger.Verify(_ => _.Error(It.IsAny<Exception>(), 
+                "{Component} raised an exception with {Message} when compiling {Rule}", 
+                nameof(BusinessRulesCompiler),
+                It.IsAny<string>(), rule), Times.Once);
         }
 
         [TestCase(OperatorType.Equal)]

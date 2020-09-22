@@ -30,5 +30,6 @@ namespace Fabiolune.BusinessRulesEngine.Models
         public string Description { get; set; }
         [DataMember(Name = "code")]
         public string Code { get; set; }
+        public override string ToString() => JsonConvert.SerializeObject(this, Formatting.Indented);
     }
 }
