@@ -20,4 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Fabiolune.BusinessRulesEngine\Fabiolune.BusinessRulesEngine.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
 </Project>
