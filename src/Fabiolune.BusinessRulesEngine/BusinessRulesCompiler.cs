@@ -7,7 +7,6 @@ using System.Reflection;
 using Fabiolune.BusinessRulesEngine.Interfaces;
 using Fabiolune.BusinessRulesEngine.Internals;
 using Fabiolune.BusinessRulesEngine.Models;
-using Newtonsoft.Json;
 using Serilog;
 
 namespace Fabiolune.BusinessRulesEngine
@@ -70,7 +69,7 @@ namespace Fabiolune.BusinessRulesEngine
             catch (Exception e)
             {
                 _logger.Error(e, "{Component} raised an exception with {Message} when compiling {Rule}", Component,
-                    e.Message, JsonConvert.SerializeObject(rule, Formatting.Indented));
+                    e.Message, rule);
                 return null;
             }
         }
@@ -108,7 +107,7 @@ namespace Fabiolune.BusinessRulesEngine
             catch (Exception e)
             {
                 _logger.Error(e, "{Component} raised an exception with {Message} when compiling {Rule}", Component,
-                    e.Message, JsonConvert.SerializeObject(rule, Formatting.Indented));
+                    e.Message, rule);
                 return null;
             }
         }
@@ -134,7 +133,7 @@ namespace Fabiolune.BusinessRulesEngine
             catch (Exception e)
             {
                 _logger.Error(e, "{Component} raised an exception with {Message} when compiling {Rule}", Component,
-                    e.Message, JsonConvert.SerializeObject(rule, Formatting.Indented));
+                    e.Message, rule);
                 return null;
             }
         }
@@ -173,7 +172,7 @@ namespace Fabiolune.BusinessRulesEngine
             catch (Exception e)
             {
                 _logger.Error(e, "{Component} raised an exception with {Message} when compiling {Rule}", Component,
-                    e.Message, JsonConvert.SerializeObject(rule, Formatting.Indented));
+                    e.Message, rule);
                 return null;
             }
         }
@@ -210,7 +209,7 @@ namespace Fabiolune.BusinessRulesEngine
             catch (Exception e)
             {
                 _logger.Error(e, "{Component} raised an exception with {Message} when compiling {Rule}", Component,
-                    e.Message, JsonConvert.SerializeObject(rule, Formatting.Indented));
+                    e.Message, rule);
                 return null;
             }
         }
@@ -235,7 +234,7 @@ namespace Fabiolune.BusinessRulesEngine
             catch (Exception e)
             {
                 _logger.Error(e, "{Component} raised an exception with {Message} when compiling {Rule}", Component,
-                    e.Message, JsonConvert.SerializeObject(rule, Formatting.Indented));
+                    e.Message, rule);
                 return null;
             }
         }
@@ -257,7 +256,7 @@ namespace Fabiolune.BusinessRulesEngine
             catch (Exception e)
             {
                 _logger.Error(e, "{Component} raised an exception with {Message} when compiling {Rule}", Component,
-                    e.Message, JsonConvert.SerializeObject(rule, Formatting.Indented));
+                    e.Message, rule);
                 return null;
             }
         }
