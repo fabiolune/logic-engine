@@ -16,7 +16,7 @@ jobs:
       with:
         versionSpec: '5.6.10'
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
 
     - uses: actions/setup-dotnet@v1
       with:
