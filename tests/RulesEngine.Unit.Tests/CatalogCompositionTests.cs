@@ -22,8 +22,7 @@ namespace RulesEngine.Unit.Tests
             List<RulesSet> rules1 = null;
             for (var i = 0; i < ruleSets1; i++)
             {
-                if (rules1 == null)
-                    rules1 = new List<RulesSet>();
+                rules1 ??= new List<RulesSet>();
                 rules1.Add(new RulesSet());
             }
 
@@ -36,8 +35,7 @@ namespace RulesEngine.Unit.Tests
             List<RulesSet> rules2 = null;
             for (var i = 0; i < ruleSets2; i++)
             {
-                if (rules2 == null)
-                    rules2 = new List<RulesSet>();
+                rules2 ??= new List<RulesSet>();
                 rules2.Add(new RulesSet());
             }
 
@@ -63,8 +61,7 @@ namespace RulesEngine.Unit.Tests
             List<RulesSet> rules1 = null;
             for (var i = 0; i < ruleSets1; i++)
             {
-                if (rules1 == null)
-                    rules1 = new List<RulesSet>();
+                rules1 ??= new List<RulesSet>();
                 rules1.Add(new RulesSet());
             }
 
@@ -77,8 +74,7 @@ namespace RulesEngine.Unit.Tests
             List<RulesSet> rules2 = null;
             for (var i = 0; i < ruleSets2; i++)
             {
-                if (rules2 == null)
-                    rules2 = new List<RulesSet>();
+                rules2 ??= new List<RulesSet>();
                 rules2.Add(new RulesSet());
             }
 

@@ -10,7 +10,7 @@ namespace RulesEngine.Internals
 {
     internal static class OperationMappings
     {
-        internal static readonly ReadOnlyDictionary<OperatorType, ExpressionType> DirectMapping = new ReadOnlyDictionary<OperatorType, ExpressionType>(new Dictionary<OperatorType, ExpressionType>
+        internal static readonly ReadOnlyDictionary<OperatorType, ExpressionType> DirectMapping = new(new Dictionary<OperatorType, ExpressionType>
         {
             {OperatorType.Equal, ExpressionType.Equal},
             {OperatorType.GreaterThan, ExpressionType.GreaterThan},
@@ -20,7 +20,7 @@ namespace RulesEngine.Internals
             {OperatorType.NotEqual, ExpressionType.NotEqual}
         });
 
-        internal static readonly ReadOnlyDictionary<OperatorType, ExpressionType> InternalDirectMapping = new ReadOnlyDictionary<OperatorType, ExpressionType>(new Dictionary<OperatorType, ExpressionType>
+        internal static readonly ReadOnlyDictionary<OperatorType, ExpressionType> InternalDirectMapping = new(new Dictionary<OperatorType, ExpressionType>
         {
             {OperatorType.InnerEqual, ExpressionType.Equal},
             {OperatorType.InnerGreaterThan, ExpressionType.GreaterThan},
@@ -30,7 +30,7 @@ namespace RulesEngine.Internals
             {OperatorType.InnerNotEqual, ExpressionType.NotEqual}
         });
 
-        internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>> EnumerableMapping = new ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>>(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>>
+        internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>> EnumerableMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>>
         {
             {
                 OperatorType.Contains, (r, k, s) => Expression.MakeBinary(ExpressionType.AndAlso,
@@ -78,7 +78,7 @@ namespace RulesEngine.Internals
             }
         });
 
-        internal static readonly ReadOnlyDictionary<OperatorType, Func<ParameterExpression, Rule, Type, BinaryExpression>> ExternalKeyValueMapping = new ReadOnlyDictionary<OperatorType,Func<ParameterExpression,Rule,Type,BinaryExpression>>(new Dictionary<OperatorType, Func<ParameterExpression, Rule, Type, BinaryExpression>>
+        internal static readonly ReadOnlyDictionary<OperatorType, Func<ParameterExpression, Rule, Type, BinaryExpression>> ExternalKeyValueMapping = new(new Dictionary<OperatorType, Func<ParameterExpression, Rule, Type, BinaryExpression>>
         {
             {
                 OperatorType.ContainsKey, (g, r, t) =>
@@ -167,7 +167,7 @@ namespace RulesEngine.Internals
             }
         });
 
-        internal static readonly ReadOnlyDictionary<OperatorType, Func<MemberExpression, Type, NewArrayExpression, BinaryExpression>> ExternalEnumerableMapping = new ReadOnlyDictionary<OperatorType, Func<MemberExpression, Type, NewArrayExpression, BinaryExpression>>(new Dictionary<OperatorType, Func<MemberExpression, Type, NewArrayExpression, BinaryExpression>>
+        internal static readonly ReadOnlyDictionary<OperatorType, Func<MemberExpression, Type, NewArrayExpression, BinaryExpression>> ExternalEnumerableMapping = new(new Dictionary<OperatorType, Func<MemberExpression, Type, NewArrayExpression, BinaryExpression>>
         {
             {
                 OperatorType.IsContained,
@@ -184,13 +184,13 @@ namespace RulesEngine.Internals
             }
         });
 
-        internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>> InternalEnumerableMapping = new ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>>(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>>
+        internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>> InternalEnumerableMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>>
         {
             { OperatorType.InnerContains,  (r, k, pt, k2, pt2, svt) => Expression.MakeBinary(ExpressionType.AndAlso, Expression.MakeBinary(ExpressionType.NotEqual, k, Constants.NullValue), Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] { svt }, k, k2))},
             { OperatorType.InnerNotContains, (r, k, pt, k2, pt2, svt) => Expression.MakeBinary(ExpressionType.OrElse, Expression.MakeBinary(ExpressionType.Equal, k, Constants.NullValue), Expression.IsFalse(Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] { svt }, k, k2)))}
         });
 
-        internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>> InternalCrossEnumerableMapping = new ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>>(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>>
+        internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>> InternalCrossEnumerableMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>>
         {
             { OperatorType.InnerOverlaps, (r, k, pt, k2, pt2, svt) => Expression.MakeBinary(ExpressionType.AndAlso, Expression.MakeBinary(
                     ExpressionType.AndAlso,

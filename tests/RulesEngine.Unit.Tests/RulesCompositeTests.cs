@@ -28,11 +28,11 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(item.StringProperty), OperatorType.Equal, "wrong value 1")
+                            new(nameof(item.StringProperty), OperatorType.Equal, "wrong value 1")
                         }
                     }
                 }
@@ -42,11 +42,11 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(item.StringProperty), OperatorType.Equal, "wrong value 2")
+                            new(nameof(item.StringProperty), OperatorType.Equal, "wrong value 2")
                         }
                     }
                 }
@@ -83,12 +83,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(item.IntEnumerableProperty), OperatorType.Contains, "25"),
-                            new Rule(nameof(item.IntEnumerableProperty), OperatorType.Contains, "26")
+                            new(nameof(item.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new(nameof(item.IntEnumerableProperty), OperatorType.Contains, "26")
                         }
                     }
                 }
@@ -98,11 +98,11 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(item.IntEnumerableProperty), OperatorType.Contains, "123123123")
+                            new(nameof(item.IntEnumerableProperty), OperatorType.Contains, "123123123")
                         }
                     }
                 }
@@ -147,11 +147,11 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(item.StringProperty), OperatorType.Equal, "test")
+                            new(nameof(item.StringProperty), OperatorType.Equal, "test")
                         }
                     }
                 }
@@ -161,11 +161,11 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(item.StringProperty2), OperatorType.Equal, "test2")
+                            new(nameof(item.StringProperty2), OperatorType.Equal, "test2")
                         }
                     }
                 }

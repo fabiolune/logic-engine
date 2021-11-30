@@ -4,11 +4,9 @@ namespace RulesEngine.Models
 {
     public struct RulesCatalogApplicationResult
     {
-        public static readonly RulesCatalogApplicationResult Successful =
-            new RulesCatalogApplicationResult(true);
+        public static readonly RulesCatalogApplicationResult Successful = new(true);
         
-        public static RulesCatalogApplicationResult Failed(IEnumerable<string> codes)
-            => new RulesCatalogApplicationResult(codes);
+        public static RulesCatalogApplicationResult Failed(IEnumerable<string> codes) => new(codes);
 
         private RulesCatalogApplicationResult(bool success)
         {

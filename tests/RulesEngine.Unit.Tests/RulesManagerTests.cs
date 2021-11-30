@@ -37,12 +37,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerOverlaps,
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerOverlaps,
                                 nameof(TestModel.IntEnumerableProperty2))
                         }
                     }
@@ -73,12 +73,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerNotOverlaps,
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerNotOverlaps,
                                 nameof(TestModel.IntEnumerableProperty2))
                         }
                     }
@@ -110,11 +110,11 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringStringDictionaryProperty), operatorType, keyToCheck)
+                            new(nameof(TestModel.StringStringDictionaryProperty), operatorType, keyToCheck)
                         }
                     }
                 }
@@ -147,11 +147,11 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringStringDictionaryProperty), operatorType, valueToCheck)
+                            new(nameof(TestModel.StringStringDictionaryProperty), operatorType, valueToCheck)
                         }
                     }
                 }
@@ -191,11 +191,11 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule($"{nameof(TestModel.StringStringDictionaryProperty)}[{ruleKey}]", operatorType,
+                            new($"{nameof(TestModel.StringStringDictionaryProperty)}[{ruleKey}]", operatorType,
                                 ruleValue)
                         }
                     }
@@ -222,21 +222,21 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 25 AND 28",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
                         }
                     },
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 27",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
                         }
                     }
                 }
@@ -244,7 +244,7 @@ namespace RulesEngine.Unit.Tests
             _sut.SetCatalog(catalog);
             var items = new List<TestModel>
             {
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
@@ -252,7 +252,7 @@ namespace RulesEngine.Unit.Tests
                         28
                     }
                 },
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
@@ -273,21 +273,21 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 25 AND 28",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
                         }
                     },
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 27",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
                         }
                     }
                 }
@@ -295,14 +295,14 @@ namespace RulesEngine.Unit.Tests
             _sut.SetCatalog(catalog);
             var items = new List<TestModel>
             {
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
                         28
                     }
                 },
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
@@ -315,7 +315,7 @@ namespace RulesEngine.Unit.Tests
 
             result.Should().BeEquivalentTo(new List<TestModel>
             {
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
@@ -332,21 +332,21 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 25 AND 28",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
                         }
                     },
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 27",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
                         }
                     }
                 }
@@ -354,21 +354,21 @@ namespace RulesEngine.Unit.Tests
             _sut.SetCatalog(catalog);
             var items = new List<TestModel>
             {
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
                         28
                     }
                 },
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
                         27
                     }
                 },
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
@@ -396,21 +396,21 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 25 AND 28",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
                         }
                     },
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 27",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
                         }
                     }
                 }
@@ -418,21 +418,21 @@ namespace RulesEngine.Unit.Tests
             _sut.SetCatalog(catalog);
             var items = new List<TestModel>
             {
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
                         28
                     }
                 },
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
                         26
                     }
                 },
-                new TestModel
+                new()
                 {
                     IntEnumerableProperty = new[]
                     {
@@ -454,12 +454,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Overlaps, "1,2,3,4")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Overlaps, "1,2,3,4")
                         }
                     }
                 }
@@ -488,12 +488,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Overlaps, "1,2,3,4")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Overlaps, "1,2,3,4")
                         }
                     }
                 }
@@ -519,12 +519,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.NotOverlaps, "1,2,3,4")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.NotOverlaps, "1,2,3,4")
                         }
                     }
                 }
@@ -553,12 +553,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntProperty), OperatorType.IsContained, "1,2")
+                            new(nameof(TestModel.IntProperty), OperatorType.IsContained, "1,2")
                         }
                     }
                 }
@@ -584,12 +584,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntProperty), OperatorType.IsContained, "1,2")
+                            new(nameof(TestModel.IntProperty), OperatorType.IsContained, "1,2")
                         }
                     }
                 }
@@ -615,12 +615,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntProperty), OperatorType.IsNotContained, "1,2")
+                            new(nameof(TestModel.IntProperty), OperatorType.IsNotContained, "1,2")
                             {
                                 Code = "code_1"
                             }
@@ -649,12 +649,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntProperty), OperatorType.IsNotContained, "1,2")
+                            new(nameof(TestModel.IntProperty), OperatorType.IsNotContained, "1,2")
                         }
                     }
                 }
@@ -680,12 +680,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26")
                         }
                     }
                 }
@@ -725,21 +725,21 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 25 AND 28",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28")
                         }
                     },
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 27",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
                         }
                     }
                 }
@@ -779,12 +779,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for enumerable containing 25",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25", null,
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25", null,
                                 "useless description 1")
                         }
                     }
@@ -823,12 +823,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerContains,
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerContains,
                                 nameof(TestModel.IntProperty))
                         }
                     }
@@ -864,12 +864,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerContains,
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerContains,
                                 nameof(TestModel.IntProperty))
                         }
                     }
@@ -905,12 +905,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringProperty), OperatorType.InnerEqual,
+                            new(nameof(TestModel.StringProperty), OperatorType.InnerEqual,
                                 nameof(TestModel.StringProperty2))
                         }
                     }
@@ -946,12 +946,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringProperty), OperatorType.InnerEqual,
+                            new(nameof(TestModel.StringProperty), OperatorType.InnerEqual,
                                 nameof(TestModel.StringProperty2))
                         }
                     }
@@ -987,12 +987,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntProperty), OperatorType.InnerGreaterThan,
+                            new(nameof(TestModel.IntProperty), OperatorType.InnerGreaterThan,
                                 nameof(TestModel.IntProperty2))
                         }
                     }
@@ -1028,12 +1028,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerNotContains,
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerNotContains,
                                 nameof(TestModel.IntProperty), null,
                                 "rule with inner comparison between 2 properties of the model")
                         }
@@ -1070,12 +1070,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerNotContains,
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerNotContains,
                                 nameof(TestModel.IntProperty))
                         }
                     }
@@ -1111,41 +1111,41 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25", "code_1",
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25", "code_1",
                                 null),
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26", "code_2",
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26", "code_2",
                                 null)
                         }
                     },
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25", "code_3",
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25", "code_3",
                                 null),
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27", "code_4",
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27", "code_4",
                                 null)
                         }
                     },
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26", "code_5",
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26", "code_5",
                                 null),
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28", "code_6",
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28", "code_6",
                                 null)
                         }
                     },
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26", "code_2",
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26", "code_2",
                                 null)
                         }
                     }
@@ -1212,12 +1212,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.NotOverlaps, "1,2,3,4")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.NotOverlaps, "1,2,3,4")
                         }
                     }
                 }
@@ -1246,12 +1246,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Overlaps, "1,2,3,4")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Overlaps, "1,2,3,4")
                         }
                     }
                 }
@@ -1280,12 +1280,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with wrong property name",
                         Rules = new List<Rule>
                         {
-                            new Rule("StringProperty_WRONG_NAME", OperatorType.Equal, "some wrong value")
+                            new("StringProperty_WRONG_NAME", OperatorType.Equal, "some wrong value")
                         }
                     }
                 }
@@ -1315,12 +1315,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "valid rule with equality on a field",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "some value")
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "some value")
                         }
                     }
                 }
@@ -1354,20 +1354,20 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for string equals to value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "some wrong value")
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "some wrong value")
                         }
                     },
-                    new RulesSet
+                    new()
                     {
                         Description = "rule for string equals to another value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "some value")
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "some value")
                         }
                     }
                 }
@@ -1401,12 +1401,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringProperty), OperatorType.Equal, "some wrong value")
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "some wrong value")
                         }
                     }
                 }
@@ -1440,12 +1440,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringProperty), OperatorType.IsContained, "alpha,beta")
+                            new(nameof(TestModel.StringProperty), OperatorType.IsContained, "alpha,beta")
                         }
                     }
                 }
@@ -1471,12 +1471,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringProperty), OperatorType.IsContained, "alpha,beta")
+                            new(nameof(TestModel.StringProperty), OperatorType.IsContained, "alpha,beta")
                         }
                     }
                 }
@@ -1501,12 +1501,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringProperty), OperatorType.IsContained, "")
+                            new(nameof(TestModel.StringProperty), OperatorType.IsContained, "")
                         }
                     }
                 }
@@ -1534,7 +1534,7 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Rules = new List<Rule>
                         {
@@ -1570,12 +1570,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.StringProperty), OperatorType.IsNotContained, "")
+                            new(nameof(TestModel.StringProperty), OperatorType.IsNotContained, "")
                         }
                     }
                 }
@@ -1601,12 +1601,12 @@ namespace RulesEngine.Unit.Tests
             {
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "rule with single non matching value",
                         Rules = new List<Rule>
                         {
-                            new Rule(nameof(TestModel.DoubleProperty), OperatorType.IsContained, "1.3,1.5")
+                            new(nameof(TestModel.DoubleProperty), OperatorType.IsContained, "1.3,1.5")
                         }
                     }
                 }
