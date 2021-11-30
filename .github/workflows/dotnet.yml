@@ -1,0 +1,52 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop, main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.6.10'
+
+    - uses: actions/checkout@v1
+
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: | 
+          5.0.x
+          6.0.x
+
+    - name: Compute version numbers
+      uses: gittools/actions/gitversion/execute@v0.9.7
+
+    - name: restore dependencies
+      run: dotnet restore
+
+    - name: build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: test
+      run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+
+    - name: retrieve list of coverage info reports
+      run: echo COVERAGE_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
+
+    - name: merge code coverage data
+      uses: danielpalme/ReportGenerator-GitHub-Action@4.6.6
+      with:
+        reports: '${{ env.COVERAGE_REPORTS }}'
+        reporttypes: 'lcov;HtmlInline'
+    
+    - name: publish code coverage results
+      uses: romeovs/lcov-reporter-action@v0.2.21
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        lcov-file: ./coveragereport/lcov.info 
