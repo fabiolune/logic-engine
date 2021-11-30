@@ -2,9 +2,9 @@ name: .NET Core
 
 on:
   push:
-    branches: [ develop, master ]
+    branches: [ develop ]
   pull_request:
-    branches: [ develop, master ]
+    branches: [ develop, main ]
 
 jobs:
   build:
@@ -12,11 +12,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - uses: gittools/actions/gitversion/setup@v0.9.7
       with:
-        dotnet-version: 3.1.301
+        versionSpec: '5.6.10'
+
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: | 
+          6.0.x
+
+    - name: Compute version numbers
+      uses: gittools/actions/gitversion/execute@v0.9.7
 
     - name: restore dependencies
       run: dotnet restore
@@ -35,10 +43,9 @@ jobs:
       with:
         reports: '${{ env.COVERAGE_REPORTS }}'
         reporttypes: 'lcov;HtmlInline'
-    # known issue in https://github.com/romeovs/lcov-reporter-action/issues/1
-    - if: github.event_name == 'pull_request'
-      name: publish code coverage results
-      uses: romeovs/lcov-reporter-action@v0.2.17
+    
+    - name: publish code coverage results
+      uses: romeovs/lcov-reporter-action@v0.2.21
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coveragereport/lcov.info 
