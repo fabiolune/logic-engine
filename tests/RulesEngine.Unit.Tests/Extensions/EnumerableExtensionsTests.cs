@@ -9,23 +9,23 @@ namespace RulesEngine.Unit.Tests.Extensions
 {
     public class EnumerableExtensionsTests
     {
-        private readonly Mock<IRulesManager<TestModel>> _mockManager = new Mock<IRulesManager<TestModel>>();
+        private readonly Mock<IRulesManager<TestModel>> _mockManager = new();
 
         [Test]
         public void Filter_ShouldInvokeManagerFilterAndReturnItsResult()
         {
             var expectation = new List<TestModel>
             {
-                new TestModel
+                new()
                 {
                     IntProperty = 0
                 }
             };
             var items = new List<TestModel>
             {
-                new TestModel(),
-                new TestModel(),
-                new TestModel()
+                new(),
+                new(),
+                new()
             };
             _mockManager.Setup(_ => _.Filter(items)).Returns(expectation);
 
@@ -45,9 +45,9 @@ namespace RulesEngine.Unit.Tests.Extensions
             };
             var items = new List<TestModel>
             {
-                new TestModel(),
-                new TestModel(),
-                new TestModel()
+                new(),
+                new(),
+                new()
             };
             _mockManager.Setup(_ => _.FirstOrDefault(items)).Returns(expectation);
 

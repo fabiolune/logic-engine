@@ -20,8 +20,8 @@ namespace RulesEngine.Models
         /// <param name="catalog2"></param>
         /// <returns></returns>
         public static RulesCatalog operator +(RulesCatalog catalog1, RulesCatalog catalog2) 
-            => new RulesCatalog
-                {
+            => new()
+            {
                     Name = $"{catalog1.Name} OR {catalog2.Name}",
                     RulesSets = (catalog1.RulesSets ?? new List<RulesSet>()).Union(catalog2.RulesSets ?? new List<RulesSet>())
                 };
@@ -33,8 +33,8 @@ namespace RulesEngine.Models
         /// <param name="catalog2"></param>
         /// <returns></returns>
         public static RulesCatalog operator *(RulesCatalog catalog1, RulesCatalog catalog2) 
-            => new RulesCatalog
-                {
+            => new()
+            {
                     Name = $"{catalog1.Name} AND {catalog2.Name}",
                     RulesSets = (from r1 in catalog1.RulesSets ?? new List<RulesSet>() from r2 in catalog2.RulesSets ?? new List<RulesSet>() select new RulesSet { Description = $"{r1.Description} AND {r2.Description}", Rules = (r1.Rules ?? new List<Rule>()).Union(r2.Rules ?? new List<Rule>()) }).ToList()
                 };
