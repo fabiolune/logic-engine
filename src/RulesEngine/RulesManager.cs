@@ -23,7 +23,7 @@ namespace RulesEngine
                 .Select(x => _rulesCompiler.CompileRules<T>(x).ToArray()).ToArray();
 
         /// <summary>
-        ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR)
+        ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR);
         ///     a single ruleSet is satisfied iff ALL its rules are satisfied (AND)
         /// </summary>
         /// <param name="item"></param>
