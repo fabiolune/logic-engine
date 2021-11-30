@@ -30,13 +30,13 @@ namespace RulesEngine.Unit.Tests.Extensions
                 Name = "name 1",
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "description 1",
                         Rules = new List<Rule>
                         {
-                            new Rule("prop1", OperatorType.Contains, "value1", "code1", "description 1"),
-                            new Rule("prop1", OperatorType.Contains, "value2", "code2", "description 2")
+                            new("prop1", OperatorType.Contains, "value1", "code1", "description 1"),
+                            new("prop1", OperatorType.Contains, "value2", "code2", "description 2")
                         }
                     }
                 }
@@ -47,13 +47,13 @@ namespace RulesEngine.Unit.Tests.Extensions
                 Name = "name 2",
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "description 2",
                         Rules = new List<Rule>
                         {
-                            new Rule("prop1", OperatorType.Contains, "value2", "code2", "description 2"),
-                            new Rule("prop1", OperatorType.Contains, "value1", "code1", "description 1")
+                            new("prop1", OperatorType.Contains, "value2", "code2", "description 2"),
+                            new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
                         }
                     }
                 }
@@ -70,12 +70,12 @@ namespace RulesEngine.Unit.Tests.Extensions
                 Name = "name 1",
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "description 1",
                         Rules = new List<Rule>
                         {
-                            new Rule("prop1", OperatorType.Contains, "value1", "code1", "description 1")
+                            new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
                         }
                     }
                 }
@@ -86,12 +86,12 @@ namespace RulesEngine.Unit.Tests.Extensions
                 Name = "name 2",
                 RulesSets = new List<RulesSet>
                 {
-                    new RulesSet
+                    new()
                     {
                         Description = "description 2",
                         Rules = new List<Rule>
                         {
-                            new Rule("prop1", OperatorType.Contains, "value1", "code1", "description 1")
+                            new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
                         }
                     }
                 }
