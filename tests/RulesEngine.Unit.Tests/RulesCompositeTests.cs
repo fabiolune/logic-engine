@@ -22,8 +22,6 @@ namespace RulesEngine.Unit.Tests
         [Test]
         public void WhenItemDoesNotSatisfyTwoCatalogs_SumAndProductShouldGiveFalse()
         {
-            TestModel item;
-
             var catalog1 = new RulesCatalog
             {
                 RulesSets = new List<RulesSet>
@@ -32,7 +30,7 @@ namespace RulesEngine.Unit.Tests
                     {
                         Rules = new List<Rule>
                         {
-                            new(nameof(item.StringProperty), OperatorType.Equal, "wrong value 1")
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong value 1")
                         }
                     }
                 }
@@ -46,13 +44,13 @@ namespace RulesEngine.Unit.Tests
                     {
                         Rules = new List<Rule>
                         {
-                            new(nameof(item.StringProperty), OperatorType.Equal, "wrong value 2")
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong value 2")
                         }
                     }
                 }
             };
 
-            item = new TestModel
+            var item = new TestModel
             {
                 StringProperty = "test"
             };
