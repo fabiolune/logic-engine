@@ -37,7 +37,6 @@ namespace RulesEngine
 
         private Option<Func<T, RuleApplicationResult>> GenerateFunc<T>(Option<ExpressionTypeCodeBinding> pair) =>
             pair
-                .Bind(_ => _.BoolExpression.ToOption().IsSome ? Some(_) : Option<ExpressionTypeCodeBinding>.None())
                 .Map(_ => (string.IsNullOrEmpty(_.Code)
                     ? Expression.MemberInit(
                         Expression.New(ResultType),
@@ -47,7 +46,7 @@ namespace RulesEngine
                         Expression.Bind(_successPropertyInfo, _.BoolExpression),
                         Expression.Bind(_codesPropertyInfo, Expression.Constant(_.Code))
                     ), _.TypeExpression))
-                .Map(_ => Expression.Lambda<Func<T, RuleApplicationResult>>(_.Item1, _.Item2))
+                .Map(_ => Expression.Lambda<Func<T, RuleApplicationResult>>(_.Item1, _.TypeExpression))
                 .Map(_ => _.Compile());
 
         private Option<ExpressionTypeCodeBinding> CompileDirectRule<T>(Rule rule) =>
