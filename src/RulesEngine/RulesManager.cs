@@ -4,6 +4,7 @@ using System.Linq;
 using RulesEngine.Extensions;
 using RulesEngine.Interfaces;
 using RulesEngine.Models;
+using TinyFp.Extensions;
 
 namespace RulesEngine
 {
@@ -33,7 +34,7 @@ namespace RulesEngine
             if (!_rulesCatalog.Any())
                 return RulesCatalogApplicationResult.Successful;
 
-            var codes = new List<string>();
+            var codes = Array.Empty<string>();
             foreach (var ruleSet in _rulesCatalog)
             {
                 var rulesApplicationResult = ruleSet.ToDictionary(r => r, r => r(item));
@@ -44,7 +45,7 @@ namespace RulesEngine
                     .Where(r => !r.Value.Success)
                     .Select(r => r.Value.Code)
                     .Distinct();
-                codes.AddRange(failingReasons);
+                codes = codes.Concat(failingReasons).ToArray();
             }
             return RulesCatalogApplicationResult.Failed(codes.Distinct());
         }
@@ -55,16 +56,13 @@ namespace RulesEngine
         /// </summary>
         /// <param name="item"></param>
         /// <returns>bool</returns>
-        public bool ItemSatisfiesRules(T item)
-        {
-            if (!_rulesCatalog.Any())
-                return true;
-
-            return _rulesCatalog.ToArray()
-                .Select(ruleSet => ruleSet as Func<T, RuleApplicationResult>[])
-                .Select(enumerable => enumerable.TakeWhile(rule => rule(item).Success).Count() == enumerable.Length)
-                .Any(satisfiesSet => satisfiesSet);
-        }
+        public bool ItemSatisfiesRules(T item) =>
+            _rulesCatalog
+                .ToOption(_ => !_.Any())
+                .Match(_ => _.ToArray()
+                    .Select(ruleSet => ruleSet as Func<T, RuleApplicationResult>[])
+                    .Select(enumerable => enumerable.TakeWhile(rule => rule(item).Success).Count() == enumerable.Length)
+                    .Any(satisfiesSet => satisfiesSet), () => true);
 
         /// <summary>
         ///     It filters the items keeping only those that satisfy the rules
