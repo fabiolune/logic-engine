@@ -2,9 +2,14 @@ name: .NET Core
 
 on:
   push:
-    branches: [ develop ]
+    branches:
+    - main
   pull_request:
-    branches: [ develop, main ]
+    branches: 
+    - main
+  release:
+    types:
+    - created
 
 jobs:
   build:
@@ -55,9 +60,7 @@ jobs:
         lcov-file: ./coveragereport/lcov.info 
 
     - name: Create package
+      if: ${{ env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
       run: |
         dotnet pack -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output .
-    
-    - name: Publish the package to GitHub Package Registry
-      run: |
         dotnet nuget push *.nupkg --skip-duplicate
