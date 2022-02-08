@@ -59,6 +59,11 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coveragereport/lcov.info 
 
+    - name: create benchmark runners
+      run: |
+        dotnet publish --no-build benchmarks/Current/Current.csproj --configuration Release -o ./current
+        dotnet publish --no-build benchmarks/Previous/Previous.csproj --configuration Release -o ./previous
+
     - name: Create package
       if: ${{ env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
       run: |
