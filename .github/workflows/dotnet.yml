@@ -62,5 +62,5 @@ jobs:
     - name: Create package
       if: ${{ env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
       run: |
-        dotnet pack -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output .
+        dotnet pack --configuration Release -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output .
         dotnet nuget push *.nupkg --skip-duplicate
