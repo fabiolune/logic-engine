@@ -76,9 +76,7 @@ jobs:
       run: |
         output=$(cat ${{ env.FILE_REF }})
         content="${content//'%'/'%25'}"
-        content="${content//$'\n'/'%0A'}"
-        content="${content//$'\r'/'%0D'}"
-        echo "::set-output name=stdout::$content"
+        echo "::set-output name=stdout::$(echo content)"
 
     - name: current version benchmark data
       id: current-benchmark-data
@@ -89,7 +87,7 @@ jobs:
         content="${content//'%'/'%25'}"
         content="${content//$'\n'/'%0A'}"
         content="${content//$'\r'/'%0D'}"
-        echo "::set-output name=stdout::$content"
+        echo "::set-output name=stdout::$(echo content)"
 
     - uses: actions/github-script@0.9.0
       if: github.event_name == 'pull_request'
