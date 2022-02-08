@@ -78,7 +78,6 @@ jobs:
         content="${content//'%'/'%25'}"
         content="${content//$'\n'/'%0A'}"
         content="${content//$'\r'/'%0D'}"
-        content="${content//$'`'/'%60'}"
         echo "::set-output name=stdout::$content"
 
     - name: current version benchmark data
@@ -90,7 +89,6 @@ jobs:
         content="${content//'%'/'%25'}"
         content="${content//$'\n'/'%0A'}"
         content="${content//$'\r'/'%0D'}"
-        content="${content//$'\`'/'%60'}"
         echo "::set-output name=stdout::$content"
 
     - uses: actions/github-script@0.9.0
