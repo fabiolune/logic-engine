@@ -60,4 +60,4 @@ jobs:
     
     - name: Publish the package to GitHub Package Registry
       run: |
-        dotnet nuget push *.nupkg --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+        dotnet nuget push *.nupkg --skip-duplicate
