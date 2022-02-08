@@ -3,6 +3,7 @@ using System.Collections.Generic;
 namespace RulesEngine.Models
 {
     public struct RulesCatalogApplicationResult
+
     {
         public static readonly RulesCatalogApplicationResult Successful = new(true);
         

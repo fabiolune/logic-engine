@@ -574,7 +574,7 @@ namespace RulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRulesWithMessage(item);
 
 
-            result.Success.Should().BeFalse();
+            result.IsRight.Should().BeFalse();
         }
 
         [Test]
@@ -605,7 +605,7 @@ namespace RulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRulesWithMessage(item);
 
 
-            result.Success.Should().BeTrue();
+            result.IsRight.Should().BeTrue();
         }
 
         [Test]
@@ -639,7 +639,7 @@ namespace RulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRulesWithMessage(item);
 
 
-            result.Success.Should().BeFalse();
+            result.IsRight.Should().BeFalse();
         }
 
         [Test]
@@ -670,7 +670,7 @@ namespace RulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRulesWithMessage(item);
 
 
-            result.Success.Should().BeTrue();
+            result.IsRight.Should().BeTrue();
         }
 
         [Test]
@@ -713,8 +713,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeTrue("contains a matching item in enumerable property");
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue("contains a matching item in enumerable property");
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -757,19 +757,12 @@ namespace RulesEngine.Unit.Tests
             };
 
 
-            var watch = Stopwatch.StartNew();
             var result = _sut.ItemSatisfiesRulesWithMessage(item);
-            watch.Stop();
-            Console.WriteLine($"ItemSatisfiesRulesWithMessage: {watch.ElapsedTicks} ticks");
 
-            watch = Stopwatch.StartNew();
             var result2 = _sut.ItemSatisfiesRules(item);
-            watch.Stop();
-            Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
-
-            result.Success.Should().BeTrue("contains a matching item in enumerable property");
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue("contains a matching item in enumerable property");
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -812,8 +805,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeTrue("contains a matching item in enumerable property");
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue("contains a matching item in enumerable property");
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -853,8 +846,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeTrue();
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue();
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -894,8 +887,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeFalse();
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeFalse();
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -935,8 +928,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeTrue();
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue();
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -976,8 +969,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeFalse();
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeFalse();
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -1017,8 +1010,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeTrue();
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue();
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -1059,8 +1052,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeFalse();
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeFalse();
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -1100,8 +1093,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeTrue();
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue();
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -1172,15 +1165,12 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeFalse();
-            result.Success.Should().Be(result2);
-            result.FailedCodes.Should().HaveCount(4);
-            result.FailedCodes.Should().BeEquivalentTo("code_2", "code_4", "code_5", "code_6");
-            result.FailedCodes.Should().NotContain("code_1", "code_3");
-            result.FailedCodes.FirstOrDefault().Should().NotBeNullOrEmpty();
-            result.FailedCodes.FirstOrDefault().Should().Be("code_2");
-            result.FailedCodes.LastOrDefault().Should().NotBeNullOrEmpty();
-            result.FailedCodes.LastOrDefault().Should().Be("code_6");
+            result.IsRight.Should().BeFalse();
+            result.IsRight.Should().Be(result2);
+            result.OnLeft(_ =>
+            {
+                _.Should().BeEquivalentTo("code_2", "code_4", "code_5", "code_6");
+            });
         }
 
         [Test]
@@ -1201,8 +1191,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeTrue("I want to be able to allow full access");
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue("I want to be able to allow full access");
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -1304,8 +1294,8 @@ namespace RulesEngine.Unit.Tests
             watch.Stop();
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
-            result.Success.Should().BeTrue("any item satisfies an empty set rules catalog");
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue("any item satisfies an empty set rules catalog");
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -1343,8 +1333,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeTrue();
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue();
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -1390,8 +1380,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeTrue();
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeTrue();
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -1429,8 +1419,8 @@ namespace RulesEngine.Unit.Tests
             Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
 
 
-            result.Success.Should().BeFalse();
-            result.Success.Should().Be(result2);
+            result.IsRight.Should().BeFalse();
+            result.IsRight.Should().Be(result2);
         }
 
         [Test]
@@ -1461,7 +1451,7 @@ namespace RulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRulesWithMessage(item);
 
 
-            result.Success.Should().BeFalse();
+            result.IsRight.Should().BeFalse();
         }
 
         [Test]
@@ -1491,7 +1481,7 @@ namespace RulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRulesWithMessage(item);
 
 
-            result.Success.Should().BeTrue();
+            result.IsRight.Should().BeTrue();
         }
 
         [Test]
@@ -1522,7 +1512,7 @@ namespace RulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRulesWithMessage(item);
 
 
-            result.Success.Should().BeFalse();
+            result.IsRight.Should().BeFalse();
         }
 
         [Test]
@@ -1591,7 +1581,7 @@ namespace RulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRulesWithMessage(item);
 
 
-            result.Success.Should().BeTrue();
+            result.IsRight.Should().BeTrue();
         }
 
         [Test]
@@ -1621,96 +1611,6 @@ namespace RulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRules(item);
 
             result.Should().BeTrue();
-        }
-
-        [Test]
-        public void BenchmarkTest()
-        {
-            var catalog = new RulesCatalog
-            {
-                RulesSets = new List<RulesSet>
-                {
-                    new()
-                    {
-                        Rules = new List<Rule>
-                        {
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                        }
-                    },
-                    new()
-                    {
-                        Rules = new List<Rule>
-                        {
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "correct"),
-                        }
-                    }
-                }
-            };
-
-            _sut.SetCatalog(catalog);
-            var item = new TestModel
-            {
-                StringProperty = "correct"
-            };
-
-            var values = new long[100];
-            for (var n = 0; n < 100; n++)
-            {
-                var watch = Stopwatch.StartNew();
-                for (var i = 0; i < 1000000; i++)
-                {
-                    _sut.ItemSatisfiesRules(item);
-                }
-                var timeSpent = watch.ElapsedMilliseconds;
-                values[n] = timeSpent;
-            }
-
-            var average = values.Average();
-            var sumOfSquaresOfDifferences = values.Select(val => (val - average) * (val - average)).Sum();
-            var sd = Math.Sqrt(sumOfSquaresOfDifferences / values.Length);
-
-            Console.WriteLine($"Average value: {average} ms, with standard deviation {sd} ms");
         }
     }
 }

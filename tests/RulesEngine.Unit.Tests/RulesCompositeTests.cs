@@ -57,19 +57,19 @@ namespace RulesEngine.Unit.Tests
 
             _sut.SetCatalog(catalog1);
             var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result1.Success.Should().BeFalse();
+            result1.IsRight.Should().BeFalse();
 
             _sut.SetCatalog(catalog2);
             var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result2.Success.Should().BeFalse();
+            result2.IsRight.Should().BeFalse();
 
             _sut.SetCatalog(catalog1 + catalog2);
             var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            sumResult.Success.Should().BeFalse();
+            sumResult.IsRight.Should().BeFalse();
 
             _sut.SetCatalog(catalog1 * catalog2);
             var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            productResult.Success.Should().BeFalse();
+            productResult.IsRight.Should().BeFalse();
         }
 
         [Test]
@@ -117,23 +117,23 @@ namespace RulesEngine.Unit.Tests
 
             _sut.SetCatalog(catalog1);
             var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result1.Success.Should().Be(_sut.ItemSatisfiesRules(item));
-            result1.Success.Should().BeTrue();
+            result1.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
+            result1.IsRight.Should().BeTrue();
 
             _sut.SetCatalog(catalog2);
             var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result2.Success.Should().Be(_sut.ItemSatisfiesRules(item));
-            result2.Success.Should().BeFalse();
+            result2.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
+            result2.IsRight.Should().BeFalse();
 
             _sut.SetCatalog(catalog1 + catalog2);
             var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            sumResult.Success.Should().Be(_sut.ItemSatisfiesRules(item));
-            sumResult.Success.Should().BeTrue();
+            sumResult.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
+            sumResult.IsRight.Should().BeTrue();
 
             _sut.SetCatalog(catalog1 * catalog2);
             var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            productResult.Success.Should().Be(_sut.ItemSatisfiesRules(item));
-            productResult.Success.Should().BeFalse();
+            productResult.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
+            productResult.IsRight.Should().BeFalse();
         }
 
         [Test]
@@ -177,19 +177,19 @@ namespace RulesEngine.Unit.Tests
 
             _sut.SetCatalog(catalog1);
             var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result1.Success.Should().BeTrue();
+            result1.IsRight.Should().BeTrue();
 
             _sut.SetCatalog(catalog2);
             var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result2.Success.Should().BeTrue();
+            result2.IsRight.Should().BeTrue();
 
             _sut.SetCatalog(catalog1 + catalog2);
             var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            sumResult.Success.Should().BeTrue();
+            sumResult.IsRight.Should().BeTrue();
 
             _sut.SetCatalog(catalog1 * catalog2);
             var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            productResult.Success.Should().BeTrue();
+            productResult.IsRight.Should().BeTrue();
         }
     }
 }

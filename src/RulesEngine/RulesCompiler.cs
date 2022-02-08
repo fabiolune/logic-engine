@@ -222,39 +222,6 @@ namespace RulesEngine
                         e.Message, rule);
                     return Option<ExpressionTypeCodeBinding>.None();
                 });
-
-            //try
-            //{
-            //    var genericType = Expression.Parameter(typeof(T));
-
-            //    var key = Expression.Property(genericType, rule.Property);
-            //    var propertyType = GetTypeFromPropertyName<T>(rule.Property);
-            //    var searchValueType = propertyType.IsArray ? propertyType.GetElementType() : propertyType.GetGenericArguments().FirstOrDefault();
-
-            //    var key2 = Expression.Property(genericType, rule.Value);
-            //    var propertyType2 = GetTypeFromPropertyName<T>(rule.Value);
-
-            //    if (propertyType != propertyType2)
-            //    {
-            //        _logger.Error(
-            //            "{Component} {Operation}: {Property1} is of type {PropertyType1} while {Property2} is of type {PropertyType2}, no comparison possible",
-            //            Component, method, propertyType, propertyType, propertyType2, propertyType2.FullName);
-            //        return null;
-            //    }
-                
-            //    return new ExpressionTypeCodeBinding
-            //    {
-            //        BoolExpression = OperationMappings.InternalCrossEnumerableMapping[rule.Operator](rule, key, propertyType, key2, propertyType2, searchValueType),
-            //        TypeExpression = genericType,
-            //        Code = rule.Code
-            //    };
-            //}
-            //catch (Exception e)
-            //{
-            //    _logger.Error(e, "{Component} raised an exception with {Message} when compiling {Rule}", Component,
-            //        e.Message, rule);
-            //    return null;
-            //}
         }
 
         private Option<ExpressionTypeCodeBinding> CompileExternalEnumerableRule<T>(Rule rule) =>
