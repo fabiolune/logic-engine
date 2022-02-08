@@ -64,6 +64,11 @@ jobs:
         dotnet publish --no-build benchmarks/Current/Current.csproj --configuration Release -o ./current
         dotnet publish --no-build benchmarks/Previous/Previous.csproj --configuration Release -o ./previous
 
+    - name: run benchmarks
+      run: |
+        ./current/Current
+        ./previous/Previous
+
     - name: Create package
       if: ${{ env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
       run: |
