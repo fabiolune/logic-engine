@@ -223,3 +223,8 @@ src/**/*.nuspec
 
 ## local files
 *.local.*
+
+out/*
+BenchmarkDotNet.Artifacts/*
+
+**/local**

@@ -59,6 +59,71 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coveragereport/lcov.info 
 
+    - name: create benchmark runners
+      run: |
+        dotnet publish --no-build benchmarks/Current/Current.csproj --configuration Release -o ./current
+        dotnet publish --no-build benchmarks/Previous/Previous.csproj --configuration Release -o ./previous
+
+    - name: run benchmarks
+      run: |
+        ./previous/Previous
+        ./current/Current
+    
+    - name: previous version benchmark data
+      id: previous-benchmark-data
+      env:
+        FILE_REF: "BenchmarkDotNet.Artifacts/results/PreviousCompilerBenchmarks-report-github.md"
+      run: |
+        output=$(cat ${{ env.FILE_REF }})
+        output="${output//'%'/'%25'}"
+        output="${output//$'\n'/'%0A'}"
+        output="${output//$'\r'/'%0D'}"
+        output="${output//$'`'/'\`'}"
+        echo "::set-output name=stdout::$(echo $output)"
+
+    - name: current version benchmark data
+      id: current-benchmark-data
+      env:
+        FILE_REF: "BenchmarkDotNet.Artifacts/results/CurrentCompilerBenchmarks-report-github.md"
+      run: |
+        output=$(cat ${{ env.FILE_REF }})
+        output="${output//'%'/'%25'}"
+        output="${output//$'\n'/'%0A'}"
+        output="${output//$'\r'/'%0D'}"
+        output="${output//$'`'/'\`'}"
+        echo "::set-output name=stdout::$(echo $output)"
+
+    - uses: actions/github-script@0.9.0
+      if: github.event_name == 'pull_request'
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `
+          # Benchmark data
+          
+          <details>
+          <summary>Previous version</summary>
+          
+          ${{ steps.previous-benchmark-data.outputs.stdout }}
+
+          </details>
+
+          <details>
+          <summary>Current version</summary>
+          
+          ${{ steps.current-benchmark-data.outputs.stdout }}
+          
+          </details>
+
+          *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+
     - name: Create package
       if: ${{ env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
       run: |
