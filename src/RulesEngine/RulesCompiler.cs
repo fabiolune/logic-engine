@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using RulesEngine.Interfaces;
 using RulesEngine.Internals;
 using RulesEngine.Models;
 using Serilog;
 using TinyFp;
+using static System.Linq.Expressions.Expression;
 using static TinyFp.Prelude;
+using Convert = System.Convert;
 
 namespace RulesEngine
 {
@@ -37,31 +38,31 @@ namespace RulesEngine
         private Option<Func<T, RuleApplicationResult>> GenerateFunc<T>(Option<ExpressionTypeCodeBinding> pair) =>
             pair
                 .Map(_ => (string.IsNullOrEmpty(_.Code)
-                    ? Expression.MemberInit(
-                        Expression.New(ResultType),
-                        Expression.Bind(_successPropertyInfo, _.BoolExpression))
-                    : Expression.MemberInit(
-                        Expression.New(ResultType),
-                        Expression.Bind(_successPropertyInfo, _.BoolExpression),
-                        Expression.Bind(_codesPropertyInfo, Expression.Constant(_.Code))
+                    ? MemberInit(
+                        New(ResultType), 
+                        Bind(_successPropertyInfo, _.BoolExpression))
+                    : MemberInit(
+                        New(ResultType),
+                        Bind(_successPropertyInfo, _.BoolExpression),
+                        Bind(_codesPropertyInfo, Constant(_.Code))
                     ), _.TypeExpression))
-                .Map(_ => Expression.Lambda<Func<T, RuleApplicationResult>>(_.Item1, _.TypeExpression))
+                .Map(_ => Lambda<Func<T, RuleApplicationResult>>(_.Item1, _.TypeExpression))
                 .Map(_ => _.Compile());
 
         private Option<ExpressionTypeCodeBinding> CompileDirectRule<T>(Rule rule) =>
             Try(() =>
                 {
-                    var genericType = Expression.Parameter(typeof(T));
+                    var genericType = Parameter(typeof(T));
                     var propertyType = GetTypeFromPropertyName<T>(rule.Property);
 
-                    var value = Expression.Constant(propertyType.BaseType == typeof(Enum)
+                    var value = Constant(propertyType.BaseType == typeof(Enum)
                         ? Enum.Parse(propertyType, rule.Value)
                         : Convert.ChangeType(rule.Value, propertyType));
 
                     return Some(new ExpressionTypeCodeBinding
                     {
-                        BoolExpression = Expression.MakeBinary(OperationMappings.DirectMapping[rule.Operator],
-                            Expression.Property(genericType, rule.Property), value),
+                        BoolExpression = MakeBinary(OperationMappings.DirectMapping[rule.Operator],
+                            Property(genericType, rule.Property), value),
                         TypeExpression = genericType,
                         Code = rule.Code
                     });
@@ -79,12 +80,12 @@ namespace RulesEngine
 
             return Try(() =>
                 {
-                    var genericType = Expression.Parameter(typeof(T));
-                    var key = Expression.Property(genericType, rule.Property);
+                    var genericType = Parameter(typeof(T));
+                    var key = Property(genericType, rule.Property);
                     var propertyType = GetTypeFromPropertyName<T>(rule.Property);
                     var type1 = propertyType.FullName;
 
-                    var key2 = Expression.Property(genericType, rule.Value);
+                    var key2 = Property(genericType, rule.Value);
                     var propertyType2 = GetTypeFromPropertyName<T>(rule.Value);
                     var type2 = propertyType2.FullName;
 
@@ -98,7 +99,7 @@ namespace RulesEngine
 
                     return Some(new ExpressionTypeCodeBinding
                     {
-                        BoolExpression = Expression.MakeBinary(OperationMappings.InternalDirectMapping[rule.Operator],
+                        BoolExpression = MakeBinary(OperationMappings.InternalDirectMapping[rule.Operator],
                             key, key2),
                         TypeExpression = genericType,
                         Code = rule.Code
@@ -115,8 +116,8 @@ namespace RulesEngine
         private Option<ExpressionTypeCodeBinding> CompileEnumerableRule<T>(Rule rule) =>
             Try(() =>
                 {
-                    var genericType = Expression.Parameter(typeof(T));
-                    var key = Expression.Property(genericType, rule.Property);
+                    var genericType = Parameter(typeof(T));
+                    var key = Property(genericType, rule.Property);
                     var propertyType = GetTypeFromPropertyName<T>(rule.Property);
                     var searchValuesType = propertyType.IsArray
                         ? propertyType.GetElementType()
@@ -147,14 +148,14 @@ namespace RulesEngine
             const string method = nameof(CompileInternalEnumerableRule);
             return Try(() =>
                 {
-                    var genericType = Expression.Parameter(typeof(T));
+                    var genericType = Parameter(typeof(T));
 
-                    var key = Expression.Property(genericType, rule.Property);
+                    var key = Property(genericType, rule.Property);
                     var propertyType = GetTypeFromPropertyName<T>(rule.Property);
                     var searchValueType = propertyType.IsArray
                         ? propertyType.GetElementType()
                         : propertyType.GetGenericArguments().FirstOrDefault();
-                    var key2 = Expression.Property(genericType, rule.Value);
+                    var key2 = Property(genericType, rule.Value);
                     var propertyType2 = GetTypeFromPropertyName<T>(rule.Value);
 
                     if (searchValueType.FullName != propertyType2.FullName)
@@ -188,15 +189,15 @@ namespace RulesEngine
 
             return Try(() =>
                 {
-                    var genericType = Expression.Parameter(typeof(T));
+                    var genericType = Parameter(typeof(T));
 
-                    var key = Expression.Property(genericType, rule.Property);
+                    var key = Property(genericType, rule.Property);
                     var propertyType = GetTypeFromPropertyName<T>(rule.Property);
                     var searchValueType = propertyType.IsArray
                         ? propertyType.GetElementType()
                         : propertyType.GetGenericArguments().FirstOrDefault();
 
-                    var key2 = Expression.Property(genericType, rule.Value);
+                    var key2 = Property(genericType, rule.Value);
                     var propertyType2 = GetTypeFromPropertyName<T>(rule.Value);
 
                     if (propertyType != propertyType2)
@@ -226,16 +227,16 @@ namespace RulesEngine
         private Option<ExpressionTypeCodeBinding> CompileExternalEnumerableRule<T>(Rule rule) =>
             Try(() =>
                 {
-                    var genericType = Expression.Parameter(typeof(T));
+                    var genericType = Parameter(typeof(T));
                     var propertyType = GetTypeFromPropertyName<T>(rule.Property);
 
                     return Some(new ExpressionTypeCodeBinding
                     {
                         BoolExpression = OperationMappings.ExternalEnumerableMapping[rule.Operator](
-                            Expression.Property(genericType, rule.Property),
-                            propertyType, Expression.NewArrayInit(propertyType, rule.Value.Split(',')
+                            Property(genericType, rule.Property),
+                            propertyType, NewArrayInit(propertyType, rule.Value.Split(',')
                                 .Select(v => Convert.ChangeType(v, propertyType, CultureInfo.InvariantCulture))
-                                .Select(Expression.Constant))),
+                                .Select(Constant))),
                         TypeExpression = genericType,
                         Code = rule.Code
                     });
@@ -251,7 +252,7 @@ namespace RulesEngine
             Try(() =>
                 {
                     var type = typeof(T);
-                    var genericType = Expression.Parameter(type);
+                    var genericType = Parameter(type);
 
                     return Some(new ExpressionTypeCodeBinding
                     {

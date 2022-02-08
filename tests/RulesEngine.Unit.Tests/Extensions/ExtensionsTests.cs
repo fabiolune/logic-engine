@@ -4,7 +4,6 @@ using Moq;
 using NUnit.Framework;
 using RulesEngine.Extensions;
 using RulesEngine.Interfaces;
-using RulesEngine.Models;
 using TinyFp;
 
 namespace RulesEngine.Unit.Tests.Extensions
