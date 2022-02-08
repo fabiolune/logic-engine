@@ -72,12 +72,12 @@ jobs:
     - name: previous version benchmark data
       id: previous-benchmark-data
       run: |
-        cat BenchmarkDotNet.Artifacts/results/PreviousCompilerBenchmarks-report-github.md
+        echo "::set-output name=stdout::$(cat BenchmarkDotNet.Artifacts/results/PreviousCompilerBenchmarks-report-github.md)\n"
 
     - name: current version benchmark data
       id: current-benchmark-data
       run: |
-        cat BenchmarkDotNet.Artifacts/results/CurrentCompilerBenchmarks-report-github.md
+        echo "::set-output name=stdout::$(cat BenchmarkDotNet.Artifacts/results/CurrentCompilerBenchmarks-report-github.md)\n"
 
     - uses: actions/github-script@0.9.0
       if: github.event_name == 'pull_request'
@@ -91,8 +91,6 @@ jobs:
           
           ${{ steps.previous-benchmark-data.outputs.stdout }}
 
-
-          ${{ steps.previous-benchmark-data.outcome }}
 
           \`\`\`\n
           ${{ steps.previous-benchmark-data.outputs.stdout }}
