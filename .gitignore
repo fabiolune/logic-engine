@@ -226,3 +226,5 @@ src/**/*.nuspec
 
 out/*
 BenchmarkDotNet.Artifacts/*
+
+**/local**
