@@ -4,7 +4,10 @@ using System.Linq;
 using RulesEngine.Extensions;
 using RulesEngine.Interfaces;
 using RulesEngine.Models;
+using static TinyFp.Prelude;
+using TinyFp;
 using TinyFp.Extensions;
+using static System.Array;
 
 namespace RulesEngine
 {
@@ -29,26 +32,28 @@ namespace RulesEngine
         /// </summary>
         /// <param name="item"></param>
         /// <returns>RulesCatalogApplicationResult</returns>
-        public RulesCatalogApplicationResult ItemSatisfiesRulesWithMessage(T item)
-        {
-            if (!_rulesCatalog.Any())
-                return RulesCatalogApplicationResult.Successful;
+        public Either<IEnumerable<string>, Unit> ItemSatisfiesRulesWithMessage(T item) =>
+            (_rulesCatalog, Empty<string>())
+            .Map(_ => Loop(_, item))
+            .Bind(_ => _.Item2.ToOption(x => !x.Any()))
+            .Map(_ => _.Distinct())
+            .Match(Either<IEnumerable<string>, Unit>.Left, () => Unit.Default);
 
-            var codes = Array.Empty<string>();
-            foreach (var ruleSet in _rulesCatalog)
-            {
-                var rulesApplicationResult = ruleSet.ToDictionary(r => r, r => r(item));
-                if (rulesApplicationResult.All(x => x.Value.Success))
-                    return RulesCatalogApplicationResult.Successful;
 
-                var failingReasons = rulesApplicationResult
-                    .Where(r => !r.Value.Success)
-                    .Select(r => r.Value.Code)
-                    .Distinct();
-                codes = codes.Concat(failingReasons).ToArray();
-            }
-            return RulesCatalogApplicationResult.Failed(codes.Distinct());
-        }
+        private static Option<(IEnumerable<IEnumerable<Func<T, RuleApplicationResult>>>, string[])> Loop(
+            (IEnumerable<IEnumerable<Func<T, RuleApplicationResult>>>, string[]) data, T item) =>
+            data
+                .ToOption(_ => !_.Item1.Any() && !_.Item2.Any())
+                .Bind(_=> _.Map(r => !r.Item1.Any()
+                    ? Some(r)
+                    : r
+                        .Item1
+                        .First()
+                        .Select(x => x.Invoke(item))
+                        .Where(x => !x.Success)
+                        .ToOption(x => x.All(y => y.Success))
+                        .Bind(l => Loop((r.Item1.Skip(1), r.Item2.Concat(l.Select(x => x.Code)).ToArray()), item))));
+
 
         /// <summary>
         ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR)
