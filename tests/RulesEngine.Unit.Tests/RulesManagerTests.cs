@@ -20,7 +20,7 @@ namespace RulesEngine.Unit.Tests
         public RulesManagerTests()
         {
             var logger = new Mock<ILogger>();
-            _sut = new RulesManager<TestModel>(new RulesCompiler(logger.Object));
+            _sut = new(new RulesCompiler(logger.Object));
         }
 
         [TestCase(new[] { 1, 2 }, new[] { 1, 3 }, true)]
@@ -123,7 +123,7 @@ namespace RulesEngine.Unit.Tests
             _sut.SetCatalog(catalog);
             var item = new TestModel
             {
-                StringStringDictionaryProperty = new Dictionary<string, string>
+                StringStringDictionaryProperty = new()
                 {
                     {presentKey, "value_1"}
                 }
@@ -160,7 +160,7 @@ namespace RulesEngine.Unit.Tests
             _sut.SetCatalog(catalog);
             var item = new TestModel
             {
-                StringStringDictionaryProperty = new Dictionary<string, string>
+                StringStringDictionaryProperty = new()
                 {
                     {"key", presentValue}
                 }
@@ -204,7 +204,7 @@ namespace RulesEngine.Unit.Tests
             _sut.SetCatalog(catalog);
             var item = new TestModel
             {
-                StringStringDictionaryProperty = new Dictionary<string, string>
+                StringStringDictionaryProperty = new()
                 {
                     {presentKey, presentValue}
                 }
@@ -1186,7 +1186,7 @@ namespace RulesEngine.Unit.Tests
         [Test]
         public void When_ItemSatisfiesRulesWithNoRules_ShouldReturnTrue()
         {
-            _sut.SetCatalog(new RulesCatalog());
+            _sut.SetCatalog(new());
             var item = It.IsAny<TestModel>();
 
 
@@ -1621,6 +1621,96 @@ namespace RulesEngine.Unit.Tests
             var result = _sut.ItemSatisfiesRules(item);
 
             result.Should().BeTrue();
+        }
+
+        [Test]
+        public void BenchmarkTest()
+        {
+            var catalog = new RulesCatalog
+            {
+                RulesSets = new List<RulesSet>
+                {
+                    new()
+                    {
+                        Rules = new List<Rule>
+                        {
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                        }
+                    },
+                    new()
+                    {
+                        Rules = new List<Rule>
+                        {
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong"),
+                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "correct"),
+                        }
+                    }
+                }
+            };
+
+            _sut.SetCatalog(catalog);
+            var item = new TestModel
+            {
+                StringProperty = "correct"
+            };
+
+            var values = new long[100];
+            for (var n = 0; n < 100; n++)
+            {
+                var watch = Stopwatch.StartNew();
+                for (var i = 0; i < 1000000; i++)
+                {
+                    _sut.ItemSatisfiesRules(item);
+                }
+                var timeSpent = watch.ElapsedMilliseconds;
+                values[n] = timeSpent;
+            }
+
+            var average = values.Average();
+            var sumOfSquaresOfDifferences = values.Select(val => (val - average) * (val - average)).Sum();
+            var sd = Math.Sqrt(sumOfSquaresOfDifferences / values.Length);
+
+            Console.WriteLine($"Average value: {average} ms, with standard deviation {sd} ms");
         }
     }
 }
