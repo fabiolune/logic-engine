@@ -66,8 +66,12 @@ jobs:
 
     - name: run benchmarks
       run: |
-        ./current/Current
         ./previous/Previous
+        ./current/Current
+
+    - name: extract benchmark output
+      run: |
+        tree BenchmarkDotNet.Artifacts
 
     - name: Create package
       if: ${{ env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
