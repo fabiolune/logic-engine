@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using RulesEngine.Interfaces;
-using RulesEngine.Models;
 using TinyFp;
 
 namespace RulesEngine.Extensions

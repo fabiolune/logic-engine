@@ -4,12 +4,19 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using static System.Linq.Expressions.Expression;
 using RulesEngine.Models;
+using TinyFp.Extensions;
+using static System.Convert;
+using static RulesEngine.Internals.Constants;
 
 namespace RulesEngine.Internals
 {
     internal static class OperationMappings
     {
+        private static readonly MethodInfo DictionaryGetItem = typeof(Dictionary<string, string>).GetMethod("get_Item");
+
         internal static readonly ReadOnlyDictionary<OperatorType, ExpressionType> DirectMapping = new(new Dictionary<OperatorType, ExpressionType>
         {
             {OperatorType.Equal, ExpressionType.Equal},
@@ -33,46 +40,45 @@ namespace RulesEngine.Internals
         internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>> EnumerableMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>>
         {
             {
-                OperatorType.Contains, (r, k, s) => Expression.MakeBinary(ExpressionType.AndAlso,
-                    Expression.MakeBinary(ExpressionType.NotEqual, k, Constants.NullValue),
-                    Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] {s},
-                        k, Expression.Constant(Convert.ChangeType(r.Value, s))))
+                OperatorType.Contains, (r, k, s) => MakeBinary(ExpressionType.AndAlso,
+                    MakeBinary(ExpressionType.NotEqual, k, NullValue),
+                    Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] {s},
+                        k, Constant(ChangeType(r.Value, s))))
             },
             {
-                OperatorType.NotContains, (r, k, s) => Expression.MakeBinary(ExpressionType.OrElse,
-                    Expression.MakeBinary(ExpressionType.Equal, k, Constants.NullValue),
-                    Expression.IsFalse(Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains),
+                OperatorType.NotContains, (r, k, s) => MakeBinary(ExpressionType.OrElse,
+                    MakeBinary(ExpressionType.Equal, k, NullValue),
+                    IsFalse(Call(typeof(Enumerable), nameof(Enumerable.Contains),
                         new[] {s}, k,
-                        Expression.Constant(Convert.ChangeType(r.Value, s)))))
+                        Constant(ChangeType(r.Value, s)))))
             },
             {
                 OperatorType.Overlaps, (r, k, s) =>
                 {
-                    var ae = Expression.NewArrayInit(s,
-                        r.Value.Split(',').Select(v => Convert.ChangeType(v, s, CultureInfo.InvariantCulture))
-                            .Select(Expression.Constant));
-                    return Expression.MakeBinary(ExpressionType.AndAlso,
-                        Expression.MakeBinary(ExpressionType.AndAlso,
-                            Expression.MakeBinary(ExpressionType.NotEqual, k, Constants.NullValue),
-                            Expression.MakeBinary(ExpressionType.NotEqual, ae, Constants.NullValue)),
-                        Expression.IsTrue(Expression.Call(typeof(Enumerable), nameof(Enumerable.Any), new[] {s},
-                            Expression.Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] {s}, k,
-                                ae))));
+                    var ae = NewArrayInit(s,
+                        r.Value.Split(',').Select(v => ChangeType(v, s, CultureInfo.InvariantCulture))
+                            .Select(Constant));
+                    return MakeBinary(ExpressionType.AndAlso,
+                        MakeBinary(ExpressionType.AndAlso,
+                            MakeBinary(ExpressionType.NotEqual, k, NullValue),
+                            MakeBinary(ExpressionType.NotEqual, ae, NullValue)),
+                        IsTrue(Call(typeof(Enumerable), nameof(Enumerable.Any), new[] {s},
+                            Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] {s}, k, ae))));
                 }
             },
             {
                 OperatorType.NotOverlaps, (r, k, s) =>
                 {
-                    var ae = Expression.NewArrayInit(s,
-                        r.Value.Split(',').Select(v => Convert.ChangeType(v, s, CultureInfo.InvariantCulture))
-                            .Select(Expression.Constant));
-                    return Expression.MakeBinary(ExpressionType.OrElse,
-                        Expression.MakeBinary(ExpressionType.OrElse,
-                            Expression.MakeBinary(ExpressionType.Equal, k, Constants.NullValue),
-                            Expression.MakeBinary(ExpressionType.Equal, ae, Constants.NullValue)),
-                        Expression.IsFalse(Expression.Call(typeof(Enumerable), nameof(Enumerable.Any),
+                    var ae = NewArrayInit(s,
+                        r.Value.Split(',').Select(v => ChangeType(v, s, CultureInfo.InvariantCulture))
+                            .Select(Constant));
+                    return MakeBinary(ExpressionType.OrElse,
+                        MakeBinary(ExpressionType.OrElse,
+                            MakeBinary(ExpressionType.Equal, k, NullValue),
+                            MakeBinary(ExpressionType.Equal, ae, NullValue)),
+                        IsFalse(Call(typeof(Enumerable), nameof(Enumerable.Any),
                             new[] {s},
-                            Expression.Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] {s}, k,
+                            Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] {s}, k,
                                 ae))));
                 }
             }
@@ -81,48 +87,42 @@ namespace RulesEngine.Internals
         internal static readonly ReadOnlyDictionary<OperatorType, Func<ParameterExpression, Rule, Type, BinaryExpression>> ExternalKeyValueMapping = new(new Dictionary<OperatorType, Func<ParameterExpression, Rule, Type, BinaryExpression>>
         {
             {
-                OperatorType.ContainsKey, (g, r, t) =>
-                {
-                    var p = Expression.Property(g, r.Property);
-                    return Expression.MakeBinary(ExpressionType.AndAlso,
-                        Expression.MakeBinary(ExpressionType.NotEqual, p, Constants.NullValue),
-                        Expression.Call(p, Constants.DictionaryContainsKey,
-                            Expression.Constant(Convert.ChangeType(r.Value,
-                                t.GetProperty(r.Property).PropertyType.GetGenericArguments()[0]))));
-                }
+                OperatorType.ContainsKey, (g, r, t) => Property(g, r.Property)
+                    .Map(_ => MakeBinary(ExpressionType.AndAlso,
+                            MakeBinary(ExpressionType.NotEqual, _, NullValue),
+                            Call(_, DictionaryContainsKey,
+                                Constant(ChangeType(r.Value,
+                                    t.GetProperty(r.Property).PropertyType.GetGenericArguments()[0])))))
             },
             {
-                OperatorType.NotContainsKey, (g, r, t) =>
-                {
-                    var property = Expression.Property(g, r.Property);
-                    return Expression.MakeBinary(ExpressionType.OrElse,
-                        Expression.MakeBinary(ExpressionType.Equal, property, Constants.NullValue), Expression.IsFalse(
-                            Expression.Call(property,
-                                Constants.DictionaryContainsKey,
-                                Expression.Constant(Convert.ChangeType(r.Value,
-                                    t.GetProperty(r.Property).PropertyType.GetGenericArguments()[0])))));
-                }
+                OperatorType.NotContainsKey, (g, r, t) => Property(g, r.Property)
+                    .Map(_ => MakeBinary(ExpressionType.OrElse,
+                        MakeBinary(ExpressionType.Equal, _, NullValue), IsFalse(
+                            Call(_,
+                                DictionaryContainsKey,
+                                Constant(ChangeType(r.Value,
+                                    t.GetProperty(r.Property).PropertyType.GetGenericArguments()[0]))))))
             },
             {
                 OperatorType.ContainsValue, (g, r, t) =>
                 {
-                    var p = Expression.Property(g, r.Property);
-                    return Expression.MakeBinary(ExpressionType.AndAlso,
-                        Expression.MakeBinary(ExpressionType.NotEqual, p, Constants.NullValue), Expression.Call(p,
-                            Constants.DictionaryContainsValue,
-                            Expression.Constant(Convert.ChangeType(r.Value,
+                    var p = Property(g, r.Property);
+                    return MakeBinary(ExpressionType.AndAlso,
+                        MakeBinary(ExpressionType.NotEqual, p, NullValue), Call(p,
+                            DictionaryContainsValue,
+                            Constant(ChangeType(r.Value,
                                 t.GetProperty(r.Property).PropertyType.GetGenericArguments()[1]))));
                 }
             },
             {
                 OperatorType.NotContainsValue, (p, r, t) =>
                 {
-                    var property = Expression.Property(p, r.Property);
-                    return Expression.MakeBinary(ExpressionType.OrElse,
-                        Expression.MakeBinary(ExpressionType.Equal, property, Constants.NullValue), Expression.IsFalse(
-                            Expression.Call(property,
-                                Constants.DictionaryContainsValue,
-                                Expression.Constant(Convert.ChangeType(r.Value,
+                    var property = Property(p, r.Property);
+                    return MakeBinary(ExpressionType.OrElse,
+                        MakeBinary(ExpressionType.Equal, property, NullValue), IsFalse(
+                            Call(property,
+                                DictionaryContainsValue,
+                                Constant(ChangeType(r.Value,
                                     t.GetProperty(r.Property).PropertyType.GetGenericArguments()[0])))));
                 }
             },
@@ -134,15 +134,15 @@ namespace RulesEngine.Internals
                         .Split("[".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                         .Select(_ => _.TrimEnd(']')).ToArray();
                     var parameters = t.GetProperty(parts[0]).PropertyType.GetGenericArguments();
-                    var pp = Expression.Property(p, parts[0]);
-                    return Expression.MakeBinary(ExpressionType.AndAlso, Expression.MakeBinary(
+                    var pp = Property(p, parts[0]);
+                    return MakeBinary(ExpressionType.AndAlso, MakeBinary(
                             ExpressionType.AndAlso,
-                            Expression.MakeBinary(ExpressionType.NotEqual, pp, Constants.NullValue),
-                            Expression.Call(pp, Constants.DictionaryContainsKey,
-                                Expression.Constant(Convert.ChangeType(parts[1], parameters[0])))),
-                        Expression.MakeBinary(ExpressionType.Equal, Expression.Call(pp, typeof(Dictionary<string, string>).GetMethod("get_Item"),
-                                Expression.Constant(Convert.ChangeType(parts[1], parameters[0]))),
-                            Expression.Constant(Convert.ChangeType(r.Value, parameters[1]))));
+                            MakeBinary(ExpressionType.NotEqual, pp, NullValue),
+                            Call(pp, DictionaryContainsKey,
+                                Constant(ChangeType(parts[1], parameters[0])))),
+                        MakeBinary(ExpressionType.Equal, Call(pp, DictionaryGetItem,
+                                Constant(ChangeType(parts[1], parameters[0]))),
+                            Constant(ChangeType(r.Value, parameters[1]))));
                 }
             },
             {
@@ -153,16 +153,14 @@ namespace RulesEngine.Internals
                         .Split("[".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                         .Select(_ => _.TrimEnd(']')).ToArray();
                     var parameters = t.GetProperty(parts[0]).PropertyType.GetGenericArguments();
-                    var pp = Expression.Property(p, parts[0]);
-                    return Expression.MakeBinary(ExpressionType.OrElse, Expression.MakeBinary(
-                            ExpressionType.OrElse, Expression.MakeBinary(ExpressionType.Equal, pp, Constants.NullValue),
-                            Expression.IsFalse(Expression.Call(pp,
-                                Constants.DictionaryContainsKey,
-                                Expression.Constant(Convert.ChangeType(parts[1], parameters[0]))))),
-                        Expression.IsFalse(Expression.MakeBinary(ExpressionType.Equal, Expression.Call(pp,
-                                typeof(Dictionary<string, string>).GetMethod("get_Item"),
-                                Expression.Constant(Convert.ChangeType(parts[1], parameters[0]))),
-                            Expression.Constant(Convert.ChangeType(r.Value, parameters[1])))));
+                    var pp = Property(p, parts[0]);
+                    return MakeBinary(ExpressionType.OrElse, MakeBinary(
+                            ExpressionType.OrElse, MakeBinary(ExpressionType.Equal, pp, NullValue),
+                            IsFalse(Call(pp,
+                                DictionaryContainsKey,
+                                Constant(ChangeType(parts[1], parameters[0]))))),
+                        IsFalse(MakeBinary(ExpressionType.Equal, Call(pp, DictionaryGetItem, Constant(ChangeType(parts[1], parameters[0]))),
+                            Constant(ChangeType(r.Value, parameters[1])))));
                 }
             }
         });
@@ -171,48 +169,48 @@ namespace RulesEngine.Internals
         {
             {
                 OperatorType.IsContained,
-                (k, p, ae) => Expression.MakeBinary(ExpressionType.AndAlso,
-                    Expression.MakeBinary(ExpressionType.NotEqual, ae, Constants.NullValue),
-                    Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] {p}, ae, k))
+                (k, p, ae) => MakeBinary(ExpressionType.AndAlso,
+                    MakeBinary(ExpressionType.NotEqual, ae, NullValue),
+                    Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] {p}, ae, k))
             },
             {
                 OperatorType.IsNotContained,
-                (k, p, ae) => Expression.MakeBinary(ExpressionType.OrElse,
-                    Expression.MakeBinary(ExpressionType.Equal, ae, Constants.NullValue),
-                    Expression.IsFalse(Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains),
+                (k, p, ae) => MakeBinary(ExpressionType.OrElse,
+                    MakeBinary(ExpressionType.Equal, ae, NullValue),
+                    IsFalse(Call(typeof(Enumerable), nameof(Enumerable.Contains),
                         new[] {p}, ae, k)))
             }
         });
 
         internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>> InternalEnumerableMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>>
         {
-            { OperatorType.InnerContains,  (r, k, pt, k2, pt2, svt) => Expression.MakeBinary(ExpressionType.AndAlso, Expression.MakeBinary(ExpressionType.NotEqual, k, Constants.NullValue), Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] { svt }, k, k2))},
-            { OperatorType.InnerNotContains, (r, k, pt, k2, pt2, svt) => Expression.MakeBinary(ExpressionType.OrElse, Expression.MakeBinary(ExpressionType.Equal, k, Constants.NullValue), Expression.IsFalse(Expression.Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] { svt }, k, k2)))}
+            { OperatorType.InnerContains,  (_, k, _, k2, _, svt) => MakeBinary(ExpressionType.AndAlso, MakeBinary(ExpressionType.NotEqual, k, NullValue), Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] { svt }, k, k2))},
+            { OperatorType.InnerNotContains, (_, k, _, k2, _, svt) => MakeBinary(ExpressionType.OrElse, MakeBinary(ExpressionType.Equal, k, NullValue), IsFalse(Call(typeof(Enumerable), nameof(Enumerable.Contains), new[] { svt }, k, k2)))}
         });
 
         internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>> InternalCrossEnumerableMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>>
         {
-            { OperatorType.InnerOverlaps, (r, k, pt, k2, pt2, svt) => Expression.MakeBinary(ExpressionType.AndAlso, Expression.MakeBinary(
+            { OperatorType.InnerOverlaps, (_, k, _, k2, _, svt) => MakeBinary(ExpressionType.AndAlso, MakeBinary(
                     ExpressionType.AndAlso,
-                    Expression.MakeBinary(ExpressionType.NotEqual, k, Constants.NullValue),
-                    Expression.MakeBinary(ExpressionType.NotEqual, k2, Constants.NullValue)
-                ), Expression.IsTrue(Expression.Call(
+                    MakeBinary(ExpressionType.NotEqual, k, NullValue),
+                    MakeBinary(ExpressionType.NotEqual, k2, NullValue)
+                ), IsTrue(Call(
                     typeof(Enumerable),
                     nameof(Enumerable.Any),
                     new[] { svt },
-                    Expression.Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] { svt },
+                    Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] { svt },
                         k, k2)
                 )))
             },
-            { OperatorType.InnerNotOverlaps, (r, k, pt, k2, pt2, svt) => Expression.MakeBinary(ExpressionType.OrElse, Expression.MakeBinary(
+            { OperatorType.InnerNotOverlaps, (_, k, _, k2, _, svt) => MakeBinary(ExpressionType.OrElse, MakeBinary(
                     ExpressionType.OrElse,
-                    Expression.MakeBinary(ExpressionType.Equal, k, Constants.NullValue),
-                    Expression.MakeBinary(ExpressionType.Equal, k2, Constants.NullValue)
-                ), Expression.IsFalse(Expression.Call(
+                    MakeBinary(ExpressionType.Equal, k, NullValue),
+                    MakeBinary(ExpressionType.Equal, k2, NullValue)
+                ), IsFalse(Call(
                     typeof(Enumerable),
                     nameof(Enumerable.Any),
                     new[] { svt },
-                    Expression.Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] { svt }, k, k2)
+                    Call(typeof(Enumerable), nameof(Enumerable.Intersect), new[] { svt }, k, k2)
                 )))
             }
         });

@@ -92,15 +92,10 @@ public class CurrentCompilerBenchmarks
 internal class ApplierBenchmarks
 {
     private readonly RulesManager<TestModel> _manager;
-    private TestModel _item;
 
     public ApplierBenchmarks()
     {
         _manager = new RulesManager<TestModel>(new RulesCompiler(Logger.None));
-        _item = new TestModel
-        {
-            StringProperty = "correct"
-        };
     }
 
     [Benchmark]

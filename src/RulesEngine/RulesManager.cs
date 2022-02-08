@@ -39,7 +39,6 @@ namespace RulesEngine
             .Map(_ => _.Distinct())
             .Match(Either<IEnumerable<string>, Unit>.Left, () => Unit.Default);
 
-
         private static Option<(IEnumerable<IEnumerable<Func<T, RuleApplicationResult>>>, string[])> Loop(
             (IEnumerable<IEnumerable<Func<T, RuleApplicationResult>>>, string[]) data, T item) =>
             data
@@ -53,7 +52,6 @@ namespace RulesEngine
                         .Where(x => !x.Success)
                         .ToOption(x => x.All(y => y.Success))
                         .Bind(l => Loop((r.Item1.Skip(1), r.Item2.Concat(l.Select(x => x.Code)).ToArray()), item))));
-
 
         /// <summary>
         ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR)
