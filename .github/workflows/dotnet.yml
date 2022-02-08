@@ -23,6 +23,9 @@ jobs:
         dotnet-version: | 
           5.0.x
           6.0.x
+        source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ github.token }}
 
     - name: Compute version numbers
       uses: gittools/actions/gitversion/execute@v0.9.7
@@ -50,3 +53,11 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coveragereport/lcov.info 
+
+    - name: Create package
+      run: |
+        dotnet pack -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output .
+    
+    - name: Publish the package to GitHub Package Registry
+      run: |
+        dotnet nuget push *.nupkg --skip-duplicate
