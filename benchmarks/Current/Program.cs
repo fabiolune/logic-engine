@@ -88,6 +88,7 @@ public class CompilerBenchmarks
 }
 
 [MemoryDiagnoser]
+[MarkdownExporterAttribute.GitHub]
 internal class ApplierBenchmarks
 {
     private readonly RulesManager<TestModel> _manager;
