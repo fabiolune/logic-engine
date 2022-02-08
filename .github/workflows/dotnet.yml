@@ -68,10 +68,16 @@ jobs:
       run: |
         ./previous/Previous
         ./current/Current
-
-    - name: extract benchmark output
+    
+    - name: previous version benchmark data
+      id: previous-benchmark-data
       run: |
-        tree BenchmarkDotNet.Artifacts
+        cat BenchmarkDotNet.Artifacts/results/PreviousCompilerBenchmarks-report-github.md
+
+    - name: current version benchmark data
+      id: current-benchmark-data
+      run: |
+        cat BenchmarkDotNet.Artifacts/results/CurrentCompilerBenchmarks-report-github.md
 
     - name: Create package
       if: ${{ env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
