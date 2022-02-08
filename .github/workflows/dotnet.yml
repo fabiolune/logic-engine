@@ -2,9 +2,14 @@ name: .NET Core
 
 on:
   push:
-    branches: [ develop ]
+    branches:
+    - main
   pull_request:
-    branches: [ develop, main ]
+    branches: 
+    - main
+  release:
+    types:
+    - created
 
 jobs:
   build:
@@ -23,6 +28,9 @@ jobs:
         dotnet-version: | 
           5.0.x
           6.0.x
+        source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Compute version numbers
       uses: gittools/actions/gitversion/execute@v0.9.7
@@ -50,3 +58,9 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coveragereport/lcov.info 
+
+    - name: Create package
+      if: ${{ env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
+      run: |
+        dotnet pack --configuration Release -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output .
+        dotnet nuget push *.nupkg --skip-duplicate
