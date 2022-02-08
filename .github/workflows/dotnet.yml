@@ -91,13 +91,13 @@ jobs:
           <summary>Previous version</summary>
           
           \`\`\`\n
-          ${{ previous-benchmark-data }}
+          ${{ steps.previous-benchmark-data.outputs.stdout }}
           \`\`\`
           
           <summary>Current version</summary>
           
           \`\`\`\n
-          ${{ current-benchmark-data }}
+          ${{ steps.current-benchmark-data.outputs.stdout }}
           \`\`\`
 
           </details>
