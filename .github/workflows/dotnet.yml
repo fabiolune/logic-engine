@@ -78,7 +78,6 @@ jobs:
         content="${content//'%'/'%25'}"
         content="${content//$'\n'/'%0A'}"
         content="${content//$'\r'/'%0D'}" 
-        content="${content//$'`'/'\''}" 
         echo "::set-output name=stdout::$content"
 
     - name: current version benchmark data
@@ -104,7 +103,7 @@ jobs:
           <summary>Previous version</summary>
           
           ${{ steps.previous-benchmark-data.outputs.stdout }}
-          
+
           <summary>Current version</summary>
           
           ${{ steps.current-benchmark-data.outputs.stdout }}
