@@ -91,6 +91,9 @@ jobs:
           
           ${{ steps.previous-benchmark-data.outputs.stdout }}
 
+
+          ${{ steps.previous-benchmark-data.outcome }}
+
           \`\`\`\n
           ${{ steps.previous-benchmark-data.outputs.stdout }}
           \`\`\`
