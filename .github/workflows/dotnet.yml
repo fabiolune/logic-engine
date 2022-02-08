@@ -25,7 +25,7 @@ jobs:
           6.0.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       env:
-        NUGET_AUTH_TOKEN: ${{ github.token }}
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Compute version numbers
       uses: gittools/actions/gitversion/execute@v0.9.7
