@@ -87,9 +87,10 @@ jobs:
           const output = `
           # Benchmark data
           
-          <details>
           <summary>Previous version</summary>
           
+          ${{ steps.previous-benchmark-data.outputs.stdout }}
+
           \`\`\`\n
           ${{ steps.previous-benchmark-data.outputs.stdout }}
           \`\`\`
@@ -100,8 +101,6 @@ jobs:
           ${{ steps.current-benchmark-data.outputs.stdout }}
           \`\`\`
 
-          </details>
-          
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
             
           github.issues.createComment({
