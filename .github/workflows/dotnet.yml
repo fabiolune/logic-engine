@@ -24,8 +24,6 @@ jobs:
           5.0.x
           6.0.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Compute version numbers
       uses: gittools/actions/gitversion/execute@v0.9.7
@@ -60,4 +58,4 @@ jobs:
     
     - name: Publish the package to GitHub Package Registry
       run: |
-        dotnet nuget push *.nupkg --skip-duplicate
+        dotnet nuget push *.nupkg --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
