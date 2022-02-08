@@ -9,7 +9,6 @@ using RulesEngine.Internals;
 using RulesEngine.Models;
 using Serilog;
 using TinyFp;
-using TinyFp.Extensions;
 using static TinyFp.Prelude;
 
 namespace RulesEngine
@@ -59,13 +58,13 @@ namespace RulesEngine
                         ? Enum.Parse(propertyType, rule.Value)
                         : Convert.ChangeType(rule.Value, propertyType));
 
-                    return new ExpressionTypeCodeBinding
+                    return Some(new ExpressionTypeCodeBinding
                     {
                         BoolExpression = Expression.MakeBinary(OperationMappings.DirectMapping[rule.Operator],
                             Expression.Property(genericType, rule.Property), value),
                         TypeExpression = genericType,
                         Code = rule.Code
-                    }.ToOption();
+                    });
                 })
                 .Match(_ => _, e =>
                 {
@@ -97,13 +96,13 @@ namespace RulesEngine
                         return Option<ExpressionTypeCodeBinding>.None();
                     }
 
-                    return new ExpressionTypeCodeBinding
+                    return Some(new ExpressionTypeCodeBinding
                     {
                         BoolExpression = Expression.MakeBinary(OperationMappings.InternalDirectMapping[rule.Operator],
                             key, key2),
                         TypeExpression = genericType,
                         Code = rule.Code
-                    }.ToOption();
+                    });
                 })
                 .Match(_ => _, e =>
                 {
@@ -123,13 +122,13 @@ namespace RulesEngine
                         ? propertyType.GetElementType()
                         : propertyType.GetGenericArguments().FirstOrDefault();
 
-                    return new ExpressionTypeCodeBinding
+                    return Some(new ExpressionTypeCodeBinding
                     {
                         BoolExpression =
                             OperationMappings.EnumerableMapping[rule.Operator](rule, key, searchValuesType),
                         TypeExpression = genericType,
                         Code = rule.Code
-                    }.ToOption();
+                    });
                 })
                 .Match(_ => _, e =>
                 {
@@ -167,13 +166,13 @@ namespace RulesEngine
                         return Option<ExpressionTypeCodeBinding>.None();
                     }
 
-                    return new ExpressionTypeCodeBinding
+                    return Some(new ExpressionTypeCodeBinding
                     {
                         BoolExpression = OperationMappings.InternalEnumerableMapping[rule.Operator](rule, key,
                             propertyType, key2, propertyType2, searchValueType),
                         TypeExpression = genericType,
                         Code = rule.Code
-                    }.ToOption();
+                    });
                 })
                 .Match(_ => _, e =>
                 {
@@ -230,7 +229,7 @@ namespace RulesEngine
                     var genericType = Expression.Parameter(typeof(T));
                     var propertyType = GetTypeFromPropertyName<T>(rule.Property);
 
-                    return new ExpressionTypeCodeBinding
+                    return Some(new ExpressionTypeCodeBinding
                     {
                         BoolExpression = OperationMappings.ExternalEnumerableMapping[rule.Operator](
                             Expression.Property(genericType, rule.Property),
@@ -239,7 +238,7 @@ namespace RulesEngine
                                 .Select(Expression.Constant))),
                         TypeExpression = genericType,
                         Code = rule.Code
-                    }.ToOption();
+                    });
                 })
                 .Match(_ => _, e =>
                 {
