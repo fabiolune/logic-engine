@@ -77,11 +77,11 @@ internal class Data
 }
 
 [MemoryDiagnoser]
-public class CompilerBenchmarks
+public class PreviousCompilerBenchmarks
 {
     private readonly RulesManager<TestModel> _manager;
 
-    public CompilerBenchmarks() => _manager = new RulesManager<TestModel>(new RulesCompiler(Logger.None));
+    public PreviousCompilerBenchmarks() => _manager = new RulesManager<TestModel>(new RulesCompiler(Logger.None));
 
     [Benchmark]
     public void SetCatalogBenchmark() => _manager.SetCatalog(Data.Catalog);
@@ -110,6 +110,6 @@ internal static class Program
 {
     internal static void Main()
     {
-        BenchmarkRunner.Run<CompilerBenchmarks>();
+        BenchmarkRunner.Run<PreviousCompilerBenchmarks>();
     }
 }
