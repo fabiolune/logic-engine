@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using RulesEngine.Extensions;
 using RulesEngine.Interfaces;
 using RulesEngine.Models;
-using static TinyFp.Prelude;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using TinyFp;
 using TinyFp.Extensions;
 using static System.Array;
+using static TinyFp.Prelude;
 
 namespace RulesEngine
 {
@@ -36,7 +36,7 @@ namespace RulesEngine
             (_rulesCatalog, Empty<string>())
             .Map(_ => Loop(_, item))
             .Bind(_ => _.Item2.ToOption(x => !x.Any()))
-            .Map(_ => _.Distinct())
+            .Map(_ => _.Where(x => x != string.Empty).Distinct())
             .Match(Either<IEnumerable<string>, Unit>.Left, () => Unit.Default);
 
         private static Option<(IEnumerable<IEnumerable<Func<T, Either<string, Unit>>>>, IEnumerable<string>)> Loop(
