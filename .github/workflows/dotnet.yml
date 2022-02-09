@@ -72,7 +72,7 @@ jobs:
     - name: previous version benchmark data
       id: previous-benchmark-data
       env:
-        FILE_REF: "BenchmarkDotNet.Artifacts/results/PreviousCompilerBenchmarks-report-github.md"
+        FILE_REF: "BenchmarkDotNet.Artifacts/results/PreviousImplementationBenchmarks-report-github.md"
       run: |
         output=$(cat ${{ env.FILE_REF }})
         output="${output//'%'/'%25'}"
@@ -84,7 +84,7 @@ jobs:
     - name: current version benchmark data
       id: current-benchmark-data
       env:
-        FILE_REF: "BenchmarkDotNet.Artifacts/results/CurrentCompilerBenchmarks-report-github.md"
+        FILE_REF: "BenchmarkDotNet.Artifacts/results/CurrentImplementationBenchmarks-report-github.md"
       run: |
         output=$(cat ${{ env.FILE_REF }})
         output="${output//'%'/'%25'}"
