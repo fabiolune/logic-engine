@@ -30,22 +30,14 @@ namespace RulesEngine
             _codesPropertyInfo = ResultType.GetProperty(nameof(RuleApplicationResult.Code));
         }
 
-        public IEnumerable<Func<T, Either<Option<string>, Unit>>> CompileRules<T>(IEnumerable<Rule> rules)
+        public IEnumerable<Func<T, Either<string, Unit>>> CompileRules<T>(IEnumerable<Rule> rules)
             => rules
                 .Select(r => GenerateFunc<T>(CreateCompiledRule<T>(r)))
                 .Where(r => r.IsSome)
                 .Select(f => f.Match(_ => _, () => _ => new RuleApplicationResult()))
                 .Select(_ =>
-                    new Func<T, Either<Option<string>, Unit>>(t =>
-                    {
-                        //var p = _.Invoke(t);
-                        //if (p.Success)
-                        //    return Unit.Default;
-                        //return Either<Option<string>, Unit>.Left(p.Code.ToOption(c => c == null));
-
-                        return _.Invoke(t).ToOption(x => x.Success)
-                            .Match(x => Either<Option<string>, Unit>.Left(x.Code.ToOption(c => c == null)), () => Unit.Default);
-                    }));
+                    new Func<T, Either<string, Unit>>(t => _.Invoke(t).ToOption(x => x.Success)
+                        .Match(x => Either<string, Unit>.Left(x.Code ?? string.Empty), () => Unit.Default)));
 
         private Option<Func<T, RuleApplicationResult>> GenerateFunc<T>(Option<ExpressionTypeCodeBinding> pair) =>
             pair

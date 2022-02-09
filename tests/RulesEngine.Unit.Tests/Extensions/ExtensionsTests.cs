@@ -39,7 +39,7 @@ namespace RulesEngine.Unit.Tests.Extensions
         {
             var expected = satisfy
                 ? TinyFp.Unit.Default
-                : Either<IEnumerable<Option<string>>, TinyFp.Unit>.Left(new[] { Some("a"), Some("b") });
+                : Either<IEnumerable<string>, TinyFp.Unit>.Left(new[] { "a", "b" });
 
             var item = new TestModel();
             _mockManager.Setup(_ => _.ItemSatisfiesRulesWithMessage(item)).Returns(expected);
