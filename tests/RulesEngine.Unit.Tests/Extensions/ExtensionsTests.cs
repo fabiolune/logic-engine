@@ -5,6 +5,7 @@ using NUnit.Framework;
 using RulesEngine.Extensions;
 using RulesEngine.Interfaces;
 using TinyFp;
+using static TinyFp.Prelude;
 
 namespace RulesEngine.Unit.Tests.Extensions
 {
@@ -38,7 +39,7 @@ namespace RulesEngine.Unit.Tests.Extensions
         {
             var expected = satisfy
                 ? TinyFp.Unit.Default
-                : Either<IEnumerable<string>, TinyFp.Unit>.Left(new []{ "a", "b" });
+                : Either<IEnumerable<Option<string>>, TinyFp.Unit>.Left(new[] { Some("a"), Some("b") });
 
             var item = new TestModel();
             _mockManager.Setup(_ => _.ItemSatisfiesRulesWithMessage(item)).Returns(expected);

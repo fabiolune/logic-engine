@@ -75,8 +75,6 @@ namespace RulesEngine.Unit.Tests
         [Test]
         public void WhenItemSatisfiesOneCatalogButNotTheOther_SumShouldGiveTrueAndProductFalse()
         {
-            TestModel item;
-
             var catalog1 = new RulesCatalog
             {
                 RulesSets = new List<RulesSet>
@@ -85,8 +83,8 @@ namespace RulesEngine.Unit.Tests
                     {
                         Rules = new List<Rule>
                         {
-                            new(nameof(item.IntEnumerableProperty), OperatorType.Contains, "25"),
-                            new(nameof(item.IntEnumerableProperty), OperatorType.Contains, "26")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26")
                         }
                     }
                 }
@@ -100,13 +98,13 @@ namespace RulesEngine.Unit.Tests
                     {
                         Rules = new List<Rule>
                         {
-                            new(nameof(item.IntEnumerableProperty), OperatorType.Contains, "123123123")
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "123123123")
                         }
                     }
                 }
             };
 
-            item = new TestModel
+            var item = new TestModel
             {
                 IntEnumerableProperty = new[]
                 {

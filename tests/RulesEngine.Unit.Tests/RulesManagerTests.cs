@@ -8,6 +8,7 @@ using NUnit.Framework;
 using RulesEngine.Internals;
 using RulesEngine.Models;
 using Serilog;
+using static TinyFp.Prelude;
 
 namespace RulesEngine.Unit.Tests
 {
@@ -1153,22 +1154,15 @@ namespace RulesEngine.Unit.Tests
             };
 
 
-            var watch = Stopwatch.StartNew();
             var result = _sut.ItemSatisfiesRulesWithMessage(item);
-            watch.Stop();
-            Console.WriteLine($"ItemSatisfiesRulesWithMessage: {watch.ElapsedTicks} ticks");
 
-            watch = Stopwatch.StartNew();
             var result2 = _sut.ItemSatisfiesRules(item);
-            watch.Stop();
-            Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
-
 
             result.IsRight.Should().BeFalse();
             result.IsRight.Should().Be(result2);
             result.OnLeft(_ =>
             {
-                _.Should().BeEquivalentTo("code_2", "code_4", "code_5", "code_6");
+                _.Should().BeEquivalentTo(new []{ Some("code_2"), Some("code_4"), Some("code_5"), Some("code_6") });
             });
         }
 
