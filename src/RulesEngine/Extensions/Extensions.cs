@@ -9,7 +9,7 @@ namespace RulesEngine.Extensions
         public static bool SatisfiesRules<T>(this T @this, IRulesManager<T> manager) where T : new() =>
             manager.ItemSatisfiesRules(@this);
 
-        public static Either<IEnumerable<string>, Unit> SatisfiesRulesWithMessage<T>(this T @this, IRulesManager<T> manager) where T : new() =>
+        public static Either<IEnumerable<Option<string>>, Unit> SatisfiesRulesWithMessage<T>(this T @this, IRulesManager<T> manager) where T : new() =>
             manager.ItemSatisfiesRulesWithMessage(@this);
     }
 }
