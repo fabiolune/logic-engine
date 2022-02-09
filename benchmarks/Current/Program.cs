@@ -5,13 +5,12 @@ using RulesEngine.Internals;
 using RulesEngine.Models;
 using Serilog.Core;
 
-internal struct TestModel
-{
-    public string StringProperty { get; set; }
-}
-
 internal class Data
 {
+    internal struct TestModel
+    {
+        public string StringProperty { get; set; }
+    }
     internal static RulesCatalog Catalog =>
     new()
     {
@@ -77,11 +76,11 @@ internal class Data
 }
 
 [MemoryDiagnoser]
+[JsonExporterAttribute.Brief]
+[MarkdownExporterAttribute.GitHub]
 public class CurrentCompilerBenchmarks
 {
-    private readonly RulesManager<TestModel> _manager;
-
-    public CurrentCompilerBenchmarks() => _manager = new RulesManager<TestModel>(new RulesCompiler(Logger.None));
+    private readonly RulesManager<Data.TestModel> _manager = new(new RulesCompiler(Logger.None));
 
     [Benchmark]
     public void SetCatalogBenchmark() => _manager.SetCatalog(Data.Catalog);
@@ -89,17 +88,23 @@ public class CurrentCompilerBenchmarks
 
 [MemoryDiagnoser]
 [MarkdownExporterAttribute.GitHub]
-internal class ApplierBenchmarks
+[JsonExporterAttribute.Brief]
+public class CurrentApplierBenchmarks
 {
-    private readonly RulesManager<TestModel> _manager;
+    private readonly RulesManager<Data.TestModel> _manager = new(new RulesCompiler(Logger.None));
 
-    public ApplierBenchmarks()
+    private readonly Data.TestModel _item = new()
     {
-        _manager = new RulesManager<TestModel>(new RulesCompiler(Logger.None));
+        StringProperty = "correct"
+    };
+
+    public CurrentApplierBenchmarks()
+    {
+        _manager.SetCatalog(Data.Catalog);
     }
 
     [Benchmark]
-    public void SetCatalogBenchmark() => _manager.SetCatalog(Data.Catalog);
+    public void RuleApplicationBenchmark() => _manager.ItemSatisfiesRules(_item);
 }
 
 internal static class Program
@@ -107,5 +112,6 @@ internal static class Program
     internal static void Main()
     {
         BenchmarkRunner.Run<CurrentCompilerBenchmarks>();
+        BenchmarkRunner.Run<CurrentApplierBenchmarks>();
     }
 }
