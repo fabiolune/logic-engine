@@ -1162,7 +1162,7 @@ namespace RulesEngine.Unit.Tests
             result.IsRight.Should().Be(result2);
             result.OnLeft(_ =>
             {
-                _.Should().BeEquivalentTo(new []{ Some("code_2"), Some("code_4"), Some("code_5"), Some("code_6") });
+                _.Should().BeEquivalentTo("code_2", "code_4", "code_5", "code_6");
             });
         }
 

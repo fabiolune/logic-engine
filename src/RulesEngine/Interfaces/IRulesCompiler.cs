@@ -7,6 +7,6 @@ namespace RulesEngine.Interfaces
 {
     public interface IRulesCompiler
     {
-        IEnumerable<Func<T, Either<Option<string>, Unit>>> CompileRules<T>(IEnumerable<Rule> rules);
+        IEnumerable<Func<T, Either<string, Unit>>> CompileRules<T>(IEnumerable<Rule> rules);
     }
 }

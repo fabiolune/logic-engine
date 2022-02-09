@@ -14,7 +14,7 @@ namespace RulesEngine
     public class RulesManager<T> : IRulesManager<T> where T : new()
     {
         private readonly IRulesCompiler _rulesCompiler;
-        private IEnumerable<IEnumerable<Func<T, Either<Option<string>, Unit>>>> _rulesCatalog;
+        private IEnumerable<IEnumerable<Func<T, Either<string, Unit>>>> _rulesCatalog;
 
         public RulesManager(IRulesCompiler rulesCompiler)
         {
@@ -32,15 +32,15 @@ namespace RulesEngine
         /// </summary>
         /// <param name="item"></param>
         /// <returns>RulesCatalogApplicationResult</returns>
-        public Either<IEnumerable<Option<string>>, Unit> ItemSatisfiesRulesWithMessage(T item) =>
-            (_rulesCatalog, Empty<Option<string>>())
+        public Either<IEnumerable<string>, Unit> ItemSatisfiesRulesWithMessage(T item) =>
+            (_rulesCatalog, Empty<string>())
             .Map(_ => Loop(_, item))
             .Bind(_ => _.Item2.ToOption(x => !x.Any()))
             .Map(_ => _.Distinct())
-            .Match(Either<IEnumerable<Option<string>>, Unit>.Left, () => Unit.Default);
+            .Match(Either<IEnumerable<string>, Unit>.Left, () => Unit.Default);
 
-        private static Option<(IEnumerable<IEnumerable<Func<T, Either<Option<string>, Unit>>>>, IEnumerable<Option<string>>)> Loop(
-            (IEnumerable<IEnumerable<Func<T, Either<Option<string>, Unit>>>>, IEnumerable<Option<string>>) data, T item) =>
+        private static Option<(IEnumerable<IEnumerable<Func<T, Either<string, Unit>>>>, IEnumerable<string>)> Loop(
+            (IEnumerable<IEnumerable<Func<T, Either<string, Unit>>>>, IEnumerable<string>) data, T item) =>
             data
                 .ToOption(_ => !_.Item1.Any() && !_.Item2.Any())
                 .Bind(_ => _.Map(r => !r.Item1.Any()
@@ -53,7 +53,7 @@ namespace RulesEngine
                         .ToOption(x => x.All(y => y.IsRight))
                         .Bind(l => Loop((r.Item1.Skip(1),
                                 r.Item2.Concat(l.Where(x => x.IsLeft)
-                                    .Select(x => x.Match(y => Option<string>.None(), y => y)))), item))));
+                                    .Select(x => x.Match(_ => string.Empty, _ => _ ?? string.Empty)))), item))));
 
         /// <summary>
         ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR)
@@ -65,7 +65,7 @@ namespace RulesEngine
             _rulesCatalog
                 .ToOption(_ => !_.Any())
                 .Match(_ => _.ToArray()
-                    .Select(ruleSet => ruleSet as Func<T, Either<Option<string>, Unit>>[])
+                    .Select(ruleSet => ruleSet as Func<T, Either<string, Unit>>[])
                     .Select(e => e.TakeWhile(rule => rule(item).IsRight).Count() == e.Length)
                     .Any(s => s), () => true);
 
