@@ -1,12 +1,12 @@
-﻿using System;
+﻿using RulesEngine.Interfaces;
+using RulesEngine.Internals;
+using RulesEngine.Models;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using RulesEngine.Interfaces;
-using RulesEngine.Internals;
-using RulesEngine.Models;
-using Serilog;
 using TinyFp;
 using TinyFp.Extensions;
 using static System.Linq.Expressions.Expression;
