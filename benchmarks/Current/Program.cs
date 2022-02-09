@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using RulesEngine;
 using RulesEngine.Internals;
@@ -76,42 +77,37 @@ internal class Data
 }
 
 [MemoryDiagnoser]
-[JsonExporterAttribute.Brief]
-[MarkdownExporterAttribute.GitHub]
-public class CurrentCompilerBenchmarks
-{
-    private readonly RulesManager<Data.TestModel> _manager = new(new RulesCompiler(Logger.None));
-
-    [Benchmark]
-    public void SetCatalogBenchmark() => _manager.SetCatalog(Data.Catalog);
-}
-
-[MemoryDiagnoser]
 [MarkdownExporterAttribute.GitHub]
 [JsonExporterAttribute.Brief]
-public class CurrentApplierBenchmarks
+public class CurrentImplementationBenchmarks
 {
     private readonly RulesManager<Data.TestModel> _manager = new(new RulesCompiler(Logger.None));
+    private readonly RulesManager<Data.TestModel> _manager2 = new(new RulesCompiler(Logger.None));
 
     private readonly Data.TestModel _item = new()
     {
         StringProperty = "correct"
     };
 
-    public CurrentApplierBenchmarks()
+    public CurrentImplementationBenchmarks()
     {
         _manager.SetCatalog(Data.Catalog);
     }
 
     [Benchmark]
-    public void RuleApplicationBenchmark() => _manager.ItemSatisfiesRules(_item);
+    public void SetCatalog() => _manager2.SetCatalog(Data.Catalog);
+
+    [Benchmark]
+    public void RulesApplication() => _manager.ItemSatisfiesRules(_item);
+
+    [Benchmark]
+    public void RulesApplicationWithMessage() => _manager.ItemSatisfiesRulesWithMessage(_item);
 }
 
 internal static class Program
 {
     internal static void Main()
     {
-        BenchmarkRunner.Run<CurrentCompilerBenchmarks>();
-        BenchmarkRunner.Run<CurrentApplierBenchmarks>();
+        BenchmarkRunner.Run<CurrentImplementationBenchmarks>(DefaultConfig.Instance.WithOption(ConfigOptions.DisableOptimizationsValidator, true));
     }
 }
