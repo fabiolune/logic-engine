@@ -1167,6 +1167,73 @@ namespace RulesEngine.Unit.Tests
         }
 
         [Test]
+        public void When_ItemSatisfiesRulesWithMessageContainsOperatorWith2ValidData_ShouldReturnCorrectCodesWithNoullsOrEmptyStrings()
+        {
+            var catalog = new RulesCatalog
+            {
+                RulesSets = new List<RulesSet>
+                {
+                    new()
+                    {
+                        Rules = new List<Rule>
+                        {
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25", "code_1",
+                                null),
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26", "code_2",
+                                null)
+                        }
+                    },
+                    new()
+                    {
+                        Rules = new List<Rule>
+                        {
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25", "code_3",
+                                null),
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "27")
+                        }
+                    },
+                    new()
+                    {
+                        Rules = new List<Rule>
+                        {
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26", "code_5",
+                                null),
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "28", "code_6",
+                                null)
+                        }
+                    },
+                    new()
+                    {
+                        Rules = new List<Rule>
+                        {
+                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26", "code_2",
+                                null)
+                        }
+                    }
+                }
+            };
+            _sut.SetCatalog(catalog);
+            var item = new TestModel
+            {
+                IntEnumerableProperty = new[]
+                {
+                    25
+                }
+            };
+
+
+            var result = _sut.ItemSatisfiesRulesWithMessage(item);
+
+            var result2 = _sut.ItemSatisfiesRules(item);
+
+            result.IsRight.Should().BeFalse();
+            result.IsRight.Should().Be(result2);
+            result.OnLeft(_ =>
+            {
+                _.Should().BeEquivalentTo("code_2", "code_5", "code_6");
+            });
+        }
+        [Test]
         public void When_ItemSatisfiesRulesWithNoRules_ShouldReturnTrue()
         {
             _sut.SetCatalog(new());
