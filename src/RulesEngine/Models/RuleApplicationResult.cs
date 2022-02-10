@@ -1,6 +1,6 @@
 namespace RulesEngine.Models
 {
-    public struct RuleApplicationResult
+    internal struct RuleApplicationResult
     {
         public bool Success { get; set; }
         public string Code { get; set; }

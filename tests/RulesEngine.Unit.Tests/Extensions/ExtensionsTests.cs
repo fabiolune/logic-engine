@@ -1,9 +1,11 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using RulesEngine.Extensions;
 using RulesEngine.Interfaces;
-using RulesEngine.Models;
+using TinyFp;
+using static TinyFp.Prelude;
 
 namespace RulesEngine.Unit.Tests.Extensions
 {
@@ -36,8 +38,8 @@ namespace RulesEngine.Unit.Tests.Extensions
             bool satisfy)
         {
             var expected = satisfy
-                ? RulesCatalogApplicationResult.Successful 
-                : RulesCatalogApplicationResult.Failed(new []{ "a", "b" });
+                ? TinyFp.Unit.Default
+                : Either<IEnumerable<string>, TinyFp.Unit>.Left(new[] { "a", "b" });
 
             var item = new TestModel();
             _mockManager.Setup(_ => _.ItemSatisfiesRulesWithMessage(item)).Returns(expected);

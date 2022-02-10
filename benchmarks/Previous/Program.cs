@@ -1,17 +1,17 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using RulesEngine;
 using RulesEngine.Internals;
 using RulesEngine.Models;
 using Serilog.Core;
 
-internal struct TestModel
-{
-    public string StringProperty { get; set; }
-}
-
 internal class Data
 {
+    internal struct TestModel
+    {
+        public string StringProperty { get; set; }
+    }
     internal static RulesCatalog Catalog =>
     new()
     {
@@ -77,39 +77,37 @@ internal class Data
 }
 
 [MemoryDiagnoser]
-public class PreviousCompilerBenchmarks
+[MarkdownExporterAttribute.GitHub]
+[JsonExporterAttribute.Brief]
+public class PreviousImplementationBenchmarks
 {
-    private readonly RulesManager<TestModel> _manager;
+    private readonly RulesManager<Data.TestModel> _manager = new(new RulesCompiler(Logger.None));
+    private readonly RulesManager<Data.TestModel> _manager2 = new(new RulesCompiler(Logger.None));
 
-    public PreviousCompilerBenchmarks() => _manager = new RulesManager<TestModel>(new RulesCompiler(Logger.None));
-
-    [Benchmark]
-    public void SetCatalogBenchmark() => _manager.SetCatalog(Data.Catalog);
-}
-
-[MemoryDiagnoser]
-internal class ApplierBenchmarks
-{
-    private readonly RulesManager<TestModel> _manager;
-    private TestModel _item;
-
-    public ApplierBenchmarks()
+    private readonly Data.TestModel _item = new()
     {
-        _manager = new RulesManager<TestModel>(new RulesCompiler(Logger.None));
-        _item = new TestModel
-        {
-            StringProperty = "correct"
-        };
+        StringProperty = "correct"
+    };
+
+    public PreviousImplementationBenchmarks()
+    {
+        _manager.SetCatalog(Data.Catalog);
     }
 
     [Benchmark]
-    public void SetCatalogBenchmark() => _manager.SetCatalog(Data.Catalog);
+    public void SetCatalog() => _manager2.SetCatalog(Data.Catalog);
+
+    [Benchmark]
+    public void RulesApplication() => _manager.ItemSatisfiesRules(_item);
+
+    [Benchmark]
+    public void RulesApplicationWithMessage() => _manager.ItemSatisfiesRulesWithMessage(_item);
 }
 
 internal static class Program
 {
     internal static void Main()
     {
-        BenchmarkRunner.Run<PreviousCompilerBenchmarks>();
+        BenchmarkRunner.Run<PreviousImplementationBenchmarks>(DefaultConfig.Instance.WithOption(ConfigOptions.DisableOptimizationsValidator, true));
     }
 }
