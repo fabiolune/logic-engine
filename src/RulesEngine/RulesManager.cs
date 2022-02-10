@@ -53,7 +53,7 @@ namespace RulesEngine
                         .ToOption(x => x.All(y => y.IsRight))
                         .Bind(l => Loop((r.Item1.Skip(1),
                                 r.Item2.Concat(l.Where(x => x.IsLeft)
-                                    .Select(x => x.Match(_ => string.Empty, _ => _ ?? string.Empty)))), item))));
+                                    .Select(x => x.Match(_ => string.Empty, s => s ?? string.Empty)))), item))));
 
         /// <summary>
         ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR)
