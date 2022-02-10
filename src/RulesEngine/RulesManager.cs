@@ -64,7 +64,7 @@ namespace RulesEngine
         public bool ItemSatisfiesRules(T item) =>
             _rulesCatalog
                 .ToOption(_ => !_.Any())
-                .Match(_ => _.ToArray()
+                .Match(_ => _
                     .Select(ruleSet => ruleSet as Func<T, Either<string, Unit>>[])
                     .Select(e => e.TakeWhile(rule => rule(item).IsRight).Count() == e.Length)
                     .Any(s => s), () => true);
