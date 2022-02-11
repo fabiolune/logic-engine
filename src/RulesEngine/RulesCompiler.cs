@@ -228,7 +228,7 @@ namespace RulesEngine
                 });
         }
 
-        private Option<ExpressionTypeCodeBinding> CompileExternalEnumerableRule<T>(Rule rule) =>
+        private Option<ExpressionTypeCodeBinding> CompileInverseEnumerableRule<T>(Rule rule) =>
             Try(() =>
                 {
                     var genericType = Parameter(typeof(T));
@@ -281,7 +281,7 @@ namespace RulesEngine
                 OperatorCategory.InternalDirect => CompileInternalDirectRule<T>(rule),
                 OperatorCategory.InternalEnumerable => CompileInternalEnumerableRule<T>(rule),
                 OperatorCategory.InternalCrossEnumerable => CompileInternalCrossEnumerableRule<T>(rule),
-                OperatorCategory.ExternalEnumerable => CompileExternalEnumerableRule<T>(rule),
+                OperatorCategory.InverseEnumerable => CompileInverseEnumerableRule<T>(rule),
                 OperatorCategory.KeyValue => CompileExternalKeyValueRule<T>(rule),
                 _ => Option<ExpressionTypeCodeBinding>.None()
             };

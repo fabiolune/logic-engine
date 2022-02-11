@@ -9,6 +9,6 @@ namespace RulesEngine.Internals
         KeyValue,
         InternalEnumerable,
         InternalCrossEnumerable,
-        ExternalEnumerable
+        InverseEnumerable
     }
 }
