@@ -27,8 +27,8 @@ namespace RulesEngine.Internals
             {OperatorType.KeyContainsValue, OperatorCategory.KeyValue },
             {OperatorType.NotKeyContainsValue, OperatorCategory.KeyValue },
             // ------------------------------------------
-            {OperatorType.IsContained, OperatorCategory.ExternalEnumerable },
-            {OperatorType.IsNotContained, OperatorCategory.ExternalEnumerable },
+            {OperatorType.IsContained, OperatorCategory.InverseEnumerable },
+            {OperatorType.IsNotContained, OperatorCategory.InverseEnumerable },
             // ------------------------------------------
             {OperatorType.InnerEqual, OperatorCategory.InternalDirect},
             {OperatorType.InnerGreaterThan, OperatorCategory.InternalDirect},
