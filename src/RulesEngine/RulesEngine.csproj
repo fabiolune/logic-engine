@@ -3,6 +3,8 @@
     <TargetFramework>net6</TargetFramework>
     <PackageId>rules-engine</PackageId>
     <RepositoryUrl>https://github.com/fabiolune/rules-engine.git</RepositoryUrl>
+    <PackageDescription>Simple rules engine library</PackageDescription>
+    <PackageTags>business logic rules algebraic system functional programming</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>full</DebugType>
