@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using RulesEngine.Interfaces;
+using LogicEngine.Interfaces;
 
-namespace RulesEngine.Extensions
+namespace LogicEngine.Extensions
 {
     public static class EnumerableExtensions
     {

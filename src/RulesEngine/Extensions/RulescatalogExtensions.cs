@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LogicEngine.Models;
 using Newtonsoft.Json;
-using RulesEngine.Models;
 using TinyFp.Extensions;
 
-namespace RulesEngine.Extensions
+namespace LogicEngine.Extensions
 {
     public static class RulesCatalogExtensions
     {

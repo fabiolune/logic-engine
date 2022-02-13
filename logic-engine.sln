@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RulesEngine", "src\RulesEngine\RulesEngine.csproj", "{2A84E0EF-5B70-44AF-ACC5-9E1B094C2DB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicEngine", "src\RulesEngine\LogicEngine.csproj", "{2A84E0EF-5B70-44AF-ACC5-9E1B094C2DB3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RulesEngine.Unit.Tests", "tests\RulesEngine.Unit.Tests\RulesEngine.Unit.Tests.csproj", "{CFACF7B2-78E3-4D7F-BA66-FE3240485CEA}"
 EndProject

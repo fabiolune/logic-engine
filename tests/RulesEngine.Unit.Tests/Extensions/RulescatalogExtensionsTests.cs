@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using LogicEngine.Extensions;
+using LogicEngine.Internals;
+using LogicEngine.Models;
 using NUnit.Framework;
-using RulesEngine.Extensions;
-using RulesEngine.Internals;
-using RulesEngine.Models;
 
 namespace RulesEngine.Unit.Tests.Extensions
 {

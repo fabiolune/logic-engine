@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace RulesEngine.Internals
+namespace LogicEngine.Internals
 {
     internal static class OperatorClassification
     {

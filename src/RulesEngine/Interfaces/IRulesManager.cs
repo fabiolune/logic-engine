@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using RulesEngine.Models;
+using LogicEngine.Models;
 using TinyFp;
 
-namespace RulesEngine.Interfaces
+namespace LogicEngine.Interfaces
 {
     public interface IRulesManager<T> where T : new()
     {

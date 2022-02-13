@@ -1,8 +1,8 @@
 ﻿using System.Runtime.Serialization;
+using LogicEngine.Internals;
 using Newtonsoft.Json;
-using RulesEngine.Internals;
 
-namespace RulesEngine.Models
+namespace LogicEngine.Models
 {
     public class Rule
     {

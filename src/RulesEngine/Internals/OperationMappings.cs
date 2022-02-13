@@ -5,13 +5,13 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using static System.Linq.Expressions.Expression;
-using RulesEngine.Models;
+using LogicEngine.Models;
 using TinyFp.Extensions;
+using static System.Linq.Expressions.Expression;
 using static System.Convert;
-using static RulesEngine.Internals.Constants;
+using static LogicEngine.Internals.Constants;
 
-namespace RulesEngine.Internals
+namespace LogicEngine.Internals
 {
     internal static class OperationMappings
     {

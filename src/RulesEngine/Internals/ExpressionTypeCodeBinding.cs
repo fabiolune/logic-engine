@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace RulesEngine.Internals
+namespace LogicEngine.Internals
 {
     internal class ExpressionTypeCodeBinding
     {

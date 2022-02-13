@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace RulesEngine.Models
+namespace LogicEngine.Models
 {
     public class RulesCatalog
     {

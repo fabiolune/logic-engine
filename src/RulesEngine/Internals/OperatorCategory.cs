@@ -1,4 +1,4 @@
-namespace RulesEngine.Internals
+namespace LogicEngine.Internals
 {
     internal enum OperatorCategory
     {

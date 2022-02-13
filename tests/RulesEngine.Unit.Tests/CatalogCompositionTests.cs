@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using LogicEngine.Models;
 using NUnit.Framework;
-using RulesEngine.Models;
 
 namespace RulesEngine.Unit.Tests
 {

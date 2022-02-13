@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using LogicEngine;
+using LogicEngine.Internals;
+using LogicEngine.Models;
 using Moq;
 using NUnit.Framework;
-using RulesEngine.Internals;
-using RulesEngine.Models;
 using Serilog;
 
 namespace RulesEngine.Unit.Tests
