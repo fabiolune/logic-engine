@@ -1,10 +1,10 @@
 # Introduction
 
-_rules-engine_ is a simple dotnet library to help introducing custom business assertions.
+The __logic-engine__ is a simple dotnet library to help introducing custom business assertions.
 
-It supports a generic set of rules that get compiled into executable code, allowing the possibility to dynamically change the business logic and adapt it to different needs.
+It supports a generic set of rules that get compiled into executable code, allowing the possibility to dynamically change your business logic and adapt it to different needs without changing the core of your system.
 
-The core functionalities are encapsulated in different components, logical and functional.
+The core functionalities are encapsulated in different components, both logical and functional.
 
 # The Rule
 The rule object represents the building block for the system. A rule is an abstraction for a function acting on the value of a type and returning a boolean response.
@@ -192,7 +192,7 @@ The product of two catalogs is a catalog with a set of all the `RulesSet` obtain
 c1 = {rs1, rs2, rs3}
 c2 = {rs4, rs5}
 
-──► c1 + c2 = {(rs1+rs4), (rs1+rs4), (rs1+rs5), (rs1+rs5), (rs3+rs4), (rs3+rs4)}
+──► c1 + c2 = {(rs1+rs4), (rs1+rs5), (rs2+rs4), (rs2+rs5), (rs3+rs4), (rs3+rs5)}
 ```
 > product of two `RulesCatalog`
 
