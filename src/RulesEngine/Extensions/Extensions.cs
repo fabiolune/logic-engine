@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using RulesEngine.Interfaces;
+using LogicEngine.Interfaces;
 using TinyFp;
 
-namespace RulesEngine.Extensions
+namespace LogicEngine.Extensions
 {
     public static class Extensions
     {

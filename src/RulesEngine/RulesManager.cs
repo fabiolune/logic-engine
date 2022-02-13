@@ -1,15 +1,15 @@
-using RulesEngine.Extensions;
-using RulesEngine.Interfaces;
-using RulesEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LogicEngine.Extensions;
+using LogicEngine.Interfaces;
+using LogicEngine.Models;
 using TinyFp;
 using TinyFp.Extensions;
 using static System.Array;
 using static TinyFp.Prelude;
 
-namespace RulesEngine
+namespace LogicEngine
 {
     public class RulesManager<T> : IRulesManager<T> where T : new()
     {

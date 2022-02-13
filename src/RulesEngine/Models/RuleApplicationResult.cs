@@ -1,4 +1,4 @@
-namespace RulesEngine.Models
+namespace LogicEngine.Models
 {
     internal struct RuleApplicationResult
     {

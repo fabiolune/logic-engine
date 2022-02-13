@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
+using LogicEngine.Internals;
+using LogicEngine.Models;
 using NUnit.Framework;
-using RulesEngine.Internals;
-using RulesEngine.Models;
 
 namespace RulesEngine.Unit.Tests.Models
 {

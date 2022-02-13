@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace RulesEngine.Internals
+namespace LogicEngine.Internals
 {
     internal static class Constants
     {
