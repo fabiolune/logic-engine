@@ -60,16 +60,19 @@ jobs:
         lcov-file: ./coveragereport/lcov.info 
 
     - name: create benchmark runners
+      if: github.event_name == 'pull_request'
       run: |
         dotnet publish --no-build benchmarks/Current/Current.csproj --configuration Release -o ./current
         dotnet publish --no-build benchmarks/Previous/Previous.csproj --configuration Release -o ./previous
 
     - name: run benchmarks
+      if: github.event_name == 'pull_request'
       run: |
         ./previous/Previous
         ./current/Current
     
     - name: previous version benchmark data
+      if: github.event_name == 'pull_request'
       id: previous-benchmark-data
       env:
         FILE_REF: "BenchmarkDotNet.Artifacts/results/PreviousImplementationBenchmarks-report-github.md"
@@ -82,6 +85,7 @@ jobs:
         echo "::set-output name=stdout::$(echo $output)"
 
     - name: current version benchmark data
+      if: github.event_name == 'pull_request'
       id: current-benchmark-data
       env:
         FILE_REF: "BenchmarkDotNet.Artifacts/results/CurrentImplementationBenchmarks-report-github.md"
@@ -124,7 +128,7 @@ jobs:
             body: output
           })
 
-    - name: Create package
+    - name: Create and push package
       if: ${{ env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
       run: |
         dotnet pack --configuration Release -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output .
