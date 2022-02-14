@@ -78,12 +78,10 @@ namespace LogicEngine
                     return Option<ExpressionTypeCodeBinding>.None();
                 });
 
-        private Option<ExpressionTypeCodeBinding> CompileInternalDirectRule<T>(Rule rule)
-        {
-            const string method = nameof(CompileInternalDirectRule);
-
-            return Try(() =>
+        private Option<ExpressionTypeCodeBinding> CompileInternalDirectRule<T>(Rule rule) =>
+            Try(() =>
                 {
+                    const string method = nameof(CompileInternalDirectRule);
                     var genericType = Parameter(typeof(T));
                     var key = Property(genericType, rule.Property);
                     var propertyType = GetTypeFromPropertyName<T>(rule.Property);
@@ -115,7 +113,6 @@ namespace LogicEngine
                         e.Message, rule);
                     return Option<ExpressionTypeCodeBinding>.None();
                 });
-        }
 
         private Option<ExpressionTypeCodeBinding> CompileEnumerableRule<T>(Rule rule) =>
             Try(() =>
@@ -147,11 +144,10 @@ namespace LogicEngine
                 .GetProperty(name)
                 .PropertyType;
 
-        private Option<ExpressionTypeCodeBinding> CompileInternalEnumerableRule<T>(Rule rule)
-        {
-            const string method = nameof(CompileInternalEnumerableRule);
-            return Try(() =>
+        private Option<ExpressionTypeCodeBinding> CompileInternalEnumerableRule<T>(Rule rule) =>
+            Try(() =>
                 {
+                    const string method = nameof(CompileInternalEnumerableRule);
                     var genericType = Parameter(typeof(T));
 
                     var key = Property(genericType, rule.Property);
@@ -185,14 +181,11 @@ namespace LogicEngine
                         e.Message, rule);
                     return Option<ExpressionTypeCodeBinding>.None();
                 });
-        }
 
-        private Option<ExpressionTypeCodeBinding> CompileInternalCrossEnumerableRule<T>(Rule rule)
-        {
-            const string method = nameof(CompileInternalCrossEnumerableRule);
-
-            return Try(() =>
+        private Option<ExpressionTypeCodeBinding> CompileInternalCrossEnumerableRule<T>(Rule rule) =>
+            Try(() =>
                 {
+                    const string method = nameof(CompileInternalCrossEnumerableRule);
                     var genericType = Parameter(typeof(T));
 
                     var key = Property(genericType, rule.Property);
@@ -226,7 +219,6 @@ namespace LogicEngine
                         e.Message, rule);
                     return Option<ExpressionTypeCodeBinding>.None();
                 });
-        }
 
         private Option<ExpressionTypeCodeBinding> CompileInverseEnumerableRule<T>(Rule rule) =>
             Try(() =>

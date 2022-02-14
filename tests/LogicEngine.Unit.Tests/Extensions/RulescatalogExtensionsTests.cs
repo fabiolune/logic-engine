@@ -5,7 +5,7 @@ using LogicEngine.Internals;
 using LogicEngine.Models;
 using NUnit.Framework;
 
-namespace RulesEngine.Unit.Tests.Extensions
+namespace LogicEngine.Unit.Tests.Extensions
 {
     [TestFixture]
     public class RulesCatalogExtensionsTests
