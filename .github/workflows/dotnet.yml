@@ -28,16 +28,11 @@ jobs:
       with:
         files: |
           **/*.yml
+          **/*.yaml
           **/*.cs
           **/*.csproj
           **/*.sln
           nuget.config
-    
-    - name: Run step if any of the listed files above change
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      run: |
-        echo "One or more files listed above has changed."
-        exit 1
 
     - uses: actions/setup-dotnet@v1
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
