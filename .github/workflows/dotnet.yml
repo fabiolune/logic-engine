@@ -20,20 +20,7 @@ jobs:
       ENABLE_BENCHMARKS: false
 
     steps:
-    - uses: gittools/actions/gitversion/setup@v0.9.7
-      with:
-        versionSpec: '5.6.10'
-
     - uses: actions/checkout@v1
-
-    - uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: | 
-          5.0.x
-          6.0.x
-        source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Get specific changed files
       id: changed-files
@@ -45,11 +32,23 @@ jobs:
           **/*.csproj
           **/*.sln
 
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: | 
+          6.0.x
+        source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
     - name: Run step if any of the listed files above change
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: |
         echo "One or more files listed above has changed."
         exit 1
+    
+    - uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.6.10'
 
     - name: Compute version numbers
       uses: gittools/actions/gitversion/execute@v0.9.7
