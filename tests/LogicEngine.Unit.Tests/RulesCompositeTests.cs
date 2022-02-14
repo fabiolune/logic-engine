@@ -6,188 +6,187 @@ using Moq;
 using NUnit.Framework;
 using Serilog;
 
-namespace LogicEngine.Unit.Tests
+namespace LogicEngine.Unit.Tests;
+
+[TestFixture]
+public class RulesCompositeTests
 {
-    [TestFixture]
-    public class RulesCompositeTests
+    private readonly RulesManager<TestModel> _sut;
+
+    public RulesCompositeTests()
     {
-        private readonly RulesManager<TestModel> _sut;
+        var logger = new Mock<ILogger>();
+        _sut = new RulesManager<TestModel>(new RulesCompiler(logger.Object));
+    }
 
-        public RulesCompositeTests()
+    [Test]
+    public void WhenItemDoesNotSatisfyTwoCatalogs_SumAndProductShouldGiveFalse()
+    {
+        var catalog1 = new RulesCatalog
         {
-            var logger = new Mock<ILogger>();
-            _sut = new RulesManager<TestModel>(new RulesCompiler(logger.Object));
-        }
+            RulesSets = new List<RulesSet>
+            {
+                new()
+                {
+                    Rules = new List<Rule>
+                    {
+                        new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong value 1")
+                    }
+                }
+            }
+        };
 
-        [Test]
-        public void WhenItemDoesNotSatisfyTwoCatalogs_SumAndProductShouldGiveFalse()
+        var catalog2 = new RulesCatalog
         {
-            var catalog1 = new RulesCatalog
+            RulesSets = new List<RulesSet>
             {
-                RulesSets = new List<RulesSet>
+                new()
                 {
-                    new()
+                    Rules = new List<Rule>
                     {
-                        Rules = new List<Rule>
-                        {
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong value 1")
-                        }
+                        new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong value 2")
                     }
                 }
-            };
+            }
+        };
 
-            var catalog2 = new RulesCatalog
-            {
-                RulesSets = new List<RulesSet>
-                {
-                    new()
-                    {
-                        Rules = new List<Rule>
-                        {
-                            new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong value 2")
-                        }
-                    }
-                }
-            };
-
-            var item = new TestModel
-            {
-                StringProperty = "test"
-            };
-
-            _sut.SetCatalog(catalog1);
-            var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result1.IsRight.Should().BeFalse();
-
-            _sut.SetCatalog(catalog2);
-            var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result2.IsRight.Should().BeFalse();
-
-            _sut.SetCatalog(catalog1 + catalog2);
-            var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            sumResult.IsRight.Should().BeFalse();
-
-            _sut.SetCatalog(catalog1 * catalog2);
-            var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            productResult.IsRight.Should().BeFalse();
-        }
-
-        [Test]
-        public void WhenItemSatisfiesOneCatalogButNotTheOther_SumShouldGiveTrueAndProductFalse()
+        var item = new TestModel
         {
-            var catalog1 = new RulesCatalog
-            {
-                RulesSets = new List<RulesSet>
-                {
-                    new()
-                    {
-                        Rules = new List<Rule>
-                        {
-                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
-                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26")
-                        }
-                    }
-                }
-            };
+            StringProperty = "test"
+        };
 
-            var catalog2 = new RulesCatalog
-            {
-                RulesSets = new List<RulesSet>
-                {
-                    new()
-                    {
-                        Rules = new List<Rule>
-                        {
-                            new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "123123123")
-                        }
-                    }
-                }
-            };
+        _sut.SetCatalog(catalog1);
+        var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
+        result1.IsRight.Should().BeFalse();
 
-            var item = new TestModel
-            {
-                IntEnumerableProperty = new[]
-                {
-                    25,
-                    26
-                }
-            };
+        _sut.SetCatalog(catalog2);
+        var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
+        result2.IsRight.Should().BeFalse();
 
-            _sut.SetCatalog(catalog1);
-            var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result1.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
-            result1.IsRight.Should().BeTrue();
+        _sut.SetCatalog(catalog1 + catalog2);
+        var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
+        sumResult.IsRight.Should().BeFalse();
 
-            _sut.SetCatalog(catalog2);
-            var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result2.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
-            result2.IsRight.Should().BeFalse();
+        _sut.SetCatalog(catalog1 * catalog2);
+        var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
+        productResult.IsRight.Should().BeFalse();
+    }
 
-            _sut.SetCatalog(catalog1 + catalog2);
-            var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            sumResult.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
-            sumResult.IsRight.Should().BeTrue();
-
-            _sut.SetCatalog(catalog1 * catalog2);
-            var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            productResult.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
-            productResult.IsRight.Should().BeFalse();
-        }
-
-        [Test]
-        public void WhenItemSatisfiesTwoCatalogs_SumAndProductShouldGiveTrue()
+    [Test]
+    public void WhenItemSatisfiesOneCatalogButNotTheOther_SumShouldGiveTrueAndProductFalse()
+    {
+        var catalog1 = new RulesCatalog
         {
-            TestModel item;
-
-            var catalog1 = new RulesCatalog
+            RulesSets = new List<RulesSet>
             {
-                RulesSets = new List<RulesSet>
+                new()
                 {
-                    new()
+                    Rules = new List<Rule>
                     {
-                        Rules = new List<Rule>
-                        {
-                            new(nameof(item.StringProperty), OperatorType.Equal, "test")
-                        }
+                        new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25"),
+                        new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "26")
                     }
                 }
-            };
+            }
+        };
 
-            var catalog2 = new RulesCatalog
+        var catalog2 = new RulesCatalog
+        {
+            RulesSets = new List<RulesSet>
             {
-                RulesSets = new List<RulesSet>
+                new()
                 {
-                    new()
+                    Rules = new List<Rule>
                     {
-                        Rules = new List<Rule>
-                        {
-                            new(nameof(item.StringProperty2), OperatorType.Equal, "test2")
-                        }
+                        new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "123123123")
                     }
                 }
-            };
+            }
+        };
 
-            item = new TestModel
+        var item = new TestModel
+        {
+            IntEnumerableProperty = new[]
             {
-                StringProperty = "test",
-                StringProperty2 = "test2"
-            };
+                25,
+                26
+            }
+        };
 
-            _sut.SetCatalog(catalog1);
-            var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result1.IsRight.Should().BeTrue();
+        _sut.SetCatalog(catalog1);
+        var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
+        result1.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
+        result1.IsRight.Should().BeTrue();
 
-            _sut.SetCatalog(catalog2);
-            var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
-            result2.IsRight.Should().BeTrue();
+        _sut.SetCatalog(catalog2);
+        var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
+        result2.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
+        result2.IsRight.Should().BeFalse();
 
-            _sut.SetCatalog(catalog1 + catalog2);
-            var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            sumResult.IsRight.Should().BeTrue();
+        _sut.SetCatalog(catalog1 + catalog2);
+        var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
+        sumResult.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
+        sumResult.IsRight.Should().BeTrue();
 
-            _sut.SetCatalog(catalog1 * catalog2);
-            var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
-            productResult.IsRight.Should().BeTrue();
-        }
+        _sut.SetCatalog(catalog1 * catalog2);
+        var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
+        productResult.IsRight.Should().Be(_sut.ItemSatisfiesRules(item));
+        productResult.IsRight.Should().BeFalse();
+    }
+
+    [Test]
+    public void WhenItemSatisfiesTwoCatalogs_SumAndProductShouldGiveTrue()
+    {
+        TestModel item;
+
+        var catalog1 = new RulesCatalog
+        {
+            RulesSets = new List<RulesSet>
+            {
+                new()
+                {
+                    Rules = new List<Rule>
+                    {
+                        new(nameof(item.StringProperty), OperatorType.Equal, "test")
+                    }
+                }
+            }
+        };
+
+        var catalog2 = new RulesCatalog
+        {
+            RulesSets = new List<RulesSet>
+            {
+                new()
+                {
+                    Rules = new List<Rule>
+                    {
+                        new(nameof(item.StringProperty2), OperatorType.Equal, "test2")
+                    }
+                }
+            }
+        };
+
+        item = new TestModel
+        {
+            StringProperty = "test",
+            StringProperty2 = "test2"
+        };
+
+        _sut.SetCatalog(catalog1);
+        var result1 = _sut.ItemSatisfiesRulesWithMessage(item);
+        result1.IsRight.Should().BeTrue();
+
+        _sut.SetCatalog(catalog2);
+        var result2 = _sut.ItemSatisfiesRulesWithMessage(item);
+        result2.IsRight.Should().BeTrue();
+
+        _sut.SetCatalog(catalog1 + catalog2);
+        var sumResult = _sut.ItemSatisfiesRulesWithMessage(item);
+        sumResult.IsRight.Should().BeTrue();
+
+        _sut.SetCatalog(catalog1 * catalog2);
+        var productResult = _sut.ItemSatisfiesRulesWithMessage(item);
+        productResult.IsRight.Should().BeTrue();
     }
 }

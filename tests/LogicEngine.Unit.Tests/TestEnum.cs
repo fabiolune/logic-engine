@@ -1,8 +1,7 @@
-namespace LogicEngine.Unit.Tests
+namespace LogicEngine.Unit.Tests;
+
+public enum TestEnum
 {
-    public enum TestEnum
-    {
-        One,
-        Two
-    }
+    One,
+    Two
 }

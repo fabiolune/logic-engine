@@ -1,8 +1,7 @@
-namespace LogicEngine.Models
+namespace LogicEngine.Models;
+
+internal struct RuleApplicationResult
 {
-    internal struct RuleApplicationResult
-    {
-        public bool Success { get; set; }
-        public string Code { get; set; }
-    }
+    public bool Success { get; set; }
+    public string Code { get; set; }
 }
