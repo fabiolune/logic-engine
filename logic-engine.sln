@@ -26,6 +26,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicEngine", "src\LogicEng
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicEngine.Unit.Tests", "tests\LogicEngine.Unit.Tests\LogicEngine.Unit.Tests.csproj", "{CDB883E6-1078-439C-A1A5-637DB73642B7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{6EFCE1B6-BC92-4F6D-B650-6B736DA0D145}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Version-1.0.0", "benchmarks\Version-1.0.0\Version-1.0.0.csproj", "{54959F63-1BAE-483C-8A9D-22CD9A596043}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +44,10 @@ Global
 		{CDB883E6-1078-439C-A1A5-637DB73642B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDB883E6-1078-439C-A1A5-637DB73642B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDB883E6-1078-439C-A1A5-637DB73642B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54959F63-1BAE-483C-8A9D-22CD9A596043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54959F63-1BAE-483C-8A9D-22CD9A596043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54959F63-1BAE-483C-8A9D-22CD9A596043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54959F63-1BAE-483C-8A9D-22CD9A596043}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +57,7 @@ Global
 		{90C67B76-A962-49C3-94CE-582BCD0EAE76} = {74BBBFA3-9BD5-416D-A186-A03E8165B235}
 		{B29F4138-F4D6-4488-BD55-BB0CC6D9D102} = {15330B41-7318-4B6F-8FCB-9DB5EA345857}
 		{CDB883E6-1078-439C-A1A5-637DB73642B7} = {E6F54007-2B42-4E67-B978-FCA137A4457B}
+		{54959F63-1BAE-483C-8A9D-22CD9A596043} = {6EFCE1B6-BC92-4F6D-B650-6B736DA0D145}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7B7AFE7E-1524-4803-B7CB-6B130E84A860}
