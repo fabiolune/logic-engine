@@ -236,7 +236,12 @@ Additional methods of the manager allow to operate on an `IEnumerable<T>`, in pa
 
 ## How to install
 
-To install the __logic-engine__ library please refer to the [official releases page](https://github.com/fabiolune/rules-engine/releases).
+If you are using `nuget.org` you can add the dependency in your project using
+```shell
+dotnet add package logic-engine --version 1.0.0
+```
+
+To install the __logic-engine__ library from GitHub's packages system please refer to the [packages page](https://github.com/fabiolune?tab=packages&repo_name=logic-engine).
 
 [^1]: null or empty codes are removed because they don't carry reusable info
 [^2]: from a technical perspective this is obtained with a concrete implementation of the railway pattern
