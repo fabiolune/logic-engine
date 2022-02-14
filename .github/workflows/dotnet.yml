@@ -35,6 +35,22 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Get specific changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v14.6
+      with:
+        files: |
+          *.yml
+          *.txt
+          *.cs
+          *.csproj
+          *.sln
+
+    - name: Run step if any of the listed files above change
+      if: steps.changed-files-specific.outputs.any_changed == 'true'
+      run: |
+        echo "One or more files listed above has changed."
+
     - name: Compute version numbers
       uses: gittools/actions/gitversion/execute@v0.9.7
 
