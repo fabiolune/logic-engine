@@ -40,11 +40,10 @@ jobs:
       uses: tj-actions/changed-files@v14.6
       with:
         files: |
-          *.yml
-          *.txt
-          *.cs
-          *.csproj
-          *.sln
+          **/*.yml
+          **/*.cs
+          **/*.csproj
+          **/*.sln
 
     - name: Run step if any of the listed files above change
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
@@ -60,6 +59,12 @@ jobs:
 
     - name: build
       run: dotnet build --configuration Release --no-restore
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
 
     - name: test
       run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
