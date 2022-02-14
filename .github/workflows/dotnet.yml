@@ -47,13 +47,19 @@ jobs:
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: dotnet restore
 
-    - name: build
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      run: dotnet build --configuration Release --no-restore
-
     - name: Initialize CodeQL
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       uses: github/codeql-action/init@v1
+      with:
+          languages: 'csharp'
+
+    - name: build
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      run: |
+        dotnet build \
+          --configuration Release \
+          --no-restore \
+          /p:UseSharedCompilation=false
 
     - name: Perform CodeQL Analysis
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
