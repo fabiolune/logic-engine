@@ -79,8 +79,15 @@ jobs:
       uses: danielpalme/ReportGenerator-GitHub-Action@4.6.6
       with:
         reports: '${{ env.COVERAGE_REPORTS }}'
-        reporttypes: 'lcov;HtmlInline'
+        reporttypes: 'lcov'
     
+    - name: get codecov uploader
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      run: |
+        curl -Os https://uploader.codecov.io/latest/linux/codecov
+        chmod +x codecov
+        ./codecov
+
     - name: publish code coverage results
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       uses: romeovs/lcov-reporter-action@v0.2.21
