@@ -2,10 +2,9 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using LogicEngine;
-using Previous;
 using Serilog.Core;
 
-namespace Version1_0_0;
+namespace Current;
 
 [MemoryDiagnoser]
 [MarkdownExporterAttribute.GitHub]
