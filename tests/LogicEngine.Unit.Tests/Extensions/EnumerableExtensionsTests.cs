@@ -5,7 +5,7 @@ using LogicEngine.Interfaces;
 using Moq;
 using NUnit.Framework;
 
-namespace RulesEngine.Unit.Tests.Extensions
+namespace LogicEngine.Unit.Tests.Extensions
 {
     public class EnumerableExtensionsTests
     {

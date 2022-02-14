@@ -5,9 +5,8 @@ using LogicEngine.Interfaces;
 using Moq;
 using NUnit.Framework;
 using TinyFp;
-using static TinyFp.Prelude;
 
-namespace RulesEngine.Unit.Tests.Extensions
+namespace LogicEngine.Unit.Tests.Extensions
 {
     public class ExtensionsTests
     {

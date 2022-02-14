@@ -2,16 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using FluentAssertions;
-using LogicEngine;
 using LogicEngine.Internals;
 using LogicEngine.Models;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Serilog;
-using static TinyFp.Prelude;
 
-namespace RulesEngine.Unit.Tests
+namespace LogicEngine.Unit.Tests
 {
     [TestFixture]
     public class RulesManagerTests

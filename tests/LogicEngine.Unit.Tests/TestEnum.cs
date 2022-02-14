@@ -1,4 +1,4 @@
-namespace RulesEngine.Unit.Tests
+namespace LogicEngine.Unit.Tests
 {
     public enum TestEnum
     {

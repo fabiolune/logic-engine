@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace RulesEngine.Unit.Tests
+namespace LogicEngine.Unit.Tests
 {
     [ExcludeFromCodeCoverage]
     public struct TestModel

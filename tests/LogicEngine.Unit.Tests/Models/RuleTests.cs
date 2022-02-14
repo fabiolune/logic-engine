@@ -3,7 +3,7 @@ using LogicEngine.Internals;
 using LogicEngine.Models;
 using NUnit.Framework;
 
-namespace RulesEngine.Unit.Tests.Models
+namespace LogicEngine.Unit.Tests.Models
 {
     public class RuleTests
     {

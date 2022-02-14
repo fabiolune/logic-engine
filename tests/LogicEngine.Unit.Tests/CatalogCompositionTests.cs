@@ -3,7 +3,7 @@ using FluentAssertions;
 using LogicEngine.Models;
 using NUnit.Framework;
 
-namespace RulesEngine.Unit.Tests
+namespace LogicEngine.Unit.Tests
 {
     [TestFixture]
     public class CatalogCompositionTests
