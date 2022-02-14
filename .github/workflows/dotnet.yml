@@ -38,6 +38,7 @@ jobs:
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       with:
         dotnet-version: | 
+          5.0.x
           6.0.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       env:
