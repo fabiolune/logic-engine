@@ -1,12 +1,12 @@
-# Introduction
+# Logic Engine
 
-The __logic-engine__ is a simple dotnet library to help introducing custom business assertions.
+The __logic-engine__ is a simple dotnet library to help introducing flexible logic systems.
 
 It supports a generic set of rules that get compiled into executable code, allowing the possibility to dynamically change your business logic and adapt it to different needs without changing the core of your system.
 
 The core functionalities are encapsulated in different components, both logical and functional.
 
-# The Rule
+## The Rule
 The rule object represents the building block for the system. A rule is an abstraction for a function acting on the value of a type and returning a boolean response.
 
 Given a type to be applied to, a rule is defined by a set of fields
@@ -16,15 +16,15 @@ Given a type to be applied to, a rule is defined by a set of fields
 - `Code`: the error code to be generated when the rules applied on an object fails (returns `false`)
 - `Description`: a generic description of the rule, without real behavior
 
-# The Operator
+## The Operator
 
 The `Operator` can assume different possible values depending on the `Property` it is applied to and on the value the result should be compared to.
 
 Based on this considerations there are different types of operators. The rules categorization is also influenced by some implementation details.
 
-## Direct operators
+### Direct operators
 
-These operators directly compare the `Property` to the `Value` considered a constant:
+These operators directly compare the `Property` to the `Value` considered as a constant:
 - `Equal`: equality on value types (strings, numbers, ...)
 - `NotEqual`: inequality on value types (strings, numbers, ...)
 - `GreaterThan`: only applies to numbers
@@ -44,7 +44,7 @@ var integerRule = new Rule("IntegerProperty", OperatorType.Equal, "10");
 ```
 > sample rules with direct operators
 
-## Internal direct rules
+### Internal direct operators
 
 Internal direct rules are similar to direct rules, but they are meant to be applied on values that are other fields of the same type; in this case `Value` should correspond to the name of another field in the analyzed type:
 
@@ -69,7 +69,7 @@ var integerRule = new Rule("IntegerProperty1", OperatorType.InnerGreaterThan, "I
 ```
 > sample rules with internal direct operators
 
-## Enumerable rules
+### Enumerable operators
 
 These rules apply to operand ot generic enumerable type:
 
@@ -89,7 +89,7 @@ var rule2 = new Rule("StringEnumerableProperty", OperatorType.Overlaps, "value1,
 ```
 > sample rules with enumerable operators
 
-## Internal enumerable operators
+### Internal enumerable operators
 
 These operators act on enumerable fields by comparing them against fields of the same type:
 
@@ -111,7 +111,7 @@ var rule2 = new Rule("EnumerableProperty1", OperatorType.InnerOverlaps, "Enumera
 ```
 > sample rules for internal enumerable operators
 
-## Key-value operators
+### Key-value operators
 
 These operators act on dictionary-like objects:
 
@@ -133,7 +133,7 @@ var rule2 = new Rule("DictProperty", OperatorType.KeyContainsValue, "mykey[myval
 ```
 > sample rules for key-value enumerable operators
 
-## Inverse enumerable operators
+### Inverse enumerable operators
 
 These rules apply to scalars against enumerable fields:
 
@@ -150,27 +150,34 @@ var rule1 = new Rule("IntProperty", OperatorType.IsContained, "1,2,3");
 ```
 > sample rules for inverse enumerable operators
 
-# RulesSet and RulesCatalog
+## RulesSet and RulesCatalog
 
 A `RulesSet` is basically a set of rules. From a functional point of view it represents a boolean typed function composed by a set of functions on a given type.
 
 ---
-__IMPORTANT__
+__DEFINITION__
 
-A `RulesSet` is satisfied (i. e. returns true) if and only if all the functions of the set are satisfied.
+A `Rule` is satisfied by an item `t` of type `T` if the associated function `f: T ──► bool` returns true if `f(t)` is `true`.
+
+---
+
+---
+__DEFINITION__
+
+A `RulesSet` is satisfied by an item `t` of type `T` if and only if all the functions of the set are satisfied by `t`.
 
 ---
 
 A `RulesCatalog` represents a set of `RulesSet`, and functionally corresponds to a boolean typed function composed by a set of sets of functions on a given type.
 
 ---
-__IMPORTANT__
+__DEFINITION__
 
-A `RulesCatalog` is satisfied (i. e. returns true) if at least one of its `RulesSet` is satisfied.
+A `RulesCatalog` is satisfied by an item `t` of type `T` if at least one of its `RulesSet` is satisfied by `t`.
 
 ---
 
-From these considerations, it follows that a RulesSet corresponds to the logical `AND` operator on its functions, and a `RulesCatalog` corresponds to the logical `OR` operator on its `RulesSet`.
+From these considerations, it is clear that a `RulesSet` corresponds to the logical `AND` operator on its functions, and a `RulesCatalog` corresponds to the logical `OR` operator on its `RulesSet`.
 
 ## The Algebraic model
 
@@ -196,7 +203,7 @@ c2 = {rs4, rs5}
 ```
 > product of two `RulesCatalog`
 
-# The RulesCompiler
+## The RulesCompiler
 
 The `RulesCompiler` is the component that transforms the formal business logic defined by a `RulesCatalog` into compiled code to be executed on item of a specific type: every rule becomes a function `Func<T, Either<string, Unit>>`, or, in analytic formalism, `f : T ──► Either<string, Unit>`.
 
@@ -208,7 +215,7 @@ The functional programming notation is obtained thanks to Franco Melandri's [__T
 
 Extending the above concept of rule compilation, the `RulesCompiler` can convert a set of `Rules` into an `IEnumerable<Func<T, Either<string, Unit>>>`.
 
-# The RulesManager
+## The RulesManager
 
 The `RulesManager<T>` is responsible for the application of the rules functions to an item of type `T`.
 
@@ -224,9 +231,9 @@ Additional methods of the manager allow to operate on an `IEnumerable<T>`, in pa
 - apply a filter based on the catalog
 - extract the first item satisfying the catalog
 
-# How to install
+## How to install
 
-To install the `rules-engine` library please refer to the [official releases page](https://github.com/fabiolune/rules-engine/releases).
+To install the __logic-engine__ library please refer to the [official releases page](https://github.com/fabiolune/rules-engine/releases).
 
 [^1]: null or empty codes are removed because they don't carry reusable info
 [^2]: from a technical perspective this is obtained with a concrete implementation of the railway pattern
