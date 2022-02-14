@@ -24,15 +24,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - uses: gittools/actions/gitversion/setup@v0.9.7
-      # if: ${{ github.event_name == 'release' }}
-      with:
-        versionSpec: '5.6.10'
-
-    - name: Compute version numbers
-      # if: ${{ github.event_name == 'release' }}
-      uses: gittools/actions/gitversion/execute@v0.9.7
-
     - name: Get specific changed files
       id: changed-files
       uses: tj-actions/changed-files@v14.6
@@ -54,6 +45,15 @@ jobs:
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: gittools/actions/gitversion/setup@v0.9.7
+      if: ${{ github.event_name == 'release' }}
+      with:
+        versionSpec: '5.6.10'
+
+    - name: Compute version numbers
+      if: ${{ github.event_name == 'release' }}
+      uses: gittools/actions/gitversion/execute@v0.9.7
     
     - name: restore dependencies
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
