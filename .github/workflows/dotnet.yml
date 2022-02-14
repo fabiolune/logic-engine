@@ -20,7 +20,18 @@ jobs:
       ENABLE_BENCHMARKS: false
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - uses: gittools/actions/gitversion/setup@v0.9.7
+      # if: ${{ github.event_name == 'release' }}
+      with:
+        versionSpec: '5.6.10'
+
+    - name: Compute version numbers
+      # if: ${{ github.event_name == 'release' }}
+      uses: gittools/actions/gitversion/execute@v0.9.7
 
     - name: Get specific changed files
       id: changed-files
@@ -94,15 +105,6 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coveragereport/lcov.info 
-
-    - uses: gittools/actions/gitversion/setup@v0.9.7
-      if: ${{ github.event_name == 'release' }}
-      with:
-        versionSpec: '5.6.10'
-
-    - name: Compute version numbers
-      if: ${{ github.event_name == 'release' }}
-      uses: gittools/actions/gitversion/execute@v0.9.7
 
     - name: Create and push package
       if: ${{ github.event_name == 'release' && env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
