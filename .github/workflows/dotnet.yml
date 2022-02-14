@@ -49,7 +49,7 @@ jobs:
       run: dotnet restore
 
     - name: Initialize CodeQL
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
       uses: github/codeql-action/init@v1
       with:
           languages: 'csharp'
@@ -63,7 +63,7 @@ jobs:
           /p:UseSharedCompilation=false
 
     - name: Perform CodeQL Analysis
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
       uses: github/codeql-action/analyze@v1
 
     - name: test
