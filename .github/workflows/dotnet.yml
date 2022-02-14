@@ -89,7 +89,7 @@ jobs:
         lcov-file: ./coveragereport/lcov.info 
 
     - uses: gittools/actions/gitversion/setup@v0.9.7
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      if: ${{ github.event_name == 'release' }}
       with:
         versionSpec: '5.6.10'
 
