@@ -47,12 +47,12 @@ jobs:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - uses: gittools/actions/gitversion/setup@v0.9.7
-      # if: ${{ github.event_name == 'release' }}
+      if: ${{ github.event_name == 'release' }}
       with:
         versionSpec: '5.6.10'
 
     - name: Compute version numbers
-      # if: ${{ github.event_name == 'release' }}
+      if: ${{ github.event_name == 'release' }}
       uses: gittools/actions/gitversion/execute@v0.9.7
     
     - name: restore dependencies
