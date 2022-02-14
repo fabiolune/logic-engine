@@ -81,7 +81,7 @@ jobs:
         reports: '${{ env.COVERAGE_REPORTS }}'
         reporttypes: 'lcov'
     
-    - name: get codecov uploader
+    - name: codecov upload
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: |
         curl -Os https://uploader.codecov.io/latest/linux/codecov
