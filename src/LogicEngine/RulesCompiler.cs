@@ -43,7 +43,7 @@ namespace LogicEngine
             pair
                 .Map(_ => (string.IsNullOrEmpty(_.Code)
                     ? MemberInit(
-                        New(ResultType), 
+                        New(ResultType),
                         Bind(_successPropertyInfo, _.BoolExpression))
                     : MemberInit(
                         New(ResultType),
@@ -254,18 +254,17 @@ namespace LogicEngine
 
         private Option<ExpressionTypeCodeBinding> CompileExternalKeyValueRule<T>(Rule rule) =>
             Try(() =>
-                {
-                    var type = typeof(T);
-                    var genericType = Parameter(type);
-
-                    return Some(new ExpressionTypeCodeBinding
+                (rule, typeof(T))
+                    .Map(_ => (_.Item1, _.Item2, Parameter(_.Item2)))
+                    .Map(_ => new ExpressionTypeCodeBinding
                     {
                         BoolExpression =
-                            OperationMappings.ExternalKeyValueMapping[rule.Operator](genericType, rule, type),
-                        TypeExpression = genericType,
-                        Code = rule.Code
-                    });
-                })
+                            OperationMappings.ExternalKeyValueMapping[_.Item1.Operator](_.Item3, _.Item1, _.Item2),
+                        TypeExpression = _.Item3,
+                        Code = _.Item1.Code
+                    })
+                    .Map(Some)
+            )
                 .Match(_ => _, e =>
                 {
                     _logger.Error(e, "{Component} raised an exception with {Message} when compiling {Rule}", Component,
