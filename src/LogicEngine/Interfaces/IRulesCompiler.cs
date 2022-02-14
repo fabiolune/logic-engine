@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using LogicEngine.Models;
 using TinyFp;
 
-namespace LogicEngine.Interfaces
+namespace LogicEngine.Interfaces;
+
+public interface IRulesCompiler
 {
-    public interface IRulesCompiler
-    {
-        IEnumerable<Func<T, Either<string, Unit>>> CompileRules<T>(IEnumerable<Rule> rules);
-    }
+    IEnumerable<Func<T, Either<string, Unit>>> CompileRules<T>(IEnumerable<Rule> rules);
 }

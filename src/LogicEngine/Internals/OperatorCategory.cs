@@ -1,14 +1,13 @@
-namespace LogicEngine.Internals
+namespace LogicEngine.Internals;
+
+internal enum OperatorCategory
 {
-    internal enum OperatorCategory
-    {
-        None,
-        InternalDirect,
-        Direct,
-        Enumerable,
-        KeyValue,
-        InternalEnumerable,
-        InternalCrossEnumerable,
-        InverseEnumerable
-    }
+    None,
+    InternalDirect,
+    Direct,
+    Enumerable,
+    KeyValue,
+    InternalEnumerable,
+    InternalCrossEnumerable,
+    InverseEnumerable
 }
