@@ -1,6 +1,7 @@
 # Logic Engine
 
 ![GitHub CI](https://github.com/fabiolune/logic-engine/actions/workflows/dotnet.yml/badge.svg)
+[![codecov](https://codecov.io/gh/fabiolune/logic-engine/branch/main/graph/badge.svg?token=EYWA9ONWVX)](https://codecov.io/gh/fabiolune/logic-engine)
 
 The __logic-engine__ is a simple dotnet library to help introducing flexible logic systems.
 
