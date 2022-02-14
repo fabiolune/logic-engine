@@ -1,5 +1,7 @@
 # Logic Engine
 
+![GitHub CI](https://github.com/fabiolune/logic-engine/actions/workflows/dotnet.yml/badge.svg)
+
 The __logic-engine__ is a simple dotnet library to help introducing flexible logic systems.
 
 It supports a generic set of rules that get compiled into executable code, allowing the possibility to dynamically change your business logic and adapt it to different needs without changing the core of your system.
