@@ -56,17 +56,17 @@ jobs:
       uses: gittools/actions/gitversion/execute@v0.9.7
     
     - name: restore dependencies
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release'}}
       run: dotnet restore
 
     - name: Initialize CodeQL
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push'}}
       uses: github/codeql-action/init@v1
       with:
           languages: 'csharp'
 
     - name: build
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
       run: |
         dotnet build \
           --configuration Release \
@@ -113,12 +113,12 @@ jobs:
         dotnet nuget push *.nupkg --skip-duplicate
         dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
     
-    - name: Produce index.md for gh pages
+    - name: Produce `index.md` for gh pages
       if: ${{ github.event_name == 'release' }}
       run: |
-        md out
+        mkdir out
         echo "version ${{ env.GITVERSION_NUGETVERSIONV2 }}" > out/index.md
-        tail -n +2 README.md >> out/index.md
+        tail -n +4 README.md >> out/index.md
     
     - name: Push chart to dedicated branch
       if: ${{ github.event_name == 'release' }}
