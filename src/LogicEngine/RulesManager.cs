@@ -63,11 +63,9 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
     /// <returns>bool</returns>
     public bool ItemSatisfiesRules(T item) =>
         _rulesCatalog
-            .ToOption(_ => !_.Any())
-            .Match(_ => _
-                .Select(ruleSet => ruleSet as Func<T, Either<string, Unit>>[])
-                .Select(e => e.TakeWhile(rule => rule(item).IsRight).Count() == e.Length)
-                .Any(s => s), () => true);
+            .ToArray()
+            .ToOption(_ => _.Length == 0)
+        .Match(c => c.Any(_ => _.All(__ => __.Invoke(item).IsRight)), () => true);
 
     /// <summary>
     ///     It filters the items keeping only those that satisfy the rules

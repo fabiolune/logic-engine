@@ -253,8 +253,7 @@ public class RulesCompilerTests
     [Test]
     public void When_CompileRulesFromSerializedJson_ShouldReturnCompiledRules()
     {
-        var jsonString =
-            "{\"property\": \"StringProperty\", \"operator\": \"Equal\", \"value\": \"some value\", \"code\": \"some code\", \"description\": \"some description\"}";
+        const string jsonString = "{\"property\": \"StringProperty\", \"operator\": \"Equal\", \"value\": \"some value\", \"code\": \"some code\", \"description\": \"some description\"}";
         var rule = JsonConvert.DeserializeObject<Rule>(jsonString);
 
         var compiledRules = _sut.CompileRules<TestModel>(new List<Rule>
