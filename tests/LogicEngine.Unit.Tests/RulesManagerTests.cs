@@ -619,10 +619,7 @@ public class RulesManagerTests
                     Description = "rule with single non matching value",
                     Rules = new List<Rule>
                     {
-                        new(nameof(TestModel.IntProperty), OperatorType.IsNotContained, "1,2")
-                        {
-                            Code = "code_1"
-                        }
+                        new(nameof(TestModel.IntProperty), OperatorType.IsNotContained, "1,2", "code_1", string.Empty)
                     }
                 }
             }
@@ -776,7 +773,7 @@ public class RulesManagerTests
                     Description = "rule for enumerable containing 25",
                     Rules = new List<Rule>
                     {
-                        new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25", null,
+                        new(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "25", string.Empty,
                             "useless description 1")
                     }
                 }
@@ -1235,20 +1232,13 @@ public class RulesManagerTests
     [Test]
     public void When_ItemSatisfiesRulesWithNoRules_ShouldReturnTrue()
     {
-        _sut.SetCatalog(new());
+        _sut.SetCatalog(new RulesCatalog());
         var item = It.IsAny<TestModel>();
 
 
-        var watch = Stopwatch.StartNew();
         var result = _sut.ItemSatisfiesRulesWithMessage(item);
-        watch.Stop();
-        Console.WriteLine($"ItemSatisfiesRulesWithMessage: {watch.ElapsedTicks} ticks");
 
-        watch = Stopwatch.StartNew();
         var result2 = _sut.ItemSatisfiesRules(item);
-        watch.Stop();
-        Console.WriteLine($"ItemSatisfiesRules:            {watch.ElapsedTicks} ticks");
-
 
         result.IsRight.Should().BeTrue("I want to be able to allow full access");
         result.IsRight.Should().Be(result2);
