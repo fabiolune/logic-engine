@@ -2,14 +2,13 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using LogicEngine;
-using Previous;
 using Serilog.Core;
 
-namespace Version1_0_0;
+namespace Current;
 
 [MemoryDiagnoser]
 [MarkdownExporterAttribute.GitHub]
-public class PreviousImplementationBenchmarks
+public class CurrentImplementationBenchmarks
 {
     private readonly RulesManager<Data.TestModel> _manager0 = new(new RulesCompiler(Logger.None));
     private readonly RulesManager<Data.TestModel> _manager1 = new(new RulesCompiler(Logger.None));
@@ -20,7 +19,7 @@ public class PreviousImplementationBenchmarks
         StringProperty = "correct"
     };
 
-    public PreviousImplementationBenchmarks()
+    public CurrentImplementationBenchmarks()
     {
         _manager1.SetCatalog(Data.ShortCircuitCatalog);
         _manager2.SetCatalog(Data.FullExecutingCatalog);
@@ -46,6 +45,6 @@ internal static class Program
 {
     internal static void Main()
     {
-        BenchmarkRunner.Run<PreviousImplementationBenchmarks>(DefaultConfig.Instance.WithOption(ConfigOptions.DisableOptimizationsValidator, true));
+        BenchmarkRunner.Run<CurrentImplementationBenchmarks>(DefaultConfig.Instance.WithOption(ConfigOptions.DisableOptimizationsValidator, true));
     }
 }

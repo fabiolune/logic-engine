@@ -107,8 +107,24 @@ jobs:
         lcov-file: ./coveragereport/lcov.info 
 
     - name: Create and push package
-      if: ${{ github.event_name == 'release' && env.GITVERSION_NUGETPRERELEASETAGV2 == '' }}
+      if: ${{ github.event_name == 'release' }}
       run: |
         dotnet pack --configuration Release -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output .
         dotnet nuget push *.nupkg --skip-duplicate
         dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+    
+    - name: Produce index.md for gh pages
+      if: ${{ github.event_name == 'release' }}
+      run: |
+        md out
+        echo "version ${{ env.GITVERSION_NUGETVERSIONV2 }}" > out/index.md
+        tail -n +2 README.md >> out/index.md
+    
+    - name: Push chart to dedicated branch
+      if: ${{ github.event_name == 'release' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: crazy-max/ghaction-github-pages@v2.5.0
+      with:
+        target_branch: gh-pages
+        build_dir: ./out
