@@ -25,6 +25,8 @@ public class RulesCompiler : IRulesCompiler
     private static readonly Option<ExpressionTypeCodeBinding> NoneExpressionTypeCodeBinding =
         Option<ExpressionTypeCodeBinding>.None();
 
+    private static readonly ExpressionTypeCodeBinding EmptyExpressionTypeCodeBinding = new();
+
     private static readonly Type NewResultType = typeof(Either<string, Unit>);
     private static readonly MethodInfo LeftMethod = NewResultType.GetMethod(nameof(Either<string, Unit>.Left));
     private static readonly MethodInfo RightMethod = NewResultType.GetMethod(nameof(Either<string, Unit>.Right));
@@ -46,7 +48,7 @@ public class RulesCompiler : IRulesCompiler
                 return NoneExpressionTypeCodeBinding;
             }))
             .Where(r => r.IsSome)
-            .Select(_ => _.Match(f => f, () => ExpressionTypeCodeBinding.Empty))
+            .Select(_ => _.Match(f => f, () => EmptyExpressionTypeCodeBinding))
             .Select(_ => Lambda<Func<T, Either<string, Unit>>>(
                 Condition(_.TestExpression, SuccessUnitExpression, Call(LeftMethod, Constant(_.Code ?? string.Empty))),
                 _.TypeExpression))

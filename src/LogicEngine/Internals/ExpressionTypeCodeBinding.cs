@@ -4,10 +4,10 @@ namespace LogicEngine.Internals;
 
 internal struct ExpressionTypeCodeBinding
 {
-    internal static ExpressionTypeCodeBinding Empty = new()
-    {
-        Code = string.Empty
-    };
+    //internal static ExpressionTypeCodeBinding Empty = new()
+    //{
+    //    Code = string.Empty
+    //};
 
     public ExpressionTypeCodeBinding(Expression testExpression, ParameterExpression typeExpression, string code)
     {
