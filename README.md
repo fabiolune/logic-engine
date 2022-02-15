@@ -1,3 +1,5 @@
+> This documentation is in line with the active development hence should be considered work in progress. To check the latest stable version please visit https://fabiolune.github.io/logic-engine/
+
 # Logic Engine
 
 ![GitHub CI](https://github.com/fabiolune/logic-engine/actions/workflows/dotnet.yml/badge.svg)
