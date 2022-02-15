@@ -116,7 +116,7 @@ jobs:
     - name: Produce `index.md` for gh pages
       # if: ${{ github.event_name == 'release' }}
       run: |
-        md out
+        mkdir out
         echo "version ${{ env.GITVERSION_NUGETVERSIONV2 }}" > out/index.md
         tail -n +4 README.md >> out/index.md
         cat out/index.md
