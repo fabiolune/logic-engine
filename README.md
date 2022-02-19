@@ -1,4 +1,4 @@
-> This documentation is in line with the active development hence should be considered work in progress. To check the latest stable version please visit https://fabiolune.github.io/logic-engine/
+> This documentation is in line with the active development, hence should be considered work in progress. To check the latest stable version please visit https://fabiolune.github.io/logic-engine/
 
 # Logic Engine
 
@@ -208,29 +208,29 @@ c2 = {rs4, rs5}
 ```
 > product of two `RulesCatalog`
 
-## The RulesCompiler
+## The compilers
 
-The `RulesCompiler` is the component that transforms the formal business logic defined by a `RulesCatalog` into compiled code to be executed on item of a specific type: every rule becomes a function `Func<T, Either<string, Unit>>`, or, in analytic formalism, `f : T ──► Either<string, Unit>`.
-
-The monadic notation captures the posible outputs of the function:
+The `SingleRuleCompiler` is the component that parses and compiles a `Rule` into executable code. 
+Every rule becomes an `Option` of `CompiledRule<T>`, an object capturing a `Func<T, Either<string, Unit>>`: the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
+The monadic function notation captures the possible outputs of the function:
 - the left type of the `Either` (`string`) represents a non matching result represented by the code of the executed rule
 - the right type (`Unit`) represents insted a matching result for which no additional details are needed.
 
-The functional programming notation is obtained thanks to Franco Melandri's [__Tiny FP__](https://github.com/FrancoMelandri/tiny-fp) library.
+The functional programming notation is implemented using to Franco Melandri's [__Tiny FP__](https://github.com/FrancoMelandri/tiny-fp) library.
 
-Extending the above concept of rule compilation, the `RulesCompiler` can convert a set of `Rules` into an `IEnumerable<Func<T, Either<string, Unit>>>`.
+The `RulesSetCompiler` transforms a RulesSet into a `CompiledRulesSet<T>`, essentially a wrapper around an array of `Func<T, Either<string, Unit>>` (all the rules of the `RulesSet` that are not correct get filtered out).
+
+The `RulesCatalogCompiler`, finally, trasforms a full `RulesCatalog` into a `CompiledCatalog<T>`, a container for `Func<T, Either<string, Unit>>[][]` (a bidimensional array of functions to represents the logical superposition of `OR` operations on rules joined by a logical `AND`)
 
 ## The RulesManager
 
 The `RulesManager<T>` is responsible for the application of the rules functions to an item of type `T`.
 
-Given a `RulesCatalog` (provided using the `SetCatalog` method), the manager exposes two main functionalities:
+Given a `RulesCatalog`, the manager exposes two main functionalities:
 - `ItemSatisfiesRules`: it just returns a true or false boolean value that represents if the catalog is satisfied by the item under consideration or not
 - `ItemSatisfiesRulesWithMessage`: this method is similar to the previous and returns a Unit value if the item satisfies the catalog; if not a set of all the codes associated to rules not matched is returned[^1]
 
-The main difference between the two method is the circuit breaking approach used in `ItemSatisfiesRules`: since a catalog is an `OR` combination of `AND` combined rules, the it is satisfied if at least one `RulesSet` is. This effectively means that as soon as a `RulesSet` returns a success, no other sets will be evaluated[^2].
-
-Given the above nature of the catalog, an item does not satisfy it if at least one rule in every set is not satisfied, hence to make sure all the possible codes are collected, a full scan of all the rules is needed in the `ItemSatisfiesRulesWithMessage` method.
+The main difference between the two method is the circuit breaking approach: given the logical structure, as soon as a `Rule` in a `RuleSet` fails, `ItemSatisfiesRules` will jump to the next one, while `ItemSatisfiesRulesWithMessage` will still check all the rules in the set to collect all the failure codes[^2].
 
 Additional methods of the manager allow to operate on an `IEnumerable<T>`, in particular it is possible to:
 - apply a filter based on the catalog

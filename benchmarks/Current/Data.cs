@@ -12,9 +12,7 @@ internal class Data
         public string StringProperty { get; set; }
     }
     internal static RulesCatalog ShortCircuitCatalog =>
-        new()
-        {
-            RulesSets = new List<RulesSet>
+        new(new List<RulesSet>
             {
                 new()
                 {
@@ -133,13 +131,10 @@ internal class Data
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "correct"),
                     }
                 }
-            }
-        };
+            }, string.Empty);
 
     internal static RulesCatalog FullExecutingCatalog =>
-        new()
-        {
-            RulesSets = new List<RulesSet>
+        new(new List<RulesSet>
             {
                 new()
                 {
@@ -258,7 +253,6 @@ internal class Data
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "correct")
                     }
                 }
-            }
-        };
+            }, string.Empty);
 
 }

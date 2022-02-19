@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,7 +6,6 @@ using System.Reflection;
 using LogicEngine.Interfaces;
 using LogicEngine.Internals;
 using LogicEngine.Models;
-using Serilog;
 using TinyFp;
 using TinyFp.Extensions;
 using static System.Linq.Expressions.Expression;
@@ -16,43 +14,35 @@ using Convert = System.Convert;
 
 namespace LogicEngine;
 
-public class RulesCompiler : IRulesCompiler
+public class SingleRuleCompiler : ISingleRuleCompiler
 {
-    private const string Component = nameof(RulesCompiler);
-
     private static readonly ConstantExpression UnitConstant = Constant(Unit.Default);
-
-    private static readonly Option<ExpressionTypeCodeBinding> NoneExpressionTypeCodeBinding =
-        Option<ExpressionTypeCodeBinding>.None();
-
-    private static readonly ExpressionTypeCodeBinding EmptyExpressionTypeCodeBinding = new();
-
     private static readonly Type NewResultType = typeof(Either<string, Unit>);
     private static readonly MethodInfo LeftMethod = NewResultType.GetMethod(nameof(Either<string, Unit>.Left));
     private static readonly MethodInfo RightMethod = NewResultType.GetMethod(nameof(Either<string, Unit>.Right));
     private static readonly MethodCallExpression SuccessUnitExpression = Call(RightMethod, UnitConstant);
-    private readonly ILogger _logger;
 
-    public RulesCompiler(ILogger logger)
-    {
-        _logger = logger;
-    }
-
-    public IEnumerable<Func<T, Either<string, Unit>>> CompileRules<T>(IEnumerable<Rule> rules) =>
-        rules
-            .Select(r => (r, CreateCompiledRule<T>(r)))
-            .Select(t => t.Item2.Match(_ => _, e =>
-            {
-                _logger.Error(e, "{Component} raised an exception with {Message} when compiling {Rule}", Component,
-                    e.Message, t.Item1);
-                return NoneExpressionTypeCodeBinding;
-            }))
-            .Where(r => r.IsSome)
-            .Select(_ => _.Match(f => f, () => EmptyExpressionTypeCodeBinding))
-            .Select(_ => Lambda<Func<T, Either<string, Unit>>>(
+    public Option<CompiledRule<T>> Compile<T>(Rule rule) =>
+        CreateCompiledRule<T>(rule)
+            .Match(_ => _, _ => Option<ExpressionTypeCodeBinding>.None())
+            .Map(_ => Lambda<Func<T, Either<string, Unit>>>(
                 Condition(_.TestExpression, SuccessUnitExpression, Call(LeftMethod, Constant(_.Code ?? string.Empty))),
                 _.TypeExpression))
-            .Select(_ => _.Compile());
+            .Map(_ => _.Compile())
+            .Map(_ => new CompiledRule<T>(_));
+
+    private Try<Option<ExpressionTypeCodeBinding>> CreateCompiledRule<T>(Rule rule) =>
+        OperatorClassification.GetOperatorType(rule.Operator) switch
+        {
+            OperatorCategory.Direct => CompileDirectRule<T>(rule),
+            OperatorCategory.Enumerable => CompileEnumerableRule<T>(rule),
+            OperatorCategory.InternalDirect => CompileInternalDirectRule<T>(rule),
+            OperatorCategory.InternalEnumerable => CompileInternalEnumerableRule<T>(rule),
+            OperatorCategory.InternalCrossEnumerable => CompileInternalCrossEnumerableRule<T>(rule),
+            OperatorCategory.InverseEnumerable => CompileInverseEnumerableRule<T>(rule),
+            OperatorCategory.KeyValue => CompileExternalKeyValueRule<T>(rule),
+            _ => Try(Option<ExpressionTypeCodeBinding>.None)
+        };
 
     private static Try<Option<ExpressionTypeCodeBinding>> CompileDirectRule<T>(Rule rule) =>
         Try(() =>
@@ -72,10 +62,9 @@ public class RulesCompiler : IRulesCompiler
             ));
         });
 
-    private Try<Option<ExpressionTypeCodeBinding>> CompileInternalDirectRule<T>(Rule rule) =>
+    private static Try<Option<ExpressionTypeCodeBinding>> CompileInternalDirectRule<T>(Rule rule) =>
         Try(() =>
         {
-            const string method = nameof(CompileInternalDirectRule);
             var genericType = Parameter(typeof(T));
             var key = Property(genericType, rule.Property);
             var propertyType = GetTypeFromPropertyName<T>(rule.Property);
@@ -87,9 +76,6 @@ public class RulesCompiler : IRulesCompiler
 
             if (type1 != type2)
             {
-                _logger.Error(
-                    "{Component} {Operation}: {Property1} is of type {Type1} while {Property2} is of type {Type2}, no direct comparison possible",
-                    Component, method, propertyType, type1, propertyType2, type2);
                 return Option<ExpressionTypeCodeBinding>.None();
             }
 
@@ -100,7 +86,7 @@ public class RulesCompiler : IRulesCompiler
                 rule.Code));
         });
 
-    private Try<Option<ExpressionTypeCodeBinding>> CompileEnumerableRule<T>(Rule rule) =>
+    private static Try<Option<ExpressionTypeCodeBinding>> CompileEnumerableRule<T>(Rule rule) =>
         Try(() =>
         {
             var genericType = Parameter(typeof(T));
@@ -121,10 +107,9 @@ public class RulesCompiler : IRulesCompiler
             .GetProperty(name)
             .PropertyType;
 
-    private Try<Option<ExpressionTypeCodeBinding>> CompileInternalEnumerableRule<T>(Rule rule) =>
+    private static Try<Option<ExpressionTypeCodeBinding>> CompileInternalEnumerableRule<T>(Rule rule) =>
         Try(() =>
         {
-            const string method = nameof(CompileInternalEnumerableRule);
             var genericType = Parameter(typeof(T));
 
             var key = Property(genericType, rule.Property);
@@ -137,10 +122,6 @@ public class RulesCompiler : IRulesCompiler
 
             if (searchValueType.FullName != propertyType2.FullName)
             {
-                _logger.Error(
-                    "{Component} {Operation}: {Property1} is of type IEnumerable[{Type1}] while {Property2} is of type {Type2}, no comparison possible",
-                    Component, method, propertyType, searchValueType.FullName, propertyType2,
-                    propertyType2.FullName);
                 return Option<ExpressionTypeCodeBinding>.None();
             }
 
@@ -156,7 +137,6 @@ public class RulesCompiler : IRulesCompiler
     private Try<Option<ExpressionTypeCodeBinding>> CompileInternalCrossEnumerableRule<T>(Rule rule) =>
         Try(() =>
         {
-            const string method = nameof(CompileInternalCrossEnumerableRule);
             var genericType = Parameter(typeof(T));
 
             var key = Property(genericType, rule.Property);
@@ -170,9 +150,6 @@ public class RulesCompiler : IRulesCompiler
 
             if (propertyType != propertyType2)
             {
-                _logger.Error(
-                    "{Component} {Operation}: {Property1} is of type {PropertyType1} while {Property2} is of type {PropertyType2}, no comparison possible",
-                    Component, method, propertyType, propertyType, propertyType2, propertyType2.FullName);
                 return Option<ExpressionTypeCodeBinding>.None();
             }
 
@@ -184,7 +161,7 @@ public class RulesCompiler : IRulesCompiler
             );
         });
 
-    private Try<Option<ExpressionTypeCodeBinding>> CompileInverseEnumerableRule<T>(Rule rule) =>
+    private static Try<Option<ExpressionTypeCodeBinding>> CompileInverseEnumerableRule<T>(Rule rule) =>
         Try(() =>
         {
             var genericType = Parameter(typeof(T));
@@ -202,29 +179,17 @@ public class RulesCompiler : IRulesCompiler
             ));
         });
 
-    private Try<Option<ExpressionTypeCodeBinding>> CompileExternalKeyValueRule<T>(Rule rule) =>
+    private static Try<Option<ExpressionTypeCodeBinding>> CompileExternalKeyValueRule<T>(Rule rule) =>
         Try(() =>
             (rule, typeof(T))
-            .Map(_ => (_.Item1, _.Item2, Parameter(_.Item2)))
+            .Map(_ => (_.rule, _.Item2, Parameter(_.Item2)))
             .Map(_ => new ExpressionTypeCodeBinding
             (
-                OperationMappings.ExternalKeyValueMapping[_.Item1.Operator](_.Item3, _.Item1, _.Item2),
+                OperationMappings.ExternalKeyValueMapping[_.rule.Operator](_.Item3, _.rule, _.Item2),
                 _.Item3,
-                _.Item1.Code
+                _.rule.Code
             ))
             .Map(Some)
         );
 
-    private Try<Option<ExpressionTypeCodeBinding>> CreateCompiledRule<T>(Rule rule) =>
-        OperatorClassification.GetOperatorType(rule.Operator) switch
-        {
-            OperatorCategory.Direct => CompileDirectRule<T>(rule),
-            OperatorCategory.Enumerable => CompileEnumerableRule<T>(rule),
-            OperatorCategory.InternalDirect => CompileInternalDirectRule<T>(rule),
-            OperatorCategory.InternalEnumerable => CompileInternalEnumerableRule<T>(rule),
-            OperatorCategory.InternalCrossEnumerable => CompileInternalCrossEnumerableRule<T>(rule),
-            OperatorCategory.InverseEnumerable => CompileInverseEnumerableRule<T>(rule),
-            OperatorCategory.KeyValue => CompileExternalKeyValueRule<T>(rule),
-            _ => Try(Option<ExpressionTypeCodeBinding>.None)
-        };
 }
