@@ -120,7 +120,7 @@ jobs:
         echo "version ${{ env.GITVERSION_NUGETVERSIONV2 }}" > out/index.md
         tail -n +4 README.md >> out/index.md
     
-    - name: Push chart to dedicated branch
+    - name: Push documentation to dedicated branch
       if: ${{ github.event_name == 'release' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
