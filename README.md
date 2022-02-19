@@ -9,6 +9,8 @@ The __logic-engine__ is a simple dotnet library to help introducing flexible log
 
 It supports a generic set of rules that get compiled into executable code, allowing the possibility to dynamically change your business logic and adapt it to different needs without changing the core of your system.
 
+The library deeply uses a functional programming approach implemented using Franco Melandri's amazing [__Tiny FP__](https://github.com/FrancoMelandri/tiny-fp) library.
+
 The core functionalities are encapsulated in different components, both logical and functional.
 
 ## The Rule
@@ -215,8 +217,6 @@ Every rule becomes an `Option` of `CompiledRule<T>`, an object capturing a `Func
 The monadic function notation captures the possible outputs of the function:
 - the left type of the `Either` (`string`) represents a non matching result represented by the code of the executed rule
 - the right type (`Unit`) represents insted a matching result for which no additional details are needed.
-
-The functional programming notation is implemented using to Franco Melandri's [__Tiny FP__](https://github.com/FrancoMelandri/tiny-fp) library.
 
 The `RulesSetCompiler` transforms a RulesSet into a `CompiledRulesSet<T>`, essentially a wrapper around an array of `Func<T, Either<string, Unit>>` (all the rules of the `RulesSet` that are not correct get filtered out).
 
