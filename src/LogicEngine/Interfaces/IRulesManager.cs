@@ -6,7 +6,7 @@ namespace LogicEngine.Interfaces;
 
 public interface IRulesManager<T> where T : new()
 {
-    void SetCatalog(RulesCatalog catalog);
+    RulesCatalog Catalog { set; }
     Either<IEnumerable<string>, Unit> ItemSatisfiesRulesWithMessage(T item);
     bool ItemSatisfiesRules(T item);
     IEnumerable<T> Filter(IEnumerable<T> items);
