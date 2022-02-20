@@ -13,11 +13,7 @@ public class RulesCatalogExtensionsTests
     [Test]
     public void NullAndEmptyCatalogShouldBeEquivalent()
     {
-        var catalog2 = new RulesCatalog
-        {
-            Name = "name 2",
-            RulesSets = new List<RulesSet>()
-        };
+        var catalog2 = new RulesCatalog(new List<RulesSet>(), "name 2");
 
         ((RulesCatalog) null).IsEquivalentTo(catalog2).Should().BeTrue();
     }
@@ -25,39 +21,31 @@ public class RulesCatalogExtensionsTests
     [Test]
     public void WhenCatalogsDiffersForTheRulesOrderShouldNotBeEquivalent()
     {
-        var catalog1 = new RulesCatalog
+        var catalog1 = new RulesCatalog(new List<RulesSet>
         {
-            Name = "name 1",
-            RulesSets = new List<RulesSet>
+            new()
             {
-                new()
+                Description = "description 1",
+                Rules = new List<Rule>
                 {
-                    Description = "description 1",
-                    Rules = new List<Rule>
-                    {
-                        new("prop1", OperatorType.Contains, "value1", "code1", "description 1"),
-                        new("prop1", OperatorType.Contains, "value2", "code2", "description 2")
-                    }
+                    new("prop1", OperatorType.Contains, "value1", "code1", "description 1"),
+                    new("prop1", OperatorType.Contains, "value2", "code2", "description 2")
                 }
             }
-        };
+        }, "name 1");
 
-        var catalog2 = new RulesCatalog
+        var catalog2 = new RulesCatalog(new List<RulesSet>
         {
-            Name = "name 2",
-            RulesSets = new List<RulesSet>
+            new()
             {
-                new()
+                Description = "description 2",
+                Rules = new List<Rule>
                 {
-                    Description = "description 2",
-                    Rules = new List<Rule>
-                    {
-                        new("prop1", OperatorType.Contains, "value2", "code2", "description 2"),
-                        new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
-                    }
+                    new("prop1", OperatorType.Contains, "value2", "code2", "description 2"),
+                    new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
                 }
             }
-        };
+        }, "name 2");
 
         catalog1.IsEquivalentTo(catalog2).Should().BeFalse();
     }
@@ -65,37 +53,29 @@ public class RulesCatalogExtensionsTests
     [Test]
     public void WhenCatalogsDiffersJustForNameAndDescriptionShouldBeEquivalent()
     {
-        var catalog1 = new RulesCatalog
+        var catalog1 = new RulesCatalog(new List<RulesSet>
         {
-            Name = "name 1",
-            RulesSets = new List<RulesSet>
+            new()
             {
-                new()
+                Description = "description 1",
+                Rules = new List<Rule>
                 {
-                    Description = "description 1",
-                    Rules = new List<Rule>
-                    {
-                        new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
-                    }
+                    new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
                 }
             }
-        };
+        }, "name 1");
 
-        var catalog2 = new RulesCatalog
+        var catalog2 = new RulesCatalog(new List<RulesSet>
         {
-            Name = "name 2",
-            RulesSets = new List<RulesSet>
+            new()
             {
-                new()
+                Description = "description 2",
+                Rules = new List<Rule>
                 {
-                    Description = "description 2",
-                    Rules = new List<Rule>
-                    {
-                        new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
-                    }
+                    new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
                 }
             }
-        };
+        }, "name 2");
 
         catalog1.IsEquivalentTo(catalog2).Should().BeTrue();
     }
