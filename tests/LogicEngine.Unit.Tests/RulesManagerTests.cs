@@ -17,10 +17,12 @@ public class RulesManagerTests
 {
     private Mock<IRulesCatalogCompiler> _mockCompiler;
     private RulesManager<TestModel> _sut;
+    private RulesCatalog _catalog;
 
     [SetUp]
     public void SetUp()
     {
+        _catalog = new RulesCatalog(new RulesSet[] { new() { Description = "ruleset #1", Rules = new[] { new Rule("property", Internals.OperatorType.Contains, "value") } } }, "name");
         _mockCompiler = new Mock<IRulesCatalogCompiler>();
         _sut = new RulesManager<TestModel>(_mockCompiler.Object);
     }
@@ -28,13 +30,12 @@ public class RulesManagerTests
     [Test]
     public void ItemSatisfiesRules_WhenCompilerReturnsNoElements_ShouldReturnTrue()
     {
-        var catalog = new RulesCatalog(It.IsAny<IEnumerable<RulesSet>>(), "name");
-        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(catalog))
+        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(_catalog))
             .Returns(new CompiledCatalog<TestModel>(Empty<Func<TestModel, Either<string, TinyFp.Unit>>[]>()));
 
         var item = new TestModel();
 
-        _sut.Catalog = catalog;
+        _sut.Catalog = _catalog;
 
         var result = _sut.ItemSatisfiesRules(item);
 
@@ -48,8 +49,7 @@ public class RulesManagerTests
     [Test]
     public void ItemSatisfiesRules_WhenCompilerReturnSuccessfulElements_ShouldReturnCorrespondingResult()
     {
-        var catalog = new RulesCatalog(It.IsAny<IEnumerable<RulesSet>>(), "name");
-        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(catalog))
+        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(_catalog))
             .Returns(new CompiledCatalog<TestModel>(new[]
             {
                 new Func<TestModel, Either<string, TinyFp.Unit>>[]
@@ -60,7 +60,7 @@ public class RulesManagerTests
 
         var item = new TestModel();
 
-        _sut.Catalog = catalog;
+        _sut.Catalog = _catalog;
 
         var result = _sut.ItemSatisfiesRules(item);
 
@@ -74,8 +74,7 @@ public class RulesManagerTests
     [Test]
     public void ItemSatisfiesRules_WhenCompilerReturnFailingElements_ShouldReturnCorrespondingResult()
     {
-        var catalog = new RulesCatalog(It.IsAny<IEnumerable<RulesSet>>(), "name");
-        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(catalog))
+        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(_catalog))
             .Returns(new CompiledCatalog<TestModel>(new[]
             {
                 new Func<TestModel, Either<string, TinyFp.Unit>>[]
@@ -86,7 +85,7 @@ public class RulesManagerTests
 
         var item = new TestModel();
 
-        _sut.Catalog = catalog;
+        _sut.Catalog = _catalog;
 
         var result = _sut.ItemSatisfiesRules(item);
 
@@ -102,8 +101,7 @@ public class RulesManagerTests
     [Test]
     public void ItemSatisfiesRulesWithMessage_WhenCompilerReturnsLeftValuedFunctionsWithEmptyCode_ShouldReturnEmptyCored()
     {
-        var catalog = new RulesCatalog(It.IsAny<IEnumerable<RulesSet>>(), "name");
-        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(catalog))
+        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(_catalog))
             .Returns(new CompiledCatalog<TestModel>(new[]
             {
                 new Func<TestModel, Either<string, TinyFp.Unit>>[]
@@ -114,7 +112,7 @@ public class RulesManagerTests
 
         var item = new TestModel();
 
-        _sut.Catalog = catalog;
+        _sut.Catalog = _catalog;
 
         var resultWithMessage = _sut.ItemSatisfiesRulesWithMessage(item);
 
@@ -126,9 +124,7 @@ public class RulesManagerTests
     [Test]
     public void When_FilterOnSetOfMatchingItems_ShouldReturnEquivalentResult()
     {
-        var catalog = new RulesCatalog(It.IsAny<IEnumerable<RulesSet>>(), "name");
-
-        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(catalog))
+        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(_catalog))
             .Returns(new CompiledCatalog<TestModel>(new[]
             {
                 new Func<TestModel, Either<string, TinyFp.Unit>>[]
@@ -172,9 +168,7 @@ public class RulesManagerTests
     [Test]
     public void When_FilterOnSetOfSomeMatchingItems_ShouldFilterThemOut()
     {
-        var catalog = new RulesCatalog(It.IsAny<IEnumerable<RulesSet>>(), "name");
-
-        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(catalog))
+        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(_catalog))
             .Returns(new CompiledCatalog<TestModel>(new[]
             {
                 new Func<TestModel, Either<string, TinyFp.Unit>>[]
@@ -191,7 +185,7 @@ public class RulesManagerTests
                 }
             }));
 
-        _sut.Catalog = catalog;
+        _sut.Catalog = _catalog;
         var items = new List<TestModel>
         {
             new()
@@ -227,9 +221,7 @@ public class RulesManagerTests
     [Test]
     public void When_FirstOrDefaultOnSetOfSomeMatchingItems_ShouldReturnFirst()
     {
-        var catalog = new RulesCatalog(It.IsAny<IEnumerable<RulesSet>>(), "name");
-
-        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(catalog))
+        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(_catalog))
             .Returns(new CompiledCatalog<TestModel>(new[]
             {
                 new Func<TestModel, Either<string, TinyFp.Unit>>[]
@@ -245,7 +237,7 @@ public class RulesManagerTests
                         () => Either<string, TinyFp.Unit>.Left(string.Empty))
                 }
             }));
-        _sut.Catalog = catalog;
+        _sut.Catalog = _catalog;
         var items = new List<TestModel>
         {
             new()
@@ -286,9 +278,7 @@ public class RulesManagerTests
     [Test]
     public void When_FirstOrDefaultOnSetOfNonMatchingItems_ShouldReturnDefault()
     {
-        var catalog = new RulesCatalog(It.IsAny<IEnumerable<RulesSet>>(), "name");
-
-        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(catalog))
+        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(_catalog))
             .Returns(new CompiledCatalog<TestModel>(new[]
             {
                 new Func<TestModel, Either<string, TinyFp.Unit>>[]
@@ -304,7 +294,7 @@ public class RulesManagerTests
                         () => Either<string, TinyFp.Unit>.Left(string.Empty))
                 }
             }));
-        _sut.Catalog = catalog;
+        _sut.Catalog = _catalog;
         var items = new List<TestModel>
         {
             new()
@@ -335,5 +325,4 @@ public class RulesManagerTests
 
         result.Should().BeEquivalentTo(default(TestModel), options => options.ComparingByMembers<TestModel>());
     }
-
 }
