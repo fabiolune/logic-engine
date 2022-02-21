@@ -2,6 +2,7 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using LogicEngine;
+using TinyFp.Extensions;
 
 namespace Current;
 
@@ -42,10 +43,9 @@ public class CurrentImplementationBenchmarks
 
     [Benchmark]
     public void ItemSatisfiesRulesWithMessage_No_CircuitBreaking() =>
-        _manager2.ItemSatisfiesRulesWithMessage(_item).OnLeft(_ =>
-        {
-            Console.Write(_.ElementAt(0));
-        });
+        _manager2
+            .ItemSatisfiesRulesWithMessage(_item)
+            .OnLeft(_ => Console.WriteLine(_.Length));
 }
 
 internal static class Program
