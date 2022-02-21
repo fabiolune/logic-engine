@@ -49,13 +49,13 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
 
     private static Option<string[]> Loop(Func<T, Either<string, Unit>>[][] rulesCatalog, T item, string[] errorCodes) =>
         rulesCatalog
-            .ToOption(_ => _.First(),
-                      _ => !_.Any())
-            .Match(_ => EvaluateRuleSet(_, item)
-                            .Bind(__ => Loop(rulesCatalog.Skip(1).ToArray(), item, __.Concat(errorCodes).ToArray())),
-                   () => errorCodes.ToOption(_ => _.Length == 0));
+            .ToOption(_ => (_.First(), _.Skip(1)), _ => _.Length == 0)
+            .Match(_ => EvaluateRuleSet(_.Item1, item)
+                            .Map(__ => __.Concat(errorCodes).ToArray())
+                            .Bind(__ => Loop(_.Item2.ToArray(), item, __)),
+                   () => CloseLoop(errorCodes));
 
-    private static Option<string[]> EvaluateRuleSet(Func<T, Either<string, Unit>>[] ruleset, T item) =>
+    private static Option<string[]> EvaluateRuleSet(IEnumerable<Func<T, Either<string, Unit>>> ruleset, T item) =>
         ruleset
           .Select(rule => rule.Invoke(item))
           .Where(_ => _.IsLeft)
