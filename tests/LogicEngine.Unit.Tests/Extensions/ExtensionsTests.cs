@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
+﻿using FluentAssertions;
 using LogicEngine.Extensions;
 using LogicEngine.Interfaces;
 using Moq;
@@ -38,7 +37,7 @@ public class ExtensionsTests
     {
         var expected = satisfy
             ? TinyFp.Unit.Default
-            : Either<IEnumerable<string>, TinyFp.Unit>.Left(new[] { "a", "b" });
+            : Either<string[], TinyFp.Unit>.Left(new[] { "a", "b" });
 
         var item = new TestModel();
         _mockManager.Setup(_ => _.ItemSatisfiesRulesWithMessage(item)).Returns(expected);

@@ -36,30 +36,32 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
     /// </summary>
     /// <param name="item"></param>
     /// <returns>RulesCatalogApplicationResult</returns>
-    public Either<IEnumerable<string>, Unit> ItemSatisfiesRulesWithMessage(T item) => _itemSatisfiesRulesWithMessage(item);
+    public Either<string[], Unit> ItemSatisfiesRulesWithMessage(T item) => _itemSatisfiesRulesWithMessage(item);
 
-    private Func<T, Either<IEnumerable<string>, Unit>> _itemSatisfiesRulesWithMessage;
+    private Func<T, Either<string[], Unit>> _itemSatisfiesRulesWithMessage;
 
-    private static readonly Func<T, Either<IEnumerable<string>, Unit>> ItemSatisfiesRulesWithMessageAlwaysUnit = _ => Unit.Default;
+    private static readonly Func<T, Either<string[], Unit>> ItemSatisfiesRulesWithMessageAlwaysUnit = _ => Unit.Default;
 
-    private static Func<T, Either<IEnumerable<string>, Unit>> ItemSatisfiesRulesWithMessageUsingCatalog(Func<T, Either<string, Unit>>[][] rulesCatalog) =>
+    private static Func<T, Either<string[], Unit>> ItemSatisfiesRulesWithMessageUsingCatalog(Func<T, Either<string, Unit>>[][] rulesCatalog) =>
         item => Loop(rulesCatalog, item, Empty<string>())
-                    .Match(_ => Either<IEnumerable<string>, Unit>.Left(_.Where(__ => __ != string.Empty).Distinct()),
+                    .Match(_ => Either<string[], Unit>.Left(_.Where(__ => __ != string.Empty).Distinct().ToArray()),
                            () => Unit.Default);
-    private static Option<IEnumerable<string>> Loop(IEnumerable<Func<T, Either<string, Unit>>[]> rulesCatalog, T item, IEnumerable<string> errorCodes) =>
+
+    private static Option<string[]> Loop(Func<T, Either<string, Unit>>[][] rulesCatalog, T item, string[] errorCodes) =>
         rulesCatalog
             .ToOption(_ => _.First(),
                       _ => !_.Any())
             .Match(_ => EvaluateRuleSet(_, item)
-                            .Bind(__ => Loop(rulesCatalog.Skip(1), item, __.Concat(errorCodes))),
-                   () => errorCodes.ToOption(_ => !_.Any()));
+                            .Bind(__ => Loop(rulesCatalog.Skip(1).ToArray(), item, __.Concat(errorCodes).ToArray())),
+                   () => errorCodes.ToOption(_ => _.Length == 0));
 
-    private static Option<IEnumerable<string>> EvaluateRuleSet(Func<T, Either<string, Unit>>[] ruleset, T item) =>
+    private static Option<string[]> EvaluateRuleSet(Func<T, Either<string, Unit>>[] ruleset, T item) =>
         ruleset
           .Select(rule => rule.Invoke(item))
           .Where(_ => _.IsLeft)
           .Select(_ => _.UnwrapLeft())
-          .ToOption(_ => !_.Any());
+          .ToArray()
+          .ToOption(_ => _.Length == 0);
 
     /// <summary>
     ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR)
