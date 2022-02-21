@@ -23,19 +23,16 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
     public RulesCatalog Catalog
     {
         set => (_itemSatisfiesRulesWithMessage, _itemSatisfiesRules) =
-                    value
-                        .ToOption(_ => _.RulesSets == null || 
-                                       !_.RulesSets.Any())
-                        .Bind(_ => _catalogCompiler
-                                        .CompileCatalog<T>(_)
-                                        .ToOption(__ => !__.Executables.Any()))
+                    _catalogCompiler
+                        .CompileCatalog<T>(value)
+                        .ToOption(_ => !_.Executables.Any())
                         .Match(_ => (ItemSatisfiesRulesWithMessageUsingCatalog(_.Executables), ItemSatisfiesRulesUsingCatalog(_.Executables)),
                                () => (ItemSatisfiesRulesWithMessageAlwaysUnit, ItemSatisfiesRulesAlwaysTrue));
     }
 
     /// <summary>
     ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR);
-    ///     a single ruleSet is satisfied iff ALL its rules are satisfied (AND)
+    ///     a single ruleSet is satisfied if ALL its rules are satisfied (AND)
     /// </summary>
     /// <param name="item"></param>
     /// <returns>RulesCatalogApplicationResult</returns>
@@ -66,7 +63,7 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
 
     /// <summary>
     ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR)
-    ///     a single ruleSet is satisfied iff ALL its rules are satisfied (AND)
+    ///     a single ruleSet is satisfied if ALL its rules are satisfied (AND)
     /// </summary>
     /// <param name="item"></param>
     /// <returns>bool</returns>
