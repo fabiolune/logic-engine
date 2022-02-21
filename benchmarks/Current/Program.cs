@@ -2,7 +2,6 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using LogicEngine;
-using TinyFp.Extensions;
 
 namespace Current;
 
