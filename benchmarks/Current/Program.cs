@@ -29,34 +29,23 @@ public class CurrentImplementationBenchmarks
     }
 
     [Benchmark]
-    public void SetCatalog()
-    {
-        _compiler.CompileCatalog<Data.TestModel>(Data.ShortCircuitCatalog);
-    }
+    public void SetCatalog() => _compiler.CompileCatalog<Data.TestModel>(Data.ShortCircuitCatalog);
 
     [Benchmark]
-    public void RulesApplication_CircuitBreaking()
-    {
-        _manager1.ItemSatisfiesRules(_item);
-    }
+    public void RulesApplication_CircuitBreaking() => _manager1.ItemSatisfiesRules(_item);
 
     [Benchmark]
-    public void RulesApplication_No_CircuitBreaking()
-    {
-        _manager2.ItemSatisfiesRules(_item);
-    }
+    public void RulesApplication_No_CircuitBreaking() => _manager2.ItemSatisfiesRules(_item);
 
     [Benchmark]
-    public void ItemSatisfiesRulesWithMessage_CircuitBreaking()
-    {
-        _manager1.ItemSatisfiesRulesWithMessage(_item);
-    }
+    public void ItemSatisfiesRulesWithMessage_CircuitBreaking() => _manager1.ItemSatisfiesRulesWithMessage(_item);
 
     [Benchmark]
-    public void ItemSatisfiesRulesWithMessage_No_CircuitBreaking()
-    {
-        _manager2.ItemSatisfiesRulesWithMessage(_item);
-    }
+    public void ItemSatisfiesRulesWithMessage_No_CircuitBreaking() =>
+        _manager2.ItemSatisfiesRulesWithMessage(_item).OnLeft(_ =>
+        {
+            Console.Write(_.ElementAt(0));
+        });
 }
 
 internal static class Program

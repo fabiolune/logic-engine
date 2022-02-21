@@ -39,7 +39,11 @@ public class PreviousImplementationBenchmarks
     public void ItemSatisfiesRulesWithMessage_CircuitBreaking() => _manager1.ItemSatisfiesRulesWithMessage(_item);
 
     [Benchmark]
-    public void ItemSatisfiesRulesWithMessage_No_CircuitBreaking() => _manager2.ItemSatisfiesRulesWithMessage(_item);
+    public void ItemSatisfiesRulesWithMessage_No_CircuitBreaking() => _manager2.ItemSatisfiesRulesWithMessage(_item).OnLeft(
+        _ =>
+        {
+            Console.Write(_.ElementAt(0));
+        });
 }
 
 internal static class Program
