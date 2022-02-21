@@ -4,6 +4,7 @@ using BenchmarkDotNet.Running;
 using LogicEngine;
 using Previous;
 using Serilog.Core;
+using TinyFp.Extensions;
 
 namespace Version1_0_0;
 
@@ -39,11 +40,10 @@ public class PreviousImplementationBenchmarks
     public void ItemSatisfiesRulesWithMessage_CircuitBreaking() => _manager1.ItemSatisfiesRulesWithMessage(_item);
 
     [Benchmark]
-    public void ItemSatisfiesRulesWithMessage_No_CircuitBreaking() => _manager2.ItemSatisfiesRulesWithMessage(_item).OnLeft(
-        _ =>
-        {
-            Console.Write(_.ElementAt(0));
-        });
+    public void ItemSatisfiesRulesWithMessage_No_CircuitBreaking() => 
+        _manager2
+            .ItemSatisfiesRulesWithMessage(_item)
+            .OnLeft(_ => Console.WriteLine(_.Count()));
 }
 
 internal static class Program
