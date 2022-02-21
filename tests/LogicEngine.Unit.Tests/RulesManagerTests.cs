@@ -95,7 +95,7 @@ public class RulesManagerTests
 
         resultWithMessage.IsLeft.Should().BeTrue();
 
-        resultWithMessage.OnLeft(_ => _.Should().BeEquivalentTo(new[] { "code" }));
+        resultWithMessage.OnLeft(_ => _.Should().BeEquivalentTo("code"));
     }
 
     [Test]

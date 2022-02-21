@@ -4,7 +4,6 @@ using BenchmarkDotNet.Running;
 using LogicEngine;
 using Previous;
 using Serilog.Core;
-using TinyFp.Extensions;
 
 namespace Version1_0_0;
 
