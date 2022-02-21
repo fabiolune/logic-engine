@@ -79,7 +79,7 @@ public class RulesManagerTests
             {
                 new Func<TestModel, Either<string, TinyFp.Unit>>[]
                 {
-                    _ => Either<string, TinyFp.Unit>.Left("code"),
+                    _ => Either<string, TinyFp.Unit>.Left("code")
                 }
             }));
 
@@ -95,7 +95,7 @@ public class RulesManagerTests
 
         resultWithMessage.IsLeft.Should().BeTrue();
 
-        resultWithMessage.OnLeft(_ => _.Should().BeEquivalentTo("code"));
+        resultWithMessage.OnLeft(_ => _.Should().BeEquivalentTo(new[] { "code" }));
     }
 
     [Test]
