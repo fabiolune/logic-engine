@@ -23,10 +23,11 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
     public RulesCatalog Catalog
     {
         set => (_itemSatisfiesRulesWithMessage, _itemSatisfiesRules) =
-                    _catalogCompiler
-                        .CompileCatalog<T>(value)
-                        .ToOption(_ => !_.Executables.Any())
-                        .Match(_ => (ItemSatisfiesRulesWithMessageUsingCatalog(_.Executables), ItemSatisfiesRulesUsingCatalog(_.Executables)),
+                    value
+                        .Map(_catalogCompiler.CompileCatalog<T>)
+                        .ToOption(_ => _.Executables,
+                                  _ => _.Executables.Length == 0)
+                        .Match(_ => (ItemSatisfiesRulesWithMessageUsingCatalog(_), ItemSatisfiesRulesUsingCatalog(_)),
                                () => (ItemSatisfiesRulesWithMessageAlwaysUnit, ItemSatisfiesRulesAlwaysTrue));
     }
 
@@ -44,16 +45,17 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
 
     private static Func<T, Either<string[], Unit>> ItemSatisfiesRulesWithMessageUsingCatalog(Func<T, Either<string, Unit>>[][] rulesCatalog) =>
         item => Loop(rulesCatalog, item, Empty<string>())
-                    .Match(_ => Either<string[], Unit>.Left(_.Where(__ => __ != string.Empty).Distinct().ToArray()),
+                    .Match(Either<string[], Unit>.Left, 
                            () => Unit.Default);
 
     private static Option<string[]> Loop(Func<T, Either<string, Unit>>[][] rulesCatalog, T item, string[] errorCodes) =>
         rulesCatalog
             .ToOption(_ => _.First(),
-                      _ => !_.Any())
+                      _ => _.Length == 0)
             .Match(_ => EvaluateRuleSet(_, item)
-                            .Bind(__ => Loop(rulesCatalog.Skip(1).ToArray(), item, __.Concat(errorCodes).ToArray())),
-                   () => errorCodes.ToOption(_ => _.Length == 0));
+                            .Map(__ => __.Concat(errorCodes).ToArray())
+                            .Bind(__ => Loop(rulesCatalog.Skip(1).ToArray(), item, __)),
+                   () => CloseLoop(errorCodes));
 
     private static Option<string[]> EvaluateRuleSet(Func<T, Either<string, Unit>>[] ruleset, T item) =>
         ruleset
@@ -62,6 +64,11 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
           .Select(_ => _.UnwrapLeft())
           .ToArray()
           .ToOption(_ => _.Length == 0);
+
+    private static Option<string[]> CloseLoop(string[] errorCodes) =>
+        errorCodes
+            .ToOption(_ => _.Where(__ => __ != string.Empty).Distinct().ToArray(),
+                      _ => _.Length == 0);
 
     /// <summary>
     ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR)
