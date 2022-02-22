@@ -34,9 +34,11 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
     /// <summary>
     ///     the full rules catalog is satisfied if at least one ruleSet is satisfied (OR);
     ///     a single ruleSet is satisfied if ALL its rules are satisfied (AND)
+    ///
+    /// The result can be Unit if the rule is matched, otherwise the set of codes associated to the failing rules
     /// </summary>
     /// <param name="item"></param>
-    /// <returns>RulesCatalogApplicationResult</returns>
+    /// <returns><![CDATA[Either<string[], Unit>]]></returns>
     public Either<string[], Unit> ItemSatisfiesRulesWithMessage(T item) => _itemSatisfiesRulesWithMessage(item);
 
     private Func<T, Either<string[], Unit>> _itemSatisfiesRulesWithMessage;
@@ -79,7 +81,9 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
     public bool ItemSatisfiesRules(T item) => _itemSatisfiesRules(item);
 
     private Func<T, bool> _itemSatisfiesRules;
+
     private static readonly Func<T, bool> ItemSatisfiesRulesAlwaysTrue = _ => true;
+
     private static Func<T, bool> ItemSatisfiesRulesUsingCatalog(Func<T, Either<string, Unit>>[][] rulesCatalog) =>
         item => rulesCatalog.Any(_ => _.All(__ => __.Invoke(item).IsRight));
 
@@ -91,7 +95,7 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
     public IEnumerable<T> Filter(IEnumerable<T> items) => items.Where(ItemSatisfiesRules);
 
     /// <summary>
-    ///     Returns the first item that matches the condition
+    ///     Returns the first item that matches the catalog
     /// </summary>
     /// <param name="items"></param>
     /// <returns>T</returns>
