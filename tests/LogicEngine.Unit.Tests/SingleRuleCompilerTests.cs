@@ -62,7 +62,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.LessThanOrEqual)]
     public void Compile_WhenDirectRulesAreCorrect_ShouldReturnSome(OperatorType op)
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), op, "3", "code");
+        var rule = new Rule(nameof(TestModel.IntProperty), op, "3", null);
 
         var result = _sut.Compile<TestModel>(rule);
 
