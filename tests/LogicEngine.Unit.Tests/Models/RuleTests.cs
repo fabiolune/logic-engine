@@ -37,7 +37,7 @@ public class RuleTests
     [TestCase(OperatorType.InnerNotOverlaps, 28)]
     public void ToString_ShouldReturnJsonSerialization(OperatorType type, int expected)
     {
-        var rule = new Rule("property", type, "value");
+        var rule = new Rule("property", type, "value", "code");
 
         var result = rule.ToString();
 
@@ -45,6 +45,6 @@ public class RuleTests
             .Replace("\n", "")
             .Replace("\r", "")
             .Should()
-            .Be("{  \"Property\": \"property\",  \"Operator\": " + expected + ",  \"Value\": \"value\",  \"Description\": null,  \"Code\": null}");
+            .Be("{  \"Property\": \"property\",  \"Operator\": " + expected + ",  \"Value\": \"value\",  \"Code\": \"code\"}");
     }
 }

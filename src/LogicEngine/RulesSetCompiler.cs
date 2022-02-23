@@ -26,12 +26,15 @@ public class RulesSetCompiler : IRulesSetCompiler
 
     public CompiledLabeledRulesSet<T> CompileLabeled<T>(RulesSet set) =>
         (set.Rules ?? Array.Empty<Rule>())
-            .AsParallel()
-            .Select(_ => new KeyValuePair<string, Option<CompiledRule<T>>>(_.Code ?? string.Empty, _singleRuleCompiler.Compile<T>(_)))
-            .Where(_ => _.Value.IsSome)
-            .Select(_ =>
-                new KeyValuePair<string, Func<T, Either<string, Unit>>>(_.Key, _.Value.Unwrap().Executable))
-            .ToList()
-            .ToOption(_ => _.Count == 0)
+            .ToOption(_ => !_.Any())
+            .Map(_ => _.AsParallel()
+            
+                .Select(x => new KeyValuePair<string, Option<CompiledRule<T>>>(x.Code ?? string.Empty, _singleRuleCompiler.Compile<T>(x)))
+                .Where(x => x.Value.IsSome)
+                .Select(x =>
+                    new KeyValuePair<string, Func<T, Either<string, Unit>>>(x.Key, x.Value.Unwrap().Executable))
+                .ToArray())
+            .Bind(_ => _.ToOption(x => x.Length == 0))
             .Map(_ => new CompiledLabeledRulesSet<T>(_));
+    
 }

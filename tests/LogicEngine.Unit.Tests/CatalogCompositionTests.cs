@@ -62,7 +62,7 @@ public class CatalogCompositionTests
                 Description = "description 2",
                 Rules = new[]
                 {
-                    new Rule("a", OperatorType.Equal, "b")
+                    new Rule("a", OperatorType.Equal, "b", "code")
                 }
 
             }

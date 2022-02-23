@@ -6,9 +6,9 @@ namespace LogicEngine.Models;
 
 public record CompiledLabeledRulesSet<T>
 {
-    public Option<List<KeyValuePair<string, Func<T, Either<string, Unit>>>>> Executables { get; init; }
+    public Option<KeyValuePair<string, Func<T, Either<string, Unit>>>[]> Executables { get; init; }
 
-    public CompiledLabeledRulesSet(Option<List<KeyValuePair<string, Func<T, Either<string, Unit>>>>> executables)
+    public CompiledLabeledRulesSet(Option<KeyValuePair<string, Func<T, Either<string, Unit>>>[]> executables)
     {
         Executables = executables;
     }

@@ -26,8 +26,8 @@ public class RulesSetCompilerTests
     [Test]
     public void Compile_WhenRulesSetCompilerReturnsSomeAndNone_ShouldReturnCompiledRulesSetOnlyForSome()
     {
-        var rule1 = new Rule("x", OperatorType.Equal, "y");
-        var rule2 = new Rule("a", OperatorType.Equal, "b");
+        var rule1 = new Rule("x", OperatorType.Equal, "y", "code1");
+        var rule2 = new Rule("a", OperatorType.Equal, "b", "code2");
 
         var set = new RulesSet
         {
@@ -60,11 +60,11 @@ public class RulesSetCompilerTests
     public void
         CompileLabeled_WhenRulesSetCompilerReturnsSomeAndNone_ShouldReturnCompiledRulesSetOnlyForSomeWithLabels()
     {
-        var rule1 = new Rule("x", OperatorType.Equal, "y")
+        var rule1 = new Rule("x", OperatorType.Equal, "y", "code1")
         {
             Code = "some_code"
         };
-        var rule2 = new Rule("a", OperatorType.Equal, "b");
+        var rule2 = new Rule("a", OperatorType.Equal, "b", "code2");
 
         var set = new RulesSet
         {
@@ -165,11 +165,11 @@ public class RulesSetCompilerTests
     public void
         CompileLabeled_WhenRulesSetCompilerReturnsOnlyNone_ShouldReturnCompiledRulesSetWithNone()
     {
-        var rule1 = new Rule("x", OperatorType.Equal, "y")
+        var rule1 = new Rule("x", OperatorType.Equal, "y", "code1")
         {
             Code = "some_code"
         };
-        var rule2 = new Rule("a", OperatorType.Equal, "b");
+        var rule2 = new Rule("a", OperatorType.Equal, "b", "code1");
 
         var set = new RulesSet
         {
@@ -274,8 +274,8 @@ public class RulesSetCompilerTests
     public void
         CompileLabeled_WhenRulesHasRulesWithNullCode_ShouldReturnListWithEmptyKeys()
     {
-        var rule1 = new Rule("x", OperatorType.Equal, "y");
-        var rule2 = new Rule("a", OperatorType.Equal, "b");
+        var rule1 = new Rule("x", OperatorType.Equal, "y", null);
+        var rule2 = new Rule("a", OperatorType.Equal, "b", null);
 
         var set = new RulesSet
         {
