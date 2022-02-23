@@ -271,19 +271,16 @@ public class RulesSetCompilerTests
     }
 
     [Test]
-    public void
-        CompileLabeled_WhenRulesHasRulesWithNullCode_ShouldReturnListWithEmptyKeys()
+    public void CompileLabeled_WhenRulesHasRulesWithNullCode_ShouldReturnListWithEmptyKey()
     {
         var rule1 = new Rule("x", OperatorType.Equal, "y", null);
-        var rule2 = new Rule("a", OperatorType.Equal, "b", null);
 
         var set = new RulesSet
         {
             Description = "set description",
             Rules = new[]
             {
-                rule1,
-                rule2
+                rule1
             }
         };
 
@@ -294,10 +291,6 @@ public class RulesSetCompilerTests
         _mockCompiler
             .Setup(_ => _.Compile<TestModel>(rule1))
             .Returns(Some(compiledRule));
-
-        _mockCompiler
-            .Setup(_ => _.Compile<TestModel>(rule2))
-            .Returns(Option<CompiledRule<TestModel>>.None);
 
         var result = _sut.CompileLabeled<TestModel>(set);
 
@@ -318,5 +311,49 @@ public class RulesSetCompilerTests
                 {
                     new("", func1)
                 }));
+    }
+
+    [Test]
+    public void CompileLabeled_WhenRulesHaveTheSameCode_ShouldReturnNoneExecutables()
+    {
+        var rule1 = new Rule("x", OperatorType.Equal, "y", "code");
+        var rule2 = new Rule("a", OperatorType.Equal, "b", "code");
+
+        var set = new RulesSet
+        {
+            Description = "set description",
+            Rules = new[]
+            {
+                rule1,
+                rule2
+            }
+        };
+
+        var func1 = new Func<TestModel, Either<string, TinyFp.Unit>>(_ => Either<string, TinyFp.Unit>.Left("whatever"));
+        var func2 = new Func<TestModel, Either<string, TinyFp.Unit>>(_ => Either<string, TinyFp.Unit>.Left("whatever"));
+
+        var compiledRule1 = new CompiledRule<TestModel>(func1);
+        var compiledRule2 = new CompiledRule<TestModel>(func2);
+
+        _mockCompiler
+            .Setup(_ => _.Compile<TestModel>(rule1))
+            .Returns(Some(compiledRule1));
+
+        _mockCompiler
+            .Setup(_ => _.Compile<TestModel>(rule2))
+            .Returns(Some(compiledRule2));
+
+        var result = _sut.CompileLabeled<TestModel>(set);
+
+        result
+            .Should()
+            .NotBeNull();
+
+        result
+            .Executables
+            .IsNone
+            .Should()
+            .BeTrue();
+
     }
 }
