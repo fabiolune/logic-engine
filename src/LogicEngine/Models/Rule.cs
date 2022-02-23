@@ -4,31 +4,24 @@ using Newtonsoft.Json;
 
 namespace LogicEngine.Models;
 
-public class Rule
+public record Rule
 {
     [JsonConstructor]
-    public Rule(string property, OperatorType @operator, string value)
+    public Rule(string property, OperatorType @operator, string value, string code)
     {
         Property = property;
         Operator = @operator;
         Value = value;
-    }
-
-    public Rule(string property, OperatorType @operator, string value, string code, string description) : this(property, @operator, value)
-    {
         Code = code;
-        Description = description;
     }
 
     [DataMember(Name = "property")]
-    public string Property { get; set; }
+    public string Property { get; init; }
     [DataMember(Name = "operator")]
-    public OperatorType Operator { get; set; }
+    public OperatorType Operator { get; init; }
     [DataMember(Name = "value")]
-    public string Value { get; set; }
-    [DataMember(Name = "description")]
-    public string Description { get; set; }
+    public string Value { get; init; }
     [DataMember(Name = "code")]
-    public string Code { get; set; }
+    public string Code { get; init; }
     public override string ToString() => JsonConvert.SerializeObject(this, Formatting.Indented);
 }

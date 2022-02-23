@@ -47,7 +47,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.InnerNotOverlaps)]
     public void Compile_WhenPropertyIsWrong_ShouldReturnNone(OperatorType type)
     {
-        var rule = new Rule("StringPropertyWrong", type, "value 1");
+        var rule = new Rule("StringPropertyWrong", type, "value 1", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -62,7 +62,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.LessThanOrEqual)]
     public void Compile_WhenDirectRulesAreCorrect_ShouldReturnSome(OperatorType op)
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), op, "3");
+        var rule = new Rule(nameof(TestModel.IntProperty), op, "3", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -73,7 +73,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.NotEqual)]
     public void Compile_WhenDirectRulesAreCorrectWithEnums_ShouldReturnSome(OperatorType op)
     {
-        var rule = new Rule(nameof(TestModel.EnumProperty), op, "One");
+        var rule = new Rule(nameof(TestModel.EnumProperty), op, "One", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -84,7 +84,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.NotContains)]
     public void Compile_WhenEnumerableRulesAreCorrect_ShouldReturnSome(OperatorType op)
     {
-        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), op, "3");
+        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), op, "3", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -99,7 +99,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.InnerLessThanOrEqual)]
     public void Compile_WhenInnerRulesAreCorrect_ShouldReturnSome(OperatorType op)
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), op, nameof(TestModel.IntProperty2));
+        var rule = new Rule(nameof(TestModel.IntProperty), op, nameof(TestModel.IntProperty2), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -114,7 +114,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.InnerLessThanOrEqual)]
     public void Compile_WhenRulesWithInternalOperatorDoNotMatchType_ShouldReturnNone(OperatorType op)
     {
-        var rule = new Rule(nameof(TestModel.StringProperty), op, nameof(TestModel.IntProperty));
+        var rule = new Rule(nameof(TestModel.StringProperty), op, nameof(TestModel.IntProperty), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -127,7 +127,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.InnerNotContains, nameof(TestModel.StringArrayProperty), nameof(TestModel.StringProperty))]
     public void Compile_WhenRulesWithInternalEnumerableOperatorAreCorrect_ShouldReturnSome(OperatorType op, string property, string value)
     {
-        var rule = new Rule(property, op, value);
+        var rule = new Rule(property, op, value, "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -140,7 +140,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.InnerNotOverlaps, nameof(TestModel.StringArrayProperty), nameof(TestModel.StringArrayProperty2))]
     public void When_CompileRulesWithInternalEnumerableCompareOperator_ShouldCompileRule(OperatorType op, string property, string value)
     {
-        var rule = new Rule(property, op, value);
+        var rule = new Rule(property, op, value, "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -160,7 +160,7 @@ public class SingleRuleCompilerTests
     public void When_CompileRulesWithOverlappingOperators_ShouldCompileRules(string propertyName,
         string constantValue, OperatorType op, bool expectedSome)
     {
-        var rule = new Rule(propertyName, op, constantValue);
+        var rule = new Rule(propertyName, op, constantValue, "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -173,7 +173,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.NotContainsValue)]
     public void When_CompileRulesWithGenericKeyValueOperator_ShouldCompileRules(OperatorType type)
     {
-        var rule = new Rule(nameof(TestModel.StringStringDictionaryProperty), type, "some");
+        var rule = new Rule(nameof(TestModel.StringStringDictionaryProperty), type, "some", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -184,7 +184,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.NotKeyContainsValue)]
     public void When_CompileRulesWithKeyAndValueOperator_ShouldCompileRules(OperatorType type)
     {
-        var rule = new Rule("StringStringDictionaryProperty[key]", type, "value");
+        var rule = new Rule("StringStringDictionaryProperty[key]", type, "value", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -197,7 +197,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.InnerNotOverlaps)]
     public void When_CompileRulesWithNotMatchingTypes_ShouldNotCompileRules(OperatorType type)
     {
-        var rule = new Rule("StringEnumerableProperty", type, "IntProperty");
+        var rule = new Rule("StringEnumerableProperty", type, "IntProperty", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -208,7 +208,7 @@ public class SingleRuleCompilerTests
     [TestCase(OperatorType.IsNotContained)]
     public void Compile_WhenInverseEnumerableRulesAreCorrect_ShouldReturnSome(OperatorType op)
     {
-        var rule = new Rule(nameof(TestModel.StringProperty), op, nameof(TestModel.StringArrayProperty));
+        var rule = new Rule(nameof(TestModel.StringProperty), op, nameof(TestModel.StringArrayProperty), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -218,7 +218,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void When_CompileRulesFromSerializedJson_ShouldReturnCompiledRules()
     {
-        const string jsonString = "{\"property\": \"StringProperty\", \"operator\": \"Equal\", \"value\": \"some value\", \"code\": \"some code\", \"description\": \"some description\"}";
+        const string jsonString = "{\"property\": \"StringProperty\", \"operator\": \"Equal\", \"value\": \"some value\", \"code\": \"some code\"}";
         var rule = JsonConvert.DeserializeObject<Rule>(jsonString);
 
         var result = _sut.Compile<TestModel>(rule);
@@ -229,7 +229,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void When_CompileRulesWithNotExistingOperatorType_ShouldNotCompileRules()
     {
-        var rule = new Rule(nameof(TestModel.StringEnumerableProperty), (OperatorType)1000, "StringProperty");
+        var rule = new Rule(nameof(TestModel.StringEnumerableProperty), (OperatorType)1000, "StringProperty", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -239,7 +239,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void When_RuleIsForArrays_ShouldCompileRule()
     {
-        var rule = new Rule(nameof(TestModel.StringArrayProperty), OperatorType.Contains, "value");
+        var rule = new Rule(nameof(TestModel.StringArrayProperty), OperatorType.Contains, "value", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -249,7 +249,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsEqual_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.Equal, "12");
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.Equal, "12", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -271,7 +271,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsNotEqual_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.NotEqual, "12");
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.NotEqual, "12", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -293,7 +293,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsGreaterThan_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.GreaterThan, "12");
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.GreaterThan, "12", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -315,7 +315,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsGreaterThanOrEqual_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.GreaterThanOrEqual, "12");
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.GreaterThanOrEqual, "12", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -337,7 +337,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsLessThan_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.LessThan, "12");
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.LessThan, "12", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -364,7 +364,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsLessThanOrEqual_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.LessThanOrEqual, "12");
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.LessThanOrEqual, "12", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -391,7 +391,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsContains_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "12");
+        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Contains, "12", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -413,7 +413,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsNotContains_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.NotContains, "12");
+        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.NotContains, "12", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -435,7 +435,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsOverlaps_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Overlaps, "12,13");
+        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.Overlaps, "12,13", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -457,7 +457,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsNotOverlaps_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.NotOverlaps, "12,13");
+        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.NotOverlaps, "12,13", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -479,7 +479,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsContainsKey_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.StringStringDictionaryProperty), OperatorType.ContainsKey, "my_key");
+        var rule = new Rule(nameof(TestModel.StringStringDictionaryProperty), OperatorType.ContainsKey, "my_key", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -511,7 +511,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsNotContainsKey_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.StringStringDictionaryProperty), OperatorType.NotContainsKey, "my_key");
+        var rule = new Rule(nameof(TestModel.StringStringDictionaryProperty), OperatorType.NotContainsKey, "my_key", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -543,7 +543,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsContainsValue_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.StringStringDictionaryProperty), OperatorType.ContainsValue, "my_value");
+        var rule = new Rule(nameof(TestModel.StringStringDictionaryProperty), OperatorType.ContainsValue, "my_value", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -575,7 +575,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsNotContainsValue_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.StringStringDictionaryProperty), OperatorType.NotContainsValue, "my_value");
+        var rule = new Rule(nameof(TestModel.StringStringDictionaryProperty), OperatorType.NotContainsValue, "my_value", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -607,7 +607,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsKeyContainsValue_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule($"{nameof(TestModel.StringStringDictionaryProperty)}[my_key]", OperatorType.KeyContainsValue, "my_value");
+        var rule = new Rule($"{nameof(TestModel.StringStringDictionaryProperty)}[my_key]", OperatorType.KeyContainsValue, "my_value", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -648,7 +648,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsNotKeyContainsValue_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule($"{nameof(TestModel.StringStringDictionaryProperty)}[my_key]", OperatorType.NotKeyContainsValue, "my_value");
+        var rule = new Rule($"{nameof(TestModel.StringStringDictionaryProperty)}[my_key]", OperatorType.NotKeyContainsValue, "my_value", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -689,7 +689,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsIsContained_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.IsContained, "12,13");
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.IsContained, "12,13", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -713,7 +713,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsIsNotContained_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.IsNotContained, "12,13");
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.IsNotContained, "12,13", "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -737,7 +737,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerEqualOnSameProperty_ShouldAlwaysReturnRight()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerEqual, nameof(TestModel.IntProperty));
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerEqual, nameof(TestModel.IntProperty), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -762,7 +762,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerEqual_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerEqual, nameof(TestModel.IntProperty2));
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerEqual, nameof(TestModel.IntProperty2), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -793,7 +793,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerNotEqualOnSameProperty_ShouldAlwaysReturnLeft()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerNotEqual, nameof(TestModel.IntProperty));
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerNotEqual, nameof(TestModel.IntProperty), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -818,7 +818,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerNotEqual_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerNotEqual, nameof(TestModel.IntProperty2));
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerNotEqual, nameof(TestModel.IntProperty2), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -849,7 +849,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerGreaterThan_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerGreaterThan, nameof(TestModel.IntProperty2));
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerGreaterThan, nameof(TestModel.IntProperty2), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -880,7 +880,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerGreaterThanOrEqual_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerGreaterThanOrEqual, nameof(TestModel.IntProperty2));
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerGreaterThanOrEqual, nameof(TestModel.IntProperty2), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -911,7 +911,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerLessThan_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerLessThan, nameof(TestModel.IntProperty2));
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerLessThan, nameof(TestModel.IntProperty2), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -942,7 +942,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerLessThanOrEqual_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerLessThanOrEqual, nameof(TestModel.IntProperty2));
+        var rule = new Rule(nameof(TestModel.IntProperty), OperatorType.InnerLessThanOrEqual, nameof(TestModel.IntProperty2), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -973,7 +973,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerContains_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerContains, nameof(TestModel.IntProperty));
+        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerContains, nameof(TestModel.IntProperty), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -1004,7 +1004,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerNotContains_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerNotContains, nameof(TestModel.IntProperty));
+        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerNotContains, nameof(TestModel.IntProperty), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -1035,7 +1035,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerOverlaps_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerOverlaps, nameof(TestModel.IntEnumerableProperty2));
+        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerOverlaps, nameof(TestModel.IntEnumerableProperty2), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 
@@ -1066,7 +1066,7 @@ public class SingleRuleCompilerTests
     [Test]
     public void Compile_WhenRuleIsInnerNotOverlaps_ShouldReturnExpectedFunction()
     {
-        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerNotOverlaps, nameof(TestModel.IntEnumerableProperty2));
+        var rule = new Rule(nameof(TestModel.IntEnumerableProperty), OperatorType.InnerNotOverlaps, nameof(TestModel.IntEnumerableProperty2), "code");
 
         var result = _sut.Compile<TestModel>(rule);
 

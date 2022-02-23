@@ -29,7 +29,7 @@ public class RulesSetManagerTests
             .Setup(_ => _.CompileLabeled<TestModel>(Set))
             .Returns(
                 new CompiledLabeledRulesSet<TestModel>(
-                    Option<List<KeyValuePair<string, Func<TestModel, Either<string, TinyFp.Unit>>>>>.None()
+                    Option<KeyValuePair<string, Func<TestModel, Either<string, TinyFp.Unit>>>[]>.None()
                 )
             );
 
@@ -52,12 +52,12 @@ public class RulesSetManagerTests
             .Setup(_ => _.CompileLabeled<TestModel>(Set))
             .Returns(
                 new CompiledLabeledRulesSet<TestModel>(
-                    Option<List<KeyValuePair<string, Func<TestModel, Either<string, TinyFp.Unit>>>>>
-                        .Some(new List<KeyValuePair<string, Func<TestModel, Either<string, TinyFp.Unit>>>>
+                    Option<KeyValuePair<string, Func<TestModel, Either<string, TinyFp.Unit>>>[]>
+                        .Some(new KeyValuePair<string, Func<TestModel, Either<string, TinyFp.Unit>>>[]
                         {
                             new("first", _ => Either<string, TinyFp.Unit>.Left("failed")),
                             new("second", _ => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)),
-                            new("third", _ => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)),
+                            new("third", _ => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default))
                         })
                 )
             );

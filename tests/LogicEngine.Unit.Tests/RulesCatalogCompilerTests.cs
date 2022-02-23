@@ -29,7 +29,7 @@ public class RulesCatalogCompilerTests
             Description = "description 1",
             Rules = new[]
             {
-                new Rule("x", OperatorType.Equal, "y")
+                new Rule("x", OperatorType.Equal, "y", "code")
             }
         };
 
