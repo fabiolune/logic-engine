@@ -110,6 +110,58 @@ public class RulesSetCompilerTests
     }
 
     [Test]
+    public void Compile_WhenRulesAreEmpty_ShouldReturnNoCompiledRules()
+    {
+        var set = new RulesSet
+        {
+            Description = "whatever",
+            Rules = Array.Empty<Rule>()
+        };
+
+        var result = _sut.Compile<TestModel>(set);
+
+        result
+            .Should()
+            .NotBeNull();
+
+        result
+            .Executables
+            .Should()
+            .NotBeNull();
+
+        result
+            .Executables
+            .Should()
+            .BeEmpty();
+    }
+
+    [Test]
+    public void Compile_WhenRulesIsNull_ShouldReturnNoCompiledRules()
+    {
+        var set = new RulesSet
+        {
+            Description = "whatever",
+            Rules = null
+        };
+
+        var result = _sut.Compile<TestModel>(set);
+
+        result
+            .Should()
+            .NotBeNull();
+
+        result
+            .Executables
+            .Should()
+            .NotBeNull();
+
+        result
+            .Executables
+            .Should()
+            .BeEmpty();
+    }
+
+    [Test]
     public void
         CompileLabeled_WhenRulesSetCompilerReturnsOnlyNone_ShouldReturnCompiledRulesSetWithNone()
     {
