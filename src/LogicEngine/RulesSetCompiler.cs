@@ -15,8 +15,7 @@ public class RulesSetCompiler : IRulesSetCompiler
     public RulesSetCompiler(ISingleRuleCompiler singleRuleCompiler) => _singleRuleCompiler = singleRuleCompiler;
 
     public CompiledRulesSet<T> Compile<T>(RulesSet set) =>
-        set
-            .Rules
+        (set.Rules ?? Array.Empty<Rule>())
             .AsParallel()
             .Select(_singleRuleCompiler.Compile<T>)
             .Where(_ => _.IsSome)
@@ -27,6 +26,7 @@ public class RulesSetCompiler : IRulesSetCompiler
 
     public CompiledLabeledRulesSet<T> CompileLabeled<T>(RulesSet set) =>
         (set.Rules ?? Array.Empty<Rule>())
+            .AsParallel()
             .Select(_ => new KeyValuePair<string, Option<CompiledRule<T>>>(_.Code ?? string.Empty, _singleRuleCompiler.Compile<T>(_)))
             .Where(_ => _.Value.IsSome)
             .Select(_ =>
