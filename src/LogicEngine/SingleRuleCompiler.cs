@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -8,7 +7,9 @@ using LogicEngine.Internals;
 using LogicEngine.Models;
 using TinyFp;
 using TinyFp.Extensions;
+using static System.Globalization.CultureInfo;
 using static System.Linq.Expressions.Expression;
+using static LogicEngine.Internals.OperationMappings;
 using static TinyFp.Prelude;
 using Convert = System.Convert;
 
@@ -31,7 +32,7 @@ public class SingleRuleCompiler : ISingleRuleCompiler
             .Map(_ => _.Compile())
             .Map(_ => new CompiledRule<T>(_));
 
-    private Try<Option<ExpressionTypeCodeBinding>> CreateCompiledRule<T>(Rule rule) =>
+    private static Try<Option<ExpressionTypeCodeBinding>> CreateCompiledRule<T>(Rule rule) =>
         OperatorClassification.GetOperatorType(rule.Operator) switch
         {
             OperatorCategory.Direct => CompileDirectRule<T>(rule),
@@ -45,62 +46,35 @@ public class SingleRuleCompiler : ISingleRuleCompiler
         };
 
     private static Try<Option<ExpressionTypeCodeBinding>> CompileDirectRule<T>(Rule rule) =>
-        Try(() =>
-        {
-            var genericType = Parameter(typeof(T));
-            var propertyType = GetTypeFromPropertyName<T>(rule.Property);
-
-            var value = Constant(propertyType.BaseType == typeof(Enum)
-                ? Enum.Parse(propertyType, rule.Value)
-                : Convert.ChangeType(rule.Value, propertyType));
-
-            return Some(new ExpressionTypeCodeBinding
-            (
-                MakeBinary(OperationMappings.DirectMapping[rule.Operator], Property(genericType, rule.Property), value),
-                genericType,
-                rule.Code
-            ));
-        });
+        Try(() => (rule, typeof(T))
+            .Map(_ => (Parameter(_.Item2), GetTypeFromPropertyName<T>(_.rule.Property), _.rule.Property,
+                _.rule.Value, _.rule.Code, _.rule.Operator))
+            .Map(_ => (_.Item1, _.Item2, _.Property, _.Code, _.Operator, Constant(_.Item2.BaseType == typeof(Enum)
+                ? Enum.Parse(_.Item2, _.Value)
+                : Convert.ChangeType(_.Value, _.Item2))))
+            .Map(_ => (MakeBinary(DirectMapping[_.Operator], Property(_.Item1, _.Property), _.Item6), _.Item1,
+                _.Code))
+            .Map(_ => new ExpressionTypeCodeBinding(_.Item1, _.Item2, _.Code))
+            .Map(Some));
 
     private static Try<Option<ExpressionTypeCodeBinding>> CompileInternalDirectRule<T>(Rule rule) =>
-        Try(() =>
-        {
-            var genericType = Parameter(typeof(T));
-            var key = Property(genericType, rule.Property);
-            var propertyType = GetTypeFromPropertyName<T>(rule.Property);
-            var type1 = propertyType.FullName;
-
-            var key2 = Property(genericType, rule.Value);
-            var propertyType2 = GetTypeFromPropertyName<T>(rule.Value);
-            var type2 = propertyType2.FullName;
-
-            if (type1 != type2)
-            {
-                return Option<ExpressionTypeCodeBinding>.None();
-            }
-
-            return Some(new ExpressionTypeCodeBinding
-            (MakeBinary(OperationMappings.InternalDirectMapping[rule.Operator],
-                    key, key2),
-                genericType,
-                rule.Code));
-        });
+        Try(() => (rule, Parameter(typeof(T)))
+            .Map(_ => (_.rule, _.Item2, Property(_.Item2, _.rule.Property), Property(_.Item2, _.rule.Value)))
+            .Map(_ => (_.rule, _.Item2, _.Item3, _.Item4, GetTypeFromPropertyName<T>(_.rule.Property), GetTypeFromPropertyName<T>(_.rule.Value)))
+            .ToOption(_ => _.Item5.FullName != _.Item6.FullName)
+            .Map(_ => (MakeBinary(InternalDirectMapping[_.rule.Operator], _.Item3, _.Item4), _.Item2, _.rule.Code))
+            .Map(_ => new ExpressionTypeCodeBinding(_.Item1, _.Item2, _.Code)));
 
     private static Try<Option<ExpressionTypeCodeBinding>> CompileEnumerableRule<T>(Rule rule) =>
-        Try(() =>
-        {
-            var genericType = Parameter(typeof(T));
-            var key = Property(genericType, rule.Property);
-            var propertyType = GetTypeFromPropertyName<T>(rule.Property);
-            var searchValuesType = propertyType.IsArray
-                ? propertyType.GetElementType()
-                : propertyType.GetGenericArguments().FirstOrDefault();
-
-            return Some(new ExpressionTypeCodeBinding
-            (OperationMappings.EnumerableMapping[rule.Operator](rule, key, searchValuesType),
-                genericType,
-                rule.Code));
-        });
+        Try(() => (rule, typeof(T))
+            .Map(_ => (_.rule, Parameter(_.Item2)))
+            .Map(_ => (_.rule, _.Item2, GetTypeFromPropertyName<T>(_.rule.Property)))
+            .Map(_ => (_.rule, _.Item2, _.Item3,
+                _.Item3.IsArray ? _.Item3.GetElementType() : _.Item3.GetGenericArguments().First()))
+            .Map(_ => (EnumerableMapping[_.rule.Operator](_.rule, Property(_.Item2, _.rule.Property), _.Item4),
+                _.Item2, _.rule.Code))
+            .Map(_ => new ExpressionTypeCodeBinding(_.Item1, _.Item2, _.Code))
+            .Map(Some));
 
     private static Type GetTypeFromPropertyName<T>(string name) =>
         typeof(T)
@@ -108,87 +82,48 @@ public class SingleRuleCompiler : ISingleRuleCompiler
             .PropertyType;
 
     private static Try<Option<ExpressionTypeCodeBinding>> CompileInternalEnumerableRule<T>(Rule rule) =>
-        Try(() =>
-        {
-            var genericType = Parameter(typeof(T));
+        Try(() => (rule, Parameter(typeof(T)))
+            .Map(_ => (_.rule, _.Item2, Property(_.Item2, _.rule.Property), Property(_.Item2, _.rule.Value)))
+            .Map(_ => (_.rule, _.Item2, _.Item3, _.Item4, GetTypeFromPropertyName<T>(_.rule.Property),
+                GetTypeFromPropertyName<T>(_.rule.Value)))
+            .Map(_ => (_.rule, _.Item2, _.Item3, _.Item4, _.Item5, _.Item6,
+                _.Item5.IsArray ? _.Item5.GetElementType() : _.Item5.GetGenericArguments().First()))
+            .ToOption(_ => _.Item6.FullName != _.Item7.FullName)
+            .Map(_ => (InternalEnumerableMapping[_.rule.Operator](_.rule, _.Item3, _.Item5, _.Item4, _.Item5, _.Item6), _.Item2, _.rule.Code))
+            .Map(_ => new ExpressionTypeCodeBinding(_.Item1, _.Item2, _.Code)));
 
-            var key = Property(genericType, rule.Property);
-            var propertyType = GetTypeFromPropertyName<T>(rule.Property);
-            var searchValueType = propertyType.IsArray
-                ? propertyType.GetElementType()
-                : propertyType.GetGenericArguments().FirstOrDefault();
-            var key2 = Property(genericType, rule.Value);
-            var propertyType2 = GetTypeFromPropertyName<T>(rule.Value);
-
-            if (searchValueType.FullName != propertyType2.FullName)
-            {
-                return Option<ExpressionTypeCodeBinding>.None();
-            }
-
-            return Some(new ExpressionTypeCodeBinding
-            (
-                OperationMappings.InternalEnumerableMapping[rule.Operator](rule, key,
-                    propertyType, key2, propertyType2, searchValueType),
-                genericType,
-                rule.Code
-            ));
-        });
-
-    private Try<Option<ExpressionTypeCodeBinding>> CompileInternalCrossEnumerableRule<T>(Rule rule) =>
-        Try(() =>
-        {
-            var genericType = Parameter(typeof(T));
-
-            var key = Property(genericType, rule.Property);
-            var propertyType = GetTypeFromPropertyName<T>(rule.Property);
-            var searchValueType = propertyType.IsArray
-                ? propertyType.GetElementType()
-                : propertyType.GetGenericArguments().FirstOrDefault();
-
-            var key2 = Property(genericType, rule.Value);
-            var propertyType2 = GetTypeFromPropertyName<T>(rule.Value);
-
-            if (propertyType != propertyType2)
-            {
-                return Option<ExpressionTypeCodeBinding>.None();
-            }
-
-            return Some(new ExpressionTypeCodeBinding(OperationMappings.InternalCrossEnumerableMapping[rule.Operator](
-                    rule, key,
-                    propertyType, key2, propertyType2, searchValueType),
-                genericType,
-                rule.Code)
-            );
-        });
+    private static Try<Option<ExpressionTypeCodeBinding>> CompileInternalCrossEnumerableRule<T>(Rule rule) =>
+        Try(() => (rule, Parameter(typeof(T)))
+            .Map(_ => (_.rule, _.Item2, Property(_.Item2, _.rule.Property), Property(_.Item2, _.rule.Value)))
+            .Map(_ => (_.rule, _.Item2, _.Item3, _.Item4, GetTypeFromPropertyName<T>(_.rule.Property),
+                GetTypeFromPropertyName<T>(_.rule.Value)))
+            .ToOption(_ => _.Item5.FullName != _.Item6.FullName)
+            .Map(_ => (_.rule, _.Item2, _.Item3, _.Item4, _.Item5, _.Item6,
+                _.Item5.IsArray ? _.Item5.GetElementType() : _.Item5.GetGenericArguments().First()))
+            .Map(_ => (
+                InternalCrossEnumerableMapping
+                    [_.rule.Operator](_.rule, _.Item3, _.Item5, _.Item4, _.Item6, _.Item7), _.Item2, _.rule.Code))
+            .Map(_ => new ExpressionTypeCodeBinding(_.Item1, _.Item2, _.Code)));
 
     private static Try<Option<ExpressionTypeCodeBinding>> CompileInverseEnumerableRule<T>(Rule rule) =>
-        Try(() =>
-        {
-            var genericType = Parameter(typeof(T));
-            var propertyType = GetTypeFromPropertyName<T>(rule.Property);
-
-            return Some(new ExpressionTypeCodeBinding
-            (
-                OperationMappings.ExternalEnumerableMapping[rule.Operator](
-                    Property(genericType, rule.Property),
-                    propertyType, NewArrayInit(propertyType, rule.Value.Split(',')
-                        .Select(v => Convert.ChangeType(v, propertyType, CultureInfo.InvariantCulture))
-                        .Select(Constant))),
-                genericType,
-                rule.Code
-            ));
-        });
+        Try(() => rule
+            .Map(_ => (_.Property, _.Code, _.Operator, GetTypeFromPropertyName<T>(_.Property), Parameter(typeof(T)),
+                _.Value))
+            .Map(_ => (ExternalEnumerableMapping[_.Operator](Property(_.Item5, _.Property), _.Item4, NewArrayInit(
+                _.Item4, _.Value.Split(',')
+                    .Select(v => Convert.ChangeType(v, _.Item4, InvariantCulture))
+                    .Select(Constant))), _.Item5, _.Code))
+            .Map(_ => new ExpressionTypeCodeBinding(_.Item1, _.Item2, _.Code))
+            .Map(Some));
 
     private static Try<Option<ExpressionTypeCodeBinding>> CompileExternalKeyValueRule<T>(Rule rule) =>
         Try(() =>
             (rule, typeof(T))
             .Map(_ => (_.rule, _.Item2, Parameter(_.Item2)))
-            .Map(_ => new ExpressionTypeCodeBinding
-            (
-                OperationMappings.ExternalKeyValueMapping[_.rule.Operator](_.Item3, _.rule, _.Item2),
+            .Map(_ => (ExternalKeyValueMapping[_.rule.Operator](_.Item3, _.rule, _.Item2),
                 _.Item3,
-                _.rule.Code
-            ))
+                _.rule.Code))
+            .Map(_ => new ExpressionTypeCodeBinding(_.Item1, _.Item2, _.Code))
             .Map(Some)
         );
 

@@ -23,6 +23,11 @@ public class RulesSetManager<T> : IRulesSetManager<T> where T : new()
 
     public RulesSetManager(IRulesSetCompiler compiler) => _compiler = compiler;
 
+    /// <summary>
+    /// Given a set of rules, returns the code of the first one that is matched by "item"
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns><![CDATA[Option<string>]]></returns>
     public Option<string> FirstMatching(T item) => _firstMatching(item);
 
     private static Func<T, Option<string>> AlwaysNoneFirstMatchingWithRules(List<KeyValuePair<string, Func<T, Either<string, Unit>>>> rules) => 
