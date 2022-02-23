@@ -241,13 +241,14 @@ Additional methods of the manager allow to operate on an `IEnumerable<T>`, in pa
 The `RulesSetManager` instead, given a `RulesSet`, evaulates, in order, all its rules on a specific item and returns the code of the first satisfied rule.
 
 This can be useful in a scenario where, given a condition on an item, some specific operation should be executed (like a routing matching in a web api).
-The current implementation doesn't have a strict approach to the rules codes, namely many rules can have the same code; as a consequence, in such a situation it can become hard to understand what rule has been satisfied by a specific item.
+
+To ensure meaningful results, the `RulesSetManager` requires its `RulesSet` not to have rules with the same `Code`.
 
 ## How to install
 
 If you are using `nuget.org` you can add the dependency in your project using
 ```shell
-dotnet add package logic-engine --version 2.0.0
+dotnet add package logic-engine --version 2.1.0
 ```
 
 To install the __logic-engine__ library from GitHub's packages system please refer to the [packages page](https://github.com/fabiolune?tab=packages&repo_name=logic-engine).
