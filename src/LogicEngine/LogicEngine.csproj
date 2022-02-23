@@ -11,7 +11,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="tiny-fp" Version="1.2.3" />
   </ItemGroup>
   <ItemGroup>
