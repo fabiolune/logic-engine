@@ -26,7 +26,6 @@ public class RulesCatalogCompilerTests
     {
         var set1 = new RulesSet
         {
-            Description = "description 1",
             Rules = new[]
             {
                 new Rule("x", OperatorType.Equal, "y", "code")

@@ -54,34 +54,34 @@ internal static class OperationMappings
                     Constant(ChangeType(r.Value, s)))))
         },
         {
-            OperatorType.Overlaps, (r, k, s) =>
-            {
-                var ae = NewArrayInit(s,
-                    r.Value.Split(',').Select(v => ChangeType(v, s, CultureInfo.InvariantCulture))
-                        .Select(Constant));
-                return MakeBinary(ExpressionType.AndAlso,
+            OperatorType.Overlaps, (r, k, s) => NewArrayInit(s,
+                    r.Value
+                        .Split(',')
+                        .Select(v => ChangeType(v, s, CultureInfo.InvariantCulture))
+                        .Select(Constant)
+                )
+                .Map(_ => MakeBinary(ExpressionType.AndAlso,
                     MakeBinary(ExpressionType.AndAlso,
                         MakeBinary(ExpressionType.NotEqual, k, NullValue),
-                        MakeBinary(ExpressionType.NotEqual, ae, NullValue)),
-                    IsTrue(Call(EnumerableType, nameof(Enumerable.Any), new[] {s},
-                        Call(EnumerableType, nameof(Enumerable.Intersect), new[] {s}, k, ae))));
-            }
+                        MakeBinary(ExpressionType.NotEqual, _, NullValue)),
+                    IsTrue(Call(EnumerableType, nameof(Enumerable.Any), new[] { s },
+                        Call(EnumerableType, nameof(Enumerable.Intersect), new[] { s }, k, _)))))
         },
         {
-            OperatorType.NotOverlaps, (r, k, s) =>
-            {
-                var ae = NewArrayInit(s,
-                    r.Value.Split(',').Select(v => ChangeType(v, s, CultureInfo.InvariantCulture))
-                        .Select(Constant));
-                return MakeBinary(ExpressionType.OrElse,
+            OperatorType.NotOverlaps, (r, k, s) => NewArrayInit(s,
+                    r
+                        .Value
+                        .Split(',')
+                        .Select(v => ChangeType(v, s, CultureInfo.InvariantCulture))
+                        .Select(Constant)
+                )
+                .Map(_ => MakeBinary(ExpressionType.OrElse,
                     MakeBinary(ExpressionType.OrElse,
                         MakeBinary(ExpressionType.Equal, k, NullValue),
-                        MakeBinary(ExpressionType.Equal, ae, NullValue)),
+                        MakeBinary(ExpressionType.Equal, _, NullValue)),
                     IsFalse(Call(EnumerableType, nameof(Enumerable.Any),
-                        new[] {s},
-                        Call(EnumerableType, nameof(Enumerable.Intersect), new[] {s}, k,
-                            ae))));
-            }
+                        new[] { s },
+                        Call(EnumerableType, nameof(Enumerable.Intersect), new[] { s }, k, _)))))
         }
     });
 
@@ -130,7 +130,8 @@ internal static class OperationMappings
                     .Select(_ => _.TrimEnd(']')).ToArray();
                 var parameters = t.GetProperty(parts[0]).PropertyType.GetGenericArguments();
                 var pp = Property(p, parts[0]);
-                return MakeBinary(ExpressionType.AndAlso, MakeBinary(
+                return MakeBinary(ExpressionType.AndAlso, 
+                    MakeBinary(
                         ExpressionType.AndAlso,
                         MakeBinary(ExpressionType.NotEqual, pp, NullValue),
                         Call(pp, DictionaryContainsKey,
