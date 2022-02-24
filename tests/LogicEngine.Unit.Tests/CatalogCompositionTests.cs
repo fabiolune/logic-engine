@@ -9,10 +9,10 @@ namespace LogicEngine.Unit.Tests;
 [TestFixture]
 public class CatalogCompositionTests
 {
-    [TestCase(0, 0)]
-    [TestCase(0, 1)]
-    [TestCase(1, 0)]
-    [TestCase(1, 1)]
+    //[TestCase(0, 0)]
+    //[TestCase(0, 1)]
+    //[TestCase(1, 0)]
+    //[TestCase(1, 1)]
     [TestCase(2, 3)]
     public void When_AddingTwoCatalogs_ExpectSumOfRules(int ruleSets1, int ruleSets2)
     {
@@ -59,7 +59,6 @@ public class CatalogCompositionTests
         {
             new RulesSet
             {
-                Description = "description 2",
                 Rules = new[]
                 {
                     new Rule("a", OperatorType.Equal, "b", "code")
