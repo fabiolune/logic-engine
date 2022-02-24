@@ -4,6 +4,7 @@ using System.Linq;
 using LogicEngine.Interfaces;
 using LogicEngine.Models;
 using TinyFp;
+using static TinyFp.Prelude;
 using TinyFp.Extensions;
 
 namespace LogicEngine;
@@ -15,8 +16,7 @@ public class RulesSetCompiler : IRulesSetCompiler
     public RulesSetCompiler(ISingleRuleCompiler singleRuleCompiler) => _singleRuleCompiler = singleRuleCompiler;
 
     public CompiledRulesSet<T> Compile<T>(RulesSet set) =>
-        set
-            .Rules
+        (set.Rules ?? Array.Empty<Rule>())
             .AsParallel()
             .Select(_singleRuleCompiler.Compile<T>)
             .Where(_ => _.IsSome)
@@ -26,12 +26,15 @@ public class RulesSetCompiler : IRulesSetCompiler
             .Map(_ => new CompiledRulesSet<T>(_));
 
     public CompiledLabeledRulesSet<T> CompileLabeled<T>(RulesSet set) =>
-        (set.Rules ?? Array.Empty<Rule>())
-            .Select(_ => new KeyValuePair<string, Option<CompiledRule<T>>>(_.Code ?? string.Empty, _singleRuleCompiler.Compile<T>(_)))
-            .Where(_ => _.Value.IsSome)
-            .Select(_ =>
-                new KeyValuePair<string, Func<T, Either<string, Unit>>>(_.Key, _.Value.Unwrap().Executable))
-            .ToList()
-            .ToOption(_ => _.Count == 0)
+        Try(() => (set.Rules ?? Array.Empty<Rule>())
+                .AsParallel()
+                .ToDictionary(_ => _.Code ?? string.Empty, _singleRuleCompiler.Compile<T>)
+                .Where(_ => _.Value.IsSome)
+                .Select(x =>
+                    new KeyValuePair<string, Func<T, Either<string, Unit>>>(x.Key, x.Value.Unwrap().Executable))
+                .ToArray()
+                .ToOption(_ => _.Length == 0)
+            )
+            .Match(_ => _, _ => Option<KeyValuePair<string, Func<T, Either<string, Unit>>>[]>.None())
             .Map(_ => new CompiledLabeledRulesSet<T>(_));
 }

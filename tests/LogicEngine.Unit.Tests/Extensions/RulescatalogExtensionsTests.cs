@@ -28,8 +28,8 @@ public class RulesCatalogExtensionsTests
                 Description = "description 1",
                 Rules = new List<Rule>
                 {
-                    new("prop1", OperatorType.Contains, "value1", "code1", "description 1"),
-                    new("prop1", OperatorType.Contains, "value2", "code2", "description 2")
+                    new("prop1", OperatorType.Contains, "value1", "code1"),
+                    new("prop1", OperatorType.Contains, "value2", "code2")
                 }
             }
         }, "name 1");
@@ -41,8 +41,8 @@ public class RulesCatalogExtensionsTests
                 Description = "description 2",
                 Rules = new List<Rule>
                 {
-                    new("prop1", OperatorType.Contains, "value2", "code2", "description 2"),
-                    new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
+                    new("prop1", OperatorType.Contains, "value2", "code2"),
+                    new("prop1", OperatorType.Contains, "value1", "code1")
                 }
             }
         }, "name 2");
@@ -60,7 +60,7 @@ public class RulesCatalogExtensionsTests
                 Description = "description 1",
                 Rules = new List<Rule>
                 {
-                    new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
+                    new("prop1", OperatorType.Contains, "value1", "code1")
                 }
             }
         }, "name 1");
@@ -72,7 +72,7 @@ public class RulesCatalogExtensionsTests
                 Description = "description 2",
                 Rules = new List<Rule>
                 {
-                    new("prop1", OperatorType.Contains, "value1", "code1", "description 1")
+                    new("prop1", OperatorType.Contains, "value1", "code1")
                 }
             }
         }, "name 2");

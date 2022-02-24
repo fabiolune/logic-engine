@@ -26,8 +26,8 @@ public class RulesSetCompilerTests
     [Test]
     public void Compile_WhenRulesSetCompilerReturnsSomeAndNone_ShouldReturnCompiledRulesSetOnlyForSome()
     {
-        var rule1 = new Rule("x", OperatorType.Equal, "y");
-        var rule2 = new Rule("a", OperatorType.Equal, "b");
+        var rule1 = new Rule("x", OperatorType.Equal, "y", "code1");
+        var rule2 = new Rule("a", OperatorType.Equal, "b", "code2");
 
         var set = new RulesSet
         {
@@ -60,11 +60,11 @@ public class RulesSetCompilerTests
     public void
         CompileLabeled_WhenRulesSetCompilerReturnsSomeAndNone_ShouldReturnCompiledRulesSetOnlyForSomeWithLabels()
     {
-        var rule1 = new Rule("x", OperatorType.Equal, "y")
+        var rule1 = new Rule("x", OperatorType.Equal, "y", "code1")
         {
             Code = "some_code"
         };
-        var rule2 = new Rule("a", OperatorType.Equal, "b");
+        var rule2 = new Rule("a", OperatorType.Equal, "b", "code2");
 
         var set = new RulesSet
         {
@@ -110,14 +110,66 @@ public class RulesSetCompilerTests
     }
 
     [Test]
+    public void Compile_WhenRulesAreEmpty_ShouldReturnNoCompiledRules()
+    {
+        var set = new RulesSet
+        {
+            Description = "whatever",
+            Rules = Array.Empty<Rule>()
+        };
+
+        var result = _sut.Compile<TestModel>(set);
+
+        result
+            .Should()
+            .NotBeNull();
+
+        result
+            .Executables
+            .Should()
+            .NotBeNull();
+
+        result
+            .Executables
+            .Should()
+            .BeEmpty();
+    }
+
+    [Test]
+    public void Compile_WhenRulesIsNull_ShouldReturnNoCompiledRules()
+    {
+        var set = new RulesSet
+        {
+            Description = "whatever",
+            Rules = null
+        };
+
+        var result = _sut.Compile<TestModel>(set);
+
+        result
+            .Should()
+            .NotBeNull();
+
+        result
+            .Executables
+            .Should()
+            .NotBeNull();
+
+        result
+            .Executables
+            .Should()
+            .BeEmpty();
+    }
+
+    [Test]
     public void
         CompileLabeled_WhenRulesSetCompilerReturnsOnlyNone_ShouldReturnCompiledRulesSetWithNone()
     {
-        var rule1 = new Rule("x", OperatorType.Equal, "y")
+        var rule1 = new Rule("x", OperatorType.Equal, "y", "code1")
         {
             Code = "some_code"
         };
-        var rule2 = new Rule("a", OperatorType.Equal, "b");
+        var rule2 = new Rule("a", OperatorType.Equal, "b", "code1");
 
         var set = new RulesSet
         {
@@ -219,19 +271,16 @@ public class RulesSetCompilerTests
     }
 
     [Test]
-    public void
-        CompileLabeled_WhenRulesHasRulesWithNullCode_ShouldReturnListWithEmptyKeys()
+    public void CompileLabeled_WhenRulesHasRulesWithNullCode_ShouldReturnListWithEmptyKey()
     {
-        var rule1 = new Rule("x", OperatorType.Equal, "y");
-        var rule2 = new Rule("a", OperatorType.Equal, "b");
+        var rule1 = new Rule("x", OperatorType.Equal, "y", null);
 
         var set = new RulesSet
         {
             Description = "set description",
             Rules = new[]
             {
-                rule1,
-                rule2
+                rule1
             }
         };
 
@@ -242,10 +291,6 @@ public class RulesSetCompilerTests
         _mockCompiler
             .Setup(_ => _.Compile<TestModel>(rule1))
             .Returns(Some(compiledRule));
-
-        _mockCompiler
-            .Setup(_ => _.Compile<TestModel>(rule2))
-            .Returns(Option<CompiledRule<TestModel>>.None);
 
         var result = _sut.CompileLabeled<TestModel>(set);
 
@@ -266,5 +311,49 @@ public class RulesSetCompilerTests
                 {
                     new("", func1)
                 }));
+    }
+
+    [Test]
+    public void CompileLabeled_WhenRulesHaveTheSameCode_ShouldReturnNoneExecutables()
+    {
+        var rule1 = new Rule("x", OperatorType.Equal, "y", "code");
+        var rule2 = new Rule("a", OperatorType.Equal, "b", "code");
+
+        var set = new RulesSet
+        {
+            Description = "set description",
+            Rules = new[]
+            {
+                rule1,
+                rule2
+            }
+        };
+
+        var func1 = new Func<TestModel, Either<string, TinyFp.Unit>>(_ => Either<string, TinyFp.Unit>.Left("whatever"));
+        var func2 = new Func<TestModel, Either<string, TinyFp.Unit>>(_ => Either<string, TinyFp.Unit>.Left("whatever"));
+
+        var compiledRule1 = new CompiledRule<TestModel>(func1);
+        var compiledRule2 = new CompiledRule<TestModel>(func2);
+
+        _mockCompiler
+            .Setup(_ => _.Compile<TestModel>(rule1))
+            .Returns(Some(compiledRule1));
+
+        _mockCompiler
+            .Setup(_ => _.Compile<TestModel>(rule2))
+            .Returns(Some(compiledRule2));
+
+        var result = _sut.CompileLabeled<TestModel>(set);
+
+        result
+            .Should()
+            .NotBeNull();
+
+        result
+            .Executables
+            .IsNone
+            .Should()
+            .BeTrue();
+
     }
 }
