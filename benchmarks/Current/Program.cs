@@ -2,6 +2,10 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 using LogicEngine;
+using LogicEngine.Internals;
+using LogicEngine.Models;
+using TinyFp;
+using TinyFp.Extensions;
 
 namespace Current;
 
@@ -45,6 +49,45 @@ public class CurrentImplementationBenchmarks
         _manager2
             .ItemSatisfiesRulesWithMessage(_item)
             .OnLeft(_ => Console.WriteLine(_.Length));
+}
+/// <summary>
+/// Benchmarks in this class compare the execution of a
+/// statically typed function versus one obtained by compiling a rule
+/// </summary>
+[MemoryDiagnoser]
+public class FunctionBenchmarks
+{
+    private readonly Func<Data.TestModel, Either<string, Unit>> _compiledFunc;
+
+    public FunctionBenchmarks()
+    {
+        var rulescompiler = new SingleRuleCompiler();
+        var rule = new Rule(nameof(Data.TestModel.StringProperty), OperatorType.Equal, "0", "code");
+        _compiledFunc = rulescompiler.Compile<Data.TestModel>(rule).Unwrap().Executable;
+    }
+
+    private static Either<string, Unit> Check(Data.TestModel item)
+    {
+        return item.StringProperty == "0"
+            ? Either<string, Unit>.Right(Unit.Default)
+            : Either<string, Unit>.Left("code");
+    }
+
+    [Benchmark]
+    public void Compiled() => Executor(Check);
+
+    [Benchmark]
+    public void RuntimeCompiled() => Executor(_compiledFunc);
+
+    private static void Executor(Func<Data.TestModel, Either<string, Unit>> func) =>
+        Enumerable
+            .Range(0, 10000)
+            .Select(_ => new Data.TestModel
+            {
+                StringProperty = $"{_}"
+            })
+            .ForEach(_ => func(_).Match(_ => true, _ => false).Do(Console.WriteLine));
+
 }
 
 internal static class Program
