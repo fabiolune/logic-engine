@@ -7,8 +7,14 @@ namespace LogicEngine.Models;
 
 public record RulesCatalog
 {
+    private readonly IEnumerable<RulesSet> _rulesSets ;
     public string Name { get; init; }
-    public IEnumerable<RulesSet> RulesSets { get; init; }
+
+    public IEnumerable<RulesSet> RulesSets
+    {
+        get => _rulesSets ?? Array.Empty<RulesSet>();
+        init => _rulesSets  = value;
+    }
 
     public RulesCatalog(IEnumerable<RulesSet> rulesSets, string name)
     {
@@ -22,8 +28,9 @@ public record RulesCatalog
     /// <param name="catalog1"></param>
     /// <param name="catalog2"></param>
     /// <returns></returns>
-    public static RulesCatalog operator +(RulesCatalog catalog1, RulesCatalog catalog2) 
-        => new((catalog1.RulesSets ?? Array.Empty<RulesSet>()).Union(catalog2.RulesSets ?? Array.Empty<RulesSet>()), $"{catalog1.Name} OR {catalog2.Name}");
+    public static RulesCatalog operator +(RulesCatalog catalog1, RulesCatalog catalog2) =>
+        new((catalog1.RulesSets ?? Array.Empty<RulesSet>()).Union(catalog2.RulesSets ?? Array.Empty<RulesSet>()),
+            $"{catalog1.Name} OR {catalog2.Name}");
 
     /// <summary>
     ///     his represents the logical AND between two catalogs
@@ -39,7 +46,6 @@ public record RulesCatalog
             from r2 in _.Item2
             select new RulesSet
             {
-                Description = $"{r1.Description} AND {r2.Description}",
                 Rules = (r1.Rules ?? Array.Empty<Rule>()).Union(r2.Rules ?? Array.Empty<Rule>())
             }, _.Item3))
         .Map(_ => new RulesCatalog(_.Item1, _.Item2));

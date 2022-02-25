@@ -31,7 +31,6 @@ public class RulesSetCompilerTests
 
         var set = new RulesSet
         {
-            Description = "whatever",
             Rules = new []
             {
                 rule1,
@@ -68,7 +67,6 @@ public class RulesSetCompilerTests
 
         var set = new RulesSet
         {
-            Description = "whatever",
             Rules = new[]
             {
                 rule1,
@@ -114,7 +112,6 @@ public class RulesSetCompilerTests
     {
         var set = new RulesSet
         {
-            Description = "whatever",
             Rules = Array.Empty<Rule>()
         };
 
@@ -140,7 +137,6 @@ public class RulesSetCompilerTests
     {
         var set = new RulesSet
         {
-            Description = "whatever",
             Rules = null
         };
 
@@ -173,7 +169,6 @@ public class RulesSetCompilerTests
 
         var set = new RulesSet
         {
-            Description = "whatever",
             Rules = new[]
             {
                 rule1,
@@ -208,7 +203,6 @@ public class RulesSetCompilerTests
     {
         var set = new RulesSet
         {
-            Description = "whatever",
             Rules = Array.Empty<Rule>()
         };
 
@@ -231,7 +225,6 @@ public class RulesSetCompilerTests
     {
         var set = new RulesSet
         {
-            Description = "whatever",
             Rules = null
         };
 
@@ -252,10 +245,7 @@ public class RulesSetCompilerTests
     public void
         CompileLabeled_WhenRulesAreMissing_ShouldReturnCompiledRulesSetWithNone()
     {
-        var set = new RulesSet
-        {
-            Description = "whatever"
-        };
+        var set = new RulesSet();
 
         var result = _sut.CompileLabeled<TestModel>(set);
 
@@ -277,7 +267,6 @@ public class RulesSetCompilerTests
 
         var set = new RulesSet
         {
-            Description = "set description",
             Rules = new[]
             {
                 rule1
@@ -321,7 +310,6 @@ public class RulesSetCompilerTests
 
         var set = new RulesSet
         {
-            Description = "set description",
             Rules = new[]
             {
                 rule1,
