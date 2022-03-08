@@ -17,6 +17,9 @@ internal static class OperationMappings
 {
     private static readonly MethodInfo DictionaryGetItem = typeof(Dictionary<string, string>).GetMethod("get_Item");
     private static readonly Type EnumerableType = typeof(Enumerable);
+    private static readonly char[] KeysDelimiter = "[".ToCharArray();
+    private const char Comma = ',';
+    private const char EndBracket = ']';
 
     internal static readonly ReadOnlyDictionary<OperatorType, ExpressionType> DirectMapping = new(new Dictionary<OperatorType, ExpressionType>
     {
@@ -56,7 +59,7 @@ internal static class OperationMappings
         {
             OperatorType.Overlaps, (r, k, s) => NewArrayInit(s,
                     r.Value
-                        .Split(',')
+                        .Split(Comma)
                         .Select(v => ChangeType(v, s, CultureInfo.InvariantCulture))
                         .Select(Constant)
                 )
@@ -71,7 +74,7 @@ internal static class OperationMappings
             OperatorType.NotOverlaps, (r, k, s) => NewArrayInit(s,
                     r
                         .Value
-                        .Split(',')
+                        .Split(Comma)
                         .Select(v => ChangeType(v, s, CultureInfo.InvariantCulture))
                         .Select(Constant)
                 )
@@ -109,8 +112,8 @@ internal static class OperationMappings
                 .Map(_ => MakeBinary(ExpressionType.AndAlso,
                     MakeBinary(ExpressionType.NotEqual, _.Item1, NullValue), Call(_.Item1,
                         DictionaryContainsValue,
-                        Constant(ChangeType(_.Item2.Value,
-                            _.Item3.GetProperty(_.Item2.Property).PropertyType.GetGenericArguments()[1])))))
+                        Constant(ChangeType(_.r.Value,
+                            _.t.GetProperty(_.r.Property).PropertyType.GetGenericArguments()[1])))))
         },
         {
             OperatorType.NotContainsValue, (p, r, t) => (Property(p, r.Property), r, t)
@@ -118,46 +121,40 @@ internal static class OperationMappings
                     MakeBinary(ExpressionType.Equal, _.Item1, NullValue), IsFalse(
                         Call(_.Item1,
                             DictionaryContainsValue,
-                            Constant(ChangeType(_.Item2.Value,
-                                t.GetProperty(_.Item2.Property).PropertyType.GetGenericArguments()[0]))))))
+                            Constant(ChangeType(_.r.Value,
+                                t.GetProperty(_.r.Property).PropertyType.GetGenericArguments()[0]))))))
         },
         {
             OperatorType.KeyContainsValue, (p, r, t) =>
-            {
-                var parts = r
-                    .Property
-                    .Split("[".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                    .Select(_ => _.TrimEnd(']')).ToArray();
-                var parameters = t.GetProperty(parts[0]).PropertyType.GetGenericArguments();
-                var pp = Property(p, parts[0]);
-                return MakeBinary(ExpressionType.AndAlso, 
-                    MakeBinary(
+                (p, r, t)
+                    .Map(_ => (_.p, _.r, _.t, Parts: _.r.Property
+                    .Split(KeysDelimiter, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(_ => _.TrimEnd(EndBracket)).ToArray()))
+                    .Map(_ => (_.p, _.r, _.t, _.Parts, Parameters: _.t.GetProperty(_.Parts[0]).PropertyType.GetGenericArguments(), PP: Property(_.p, _.Parts[0])))
+                    .Map(_ => (MakeBinary(
                         ExpressionType.AndAlso,
-                        MakeBinary(ExpressionType.NotEqual, pp, NullValue),
-                        Call(pp, DictionaryContainsKey,
-                            Constant(ChangeType(parts[1], parameters[0])))),
-                    MakeBinary(ExpressionType.Equal, Call(pp, DictionaryGetItem,
-                            Constant(ChangeType(parts[1], parameters[0]))),
-                        Constant(ChangeType(r.Value, parameters[1]))));
-            }
+                        MakeBinary(ExpressionType.NotEqual, _.PP, NullValue),
+                        Call(_.PP, DictionaryContainsKey,
+                            Constant(ChangeType(_.Parts[1], _.Parameters[0])))), MakeBinary(ExpressionType.Equal, Call(_.PP, DictionaryGetItem,
+                            Constant(ChangeType(_.Parts[1], _.Parameters[0]))),
+                        Constant(ChangeType(r.Value, _.Parameters[1])))))
+                    .Map(_ => MakeBinary(ExpressionType.AndAlso, _.Item1, _.Item2))
         },
         {
             OperatorType.NotKeyContainsValue, (p, r, t) =>
-            {
-                var parts = r
-                    .Property
-                    .Split("[".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                    .Select(_ => _.TrimEnd(']')).ToArray();
-                var parameters = t.GetProperty(parts[0]).PropertyType.GetGenericArguments();
-                var pp = Property(p, parts[0]);
-                return MakeBinary(ExpressionType.OrElse, MakeBinary(
-                        ExpressionType.OrElse, MakeBinary(ExpressionType.Equal, pp, NullValue),
-                        IsFalse(Call(pp,
+                (p, r, t)
+                    .Map(_ => (_.p, _.r, _.t, Parts: _.r.Property
+                    .Split(KeysDelimiter, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(_ => _.TrimEnd(EndBracket)).ToArray()))
+                    .Map(_ => (_.p, _.r, _.t, _.Parts, Parameters: _.t.GetProperty(_.Parts[0]).PropertyType.GetGenericArguments(), PP: Property(_.p, _.Parts[0])))
+                    .Map(_ => (MakeBinary(
+                        ExpressionType.OrElse, MakeBinary(ExpressionType.Equal, _.PP, NullValue),
+                        IsFalse(Call(_.PP,
                             DictionaryContainsKey,
-                            Constant(ChangeType(parts[1], parameters[0]))))),
-                    IsFalse(MakeBinary(ExpressionType.Equal, Call(pp, DictionaryGetItem, Constant(ChangeType(parts[1], parameters[0]))),
-                        Constant(ChangeType(r.Value, parameters[1])))));
-            }
+                            Constant(ChangeType(_.Parts[1], _.Parameters[0]))))), IsFalse(MakeBinary(ExpressionType.Equal, Call(_.PP, DictionaryGetItem, Constant(ChangeType(_.Parts[1], _.Parameters[0]))),
+                        Constant(ChangeType(r.Value, _.Parameters[1]))))))
+                    .Map(_ => MakeBinary(ExpressionType.OrElse, _.Item1, _.Item2))
+
         }
     });
 
