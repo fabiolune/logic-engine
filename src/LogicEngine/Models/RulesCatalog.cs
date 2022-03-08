@@ -7,7 +7,7 @@ namespace LogicEngine.Models;
 
 public record RulesCatalog
 {
-    private readonly IEnumerable<RulesSet> _rulesSets ;
+    private readonly IEnumerable<RulesSet> _rulesSets;
     public string Name { get; init; }
 
     public IEnumerable<RulesSet> RulesSets
@@ -29,7 +29,7 @@ public record RulesCatalog
     /// <param name="catalog2"></param>
     /// <returns></returns>
     public static RulesCatalog operator +(RulesCatalog catalog1, RulesCatalog catalog2) =>
-        new((catalog1.RulesSets ?? Array.Empty<RulesSet>()).Union(catalog2.RulesSets ?? Array.Empty<RulesSet>()),
+        new((catalog1.RulesSets ?? Array.Empty<RulesSet>()).Concat(catalog2.RulesSets ?? Array.Empty<RulesSet>()),
             $"{catalog1.Name} OR {catalog2.Name}");
 
     /// <summary>
@@ -46,16 +46,7 @@ public record RulesCatalog
             from r2 in _.Item2
             select new RulesSet
             {
-                Rules = (r1.Rules ?? Array.Empty<Rule>()).Union(r2.Rules ?? Array.Empty<Rule>())
+                Rules = r1.Rules.Concat(r2.Rules)
             }, _.Item3))
         .Map(_ => new RulesCatalog(_.Item1, _.Item2));
-    //return new(
-    //    from r1 in catalog1.RulesSets ?? Array.Empty<RulesSet>()
-    //    from r2 in catalog2.RulesSets ?? Array.Empty<RulesSet>()
-    //    select new RulesSet
-    //    {
-    //        Description = $"{r1.Description} AND {r2.Description}",
-    //        Rules = (r1.Rules ?? Array.Empty<Rule>()).Union(r2.Rules ?? Array.Empty<Rule>())
-    //    },
-    //    $"{catalog1.Name} AND {catalog2.Name}");
 }
