@@ -16,7 +16,8 @@ public class RulesSetCompiler : IRulesSetCompiler
     public RulesSetCompiler(ISingleRuleCompiler singleRuleCompiler) => _singleRuleCompiler = singleRuleCompiler;
 
     public CompiledRulesSet<T> Compile<T>(RulesSet set) =>
-        (set.Rules ?? Array.Empty<Rule>())
+        set
+            .Rules
             .AsParallel()
             .Select(_singleRuleCompiler.Compile<T>)
             .Where(_ => _.IsSome)
@@ -26,7 +27,8 @@ public class RulesSetCompiler : IRulesSetCompiler
             .Map(_ => new CompiledRulesSet<T>(_));
 
     public CompiledLabeledRulesSet<T> CompileLabeled<T>(RulesSet set) =>
-        Try(() => (set.Rules ?? Array.Empty<Rule>())
+        Try(() => set
+                .Rules
                 .AsParallel()
                 .ToDictionary(_ => _.Code ?? string.Empty, _singleRuleCompiler.Compile<T>)
                 .Where(_ => _.Value.IsSome)

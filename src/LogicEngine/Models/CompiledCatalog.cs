@@ -9,8 +9,5 @@ public record CompiledCatalog<T>
 {
     public Func<T, Either<string, Unit>>[][] Executables { get; init; }
 
-    public CompiledCatalog(Func<T, Either<string, Unit>>[][] executables)
-    {
-        Executables = executables;
-    }
+    public CompiledCatalog(Func<T, Either<string, Unit>>[][] executables) => Executables = executables;
 }
