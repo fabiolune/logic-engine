@@ -18,7 +18,6 @@ internal static class OperationMappings
     private static readonly MethodInfo DictionaryGetItem = typeof(Dictionary<string, string>).GetMethod("get_Item");
     private static readonly Type EnumerableType = typeof(Enumerable);
     private static readonly char[] KeysDelimiter = "[".ToCharArray();
-    private const char Comma = ',';
     private const char EndBracket = ']';
 
     internal static readonly ReadOnlyDictionary<OperatorType, ExpressionType> DirectMapping = new(new Dictionary<OperatorType, ExpressionType>
