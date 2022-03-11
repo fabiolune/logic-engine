@@ -21,7 +21,6 @@ Given a type to be applied to, a rule is defined by a set of fields
 - `Operator`: defines the operation to execute on the property
 - `Value`: identifies the value against which compare the result of the operator on the property
 - `Code`: the error code to be generated when the rules applied on an object fails (returns `false`)
-- `Description`: a generic description of the rule, without real behavior
 
 ## The Operator
 
