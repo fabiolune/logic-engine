@@ -210,6 +210,17 @@ c2 = {rs4, rs5}
 ```
 > product of two `RulesCatalog`
 
+The definition relies on the definition of product between two `RulesSet`: its definition is simply a new `RulesSet` whose rules are the concatenation of the rules in the two factors:
+
+```
+rs1 = {r1, r2, r3}
+rs2 = {r4, r5}
+
+──► rs1 * rs2 = {r1, r2, r3, r4, r5}
+```
+
+> product of two `RulesSet`
+
 ## The compilers
 
 The `SingleRuleCompiler` is the component that parses and compiles a `Rule` into executable code. 
