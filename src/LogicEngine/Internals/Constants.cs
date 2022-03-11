@@ -6,6 +6,8 @@ namespace LogicEngine.Internals;
 
 internal static class Constants
 {
+    internal const char Comma = ',';
+
     internal static readonly Expression NullValue = Expression.Constant(null);
 
     internal static readonly MethodInfo DictionaryContainsKey =

@@ -9,10 +9,7 @@ public class RulesCatalogCompiler : IRulesCatalogCompiler
 {
     private readonly IRulesSetCompiler _rulesSetCompiler;
 
-    public RulesCatalogCompiler(IRulesSetCompiler rulesSetCompiler)
-    {
-        _rulesSetCompiler = rulesSetCompiler;
-    }
+    public RulesCatalogCompiler(IRulesSetCompiler rulesSetCompiler) => _rulesSetCompiler = rulesSetCompiler;
 
     public CompiledCatalog<T> CompileCatalog<T>(RulesCatalog catalog) =>
         catalog.RulesSets

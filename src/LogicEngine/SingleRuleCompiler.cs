@@ -110,7 +110,7 @@ public class SingleRuleCompiler : ISingleRuleCompiler
             .Map(_ => (_.Property, _.Code, _.Operator, GetTypeFromPropertyName<T>(_.Property), Parameter(typeof(T)),
                 _.Value))
             .Map(_ => (ExternalEnumerableMapping[_.Operator](Property(_.Item5, _.Property), _.Item4, NewArrayInit(
-                _.Item4, _.Value.Split(',')
+                _.Item4, _.Value.Split(Constants.Comma)
                     .Select(v => Convert.ChangeType(v, _.Item4, InvariantCulture))
                     .Select(Constant))), _.Item5, _.Code))
             .Map(_ => new ExpressionTypeCodeBinding(_.Item1, _.Item2, _.Code))
