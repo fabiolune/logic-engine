@@ -206,7 +206,7 @@ The product of two catalogs is a catalog with a set of all the `RulesSet` obtain
 c1 = {rs1, rs2, rs3}
 c2 = {rs4, rs5}
 
-──► c1 + c2 = {(rs1+rs4), (rs1+rs5), (rs2+rs4), (rs2+rs5), (rs3+rs4), (rs3+rs5)}
+──► c1 * c2 = {(rs1*rs4), (rs1*rs5), (rs2*rs4), (rs2*rs5), (rs3*rs4), (rs3*rs5)}
 ```
 > product of two `RulesCatalog`
 
