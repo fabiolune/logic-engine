@@ -22,7 +22,7 @@ public class RulesManagerTests
     [SetUp]
     public void SetUp()
     {
-        _catalog = new RulesCatalog(new RulesSet[] { new() { Rules = new[] { new Rule("property", Internals.OperatorType.Contains, "value", "code") } } }, "name");
+        _catalog = new RulesCatalog(new RulesSet[] { new(new[] { new Rule("property", Internals.OperatorType.Contains, "value", "code") }) }, "name");
         _mockCompiler = new Mock<IRulesCatalogCompiler>();
         _sut = new RulesManager<TestModel>(_mockCompiler.Object);
     }
