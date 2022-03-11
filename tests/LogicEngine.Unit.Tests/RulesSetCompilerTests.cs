@@ -30,13 +30,13 @@ public class RulesSetCompilerTests
         var rule2 = new Rule("a", OperatorType.Equal, "b", "code2");
 
         var set = new RulesSet
-        {
-            Rules = new []
+        (
+            new []
             {
                 rule1,
                 rule2
             }
-        };
+        );
 
         var func1 = new Func<TestModel, Either<string, TinyFp.Unit>>(_ => Either<string, TinyFp.Unit>.Left("whatever"));
 
@@ -66,13 +66,13 @@ public class RulesSetCompilerTests
         var rule2 = new Rule("a", OperatorType.Equal, "b", "code2");
 
         var set = new RulesSet
-        {
-            Rules = new[]
+        (
+            new[]
             {
                 rule1,
                 rule2
             }
-        };
+        );
 
         var func1 = new Func<TestModel, Either<string, TinyFp.Unit>>(_ => Either<string, TinyFp.Unit>.Left("whatever"));
 
@@ -110,10 +110,7 @@ public class RulesSetCompilerTests
     [Test]
     public void Compile_WhenRulesAreEmpty_ShouldReturnNoCompiledRules()
     {
-        var set = new RulesSet
-        {
-            Rules = Array.Empty<Rule>()
-        };
+        var set = new RulesSet(Array.Empty<Rule>());
 
         var result = _sut.Compile<TestModel>(set);
 
@@ -135,10 +132,7 @@ public class RulesSetCompilerTests
     [Test]
     public void Compile_WhenRulesIsNull_ShouldReturnNoCompiledRules()
     {
-        var set = new RulesSet
-        {
-            Rules = null
-        };
+        var set = new RulesSet(null);
 
         var result = _sut.Compile<TestModel>(set);
 
@@ -168,13 +162,13 @@ public class RulesSetCompilerTests
         var rule2 = new Rule("a", OperatorType.Equal, "b", "code1");
 
         var set = new RulesSet
-        {
-            Rules = new[]
+        (
+            new[]
             {
                 rule1,
                 rule2
             }
-        };
+        );
 
         _mockCompiler
             .Setup(_ => _.Compile<TestModel>(rule1))
@@ -201,10 +195,7 @@ public class RulesSetCompilerTests
     public void
         CompileLabeled_WhenRulesSetHasNoRules_ShouldReturnCompiledRulesSetWithNone()
     {
-        var set = new RulesSet
-        {
-            Rules = Array.Empty<Rule>()
-        };
+        var set = new RulesSet(Array.Empty<Rule>());
 
         var result = _sut.CompileLabeled<TestModel>(set);
 
@@ -223,10 +214,7 @@ public class RulesSetCompilerTests
     public void
         CompileLabeled_WhenRulesAreNull_ShouldReturnCompiledRulesSetWithNone()
     {
-        var set = new RulesSet
-        {
-            Rules = null
-        };
+        var set = new RulesSet(null);
 
         var result = _sut.CompileLabeled<TestModel>(set);
 
@@ -245,7 +233,7 @@ public class RulesSetCompilerTests
     public void
         CompileLabeled_WhenRulesAreMissing_ShouldReturnCompiledRulesSetWithNone()
     {
-        var set = new RulesSet();
+        var set = new RulesSet(null);
 
         var result = _sut.CompileLabeled<TestModel>(set);
 
@@ -266,12 +254,12 @@ public class RulesSetCompilerTests
         var rule1 = new Rule("x", OperatorType.Equal, "y", null);
 
         var set = new RulesSet
-        {
-            Rules = new[]
+        (
+            new[]
             {
                 rule1
             }
-        };
+        );
 
         var func1 = new Func<TestModel, Either<string, TinyFp.Unit>>(_ => Either<string, TinyFp.Unit>.Left("whatever"));
 
@@ -309,13 +297,13 @@ public class RulesSetCompilerTests
         var rule2 = new Rule("a", OperatorType.Equal, "b", "code");
 
         var set = new RulesSet
-        {
-            Rules = new[]
+        (
+            new[]
             {
                 rule1,
                 rule2
             }
-        };
+        );
 
         var func1 = new Func<TestModel, Either<string, TinyFp.Unit>>(_ => Either<string, TinyFp.Unit>.Left("whatever"));
         var func2 = new Func<TestModel, Either<string, TinyFp.Unit>>(_ => Either<string, TinyFp.Unit>.Left("whatever"));
