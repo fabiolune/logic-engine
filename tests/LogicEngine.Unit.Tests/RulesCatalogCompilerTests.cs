@@ -25,12 +25,12 @@ public class RulesCatalogCompilerTests
     public void CompileCatalog_WhenRulesSetCompilerReturnsItems_ShouldReturnThoseItems()
     {
         var set1 = new RulesSet
-        {
-            Rules = new[]
+        (
+            new[]
             {
                 new Rule("x", OperatorType.Equal, "y", "code")
             }
-        };
+        );
 
         var catalog = new RulesCatalog(new []{ set1 }, "some name");
 

@@ -13,7 +13,7 @@ public class RulesSetManagerTests
 {
     private Mock<IRulesSetCompiler> _compiler;
     private RulesSetManager<TestModel> _sut;
-    private static readonly RulesSet Set = new();
+    private static readonly RulesSet Set = new(Array.Empty<Rule>());
 
     [SetUp]
     public void SetUp()

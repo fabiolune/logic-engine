@@ -29,8 +29,7 @@ public record RulesCatalog
     /// <param name="catalog2"></param>
     /// <returns></returns>
     public static RulesCatalog operator +(RulesCatalog catalog1, RulesCatalog catalog2) =>
-        new((catalog1.RulesSets ?? Array.Empty<RulesSet>()).Concat(catalog2.RulesSets ?? Array.Empty<RulesSet>()),
-            $"{catalog1.Name} OR {catalog2.Name}");
+        new(catalog1.RulesSets.Concat(catalog2.RulesSets), $"({catalog1.Name} OR {catalog2.Name})");
 
     /// <summary>
     ///     his represents the logical AND between two catalogs
@@ -40,13 +39,10 @@ public record RulesCatalog
     /// <returns></returns>
     public static RulesCatalog operator *(RulesCatalog catalog1, RulesCatalog catalog2) =>
         (catalog1, catalog2)
-        .Map(_ => (catalog1.RulesSets ?? Array.Empty<RulesSet>(), catalog2.RulesSets ?? Array.Empty<RulesSet>(),
-            $"{catalog1.Name} AND {catalog2.Name}"))
+        .Map(_ => (catalog1.RulesSets, catalog2.RulesSets,
+            $"({catalog1.Name} AND {catalog2.Name})"))
         .Map(_ => (from r1 in _.Item1
             from r2 in _.Item2
-            select new RulesSet
-            {
-                Rules = r1.Rules.Concat(r2.Rules)
-            }, _.Item3))
+            select r1 * r2, _.Item3))
         .Map(_ => new RulesCatalog(_.Item1, _.Item2));
 }

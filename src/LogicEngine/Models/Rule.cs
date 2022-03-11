@@ -3,7 +3,7 @@ using LogicEngine.Internals;
 
 namespace LogicEngine.Models;
 
-public struct Rule
+public record Rule
 {
     public Rule(string property, OperatorType @operator, string value, string code)
     {

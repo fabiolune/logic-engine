@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentAssertions;
 using LogicEngine.Internals;
 using LogicEngine.Models;
@@ -18,16 +19,16 @@ public class CatalogCompositionTests
     {
         var c1 = new RulesCatalog(Enumerable
             .Range(0, ruleSets1)
-            .Select(_ => new RulesSet()), "name 1");
+            .Select(_ => new RulesSet(Array.Empty<Rule>())), "name 1");
         
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
-            .Select(_ => new RulesSet()), "name 2");
+            .Select(_ => new RulesSet(Array.Empty<Rule>())), "name 2");
 
         var c = c1 + c2;
 
         c.RulesSets.Should().HaveCount(ruleSets1 + ruleSets2);
-        c.Name.Should().Be("name 1 OR name 2");
+        c.Name.Should().Be("(name 1 OR name 2)");
     }
 
     [TestCase(0, 0)]
@@ -39,16 +40,16 @@ public class CatalogCompositionTests
     {
         var c1 = new RulesCatalog(Enumerable
             .Range(0, ruleSets1)
-            .Select(_ => new RulesSet()), "name 1");
+            .Select(_ => new RulesSet(Array.Empty<Rule>())), "name 1");
 
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
-            .Select(_ => new RulesSet()), "name 2");
+            .Select(_ => new RulesSet(Array.Empty<Rule>())), "name 2");
 
         var c = c1 * c2;
 
         c.RulesSets.Should().HaveCount(ruleSets1 * ruleSets2);
-        c.Name.Should().Be("name 1 AND name 2");
+        c.Name.Should().Be("(name 1 AND name 2)");
     }
 
     [Test]
@@ -58,24 +59,24 @@ public class CatalogCompositionTests
         var c2 = new RulesCatalog(new[]
         {
             new RulesSet
-            {
-                Rules = new[]
+            (
+                new[]
                 {
                     new Rule("a", OperatorType.Equal, "b", "code")
                 }
 
-            }
+            )
         }, "catalog 2");
 
         var sumCatalog1 = c1 + c2;
 
         sumCatalog1.RulesSets.Should().HaveCount(1);
-        sumCatalog1.Name.Should().Be("catalog 1 OR catalog 2");
+        sumCatalog1.Name.Should().Be("(catalog 1 OR catalog 2)");
 
         var sumCatalog2 = c2 + c1;
 
         sumCatalog2.RulesSets.Should().HaveCount(1);
-        sumCatalog2.Name.Should().Be("catalog 2 OR catalog 1");
+        sumCatalog2.Name.Should().Be("(catalog 2 OR catalog 1)");
     }
 
     [TestCase(0)]
@@ -87,17 +88,17 @@ public class CatalogCompositionTests
         var c1 = new RulesCatalog(null, "catalog 1");
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
-            .Select(_ => new RulesSet()), "catalog 2");
+            .Select(_ => new RulesSet(Array.Empty<Rule>())), "catalog 2");
 
         var prodCatalog1 = c1 * c2;
 
         prodCatalog1.RulesSets.Should().HaveCount(0);
-        prodCatalog1.Name.Should().Be("catalog 1 AND catalog 2");
+        prodCatalog1.Name.Should().Be("(catalog 1 AND catalog 2)");
 
         var prodCatalog2 = c2 * c1;
 
         prodCatalog2.RulesSets.Should().HaveCount(0);
-        prodCatalog2.Name.Should().Be("catalog 2 AND catalog 1");
+        prodCatalog2.Name.Should().Be("(catalog 2 AND catalog 1)");
 
     }
 
@@ -110,6 +111,6 @@ public class CatalogCompositionTests
         var prodCatalog1 = c1 * c2;
 
         prodCatalog1.RulesSets.Should().HaveCount(0);
-        prodCatalog1.Name.Should().Be("catalog 1 AND catalog 2");
+        prodCatalog1.Name.Should().Be("(catalog 1 AND catalog 2)");
     }
 }

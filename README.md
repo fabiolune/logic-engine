@@ -206,9 +206,20 @@ The product of two catalogs is a catalog with a set of all the `RulesSet` obtain
 c1 = {rs1, rs2, rs3}
 c2 = {rs4, rs5}
 
-──► c1 + c2 = {(rs1+rs4), (rs1+rs5), (rs2+rs4), (rs2+rs5), (rs3+rs4), (rs3+rs5)}
+──► c1 * c2 = {(rs1*rs4), (rs1*rs5), (rs2*rs4), (rs2*rs5), (rs3*rs4), (rs3*rs5)}
 ```
 > product of two `RulesCatalog`
+
+The definition relies on the definition of product between two `RulesSet`: its definition is simply a new `RulesSet` whose rules are the concatenation of the rules in the two factors:
+
+```
+rs1 = {r1, r2, r3}
+rs2 = {r4, r5}
+
+──► rs1 * rs2 = {r1, r2, r3, r4, r5}
+```
+
+> product of two `RulesSet`
 
 ## The compilers
 
