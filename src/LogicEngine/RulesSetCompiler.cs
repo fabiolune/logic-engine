@@ -30,7 +30,7 @@ public class RulesSetCompiler : IRulesSetCompiler
         Try(() => set
                 .Rules
                 .AsParallel()
-                .ToDictionary(_ => _.Code ?? string.Empty, _singleRuleCompiler.Compile<T>)
+                .ToDictionary(_ => _.Code, _singleRuleCompiler.Compile<T>)
                 .Where(_ => _.Value.IsSome)
                 .Select(x =>
                     new KeyValuePair<string, Func<T, Either<string, Unit>>>(x.Key, x.Value.Unwrap().Executable))

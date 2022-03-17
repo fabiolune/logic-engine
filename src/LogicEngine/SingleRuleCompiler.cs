@@ -27,7 +27,7 @@ public class SingleRuleCompiler : ISingleRuleCompiler
         CreateCompiledRule<T>(rule)
             .Match(_ => _, _ => Option<ExpressionTypeCodeBinding>.None())
             .Map(_ => Lambda<Func<T, Either<string, Unit>>>(
-                Condition(_.TestExpression, SuccessUnitExpression, Call(LeftMethod, Constant(_.Code ?? string.Empty))),
+                Condition(_.TestExpression, SuccessUnitExpression, Call(LeftMethod, Constant(_.Code))),
                 _.TypeExpression))
             .Map(_ => _.Compile())
             .Map(_ => new CompiledRule<T>(_));
