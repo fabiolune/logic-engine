@@ -2,7 +2,6 @@
 using FluentAssertions;
 using LogicEngine.Internals;
 using LogicEngine.Models;
-using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace LogicEngine.Unit.Tests;
@@ -209,17 +208,6 @@ public class SingleRuleCompilerTests
     public void Compile_WhenInverseEnumerableRulesAreCorrect_ShouldReturnSome(OperatorType op)
     {
         var rule = new Rule(nameof(TestModel.StringProperty), op, nameof(TestModel.StringArrayProperty), "code");
-
-        var result = _sut.Compile<TestModel>(rule);
-
-        result.IsSome.Should().BeTrue();
-    }
-
-    [Test]
-    public void When_CompileRulesFromSerializedJson_ShouldReturnCompiledRules()
-    {
-        const string jsonString = "{\"property\": \"StringProperty\", \"operator\": \"Equal\", \"value\": \"some value\", \"code\": \"some code\"}";
-        var rule = JsonConvert.DeserializeObject<Rule>(jsonString);
 
         var result = _sut.Compile<TestModel>(rule);
 
