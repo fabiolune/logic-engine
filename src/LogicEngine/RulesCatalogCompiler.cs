@@ -13,6 +13,7 @@ public class RulesCatalogCompiler : IRulesCatalogCompiler
 
     public CompiledCatalog<T> CompileCatalog<T>(RulesCatalog catalog) =>
         catalog.RulesSets
+            .Where(rs => rs is not null)
             .AsParallel()
             .Select(_rulesSetCompiler.Compile<T>)
             .Select(_ => _.Executables)
