@@ -228,3 +228,6 @@ out/*
 BenchmarkDotNet.Artifacts/*
 
 **/local**
+
+## live unit testing config
+*.lutconfig

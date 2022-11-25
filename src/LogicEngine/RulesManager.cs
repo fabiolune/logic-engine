@@ -1,8 +1,8 @@
+using LogicEngine.Interfaces;
+using LogicEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LogicEngine.Interfaces;
-using LogicEngine.Models;
 using TinyFp;
 using TinyFp.Extensions;
 using static System.Array;
@@ -46,7 +46,7 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
     private static readonly Func<T, Either<string[], Unit>> ItemSatisfiesRulesWithMessageAlwaysUnit = _ => Unit.Default;
 
     private static Func<T, Either<string[], Unit>> ItemSatisfiesRulesWithMessageUsingCatalog(Func<T, Either<string, Unit>>[][] rulesCatalog) =>
-        item => Loop(rulesCatalog, item, Empty<string>())
+        item => Loop(rulesCatalog.Where(r => r is not null).ToArray(), item, Empty<string>())
                     .Match(Either<string[], Unit>.Left, 
                            () => Unit.Default);
 
@@ -61,6 +61,7 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
 
     private static Option<string[]> EvaluateRuleSet(IEnumerable<Func<T, Either<string, Unit>>> ruleset, T item) =>
         ruleset
+          .Where(r => r is not null)
           .Select(rule => rule.Invoke(item))
           .Where(_ => _.IsLeft)
           .Select(_ => _.UnwrapLeft())
@@ -85,7 +86,9 @@ public class RulesManager<T> : IRulesManager<T> where T : new()
     private static readonly Func<T, bool> ItemSatisfiesRulesAlwaysTrue = _ => true;
 
     private static Func<T, bool> ItemSatisfiesRulesUsingCatalog(Func<T, Either<string, Unit>>[][] rulesCatalog) =>
-        item => rulesCatalog.Any(_ => _.All(__ => __.Invoke(item).IsRight));
+        item => rulesCatalog
+            .Where(r => r is not null)
+            .Any(_ => _.All(__ => __.Invoke(item).IsRight));
 
     /// <summary>
     ///     It filters the items keeping only those that satisfy the rules

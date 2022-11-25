@@ -77,9 +77,16 @@ public class RulesManagerTests
         _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(_catalog))
             .Returns(new CompiledCatalog<TestModel>(new[]
             {
+                null,
                 new Func<TestModel, Either<string, TinyFp.Unit>>[]
                 {
-                    _ => Either<string, TinyFp.Unit>.Left("code")
+                    _ => Either<string, TinyFp.Unit>.Left("code0"),
+                    _ => Either<string, TinyFp.Unit>.Left("code1")
+                },
+                new Func<TestModel, Either<string, TinyFp.Unit>>[]
+                {
+                    _ => Either<string, TinyFp.Unit>.Left("code0"),
+                    _ => Either<string, TinyFp.Unit>.Left("code2")
                 }
             }));
 
@@ -95,7 +102,28 @@ public class RulesManagerTests
 
         resultWithMessage.IsLeft.Should().BeTrue();
 
-        resultWithMessage.OnLeft(_ => _.Should().BeEquivalentTo("code"));
+        resultWithMessage.OnLeft(_ => _.Should().BeEquivalentTo("code0", "code1", "code2"));
+    }
+
+    [Test]
+    public void ItemSatisfiesRules_WhenCompilerReturnEmptySet_ShouldReturnRight()
+    {
+        _mockCompiler.Setup(_ => _.CompileCatalog<TestModel>(_catalog))
+            .Returns(new CompiledCatalog<TestModel>(Array.Empty<Func<TestModel, Either<string, TinyFp.Unit>>[]>()));
+
+        var item = new TestModel();
+
+        _sut.Catalog = _catalog;
+
+        var result = _sut.ItemSatisfiesRules(item);
+
+        result.Should().BeTrue();
+
+        result.Should().BeTrue();
+
+        var resultWithMessage = _sut.ItemSatisfiesRulesWithMessage(item);
+
+        resultWithMessage.IsRight.Should().BeTrue();
     }
 
     [Test]

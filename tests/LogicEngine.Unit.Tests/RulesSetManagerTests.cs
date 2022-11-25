@@ -81,6 +81,33 @@ public class RulesSetManagerTests
     }
 
     [Test]
+    public void FirstMatching_WhenCompilerReturnsEmptySome_ShouldReturnNone()
+    {
+        _compiler
+            .Setup(_ => _.CompileLabeled<TestModel>(Set))
+            .Returns(
+                new CompiledLabeledRulesSet<TestModel>(
+                    Option<KeyValuePair<string, Func<TestModel, Either<string, TinyFp.Unit>>>[]>
+                        .Some(Array.Empty<KeyValuePair<string, Func<TestModel, Either<string, TinyFp.Unit>>>>())
+                )
+            );
+
+        _sut.Set = Set;
+
+        var result = _sut
+            .FirstMatching(new TestModel
+            {
+                IntProperty = 27,
+                IntEnumerableProperty = new[] { 0, 1 }
+            });
+
+        result
+            .IsNone
+            .Should()
+            .BeTrue();
+    }
+
+    [Test]
     public void FirstMatching_WhenNoRulesSetIsSet_ShouldReturnNone()
     {
         var result = _sut
