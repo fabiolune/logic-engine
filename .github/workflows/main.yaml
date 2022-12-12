@@ -16,17 +16,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      ENABLE_BENCHMARKS: false
-
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
     - name: Get specific changed files
       id: changed-files
-      uses: tj-actions/changed-files@v14.6
+      uses: tj-actions/changed-files@v34
       with:
         files: |
           **/*.yml
@@ -47,12 +44,10 @@ jobs:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - uses: gittools/actions/gitversion/setup@v0.9.7
-      if: ${{ github.event_name == 'release' }}
       with:
         versionSpec: '5.6.10'
 
     - name: Compute version numbers
-      if: ${{ github.event_name == 'release' }}
       uses: gittools/actions/gitversion/execute@v0.9.7
     
     - name: restore dependencies
@@ -68,17 +63,11 @@ jobs:
     - name: build
       if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
       run: |
-        echo dotnet build \
+        dotnet build \
           --configuration Release \
           --no-restore \
           /p:Version=${{ env.GITVERSION_NUGETVERSIONV2 }} \
           /p:UseSharedCompilation=false
-        
-        dotnet build \
-          --configuration Release \
-          --no-restore \
-          /p:UseSharedCompilation=false
-          # /p:Version=${{ env.GITVERSION_NUGETVERSIONV2 }} \
 
     - name: Perform CodeQL Analysis
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
@@ -90,7 +79,9 @@ jobs:
 
     - name: retrieve list of coverage info reports
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      run: echo COVERAGE_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
+      run: |
+        find ./[Tt]est*/ -name "coverage.info" | paste -sd ";"
+        echo COVERAGE_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
 
     - name: merge code coverage data
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
