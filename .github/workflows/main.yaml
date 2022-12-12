@@ -86,7 +86,7 @@ jobs:
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: |
         find ./[Tt]est*/ -name "coverage.info" | paste -sd ";"
-        echo COVERAGE_REPORTS=$(find ./[Tt]est*/ -name "coverage.json" | paste -sd ";") >> $GITHUB_ENV
+        echo COVERAGE_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
 
     - name: merge code coverage data
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
