@@ -37,18 +37,19 @@ jobs:
       if: ${{ (steps.changed-files.outputs.any_changed == 'true') || (github.event_name == 'release') }}
       with:
         dotnet-version: | 
+          5.x
           6.x
           7.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - uses: gittools/actions/gitversion/setup@v0.9.7
+    - uses: gittools/actions/gitversion/setup@v0.9.15
       with:
-        versionSpec: '5.6.10'
+        versionSpec: '5.11.1'
 
     - name: Compute version numbers
-      uses: gittools/actions/gitversion/execute@v0.9.7
+      uses: gittools/actions/gitversion/execute@v0.9.15
     
     - name: restore dependencies
       if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release'}}
