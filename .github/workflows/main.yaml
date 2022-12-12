@@ -76,7 +76,11 @@ jobs:
 
     - name: test
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+      run: |
+        dotnet test --no-restore --verbosity normal
+      env:
+        CoverletOutputFormat: lcov
+        CollectCoverage: true
 
     - name: retrieve list of coverage info reports
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
@@ -100,7 +104,7 @@ jobs:
 
     - name: publish code coverage results
       if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && steps.changed-files.outputs.any_changed == 'true' }}
-      uses: romeovs/lcov-reporter-action@v0.2.21
+      uses: romeovs/lcov-reporter-action@v0.3.31
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coveragereport/lcov.info 

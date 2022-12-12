@@ -233,3 +233,4 @@ BenchmarkDotNet.Artifacts/*
 *.lutconfig
 
 **/coverage.json
+**/coverage.info
