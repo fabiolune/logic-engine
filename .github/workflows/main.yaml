@@ -71,8 +71,8 @@ jobs:
         dotnet build \
           --configuration Release \
           --no-restore \
-          /p:Version=${{ env.GITVERSION_NUGETVERSIONV2 }} \
           /p:UseSharedCompilation=false
+          # /p:Version=${{ env.GITVERSION_NUGETVERSIONV2 }} \
 
     - name: Perform CodeQL Analysis
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
