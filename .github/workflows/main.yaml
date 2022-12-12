@@ -104,7 +104,7 @@ jobs:
 
     - name: publish code coverage results
       if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && steps.changed-files.outputs.any_changed == 'true' }}
-      uses: romeovs/lcov-reporter-action@v0.3.31
+      uses: romeovs/lcov-reporter-action@v0.3.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coveragereport/lcov.info 
