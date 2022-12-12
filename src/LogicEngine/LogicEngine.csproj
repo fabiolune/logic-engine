@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6</TargetFramework>
+    <TargetFrameworks>net6;net7</TargetFrameworks>
     <PackageId>logic-engine</PackageId>
     <RepositoryUrl>https://github.com/fabiolune/logic-engine.git</RepositoryUrl>
     <PackageDescription>logic rules engine library</PackageDescription>
@@ -18,6 +18,6 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>CurrentImplementation</_Parameter1>
     </AssemblyAttribute>
-    <None Include="../../README.md" Pack="true" PackagePath="\"/>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>

@@ -42,6 +42,7 @@ jobs:
         dotnet-version: | 
           5.0.x
           6.0.x
+          7.0.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -63,7 +64,7 @@ jobs:
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push'}}
       uses: github/codeql-action/init@v1
       with:
-          languages: 'csharp'
+        languages: 'csharp'
 
     - name: build
       if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
@@ -71,6 +72,7 @@ jobs:
         dotnet build \
           --configuration Release \
           --no-restore \
+          /p:Version=${{ env.GITVERSION_NUGETVERSIONV2 }} \
           /p:UseSharedCompilation=false
 
     - name: Perform CodeQL Analysis
