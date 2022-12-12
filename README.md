@@ -160,30 +160,15 @@ var rule1 = new Rule("IntProperty", OperatorType.IsContained, "1,2,3");
 
 A `RulesSet` is basically a set of rules. From a functional point of view it represents a boolean typed function composed by a set of functions on a given type.
 
----
-__DEFINITION__
+> __DEFINITION__: A `Rule` is satisfied by an item `t` of type `T` if the associated function `f: T ──► bool` returns true if `f(t)` is `true`.
 
-A `Rule` is satisfied by an item `t` of type `T` if the associated function `f: T ──► bool` returns true if `f(t)` is `true`.
-
----
-
----
-__DEFINITION__
-
-A `RulesSet` is satisfied by an item `t` of type `T` if and only if all the functions of the set are satisfied by `t`.
-
----
+> __DEFINITION__: A `RulesSet` is satisfied by an item `t` of type `T` if and only if all the functions of the set are satisfied by `t`.
 
 A `RulesCatalog` represents a set of `RulesSet`, and functionally corresponds to a boolean typed function composed by a set of sets of functions on a given type.
 
----
-__DEFINITION__
+> __DEFINITION__: A `RulesCatalog` is satisfied by an item `t` of type `T` if at least one of its `RulesSet` is satisfied by `t`.
 
-A `RulesCatalog` is satisfied by an item `t` of type `T` if at least one of its `RulesSet` is satisfied by `t`.
-
----
-
-From these considerations, it is clear that a `RulesSet` corresponds to the logical `AND` operator on its functions, and a `RulesCatalog` corresponds to the logical `OR` operator on its `RulesSet`.
+From these considerations, it is clear that a `RulesSet` corresponds to the logical `AND` operator on its functions, and a `RulesCatalog` corresponds to the logical `OR` operator on its `RulesSet`s.
 
 ## The Algebraic model
 
@@ -225,12 +210,12 @@ rs2 = {r4, r5}
 The `SingleRuleCompiler` is the component that parses and compiles a `Rule` into executable code. 
 Every rule becomes an `Option` of `CompiledRule<T>`, an object capturing a `Func<T, Either<string, Unit>>`: the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
 The monadic function notation captures the possible outputs of the function:
-- the left type of the `Either` (`string`) represents a non matching result represented by the code of the executed rule
+- the left type of the `Either` (`string`) represents a non matching result containing the code of the executed rule
 - the right type (`Unit`) represents insted a matching result for which no additional details are needed.
 
-The `RulesSetCompiler` transforms a RulesSet into a `CompiledRulesSet<T>`, essentially a wrapper around an array of `Func<T, Either<string, Unit>>` (all the rules of the `RulesSet` that are not correct get filtered out).
+The `RulesSetCompiler` transforms a RulesSet into a `CompiledRulesSet<T>`, essentially a wrapper ok an array of `Func<T, Either<string, Unit>>` (all the rules of the `RulesSet` that are not correct get filtered out).
 
-The `RulesCatalogCompiler`, finally, trasforms a full `RulesCatalog` into a `CompiledCatalog<T>`, a container for `Func<T, Either<string, Unit>>[][]` (a bidimensional array of functions to represents the logical superposition of `OR` operations on rules joined by a logical `AND`)
+The `RulesCatalogCompiler`, finally, trasforms a full `RulesCatalog` into a `CompiledCatalog<T>`, a container for `Func<T, Either<string, Unit>>[][]` (a bidimensional array of functions to represents the logical superposition of `OR` operations on rules joined by a logical `AND` on sets)
 
 ## The RulesManager
 
@@ -258,7 +243,7 @@ To ensure meaningful results, the `RulesSetManager` requires its `RulesSet` not 
 
 If you are using `nuget.org` you can add the dependency in your project using
 ```shell
-dotnet add package logic-engine --version 2.1.0
+dotnet add package logic-engine --version <version>
 ```
 
 To install the __logic-engine__ library from GitHub's packages system please refer to the [packages page](https://github.com/fabiolune?tab=packages&repo_name=logic-engine).

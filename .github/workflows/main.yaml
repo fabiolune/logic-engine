@@ -16,17 +16,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      ENABLE_BENCHMARKS: false
-
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
     - name: Get specific changed files
       id: changed-files
-      uses: tj-actions/changed-files@v14.6
+      uses: tj-actions/changed-files@v34
       with:
         files: |
           **/*.yml
@@ -36,24 +33,23 @@ jobs:
           **/*.sln
           nuget.config
 
-    - uses: actions/setup-dotnet@v1
+    - uses: actions/setup-dotnet@v3
       if: ${{ (steps.changed-files.outputs.any_changed == 'true') || (github.event_name == 'release') }}
       with:
         dotnet-version: | 
-          5.0.x
-          6.0.x
+          5.x
+          6.x
+          7.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - uses: gittools/actions/gitversion/setup@v0.9.7
-      if: ${{ github.event_name == 'release' }}
+    - uses: gittools/actions/gitversion/setup@v0.9.15
       with:
-        versionSpec: '5.6.10'
+        versionSpec: '5.11.1'
 
     - name: Compute version numbers
-      if: ${{ github.event_name == 'release' }}
-      uses: gittools/actions/gitversion/execute@v0.9.7
+      uses: gittools/actions/gitversion/execute@v0.9.15
     
     - name: restore dependencies
       if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release'}}
@@ -63,7 +59,7 @@ jobs:
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push'}}
       uses: github/codeql-action/init@v1
       with:
-          languages: 'csharp'
+        languages: 'csharp'
 
     - name: build
       if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
@@ -71,6 +67,7 @@ jobs:
         dotnet build \
           --configuration Release \
           --no-restore \
+          /p:Version=${{ env.GITVERSION_NUGETVERSIONV2 }} \
           /p:UseSharedCompilation=false
 
     - name: Perform CodeQL Analysis
@@ -79,15 +76,21 @@ jobs:
 
     - name: test
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+      run: |
+        dotnet test --no-restore --verbosity normal
+      env:
+        CoverletOutputFormat: lcov
+        CollectCoverage: true
 
     - name: retrieve list of coverage info reports
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      run: echo COVERAGE_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
+      run: |
+        find ./[Tt]est*/ -name "coverage.info" | paste -sd ";"
+        echo COVERAGE_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
 
     - name: merge code coverage data
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      uses: danielpalme/ReportGenerator-GitHub-Action@4.6.6
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
       with:
         reports: '${{ env.COVERAGE_REPORTS }}'
         reporttypes: 'lcov'
@@ -101,7 +104,7 @@ jobs:
 
     - name: publish code coverage results
       if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && steps.changed-files.outputs.any_changed == 'true' }}
-      uses: romeovs/lcov-reporter-action@v0.2.21
+      uses: romeovs/lcov-reporter-action@v0.3.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         lcov-file: ./coveragereport/lcov.info 

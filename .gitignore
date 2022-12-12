@@ -231,3 +231,6 @@ BenchmarkDotNet.Artifacts/*
 
 ## live unit testing config
 *.lutconfig
+
+**/coverage.json
+**/coverage.info
