@@ -36,12 +36,12 @@ jobs:
           **/*.sln
           nuget.config
 
-    - uses: actions/setup-dotnet@v1
+    - uses: actions/setup-dotnet@v3
       if: ${{ (steps.changed-files.outputs.any_changed == 'true') || (github.event_name == 'release') }}
       with:
         dotnet-version: | 
-          6.0.x
-          7.0.x
+          6.x
+          7.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,6 +68,12 @@ jobs:
     - name: build
       if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
       run: |
+        echo dotnet build \
+          --configuration Release \
+          --no-restore \
+          /p:Version=${{ env.GITVERSION_NUGETVERSIONV2 }} \
+          /p:UseSharedCompilation=false
+        
         dotnet build \
           --configuration Release \
           --no-restore \
@@ -88,7 +94,7 @@ jobs:
 
     - name: merge code coverage data
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      uses: danielpalme/ReportGenerator-GitHub-Action@4.6.6
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
       with:
         reports: '${{ env.COVERAGE_REPORTS }}'
         reporttypes: 'lcov'
