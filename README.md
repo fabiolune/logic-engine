@@ -239,6 +239,12 @@ This can be useful in a scenario where, given a condition on an item, some speci
 
 To ensure meaningful results, the `RulesSetManager` requires its `RulesSet` not to have rules with the same `Code`.
 
+## The CompositeRulesSetManager
+
+The `CompositeRulesSetManager`, given a set of `RuleSet` and a corresponding key, is responsible for retrieving the item corresponding to the first `RuleSet` matched by a specific item.
+
+This can be useful in a scenario where, given a condition on an item, some specific operation should be executed (like a routing matching in a web api with many rules to be evaluated in AND).
+
 ## How to install
 
 If you are using `nuget.org` you can add the dependency in your project using
