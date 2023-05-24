@@ -26,8 +26,13 @@ public class CompositeRulesSetManager<T, TKey> : ICompositeRulesSetManager<T, TK
                 .FirstOrDefault(t => t.Executables.Any(f => f(item).IsRight))
                 .ToOption(t => t.Item1 is null)
                 .Map(t => t.Item1))
-                .OrElse(() => item => Option<TKey>.None());
+                .OrElse(() => _ => Option<TKey>.None());
     }
 
+    /// <summary>
+    /// Given a set of rulesets and corresponding TKey keys, returns the TKey corresponding to the first ruleset matched by "item"
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns><![CDATA[Option<TKey>]]></returns>
     public Option<TKey> FirstMatching(T item) => _func(item);
 }
