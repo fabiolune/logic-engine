@@ -31,11 +31,12 @@ public class RulesSetManager<T> : IRulesSetManager<T> where T : new()
     public Option<string> FirstMatching(T item) => _firstMatching(item);
 
     private static Func<T, Option<string>> AlwaysNoneFirstMatchingWithRules(IList<KeyValuePair<string, Func<T, Either<string, Unit>>>> rules) => 
-    item => rules
-            .Select(x => (x.Key, x.Value(item)))
-            .FirstOrDefault(x => x.Item2.IsRight)
-            .ToOption(x => x.Equals(default))
-        .Map(_ => _.Key);
+        item => 
+            rules
+                .Select(x => (x.Key, x.Value(item)))
+                .FirstOrDefault(x => x.Item2.IsRight)
+                .ToOption(x => x.Equals(default))
+                .Map(_ => _.Key);
 
     private Func<T, Option<string>> _firstMatching = AlwaysNoneFirstMatching;
 
