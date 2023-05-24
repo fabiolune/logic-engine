@@ -24,10 +24,7 @@ public class CompositeRulesSetManagerTests
     public void SetUp()
     {
         _compiler = new Mock<IRulesSetCompiler>();
-        _sut = new CompositeRulesSetManager<TestModel, string>(_compiler.Object)
-        {
-            Set = Data
-        };
+        _sut = new CompositeRulesSetManager<TestModel, string>(_compiler.Object);
     }
 
     internal static object[] TestCases = new[]
@@ -96,9 +93,33 @@ public class CompositeRulesSetManagerTests
             .Setup(c => c.Compile<TestModel>(SecondSet))
             .Returns(new CompiledRulesSet<TestModel>(secondExecutables));
 
+        _sut.Set = Data;
         var result = _sut.FirstMatching(new TestModel());
 
         result.Should().Be(expectedResult);
     }
-    
+
+    [Test]
+    public void FirstMatching_WhenNullDataArePassed_ShouldAlwaysReturnNone()
+    {
+        _sut.Set = null;
+        var result = _sut.FirstMatching(new TestModel());
+
+        result
+            .Should()
+            .Be(Option<string>.None());
+    }
+
+    [Test]
+    public void FirstMatching_WhenEmptyDataArePassed_ShouldAlwaysReturnNone()
+    {
+        _sut.Set = Array.Empty<(string, RulesSet)>();
+        var result = _sut.FirstMatching(new TestModel());
+
+        result
+            .Should()
+            .Be(Option<string>.None());
+    }
+
+
 }
