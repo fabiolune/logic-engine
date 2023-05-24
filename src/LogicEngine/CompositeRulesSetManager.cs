@@ -26,7 +26,7 @@ public class CompositeRulesSetManager<T, TKey> : ICompositeRulesSetManager<T, TK
                 .FirstOrDefault(t => t.Executables.Any(f => f(item).IsRight))
                 .ToOption(t => t.Item1 is null)
                 .Map(t => t.Item1))
-                .OrElse(() => item => Option<TKey>.None());
+                .OrElse(() => _ => Option<TKey>.None());
     }
 
     /// <summary>
