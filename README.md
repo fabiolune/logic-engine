@@ -45,8 +45,8 @@ public class MyClass
     public int IntegerProperty {get; set;}
 }
 
-var stringRule = new Rule("StringProperty", OperatorType.Equal, "Some Value");
-var integerRule = new Rule("IntegerProperty", OperatorType.Equal, "10");
+var stringRule = new Rule("StringProperty", OperatorType.Equal, "Some Value", "code 1");
+var integerRule = new Rule("IntegerProperty", OperatorType.Equal, "10", "code 2");
 ```
 > sample rules with direct operators
 
@@ -70,8 +70,8 @@ public class MyClass
     public int IntegerProperty2 {get; set;}
 }
 
-var stringRule = new Rule("StringProperty1", OperatorType.InnerEqual, "StringProperty2");
-var integerRule = new Rule("IntegerProperty1", OperatorType.InnerGreaterThan, "IntegerProperty2");
+var stringRule = new Rule("StringProperty1", OperatorType.InnerEqual, "StringProperty2", "code 1");
+var integerRule = new Rule("IntegerProperty1", OperatorType.InnerGreaterThan, "IntegerProperty2", "code 2");
 ```
 > sample rules with internal direct operators
 
@@ -90,8 +90,8 @@ public class MyClass
     public IEnumerable<string> StringEnumerableProperty {get; set;}
 }
 
-var rule1 = new Rule("StringEnumerableProperty", OperatorType.Contains, "value");
-var rule2 = new Rule("StringEnumerableProperty", OperatorType.Overlaps, "value1,value2");
+var rule1 = new Rule("StringEnumerableProperty", OperatorType.Contains, "value", "code 1");
+var rule2 = new Rule("StringEnumerableProperty", OperatorType.Overlaps, "value1,value2", "code 2");
 ```
 > sample rules with enumerable operators
 
