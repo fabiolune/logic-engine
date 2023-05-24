@@ -45,6 +45,33 @@ public class CompositeRulesSetManagerTests
         {
             new Func<TestModel, Either<string, TinyFp.Unit>>[]
             {
+                tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default),
+                tm => Either<string, TinyFp.Unit>.Left("some value")
+            },
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Left("some value")
+            },
+            Option<string>.Some("key 1")
+        },
+        new object[]
+        {
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default),
+                tm => Either<string, TinyFp.Unit>.Left("some value"),
+                tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)
+            },
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Left("some value")
+            },
+            Option<string>.Some("key 1")
+        },
+        new object[]
+        {
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
                 tm => Either<string, TinyFp.Unit>.Left("some value")
             },
             new Func<TestModel, Either<string, TinyFp.Unit>>[]
@@ -57,7 +84,61 @@ public class CompositeRulesSetManagerTests
         {
             new Func<TestModel, Either<string, TinyFp.Unit>>[]
             {
+                tm => Either<string, TinyFp.Unit>.Left("some value")
+            },
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Left("some value"),
                 tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)
+            },
+            Option<string>.Some("key 2")
+        },
+        new object[]
+        {
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Left("some value")
+            },
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Left("some value"),
+                tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default),
+                tm => Either<string, TinyFp.Unit>.Left("some value")
+            },
+            Option<string>.Some("key 2")
+        },
+        new object[]
+        {
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)
+            },
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)
+            },
+            Option<string>.Some("key 1")
+        },
+        new object[]
+        {
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Left("some value"),
+                tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)
+            },
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)
+            },
+            Option<string>.Some("key 1")
+        },
+        new object[]
+        {
+            new Func<TestModel, Either<string, TinyFp.Unit>>[]
+            {
+                tm => Either<string, TinyFp.Unit>.Left("some value"),
+                tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default),
+                tm => Either<string, TinyFp.Unit>.Left("some value")
             },
             new Func<TestModel, Either<string, TinyFp.Unit>>[]
             {
