@@ -23,7 +23,7 @@ public class CompositeRulesSetManager<T, TKey> : ICompositeRulesSetManager<T, TK
                 .Map(v => v.Where(kv => kv.Item1 is not null))
                 .Map<Func<T, Option<TKey>>>(v => (item) => v.Select(t => (t.Item1, _compiler.Compile<T>(t.Item2)))
                 .Select(t => (t.Item1, t.Item2.Executables))
-                .FirstOrDefault(t => t.Executables.Any(f => f(item).IsRight))
+                .FirstOrDefault(t => t.Executables.All(f => f(item).IsRight))
                 .ToOption(t => t.Item1 is null)
                 .Map(t => t.Item1))
                 .OrElse(() => _ => Option<TKey>.None());

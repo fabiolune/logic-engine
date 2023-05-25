@@ -52,7 +52,7 @@ public class CompositeRulesSetManagerTests
             {
                 tm => Either<string, TinyFp.Unit>.Left("some value")
             },
-            Option<string>.Some("key 1")
+            Option<string>.None()
         },
         new object[]
         {
@@ -66,7 +66,7 @@ public class CompositeRulesSetManagerTests
             {
                 tm => Either<string, TinyFp.Unit>.Left("some value")
             },
-            Option<string>.Some("key 1")
+            Option<string>.None()
         },
         new object[]
         {
@@ -91,7 +91,7 @@ public class CompositeRulesSetManagerTests
                 tm => Either<string, TinyFp.Unit>.Left("some value"),
                 tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)
             },
-            Option<string>.Some("key 2")
+            Option<string>.None()
         },
         new object[]
         {
@@ -105,7 +105,7 @@ public class CompositeRulesSetManagerTests
                 tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default),
                 tm => Either<string, TinyFp.Unit>.Left("some value")
             },
-            Option<string>.Some("key 2")
+            Option<string>.None()
         },
         new object[]
         {
@@ -130,7 +130,7 @@ public class CompositeRulesSetManagerTests
             {
                 tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)
             },
-            Option<string>.Some("key 1")
+            Option<string>.Some("key 2")
         },
         new object[]
         {
@@ -144,7 +144,7 @@ public class CompositeRulesSetManagerTests
             {
                 tm => Either<string, TinyFp.Unit>.Right(TinyFp.Unit.Default)
             },
-            Option<string>.Some("key 1")
+            Option <string>.Some("key 2")
         },
         new object[]
         {
