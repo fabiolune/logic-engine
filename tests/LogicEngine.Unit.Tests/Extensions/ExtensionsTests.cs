@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using LogicEngine.Extensions;
-using LogicEngine.Interfaces;
+using LogicEngine.Interfaces.Managers;
 using Moq;
 using NUnit.Framework;
 using TinyFp;
@@ -9,12 +9,12 @@ namespace LogicEngine.Unit.Tests.Extensions;
 
 public class ExtensionsTests
 {
-    private Mock<IRulesManager<TestModel>> _mockManager;
+    private Mock<IRulesCatalogManager<TestModel>> _mockManager;
 
     [SetUp]
     public void SetUp()
     {
-        _mockManager = new Mock<IRulesManager<TestModel>>();
+        _mockManager = new Mock<IRulesCatalogManager<TestModel>>();
     }
 
     [TestCase(true)]

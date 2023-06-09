@@ -2,9 +2,9 @@
 using LogicEngine.Models;
 using TinyFp;
 
-namespace LogicEngine.Interfaces;
+namespace LogicEngine.Interfaces.Managers;
 
-public interface IRulesManager<T> where T : new()
+public interface IRulesCatalogManager<T> where T : new()
 {
     RulesCatalog Catalog { set; }
     Either<string[], Unit> ItemSatisfiesRulesWithMessage(T item);
