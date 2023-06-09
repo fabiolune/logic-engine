@@ -1,20 +1,18 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
+using LogicEngine.Compilers;
 using LogicEngine.Internals;
 using LogicEngine.Models;
 using NUnit.Framework;
 
-namespace LogicEngine.Unit.Tests;
+namespace LogicEngine.Unit.Tests.Compilers;
 
 public class SingleRuleCompilerTests
 {
-    private SingleRuleCompiler _sut;
+    private RuleCompiler _sut;
 
     [SetUp]
-    public void SetUp()
-    {
-        _sut = new SingleRuleCompiler();
-    }
+    public void SetUp() => _sut = new RuleCompiler();
 
     [TestCase(OperatorType.Equal)]
     [TestCase(OperatorType.GreaterThan)]
@@ -244,12 +242,12 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 13
             }).IsLeft.Should().BeTrue();
@@ -266,12 +264,12 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12
             }).IsLeft.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 13
             }).IsRight.Should().BeTrue();
@@ -288,12 +286,12 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12
             }).IsLeft.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 13
             }).IsRight.Should().BeTrue();
@@ -310,12 +308,12 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 13
             }).IsRight.Should().BeTrue();
@@ -332,17 +330,17 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 11
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 13
             }).IsRight.Should().BeFalse();
@@ -359,17 +357,17 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 11
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 13
             }).IsRight.Should().BeFalse();
@@ -386,12 +384,12 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 12, 13 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 13 }
             }).IsRight.Should().BeFalse();
@@ -408,12 +406,12 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 12, 13 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 13 }
             }).IsRight.Should().BeTrue();
@@ -430,12 +428,12 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 12, 13 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 13 }
             }).IsRight.Should().BeTrue();
@@ -452,12 +450,12 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 12, 13 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 13 }
             }).IsRight.Should().BeFalse();
@@ -474,7 +472,7 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -483,7 +481,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -492,7 +490,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel()).IsRight.Should().BeFalse();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeFalse();
         });
     }
 
@@ -506,7 +504,7 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -515,7 +513,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -524,7 +522,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel()).IsRight.Should().BeTrue();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
         });
     }
 
@@ -538,7 +536,7 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -547,7 +545,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -556,7 +554,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel()).IsRight.Should().BeFalse();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeFalse();
         });
     }
 
@@ -570,7 +568,7 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -579,7 +577,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -588,7 +586,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel()).IsRight.Should().BeTrue();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
         });
     }
 
@@ -602,7 +600,7 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -611,7 +609,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -620,7 +618,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -629,7 +627,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel()).IsRight.Should().BeFalse();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeFalse();
         });
     }
 
@@ -643,7 +641,7 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -652,7 +650,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -661,7 +659,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 StringStringDictionaryProperty = new Dictionary<string, string>
                 {
@@ -670,7 +668,7 @@ public class SingleRuleCompilerTests
                 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel()).IsRight.Should().BeTrue();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
         });
     }
 
@@ -684,17 +682,17 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel()).IsRight.Should().BeFalse();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeFalse();
         });
     }
 
@@ -708,17 +706,17 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel()).IsRight.Should().BeTrue();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
         });
     }
 
@@ -732,18 +730,18 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel()).IsRight.Should().BeTrue();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
         });
     }
 
@@ -757,24 +755,24 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14,
                 IntProperty2 = 13
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel()).IsRight.Should().BeTrue();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
         });
     }
 
@@ -788,18 +786,18 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel()).IsRight.Should().BeFalse();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeFalse();
         });
     }
 
@@ -813,24 +811,24 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14,
                 IntProperty2 = 13
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel()).IsRight.Should().BeFalse();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeFalse();
         });
     }
 
@@ -844,24 +842,24 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14,
                 IntProperty2 = 13
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel()).IsRight.Should().BeFalse();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeFalse();
         });
     }
 
@@ -875,24 +873,24 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14,
                 IntProperty2 = 13
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel()).IsRight.Should().BeTrue();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
         });
     }
 
@@ -906,24 +904,24 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 13,
                 IntProperty2 = 14
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel()).IsRight.Should().BeFalse();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeFalse();
         });
     }
 
@@ -937,24 +935,24 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 13,
                 IntProperty2 = 14
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel()).IsRight.Should().BeTrue();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
         });
     }
 
@@ -968,24 +966,24 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntEnumerableProperty = new[] { 11, 12 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 13,
                 IntEnumerableProperty = new[] { 11, 12 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel()).IsRight.Should().BeFalse();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeFalse();
         });
     }
 
@@ -999,24 +997,24 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntEnumerableProperty = new[] { 11, 12 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 13,
                 IntEnumerableProperty = new[] { 11, 12 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntProperty = 14
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel()).IsRight.Should().BeTrue();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
         });
     }
 
@@ -1030,24 +1028,24 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 12 },
                 IntEnumerableProperty2 = new[] { 11, 13 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 12 },
                 IntEnumerableProperty2 = new[] { 13, 14 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 12 },
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel()).IsRight.Should().BeFalse();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeFalse();
         });
     }
 
@@ -1061,24 +1059,24 @@ public class SingleRuleCompilerTests
         result.IsSome.Should().BeTrue();
         result.OnSome(_ =>
         {
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 12 },
                 IntEnumerableProperty2 = new[] { 11, 13 }
             }).IsRight.Should().BeFalse();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 12 },
                 IntEnumerableProperty2 = new[] { 13, 14 }
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel
+            _.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = new[] { 11, 12 },
             }).IsRight.Should().BeTrue();
 
-            _.Executable(new TestModel()).IsRight.Should().BeTrue();
+            _.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
         });
     }
 }

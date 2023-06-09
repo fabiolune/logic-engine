@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using LogicEngine.Extensions;
-using LogicEngine.Interfaces;
+using LogicEngine.Interfaces.Managers;
 using Moq;
 using NUnit.Framework;
 
@@ -9,7 +9,7 @@ namespace LogicEngine.Unit.Tests.Extensions;
 
 public class EnumerableExtensionsTests
 {
-    private readonly Mock<IRulesManager<TestModel>> _mockManager = new();
+    private readonly Mock<IRulesCatalogManager<TestModel>> _mockManager = new();
 
     [Test]
     public void Filter_ShouldInvokeManagerFilterAndReturnItsResult()
