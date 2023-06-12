@@ -39,20 +39,20 @@ public record CompiledCatalog<T> :
     private static Func<T, bool> GetApplyFromRules(CompiledRulesSet<T>[] ruleSets) =>
         item => !ruleSets
             .TakeWhile(s => !s.Apply(item))
-            .ToArray() // here
+            .ToArray()
             .Any();
 
     private static Func<T, Either<IEnumerable<string>, Unit>> GetDetailedApplyFromRules(CompiledRulesSet<T>[] ruleSets) =>
         item => ruleSets
             .Select(s => s.DetailedApply(item))
             .FilterLeft()
-            .ToArray() // here
+            .ToArray()
             .Map<IEnumerable<IEnumerable<string>>, Either<IEnumerable<string>, Unit>>(e => e.ToEither(_ => Unit.Default, _ => _.Any(), e.SelectMany(i => i)));
 
     private static Func<T, Option<string>> GetFirstMatchingFromRules(CompiledRulesSet<T>[] ruleSets) =>
         item => ruleSets
             .TakeWhile(r => r.Apply(item))
-            .ToArray() // here
+            .ToArray()
             .FirstOrDefault()
             .ToOption()
             .Map(r => r.Name);
