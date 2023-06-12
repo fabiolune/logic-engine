@@ -57,7 +57,7 @@ jobs:
 
     - name: Initialize CodeQL
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push'}}
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
       with:
         languages: 'csharp'
 
@@ -72,7 +72,7 @@ jobs:
 
     - name: Perform CodeQL Analysis
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v2
 
     - name: test
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
