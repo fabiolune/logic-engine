@@ -15,9 +15,8 @@ public class RulesSetCompiler : IRulesSetCompiler
     public Option<CompiledRulesSet<T>> Compile<T>(RulesSet set) where T : new() =>
         set
             .Rules
-            .AsParallel()
             .Select(_singleRuleCompiler.Compile<T>)
             .Filter()
             .ToOption(e => !e.Any())
-            .Map(_ => new CompiledRulesSet<T>(_.ToArray()));
+            .Map(_ => new CompiledRulesSet<T>(_.ToArray(), set.Name));
 }

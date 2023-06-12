@@ -15,10 +15,9 @@ public class RulesCatalogCompiler : IRulesCatalogCompiler
     public Option<CompiledCatalog<T>> Compile<T>(RulesCatalog catalog) where T : new() =>
         catalog.RulesSets
             .Where(rs => rs is not null)
-            .AsParallel()
             .Select(_rulesSetCompiler.Compile<T>)
             .Filter()
             .ToArray()
             .ToOption(e => !e.Any())
-            .Map(_ => new CompiledCatalog<T>(_));
+            .Map(_ => new CompiledCatalog<T>(_, catalog.Name));
 }

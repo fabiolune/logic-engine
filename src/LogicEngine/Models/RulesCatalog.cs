@@ -8,12 +8,12 @@ namespace LogicEngine.Models;
 public record RulesCatalog
 {
     private readonly IEnumerable<RulesSet> _rulesSets;
-    public string Name { get; init; }
+    public string Name { get; }
 
     public IEnumerable<RulesSet> RulesSets
     {
         get => _rulesSets ?? Array.Empty<RulesSet>();
-        init => _rulesSets  = value;
+        private init => _rulesSets  = value;
     }
 
     public RulesCatalog(IEnumerable<RulesSet> rulesSets, string name)

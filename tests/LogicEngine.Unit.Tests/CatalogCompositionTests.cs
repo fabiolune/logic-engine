@@ -19,16 +19,16 @@ public class CatalogCompositionTests
     {
         var c1 = new RulesCatalog(Enumerable
             .Range(0, ruleSets1)
-            .Select(_ => new RulesSet(Array.Empty<Rule>())), "name 1");
+            .Select(_ => new RulesSet(Array.Empty<Rule>(), "ruleset 1")), "name 1");
         
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
-            .Select(_ => new RulesSet(Array.Empty<Rule>())), "name 2");
+            .Select(_ => new RulesSet(Array.Empty<Rule>(), "ruleset 2")), "name 2");
 
-        var c = c1 + c2;
+        var sumCatalog = c1 + c2;
 
-        c.RulesSets.Should().HaveCount(ruleSets1 + ruleSets2);
-        c.Name.Should().Be("(name 1 OR name 2)");
+        sumCatalog.RulesSets.Should().HaveCount(ruleSets1 + ruleSets2);
+        sumCatalog.Name.Should().Be("(name 1 OR name 2)");
     }
 
     [TestCase(0, 0)]
@@ -40,16 +40,16 @@ public class CatalogCompositionTests
     {
         var c1 = new RulesCatalog(Enumerable
             .Range(0, ruleSets1)
-            .Select(_ => new RulesSet(Array.Empty<Rule>())), "name 1");
+            .Select(_ => new RulesSet(Array.Empty<Rule>(), "ruleset 1")), "name 1");
 
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
-            .Select(_ => new RulesSet(Array.Empty<Rule>())), "name 2");
+            .Select(_ => new RulesSet(Array.Empty<Rule>(), "ruleset 2")), "name 2");
 
-        var c = c1 * c2;
+        var sumCatalog = c1 * c2;
 
-        c.RulesSets.Should().HaveCount(ruleSets1 * ruleSets2);
-        c.Name.Should().Be("(name 1 AND name 2)");
+        sumCatalog.RulesSets.Should().HaveCount(ruleSets1 * ruleSets2);
+        sumCatalog.Name.Should().Be("(name 1 AND name 2)");
     }
 
     [Test]
@@ -63,8 +63,8 @@ public class CatalogCompositionTests
                 new[]
                 {
                     new Rule("a", OperatorType.Equal, "b", "code")
-                }
-
+                },
+                "ruleset 1"
             )
         }, "catalog 2");
 
@@ -80,15 +80,15 @@ public class CatalogCompositionTests
     }
 
     [TestCase(0)]
-    [TestCase(0)]
-    [TestCase(0)]
-    [TestCase(0)]
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
     public void CatalogsProduct_WhenOneRulesSetIsNull_ShouldReturnProperProduct(int ruleSets2)
     {
         var c1 = new RulesCatalog(null, "catalog 1");
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
-            .Select(_ => new RulesSet(Array.Empty<Rule>())), "catalog 2");
+            .Select(_ => new RulesSet(Array.Empty<Rule>(), $"ruleset {_}")), "catalog 2");
 
         var prodCatalog1 = c1 * c2;
 
