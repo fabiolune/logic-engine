@@ -16,6 +16,8 @@ The core functionalities are encapsulated in different components, both logical 
 ## The Rule
 The rule object represents the building block for the system. A rule is an abstraction for a function acting on the value of a type and returning a boolean response.
 
+> __DEFINITION__: A `Rule` is satisfied by an item `t` of type `T` if the associated function `f: T ──► bool` returns true if `f(t)` is `true`.
+
 Given a type to be applied to, a rule is defined by a set of fields
 - `Property`: identifies the property against which to execute the evaluation
 - `Operator`: defines the operation to execute on the property
@@ -26,7 +28,7 @@ Given a type to be applied to, a rule is defined by a set of fields
 
 The `Operator` can assume different possible values depending on the `Property` it is applied to and on the value the result should be compared to.
 
-Based on this considerations there are different types of operators. The rules categorization is also influenced by some implementation details.
+Operators are classified based on the way they work and their behaviour. The rules categorization is also influenced by some implementation details.
 
 ### Direct operators
 
@@ -156,23 +158,39 @@ var rule1 = new Rule("IntProperty", OperatorType.IsContained, "1,2,3");
 ```
 > sample rules for inverse enumerable operators
 
-## RulesSet and RulesCatalog
+## RulesSet
 
 A `RulesSet` is basically a set of rules. From a functional point of view it represents a boolean typed function composed by a set of functions on a given type.
 
-> __DEFINITION__: A `Rule` is satisfied by an item `t` of type `T` if the associated function `f: T ──► bool` returns true if `f(t)` is `true`.
+> __DEFINITION__: A `RulesSet` is satisfied by an item `t` of type `T` if all the functions of the set are satisfied by `t`.
 
-> __DEFINITION__: A `RulesSet` is satisfied by an item `t` of type `T` if and only if all the functions of the set are satisfied by `t`.
+A `RulesSet` corresponds to the logical `AND` operator on its rules.
+
+## RulesCatalog
 
 A `RulesCatalog` represents a set of `RulesSet`, and functionally corresponds to a boolean typed function composed by a set of sets of functions on a given type.
 
-> __DEFINITION__: A `RulesCatalog` is satisfied by an item `t` of type `T` if at least one of its `RulesSet` is satisfied by `t`.
+> __DEFINITION__: A `RulesCatalog` is satisfied by an item `t` of type `T` if at least one of its `RulesSet`s is satisfied by `t`.
 
-From these considerations, it is clear that a `RulesSet` corresponds to the logical `AND` operator on its functions, and a `RulesCatalog` corresponds to the logical `OR` operator on its `RulesSet`s.
+A `RulesCatalog` corresponds to the logical `OR` operator on its `RulesSet`s.
 
 ## The Algebraic model
 
-As discussed above, composite types `RulesSet` and `RulesCatalog` represent logical operations on the field of functions `f: T ──► bool`; it seems than possible to define an algebraic model where catalogs can be added or multiplied together to generate more complex catalogs.
+As discussed above, composite types `RulesSet` and `RulesCatalog` represent logical operations on the field of functions `f: T ──► bool`; it seems than possible to define an algebraic model defining the composition of different entities.
+
+### RulesSets sum
+
+> __DEFINITION__: The sum of two `RulesSet`s is a new `RulesSet`, and its rules are a set of rules obtained by concatenating the rules of the the two `RulesSet`s
+
+```
+rs1 = {r1, r2, r3}
+rs2 = {r4, r5}
+
+──► rs1 * rs2 = {r1, r2, r3, r4, r5}
+```
+> sum of two `RulesSet`s
+
+### RulesCatalog sum
 
 The sum of two `RulesCatalog` objects is a `RulesCatalog` with a set of `RulesSet` obtained by simply concatenating the two sets of `RulesSet`:
 
@@ -184,6 +202,8 @@ c2 = {rs4, rs5}
 ```
 > sum of two `RulesCatalog`
 
+### RulesCatalog product
+
 The product of two catalogs is a catalog with a set of all the `RulesSet` obtained concatenating a set of the first catalog with one of the second.
 
 ```
@@ -194,21 +214,25 @@ c2 = {rs4, rs5}
 ```
 > product of two `RulesCatalog`
 
-The definition relies on the definition of product between two `RulesSet`: its definition is simply a new `RulesSet` whose rules are the concatenation of the rules in the two factors:
-
-```
-rs1 = {r1, r2, r3}
-rs2 = {r4, r5}
-
-──► rs1 * rs2 = {r1, r2, r3, r4, r5}
-```
-
-> product of two `RulesSet`
-
 ## The compilers
 
-The `SingleRuleCompiler` is the component that parses and compiles a `Rule` into executable code. 
-Every rule becomes an `Option` of `CompiledRule<T>`, an object capturing a `Func<T, Either<string, Unit>>`: the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
+The `RuleCompiler` is the component that parses and compiles a `Rule` into executable code. 
+
+Every rule becomes an `Option<CompiledRule<T>>`, where the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
+
+A `CompiledRule<T>` is the actual portion of code that can be applied to an item of type `T` to provide a boolean result; by the way, sometimes the boolean result is not enough: when the rule is not satisfied it could be important to understand the reason why it failed, for this a dedicated `Either<string, Unit> DetailedApply(T item)` method can retun `Unit` when the rule is satisfied, or a string (the rule code) in case of failure.
+
+--- mostly ok until here ---
+
+
+
+Similar to the `RuleCompiler`, the `RulesSetCompiler` transforms a `RulesSet` into an `Option<CompiledRulesSet<T>>`, essentially a wrapper ok an array of `Func<T, Either<string, Unit>>` (all the rules of the `RulesSet` that are not correct get filtered out).
+
+
+
+
+
+an object capturing a `Func<T, Either<string, Unit>>`: the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
 The monadic function notation captures the possible outputs of the function:
 - the left type of the `Either` (`string`) represents a non matching result containing the code of the executed rule
 - the right type (`Unit`) represents insted a matching result for which no additional details are needed.
@@ -216,6 +240,26 @@ The monadic function notation captures the possible outputs of the function:
 The `RulesSetCompiler` transforms a RulesSet into a `CompiledRulesSet<T>`, essentially a wrapper ok an array of `Func<T, Either<string, Unit>>` (all the rules of the `RulesSet` that are not correct get filtered out).
 
 The `RulesCatalogCompiler`, finally, trasforms a full `RulesCatalog` into a `CompiledCatalog<T>`, a container for `Func<T, Either<string, Unit>>[][]` (a bidimensional array of functions to represents the logical superposition of `OR` operations on rules joined by a logical `AND` on sets)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## The RulesManager
 
