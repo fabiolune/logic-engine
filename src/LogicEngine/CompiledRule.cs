@@ -5,7 +5,7 @@ using TinyFp.Extensions;
 
 namespace LogicEngine;
 
-public record CompiledRule<T> : IApplyable<T, string> where T : new()
+public record CompiledRule<T> : IApplyable<T>, IDetailedApplyable<T, string> where T : new()
 {
     public string Code { get; }
     private readonly Func<T, bool> _executable;

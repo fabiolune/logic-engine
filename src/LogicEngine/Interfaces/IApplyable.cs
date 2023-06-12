@@ -2,8 +2,7 @@
 
 namespace LogicEngine.Interfaces;
 
-internal interface IApplyable<TIn, TOut> where TIn : new()
+public interface IApplyable<T> where T : new()
 {
-    bool Apply(TIn item);
-    Either<TOut, Unit> DetailedApply(TIn item);
+    bool Apply(T item);
 }

@@ -1,61 +1,69 @@
-﻿//using BenchmarkDotNet.Attributes;
-//using BenchmarkDotNet.Configs;
-//using BenchmarkDotNet.Running;
-//using LogicEngine;
-//using LogicEngine.Compilers;
-//using LogicEngine.Internals;
-//using LogicEngine.Managers;
-//using LogicEngine.Models;
-//using TinyFp;
-//using TinyFp.Extensions;
+﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Running;
+using LogicEngine;
+using LogicEngine.Compilers;
 
-//namespace Current;
+namespace Current;
 
-//[MemoryDiagnoser]
-//[MarkdownExporterAttribute.GitHub]
-//public class CurrentImplementationBenchmarks
-//{
-//    private readonly RulesCatalogCompiler _compiler = new(new RulesSetCompiler(new SingleRuleCompiler()));
+internal static class Program
+{
+    internal static void Main()
+    {
+        BenchmarkRunner.Run<CurrentImplementationBenchmarks>(DefaultConfig.Instance.WithOption(ConfigOptions.DisableOptimizationsValidator, true));
+    }
+}
 
-//    private readonly Data.TestModel _item = new()
-//    {
-//        StringProperty = "correct"
-//    };
+[MemoryDiagnoser]
+[MarkdownExporterAttribute.GitHub]
+public class CurrentImplementationBenchmarks
+{
+    private readonly RulesCatalogCompiler _compiler = new(new RulesSetCompiler(new RuleCompiler()));
 
-//    private readonly RulesManager<Data.TestModel> _manager1 =
-//        new(new RulesCatalogCompiler(new RulesSetCompiler(new SingleRuleCompiler())));
+    private readonly Data.TestModel _item = new()
+    {
+        StringProperty = "correct"
+    };
 
-//    private readonly RulesManager<Data.TestModel> _manager2 =
-//        new(new RulesCatalogCompiler(new RulesSetCompiler(new SingleRuleCompiler())));
+    private readonly CompiledCatalog<Data.TestModel> _compiledCatalog1;
+    private readonly CompiledCatalog<Data.TestModel> _compiledCatalog2;
 
-//    public CurrentImplementationBenchmarks()
-//    {
-//        _manager1.Catalog = Data.ShortCircuitCatalog;
-//        _manager2.Catalog = Data.FullExecutingCatalog;
-//    }
+    //private readonly RulesManager<Data.TestModel> _manager2 =
+    //    new(new RulesCatalogCompiler(new RulesSetCompiler(new SingleRuleCompiler())));
 
-//    [Benchmark]
-//    public void SetCatalog() => _compiler.CompileCatalog<Data.TestModel>(Data.ShortCircuitCatalog);
+    public CurrentImplementationBenchmarks()
+    {
+        _compiledCatalog1 = _compiler.Compile<Data.TestModel>(Data.ShortCircuitCatalog).Unwrap();
+        _compiledCatalog2 = _compiler.Compile<Data.TestModel>(Data.FullExecutingCatalog).Unwrap();
+        //_manager1.Catalog = Data.ShortCircuitCatalog;
+        //_manager2.Catalog = Data.FullExecutingCatalog;
+    }
 
-//    [Benchmark]
-//    public void RulesApplication_CircuitBreaking() => _manager1.ItemSatisfiesRules(_item);
+    //[Benchmark]
+    //public void SetCatalog() => _compiler.Compile<Data.TestModel>(Data.ShortCircuitCatalog);
 
-//    [Benchmark]
-//    public void RulesApplication_No_CircuitBreaking() => _manager2.ItemSatisfiesRules(_item);
+    //[Benchmark]
+    //public void Apply1() => _compiledCatalog1.Apply(_item);
 
-//    [Benchmark]
-//    public void ItemSatisfiesRulesWithMessage_CircuitBreaking() => _manager1.ItemSatisfiesRulesWithMessage(_item);
+    //[Benchmark]
+    //public void Apply2() => _compiledCatalog2.Apply(_item);
 
-//    [Benchmark]
-//    public void ItemSatisfiesRulesWithMessage_No_CircuitBreaking() =>
-//        _manager2
-//            .ItemSatisfiesRulesWithMessage(_item)
-//            .OnLeft(_ => Console.WriteLine(_.Length));
-//}
-///// <summary>
-///// Benchmarks in this class compare the execution of a
-///// statically typed function versus one obtained by compiling a rule
-///// </summary>
+    [Benchmark]
+    public void DetailedApply1() => _compiledCatalog1.DetailedApply(_item);
+
+    [Benchmark]
+    public void DetailedApply2() => _compiledCatalog2.DetailedApply(_item);
+
+    //[Benchmark]
+    //public void ItemSatisfiesRulesWithMessage_CircuitBreaking() => _compiledCatalog1.DetailedApply(_item);
+
+    //[Benchmark]
+    //public void ItemSatisfiesRulesWithMessage_No_CircuitBreaking() => _compiledCatalog2.DetailedApply(_item);
+}
+/// <summary>
+/// Benchmarks in this class compare the execution of a
+/// statically typed function versus one obtained by compiling a rule
+/// </summary>
 //[MemoryDiagnoser]
 //public class FunctionBenchmarks
 //{
@@ -92,34 +100,26 @@
 
 //}
 
-using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Running;
-using Current;
-using LogicEngine;
-using LogicEngine.Compilers;
-using LogicEngine.Internals;
-using LogicEngine.Models;
-using TinyFp;
+//using BenchmarkDotNet.Attributes;
+//using BenchmarkDotNet.Configs;
+//using BenchmarkDotNet.Running;
+//using Current;
+//using LogicEngine;
+//using LogicEngine.Compilers;
+//using LogicEngine.Internals;
+//using LogicEngine.Models;
+//using TinyFp;
 
-[MemoryDiagnoser]
-public class CompileBenchmarks
-{
-    private static readonly Data.TestModel _input = new Data.TestModel { StringProperty = "a" };
-    private static readonly RuleCompiler _compiler = new();
-    private static readonly Rule _rule = new("StringProperty", OperatorType.Equal, "some", "code");
-    private static readonly Func<Data.TestModel, Either<string, Unit>> _func = _ => Either<string, Unit>.Right(Unit.Default);
-    private CompiledRule<Data.TestModel> _compiledRule = _compiler.Compile<Data.TestModel>(_rule).Unwrap();
+//[MemoryDiagnoser]
+//public class CompileBenchmarks
+//{
+//    private static readonly Data.TestModel _input = new Data.TestModel { StringProperty = "a" };
+//    private static readonly RuleCompiler _compiler = new();
+//    private static readonly Rule _rule = new("StringProperty", OperatorType.Equal, "some", "code");
+//    private static readonly Func<Data.TestModel, Either<string, Unit>> _func = _ => Either<string, Unit>.Right(Unit.Default);
+//    private CompiledRule<Data.TestModel> _compiledRule = _compiler.Compile<Data.TestModel>(_rule).Unwrap();
 
-    [Benchmark]
-    public void CreateRule() => _compiler.Compile<Data.TestModel>(_rule);
-}
+//    [Benchmark]
+//    public void CreateRule() => _compiler.Compile<Data.TestModel>(_rule);
+//}
 
-internal static class Program
-{
-    internal static void Main()
-    {
-        BenchmarkRunner.Run<CompileBenchmarks>(DefaultConfig.Instance.WithOption(ConfigOptions.DisableOptimizationsValidator, true));
-        //BenchmarkRunner.Run<CurrentImplementationBenchmarks>(DefaultConfig.Instance.WithOption(ConfigOptions.DisableOptimizationsValidator, true));
-    }
-}

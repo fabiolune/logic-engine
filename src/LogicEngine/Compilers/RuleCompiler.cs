@@ -112,7 +112,7 @@ public class RuleCompiler : IRuleCompiler
                     _.Item3,
                     _.rule.Code))
                 )
-            .Map(GetOption);
+            .Map(t => GetOption(t));
 
     private static Option<(BinaryExpression, ParameterExpression, string)> GetOption(Try<(BinaryExpression, ParameterExpression, string)> input) =>
         input.Match(e => Some(e), _ => Option<(BinaryExpression, ParameterExpression, string)>.None());
