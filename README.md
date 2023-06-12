@@ -220,9 +220,22 @@ The `RuleCompiler` is the component that parses and compiles a `Rule` into execu
 
 Every rule becomes an `Option<CompiledRule<T>>`, where the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
 
+--- mostly ok until here ---
+
+
+
+
+
+
+
+
+
+
+
+
+
 A `CompiledRule<T>` is the actual portion of code that can be applied to an item of type `T` to provide a boolean result; by the way, sometimes the boolean result is not enough: when the rule is not satisfied it could be important to understand the reason why it failed, for this a dedicated `Either<string, Unit> DetailedApply(T item)` method can retun `Unit` when the rule is satisfied, or a string (the rule code) in case of failure.
 
---- mostly ok until here ---
 
 
 
