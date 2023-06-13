@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FluentAssertions;
 using LogicEngine.Internals;
 using LogicEngine.Models;
-using NUnit.Framework;
 
 namespace LogicEngine.Unit.Tests;
 

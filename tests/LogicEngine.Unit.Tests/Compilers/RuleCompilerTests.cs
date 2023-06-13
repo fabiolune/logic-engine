@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
-using FluentAssertions;
 using LogicEngine.Compilers;
 using LogicEngine.Internals;
 using LogicEngine.Models;
-using NUnit.Framework;
 
 namespace LogicEngine.Unit.Tests.Compilers;
 
-public class SingleRuleCompilerTests
+public class RuleCompilerTests
 {
     private RuleCompiler _sut;
 

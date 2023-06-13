@@ -1,8 +1,5 @@
-﻿using FluentAssertions;
-using LogicEngine.Extensions;
+﻿using LogicEngine.Extensions;
 using LogicEngine.Interfaces;
-using Moq;
-using NUnit.Framework;
 using System;
 
 namespace LogicEngine.Unit.Tests.Extensions;
