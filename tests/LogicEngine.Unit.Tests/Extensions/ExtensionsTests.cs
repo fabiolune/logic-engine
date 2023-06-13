@@ -1,10 +1,4 @@
-﻿using FluentAssertions;
-using LogicEngine.Extensions;
-using Moq;
-using NUnit.Framework;
-using TinyFp;
-
-namespace LogicEngine.Unit.Tests.Extensions;
+﻿namespace LogicEngine.Unit.Tests.Extensions;
 
 public class ExtensionsTests
 {

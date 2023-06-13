@@ -33,12 +33,9 @@ public record CompiledRulesSet<T> :
 
     public Option<string> FirstMatching(T item) => _firstMaching(item);
 
-    // TODO: need to check the fact that rules are really executed only once when _apply is executed
+    // TODO: need to check the performances with and without .ToArray()
     private static Func<T, bool> GetApplyFromRules(CompiledRule<T>[] rules) =>
-        item => !rules
-            .ToArray()
-            .TakeWhile(r => !r.Apply(item))
-            .Any();
+        item => rules.All(r => r.Apply(item));
 
     private static Func<T, Either<IEnumerable<string>, Unit>> GetDetailedApplyFromRules(CompiledRule<T>[] rules) =>
         item => rules
@@ -49,8 +46,7 @@ public record CompiledRulesSet<T> :
 
     private static Func<T, Option<string>> GetFirstMatchingFromRules(CompiledRule<T>[] rules) =>
         item => rules
-            .TakeWhile(r => r.Apply(item))
-            .FirstOrDefault()
+            .FirstOrDefault(r => r.Apply(item))
             .ToOption()
             .Map(r => r.Code);
 }
