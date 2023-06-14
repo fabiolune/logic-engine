@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using LogicEngine.Compilers;
+﻿using LogicEngine.Compilers;
 using LogicEngine.Internals;
 using LogicEngine.Models;
+using System.Collections.Generic;
 
 namespace LogicEngine.Unit.Tests.Compilers;
 

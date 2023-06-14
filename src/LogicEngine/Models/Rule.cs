@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using LogicEngine.Internals;
+﻿using LogicEngine.Internals;
+using System.Runtime.Serialization;
 
 namespace LogicEngine.Models;
 

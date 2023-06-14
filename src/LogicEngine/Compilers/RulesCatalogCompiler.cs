@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using LogicEngine.Interfaces.Compilers;
+﻿using LogicEngine.Interfaces.Compilers;
 using LogicEngine.Models;
+using System.Linq;
 using TinyFp;
 using TinyFp.Extensions;
 

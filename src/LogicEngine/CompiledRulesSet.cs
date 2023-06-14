@@ -8,8 +8,8 @@ using static LogicEngine.Internals.StaticShared;
 
 namespace LogicEngine;
 
-public record CompiledRulesSet<T> : 
-    IApplyable<T>, 
+public record CompiledRulesSet<T> :
+    IApplyable<T>,
     IDetailedApplyable<T, IEnumerable<string>>,
     IAppliedSelector<T, string> where T : new()
 {
@@ -25,7 +25,7 @@ public record CompiledRulesSet<T> :
             .Map(e => (GetApplyFromRules(e), GetDetailedApplyFromRules(e), GetFirstMatchingFromRules(e)))
             .OrElse((Functions<T>.AlwaysTrueApply, Functions<T, IEnumerable<string>>.AlwaysUnitDetailedApply, Functions<T, Option<string>>.Constant(Option<string>.None())))
             .Map(t => (t.Item1, t.Item2, t.Item3, name));
-            
+
 
     public bool Apply(T item) => _apply(item);
 
