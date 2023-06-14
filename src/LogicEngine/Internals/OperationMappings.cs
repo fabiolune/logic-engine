@@ -1,15 +1,15 @@
-﻿using System;
+﻿using LogicEngine.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using LogicEngine.Models;
 using TinyFp.Extensions;
-using static System.Linq.Expressions.Expression;
-using static System.Convert;
 using static LogicEngine.Internals.Constants;
+using static System.Convert;
+using static System.Linq.Expressions.Expression;
 
 namespace LogicEngine.Internals;
 

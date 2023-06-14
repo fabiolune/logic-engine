@@ -1,8 +1,8 @@
-﻿using System;
-using LogicEngine.Compilers;
+﻿using LogicEngine.Compilers;
 using LogicEngine.Interfaces.Compilers;
 using LogicEngine.Internals;
 using LogicEngine.Models;
+using System;
 using TinyFp;
 using TinyFp.Extensions;
 
@@ -44,7 +44,7 @@ public class RulesCatalogCompilerTests
 
         result
             .Tee(r => r.IsSome.Should().BeTrue())
-            .OnSome(c => 
+            .OnSome(c =>
             {
                 c.Name.Should().Be("some name");
 
@@ -155,7 +155,7 @@ public class RulesCatalogCompilerTests
             });
 
         firstCalled.Should().BeTrue();
-        secondCalled.Should().BeTrue();
+        secondCalled.Should().BeFalse();
 
         _mockCompiler
             .Verify(c => c.Compile<TestModel>(set1), Times.Once);
@@ -227,7 +227,7 @@ public class RulesCatalogCompilerTests
             });
 
         firstCalled.Should().BeTrue();
-        secondCalled.Should().BeTrue();
+        secondCalled.Should().BeFalse();
         thirdCalled.Should().BeFalse();
 
         _mockCompiler

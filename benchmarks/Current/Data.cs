@@ -1,6 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using LogicEngine.Internals;
+﻿using LogicEngine.Internals;
 using LogicEngine.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Current;
 
@@ -106,7 +106,7 @@ internal class Data
                     "ruleset 4"
                 ),
                 new
-                ( 
+                (
                     new List<Rule>
                     {
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),

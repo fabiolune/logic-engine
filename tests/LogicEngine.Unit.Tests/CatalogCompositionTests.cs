@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using LogicEngine.Internals;
+﻿using LogicEngine.Internals;
 using LogicEngine.Models;
+using System;
+using System.Linq;
 
 namespace LogicEngine.Unit.Tests;
 
@@ -18,7 +18,7 @@ public class CatalogCompositionTests
         var c1 = new RulesCatalog(Enumerable
             .Range(0, ruleSets1)
             .Select(_ => new RulesSet(Array.Empty<Rule>(), "ruleset 1")), "name 1");
-        
+
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
             .Select(_ => new RulesSet(Array.Empty<Rule>(), "ruleset 2")), "name 2");

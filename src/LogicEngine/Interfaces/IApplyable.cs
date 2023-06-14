@@ -1,6 +1,4 @@
-﻿using TinyFp;
-
-namespace LogicEngine.Interfaces;
+﻿namespace LogicEngine.Interfaces;
 
 public interface IApplyable<T> where T : new()
 {

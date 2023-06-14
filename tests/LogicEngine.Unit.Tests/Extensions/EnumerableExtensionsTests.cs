@@ -70,7 +70,7 @@ public class EnumerableExtensionsTests
     {
         var mockApplyable = new Mock<IApplyable<TestModel>>();
 
-        var data = new[] { Item1, Item2};
+        var data = new[] { Item1, Item2 };
 
         mockApplyable
             .Setup(a => a.Apply(Item1))
@@ -79,7 +79,7 @@ public class EnumerableExtensionsTests
         mockApplyable
             .Setup(a => a.Apply(Item2))
             .Returns(apply2);
-        
+
         data.FirstOrDefault(mockApplyable.Object)
             .Should()
             .BeEquivalentTo(expected);

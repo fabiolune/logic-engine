@@ -60,7 +60,7 @@ public class CompiledRulesSetTests
 
         var compiledRules = new CompiledRule<TestModel>[]
         {
-            new (item => 
+            new (item =>
             {
                 called1 = true;
                 return funcOutputs.Item1;
@@ -150,7 +150,7 @@ public class CompiledRulesSetTests
                 return funcOutputs.Item3;
             }, "code 3")
         };
-        
+
         var sut = new CompiledRulesSet<TestModel>(compiledRules, "set name");
 
         sut

@@ -16,7 +16,7 @@ namespace LogicEngine.Compilers;
 
 public class RuleCompiler : IRuleCompiler
 {
-    public Option<CompiledRule<T>> Compile<T>(Rule rule) where T : new() => 
+    public Option<CompiledRule<T>> Compile<T>(Rule rule) where T : new() =>
         rule
             .Map(CreateCompiledRule<T>)
             .Map(t => (exp: Lambda<Func<T, bool>>(t.Item1, t.Item2), code: t.Item3))
