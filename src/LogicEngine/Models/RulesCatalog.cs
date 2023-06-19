@@ -8,12 +8,12 @@ namespace LogicEngine.Models;
 public record RulesCatalog
 {
     private readonly IEnumerable<RulesSet> _rulesSets;
-    public string Name { get; init; }
+    public string Name { get; }
 
     public IEnumerable<RulesSet> RulesSets
     {
         get => _rulesSets ?? Array.Empty<RulesSet>();
-        init => _rulesSets  = value;
+        private init => _rulesSets = value;
     }
 
     public RulesCatalog(IEnumerable<RulesSet> rulesSets, string name)
@@ -42,7 +42,7 @@ public record RulesCatalog
         .Map(_ => (catalog1.RulesSets, catalog2.RulesSets,
             $"({catalog1.Name} AND {catalog2.Name})"))
         .Map(_ => (from r1 in _.Item1
-            from r2 in _.Item2
-            select r1 * r2, _.Item3))
+                   from r2 in _.Item2
+                   select r1 * r2, _.Item3))
         .Map(_ => new RulesCatalog(_.Item1, _.Item2));
 }

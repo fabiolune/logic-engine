@@ -57,7 +57,7 @@ jobs:
 
     - name: Initialize CodeQL
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push'}}
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
       with:
         languages: 'csharp'
 
@@ -72,7 +72,7 @@ jobs:
 
     - name: Perform CodeQL Analysis
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v2
 
     - name: test
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
@@ -95,12 +95,12 @@ jobs:
         reports: '${{ env.COVERAGE_REPORTS }}'
         reporttypes: 'lcov'
     
-    - name: codecov upload
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      run: |
-        curl -Os https://uploader.codecov.io/latest/linux/codecov
-        chmod +x codecov
-        ./codecov
+    # - name: codecov upload
+    #   if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+    #   run: |
+    #     curl -Os https://uploader.codecov.io/latest/linux/codecov
+    #     chmod +x codecov
+    #     ./codecov
 
     - name: publish code coverage results
       if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && steps.changed-files.outputs.any_changed == 'true' }}

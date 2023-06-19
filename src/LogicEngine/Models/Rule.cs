@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using LogicEngine.Internals;
+﻿using LogicEngine.Internals;
+using System.Runtime.Serialization;
 
 namespace LogicEngine.Models;
 
@@ -22,7 +22,7 @@ public record Rule
     [DataMember(Name = "value")]
     public string Value { get; init; }
     [DataMember(Name = "code")]
-    public string Code { get => _code ?? string.Empty; init => _code = value; }
+    public string Code { get => _code; init => _code = value ?? string.Empty; }
     public override string ToString() =>
         $"[Rule (property: {Property}, operator: {Operator:G}, value: {Value}, code: {Code})]";
 }

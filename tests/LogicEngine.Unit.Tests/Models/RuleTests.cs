@@ -1,7 +1,5 @@
-﻿using FluentAssertions;
-using LogicEngine.Internals;
+﻿using LogicEngine.Internals;
 using LogicEngine.Models;
-using NUnit.Framework;
 
 namespace LogicEngine.Unit.Tests.Models;
 
@@ -35,7 +33,7 @@ public class RuleTests
     [TestCase(OperatorType.InnerNotContains, "InnerNotContains")]
     [TestCase(OperatorType.InnerOverlaps, "InnerOverlaps")]
     [TestCase(OperatorType.InnerNotOverlaps, "InnerNotOverlaps")]
-    public void ToString_ShouldReturnJsonSerialization(OperatorType type, string expected)
+    public void ToString_ShouldReturnExpectedSerialization(OperatorType type, string expected)
     {
         var rule = new Rule("property", type, "value", "code");
 

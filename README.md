@@ -16,6 +16,8 @@ The core functionalities are encapsulated in different components, both logical 
 ## The Rule
 The rule object represents the building block for the system. A rule is an abstraction for a function acting on the value of a type and returning a boolean response.
 
+> __DEFINITION__: A `Rule` is satisfied by an item `t` of type `T` if the associated function `f: T ──► bool` returns true if `f(t)` is `true`.
+
 Given a type to be applied to, a rule is defined by a set of fields
 - `Property`: identifies the property against which to execute the evaluation
 - `Operator`: defines the operation to execute on the property
@@ -26,7 +28,7 @@ Given a type to be applied to, a rule is defined by a set of fields
 
 The `Operator` can assume different possible values depending on the `Property` it is applied to and on the value the result should be compared to.
 
-Based on this considerations there are different types of operators. The rules categorization is also influenced by some implementation details.
+Operators are classified based on the way they work and their behaviour. The rules categorization is also influenced by some implementation details.
 
 ### Direct operators
 
@@ -156,23 +158,39 @@ var rule1 = new Rule("IntProperty", OperatorType.IsContained, "1,2,3");
 ```
 > sample rules for inverse enumerable operators
 
-## RulesSet and RulesCatalog
+## RulesSet
 
 A `RulesSet` is basically a set of rules. From a functional point of view it represents a boolean typed function composed by a set of functions on a given type.
 
-> __DEFINITION__: A `Rule` is satisfied by an item `t` of type `T` if the associated function `f: T ──► bool` returns true if `f(t)` is `true`.
+> __DEFINITION__: A `RulesSet` is satisfied by an item `t` of type `T` if all the functions of the set are satisfied by `t`.
 
-> __DEFINITION__: A `RulesSet` is satisfied by an item `t` of type `T` if and only if all the functions of the set are satisfied by `t`.
+A `RulesSet` corresponds to the logical `AND` operator on its rules.
+
+## RulesCatalog
 
 A `RulesCatalog` represents a set of `RulesSet`, and functionally corresponds to a boolean typed function composed by a set of sets of functions on a given type.
 
-> __DEFINITION__: A `RulesCatalog` is satisfied by an item `t` of type `T` if at least one of its `RulesSet` is satisfied by `t`.
+> __DEFINITION__: A `RulesCatalog` is satisfied by an item `t` of type `T` if at least one of its `RulesSet`s is satisfied by `t`.
 
-From these considerations, it is clear that a `RulesSet` corresponds to the logical `AND` operator on its functions, and a `RulesCatalog` corresponds to the logical `OR` operator on its `RulesSet`s.
+A `RulesCatalog` corresponds to the logical `OR` operator on its `RulesSet`s.
 
 ## The Algebraic model
 
-As discussed above, composite types `RulesSet` and `RulesCatalog` represent logical operations on the field of functions `f: T ──► bool`; it seems than possible to define an algebraic model where catalogs can be added or multiplied together to generate more complex catalogs.
+As discussed above, composite types `RulesSet` and `RulesCatalog` represent logical operations on the field of functions `f: T ──► bool`; it seems than possible to define an algebraic model defining the composition of different entities.
+
+### RulesSets sum
+
+> __DEFINITION__: The sum of two `RulesSet`s is a new `RulesSet`, and its rules are a set of rules obtained by concatenating the rules of the the two `RulesSet`s
+
+```
+rs1 = {r1, r2, r3}
+rs2 = {r4, r5}
+
+──► rs1 * rs2 = {r1, r2, r3, r4, r5}
+```
+> sum of two `RulesSet`s
+
+### RulesCatalog sum
 
 The sum of two `RulesCatalog` objects is a `RulesCatalog` with a set of `RulesSet` obtained by simply concatenating the two sets of `RulesSet`:
 
@@ -184,6 +202,8 @@ c2 = {rs4, rs5}
 ```
 > sum of two `RulesCatalog`
 
+### RulesCatalog product
+
 The product of two catalogs is a catalog with a set of all the `RulesSet` obtained concatenating a set of the first catalog with one of the second.
 
 ```
@@ -194,56 +214,32 @@ c2 = {rs4, rs5}
 ```
 > product of two `RulesCatalog`
 
-The definition relies on the definition of product between two `RulesSet`: its definition is simply a new `RulesSet` whose rules are the concatenation of the rules in the two factors:
+## The compilers and compiled objects
 
-```
-rs1 = {r1, r2, r3}
-rs2 = {r4, r5}
+The `RuleCompiler` is the component that parses and compiles a `Rule` into executable code. 
 
-──► rs1 * rs2 = {r1, r2, r3, r4, r5}
-```
+Every rule becomes an `Option<CompiledRule<T>>`, where the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
+A `CompiledRule<T>` is the actual portion of code that can be applied to an item of type `T` to provide a boolean result using its `ApplyApply(T item)` method.
+Ssometimes the boolean result is not enough: when the rule is not satisfied it could be useful to understand the reason why it failed. For this reason, a dedicated `Either<string, Unit> DetailedApply(T item)` method returns `Unit` when the rule is satisfied, or a string (the rule code) in case of failure.
 
-> product of two `RulesSet`
 
-## The compilers
+Similar to the `RuleCompiler`, the `RulesSetCompiler` transforms a `RulesSet` into an `Option<CompiledRulesSet<T>>`. 
+A `CompiledRulesSet<T>` can logically be seen as a set of compiled rules, hence, when applied to an item of type `T` it returns a boolean that is `true` if all the compiled rules return `true` on it. From a logical point of view, a `CompiledRulesSet<T>` represents the `AND` superposition of its `CompiledRule<T>`. 
+The corresponding `Either<string, Unit> DetailedApply(T item)` method of the `CompiledRulesSet<T>` returns `Unit` when all the rules are satisfied, or the set of codes for the rules that are not.
 
-The `SingleRuleCompiler` is the component that parses and compiles a `Rule` into executable code. 
-Every rule becomes an `Option` of `CompiledRule<T>`, an object capturing a `Func<T, Either<string, Unit>>`: the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
-The monadic function notation captures the possible outputs of the function:
-- the left type of the `Either` (`string`) represents a non matching result containing the code of the executed rule
-- the right type (`Unit`) represents insted a matching result for which no additional details are needed.
+Finally, the `RulesCatalogCompiler` transforms a `RulesCatalog` into an `Option<CompiledCatalog<T>>`, where the `None` status represents a catalog that cannot be compiled.
+A `CompiledCatalog<T>` logically represents the executable code that applies a set of set of rules to an object of type `T`: the result of its application can be `true` if at least one set of rules returns `true`, otherwise `false` (this represents the logical `OR` composition operations on rules joined by a logical `AND`).
+Similar to the `Either<string, Unit> DetailedApply(T item)` of the `CompiledRulesSet<T>`, it can return `Unit` when at least one internal rule set returns `Unit`, otherwise the flattened set of all the codes for all the rules that don't successfully apply.
 
-The `RulesSetCompiler` transforms a RulesSet into a `CompiledRulesSet<T>`, essentially a wrapper ok an array of `Func<T, Either<string, Unit>>` (all the rules of the `RulesSet` that are not correct get filtered out).
+## ⚠️ Breaking changes
+If you want to upgrade from a version < 3.0.0 to the latest version you will need to adapt your implementation to manage the breaking changes introduced.
 
-The `RulesCatalogCompiler`, finally, trasforms a full `RulesCatalog` into a `CompiledCatalog<T>`, a container for `Func<T, Either<string, Unit>>[][]` (a bidimensional array of functions to represents the logical superposition of `OR` operations on rules joined by a logical `AND` on sets)
+The main differences can be condensed in the removal of the managers: the entire logic is now completely captured by the compiled objects `CompiledRule<T>`, `CompiledRulesSet<T>`, `CompiledCatalog<T>`, without the need of external wrappers.
 
-## The RulesManager
-
-The `RulesManager<T>` is responsible for the application of the rules functions to an item of type `T`.
-
-Given a `RulesCatalog`, the manager exposes two main functionalities:
-- `ItemSatisfiesRules`: it just returns a true or false boolean value that represents if the catalog is satisfied by the item under consideration or not
-- `ItemSatisfiesRulesWithMessage`: this method is similar to the previous and returns a Unit value if the item satisfies the catalog; if not a set of all the codes associated to rules not matched is returned[^1]
-
-The main difference between the two method is the circuit breaking approach: given the logical structure, as soon as a `Rule` in a `RuleSet` fails, `ItemSatisfiesRules` will jump to the next one, while `ItemSatisfiesRulesWithMessage` will still check all the rules in the set to collect all the failure codes[^2].
-
-Additional methods of the manager allow to operate on an `IEnumerable<T>`, in particular it is possible to:
-- apply a filter based on the catalog
-- extract the first item satisfying the catalog
-
-## The RulesSetManager
-
-The `RulesSetManager` instead, given a `RulesSet`, evaulates, in order, all its rules on a specific item and returns the code of the first satisfied rule.
-
-This can be useful in a scenario where, given a condition on an item, some specific operation should be executed (like a routing matching in a web api).
-
-To ensure meaningful results, the `RulesSetManager` requires its `RulesSet` not to have rules with the same `Code`.
-
-## The CompositeRulesSetManager
-
-The `CompositeRulesSetManager`, given a set of `RuleSet` and a corresponding key, is responsible for retrieving the item corresponding to the first `RuleSet` matched by a specific item.
-
-This can be useful in a scenario where, given a condition on an item, some specific operation should be executed (like a routing matching in a web api with many rules to be evaluated in AND).
+This means that the typical workflow os:
+1. get the rules definition
+1. pass them to the appropriate compiler
+1. use the generated compiled objects to validate your objects according to the rules definition
 
 ## How to install
 

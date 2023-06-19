@@ -1,6 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using LogicEngine.Internals;
+﻿using LogicEngine.Internals;
 using LogicEngine.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Current;
 
@@ -18,7 +18,8 @@ internal class Data
                 ( new List<Rule>
                     {
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "correct", "code")
-                    }
+                    },
+                    "ruleset 1"
                 ),
                 new
                 ( new List<Rule>
@@ -44,7 +45,8 @@ internal class Data
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
-                    }
+                    },
+                    "ruleset 2"
                 ),
                 new
                 (
@@ -72,7 +74,8 @@ internal class Data
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "correct", "code"),
-                    }
+                    },
+                    "ruleset 3"
                 ),
                 new
                 (
@@ -99,10 +102,11 @@ internal class Data
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
-                    }
+                    },
+                    "ruleset 4"
                 ),
                 new
-                ( 
+                (
                     new List<Rule>
                     {
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
@@ -127,7 +131,8 @@ internal class Data
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "code"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "correct", "code"),
-                    }
+                    },
+                    "ruleset 5"
                 )
             }, string.Empty);
 
@@ -159,7 +164,8 @@ internal class Data
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong","1_code_i"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong","1_code_l"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong","1_code_m"),
-                    }
+                    },
+                    "ruleset 6"
                 ),
                 new
                 (
@@ -187,7 +193,8 @@ internal class Data
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong","2_code_l"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong","2_code_m"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "correct", "code"),
-                    }
+                    },
+                    "ruleset 7"
                 ),
                 new
                 (
@@ -214,7 +221,8 @@ internal class Data
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "3_code_i"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "3_code_l"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "3_code_m"),
-                    }
+                    },
+                    "ruleset 8"
                 ),
                 new
                 (
@@ -242,14 +250,16 @@ internal class Data
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "4_code_l"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "4_code_m"),
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "correct", "code"),
-                    }
+                    },
+                    "ruleset 9"
                 ),
                 new
                 (
                     new List<Rule>
                     {
                         new(nameof(TestModel.StringProperty), OperatorType.Equal, "wrong", "5_code_0")
-                    }
+                    },
+                    "ruleset 10"
                 )
             }, string.Empty);
 

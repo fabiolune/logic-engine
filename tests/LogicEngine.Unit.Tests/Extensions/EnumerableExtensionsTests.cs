@@ -1,60 +1,107 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
-using LogicEngine.Extensions;
+﻿using LogicEngine.Extensions;
 using LogicEngine.Interfaces;
-using Moq;
-using NUnit.Framework;
+using System;
 
 namespace LogicEngine.Unit.Tests.Extensions;
 
 public class EnumerableExtensionsTests
 {
-    private readonly Mock<IRulesManager<TestModel>> _mockManager = new();
+    private static readonly TestModel Item1 = new() { IntProperty = 1 };
+    private static readonly TestModel Item2 = new() { IntProperty = 2 };
 
-    [Test]
-    public void Filter_ShouldInvokeManagerFilterAndReturnItsResult()
+    internal static object[] FilterTestCases =
     {
-        var expectation = new List<TestModel>
+        new object[]
         {
-            new()
-            {
-                IntProperty = 0
-            }
-        };
-        var items = new List<TestModel>
+            true,
+            true,
+            new[]{ Item1, Item2 }
+        },
+        new object[]
         {
-            new(),
-            new(),
-            new()
-        };
-        _mockManager.Setup(_ => _.Filter(items)).Returns(expectation);
+            true,
+            false,
+            new[]{ Item1 }
+        },
+        new object[]
+        {
+            false,
+            true,
+            new[]{ Item2 }
+        },
+        new object[]
+        {
+            false,
+            false,
+            Array.Empty<TestModel>()
+        }
+    };
 
+    internal static object[] FirstOrDefaultTestCases =
+    {
+        new object[]
+        {
+            true,
+            true,
+            Item1
+        },
+        new object[]
+        {
+            true,
+            false,
+            Item1
+        },
+        new object[]
+        {
+            false,
+            true,
+            Item2
+        },
+        new object[]
+        {
+            false,
+            false,
+            default(TestModel)
+        }
+    };
 
-        var result = items.Filter(_mockManager.Object);
+    [TestCaseSource(nameof(FirstOrDefaultTestCases))]
+    public void Filter_ShouldReturnItemsForWhichApplyIsTrue(bool apply1, bool apply2, TestModel expected)
+    {
+        var mockApplyable = new Mock<IAppliable<TestModel>>();
 
-        result.Should().BeEquivalentTo(expectation);
-        _mockManager.Verify(_ => _.Filter(items), Times.Once);
+        var data = new[] { Item1, Item2 };
+
+        mockApplyable
+            .Setup(a => a.Apply(Item1))
+            .Returns(apply1);
+
+        mockApplyable
+            .Setup(a => a.Apply(Item2))
+            .Returns(apply2);
+
+        data.FirstOrDefault(mockApplyable.Object)
+            .Should()
+            .BeEquivalentTo(expected);
     }
 
-    [Test]
-    public void FirstOrDefault_ShouldInvokeManagerFirstOrDefaultAndReturnItsResult()
+    [TestCaseSource(nameof(FilterTestCases))]
+    public void Filter_ShouldReturnItemsForWhichApplyIsTrue(bool apply1, bool apply2, TestModel[] expected)
     {
-        var expectation = new TestModel
-        {
-            IntProperty = 0
-        };
-        var items = new List<TestModel>
-        {
-            new(),
-            new(),
-            new()
-        };
-        _mockManager.Setup(_ => _.FirstOrDefault(items)).Returns(expectation);
+        var mockApplyable = new Mock<IAppliable<TestModel>>();
 
+        var data = new[] { Item1, Item2 };
 
-        var result = items.FirstOrDefault(_mockManager.Object);
+        mockApplyable
+            .Setup(a => a.Apply(Item1))
+            .Returns(apply1);
 
-        result.Should().BeEquivalentTo(expectation);
-        _mockManager.Verify(_ => _.FirstOrDefault(items), Times.Once);
+        mockApplyable
+            .Setup(a => a.Apply(Item2))
+            .Returns(apply2);
+
+        data.Filter(mockApplyable.Object)
+            .Should()
+            .BeEquivalentTo(expected);
     }
 }

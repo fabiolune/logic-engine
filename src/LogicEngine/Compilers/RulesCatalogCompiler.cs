@@ -1,9 +1,10 @@
-﻿using System.Linq;
-using LogicEngine.Interfaces;
+﻿using LogicEngine.Interfaces.Compilers;
 using LogicEngine.Models;
+using System.Linq;
+using TinyFp;
 using TinyFp.Extensions;
 
-namespace LogicEngine;
+namespace LogicEngine.Compilers;
 
 public class RulesCatalogCompiler : IRulesCatalogCompiler
 {
@@ -11,12 +12,12 @@ public class RulesCatalogCompiler : IRulesCatalogCompiler
 
     public RulesCatalogCompiler(IRulesSetCompiler rulesSetCompiler) => _rulesSetCompiler = rulesSetCompiler;
 
-    public CompiledCatalog<T> CompileCatalog<T>(RulesCatalog catalog) =>
+    public Option<CompiledCatalog<T>> Compile<T>(RulesCatalog catalog) where T : new() =>
         catalog.RulesSets
             .Where(rs => rs is not null)
-            .AsParallel()
             .Select(_rulesSetCompiler.Compile<T>)
-            .Select(_ => _.Executables)
+            .Filter()
             .ToArray()
-            .Map(_ => new CompiledCatalog<T>(_));
+            .ToOption(e => !e.Any())
+            .Map(_ => new CompiledCatalog<T>(_, catalog.Name));
 }
