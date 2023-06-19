@@ -95,12 +95,12 @@ jobs:
         reports: '${{ env.COVERAGE_REPORTS }}'
         reporttypes: 'lcov'
     
-    - name: codecov upload
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      run: |
-        curl -Os https://uploader.codecov.io/latest/linux/codecov
-        chmod +x codecov
-        ./codecov
+    # - name: codecov upload
+    #   if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+    #   run: |
+    #     curl -Os https://uploader.codecov.io/latest/linux/codecov
+    #     chmod +x codecov
+    #     ./codecov
 
     - name: publish code coverage results
       if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && steps.changed-files.outputs.any_changed == 'true' }}
