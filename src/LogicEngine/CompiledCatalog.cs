@@ -9,8 +9,8 @@ using static LogicEngine.Internals.StaticShared;
 namespace LogicEngine;
 
 public record CompiledCatalog<T> :
-    IApplyable<T>,
-    IDetailedApplyable<T, IEnumerable<string>>,
+    IAppliable<T>,
+    IDetailedAppliable<T, IEnumerable<string>>,
     IAppliedSelector<T, string> where T : new()
 {
     private readonly Func<T, bool> _apply = Functions<T>.AlwaysTrueApply;

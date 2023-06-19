@@ -68,7 +68,7 @@ public class EnumerableExtensionsTests
     [TestCaseSource(nameof(FirstOrDefaultTestCases))]
     public void Filter_ShouldReturnItemsForWhichApplyIsTrue(bool apply1, bool apply2, TestModel expected)
     {
-        var mockApplyable = new Mock<IApplyable<TestModel>>();
+        var mockApplyable = new Mock<IAppliable<TestModel>>();
 
         var data = new[] { Item1, Item2 };
 
@@ -88,7 +88,7 @@ public class EnumerableExtensionsTests
     [TestCaseSource(nameof(FilterTestCases))]
     public void Filter_ShouldReturnItemsForWhichApplyIsTrue(bool apply1, bool apply2, TestModel[] expected)
     {
-        var mockApplyable = new Mock<IApplyable<TestModel>>();
+        var mockApplyable = new Mock<IAppliable<TestModel>>();
 
         var data = new[] { Item1, Item2 };
 
