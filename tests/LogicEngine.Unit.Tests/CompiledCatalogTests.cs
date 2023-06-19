@@ -248,7 +248,7 @@ public class CompiledCatalogTests
         new object[]
         {
             (false, true, true, true),
-            (true, true, true, true)
+            (true, false, true, true)
         },
         new object[]
         {
@@ -258,7 +258,7 @@ public class CompiledCatalogTests
         new object[]
         {
             (false, false, true, true),
-            (true, true, true, true)
+            (true, false, true, true)
         }
     };
 
