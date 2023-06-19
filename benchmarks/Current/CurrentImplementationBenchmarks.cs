@@ -24,17 +24,17 @@ public class CurrentImplementationBenchmarks
         _compiledCatalog2 = _compiler.Compile<Data.TestModel>(Data.FullExecutingCatalog).Unwrap();
     }
 
-    [Benchmark]
-    public void Compile1() => _compiler.Compile<Data.TestModel>(Data.ShortCircuitCatalog);
+    //[Benchmark]
+    //public void Compile1() => _compiler.Compile<Data.TestModel>(Data.ShortCircuitCatalog);
 
-    [Benchmark]
-    public void Compile2() => _compiler.Compile<Data.TestModel>(Data.FullExecutingCatalog);
+    //[Benchmark]
+    //public void Compile2() => _compiler.Compile<Data.TestModel>(Data.FullExecutingCatalog);
 
-    [Benchmark]
-    public void Apply1() => _compiledCatalog1.Apply(_item);
+    //[Benchmark]
+    //public void Apply1() => _compiledCatalog1.Apply(_item);
 
-    [Benchmark]
-    public void Apply2() => _compiledCatalog2.Apply(_item);
+    //[Benchmark]
+    //public void Apply2() => _compiledCatalog2.Apply(_item);
 
     [Benchmark]
     public void DetailedApply1() => _compiledCatalog1.DetailedApply(_item);
