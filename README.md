@@ -214,93 +214,32 @@ c2 = {rs4, rs5}
 ```
 > product of two `RulesCatalog`
 
-## The compilers
+## The compilers and compiled objects
 
 The `RuleCompiler` is the component that parses and compiles a `Rule` into executable code. 
 
 Every rule becomes an `Option<CompiledRule<T>>`, where the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
-
---- mostly ok until here ---
-
-
+A `CompiledRule<T>` is the actual portion of code that can be applied to an item of type `T` to provide a boolean result using its `ApplyApply(T item)` method.
+Ssometimes the boolean result is not enough: when the rule is not satisfied it could be useful to understand the reason why it failed. For this reason, a dedicated `Either<string, Unit> DetailedApply(T item)` method returns `Unit` when the rule is satisfied, or a string (the rule code) in case of failure.
 
 
+Similar to the `RuleCompiler`, the `RulesSetCompiler` transforms a `RulesSet` into an `Option<CompiledRulesSet<T>>`. 
+A `CompiledRulesSet<T>` can logically be seen as a set of compiled rules, hence, when applied to an item of type `T` it returns a boolean that is `true` if all the compiled rules return `true` on it. From a logical point of view, a `CompiledRulesSet<T>` represents the `AND` superposition of its `CompiledRule<T>`. 
+The corresponding `Either<string, Unit> DetailedApply(T item)` method of the `CompiledRulesSet<T>` returns `Unit` when all the rules are satisfied, or the set of codes for the rules that are not.
 
+Finally, the `RulesCatalogCompiler` transforms a `RulesCatalog` into an `Option<CompiledCatalog<T>>`, where the `None` status represents a catalog that cannot be compiled.
+A `CompiledCatalog<T>` logically represents the executable code that applies a set of set of rules to an object of type `T`: the result of its application can be `true` if at least one set of rules returns `true`, otherwise `false` (this represents the logical `OR` composition operations on rules joined by a logical `AND`).
+Similar to the `Either<string, Unit> DetailedApply(T item)` of the `CompiledRulesSet<T>`, it can return `Unit` when at least one internal rule set returns `Unit`, otherwise the flattened set of all the codes for all the rules that don't successfully apply.
 
+## ⚠️ Breaking changes
+If you want to upgrade from a version < 3.0.0 to the latest version you will need to adapt your implementation to manage the breaking changes introduced.
 
+The main differences can be condensed in the removal of the managers: the entire logic is now completely captured by the compiled objects `CompiledRule<T>`, `CompiledRulesSet<T>`, `CompiledCatalog<T>`, without the need of external wrappers.
 
-
-
-
-
-
-A `CompiledRule<T>` is the actual portion of code that can be applied to an item of type `T` to provide a boolean result; by the way, sometimes the boolean result is not enough: when the rule is not satisfied it could be important to understand the reason why it failed, for this a dedicated `Either<string, Unit> DetailedApply(T item)` method can retun `Unit` when the rule is satisfied, or a string (the rule code) in case of failure.
-
-
-
-
-Similar to the `RuleCompiler`, the `RulesSetCompiler` transforms a `RulesSet` into an `Option<CompiledRulesSet<T>>`, essentially a wrapper ok an array of `Func<T, Either<string, Unit>>` (all the rules of the `RulesSet` that are not correct get filtered out).
-
-
-
-
-
-an object capturing a `Func<T, Either<string, Unit>>`: the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
-The monadic function notation captures the possible outputs of the function:
-- the left type of the `Either` (`string`) represents a non matching result containing the code of the executed rule
-- the right type (`Unit`) represents insted a matching result for which no additional details are needed.
-
-The `RulesSetCompiler` transforms a RulesSet into a `CompiledRulesSet<T>`, essentially a wrapper ok an array of `Func<T, Either<string, Unit>>` (all the rules of the `RulesSet` that are not correct get filtered out).
-
-The `RulesCatalogCompiler`, finally, trasforms a full `RulesCatalog` into a `CompiledCatalog<T>`, a container for `Func<T, Either<string, Unit>>[][]` (a bidimensional array of functions to represents the logical superposition of `OR` operations on rules joined by a logical `AND` on sets)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## The RulesManager
-
-The `RulesManager<T>` is responsible for the application of the rules functions to an item of type `T`.
-
-Given a `RulesCatalog`, the manager exposes two main functionalities:
-- `ItemSatisfiesRules`: it just returns a true or false boolean value that represents if the catalog is satisfied by the item under consideration or not
-- `ItemSatisfiesRulesWithMessage`: this method is similar to the previous and returns a Unit value if the item satisfies the catalog; if not a set of all the codes associated to rules not matched is returned[^1]
-
-The main difference between the two method is the circuit breaking approach: given the logical structure, as soon as a `Rule` in a `RuleSet` fails, `ItemSatisfiesRules` will jump to the next one, while `ItemSatisfiesRulesWithMessage` will still check all the rules in the set to collect all the failure codes[^2].
-
-Additional methods of the manager allow to operate on an `IEnumerable<T>`, in particular it is possible to:
-- apply a filter based on the catalog
-- extract the first item satisfying the catalog
-
-## The RulesSetManager
-
-The `RulesSetManager` instead, given a `RulesSet`, evaulates, in order, all its rules on a specific item and returns the code of the first satisfied rule.
-
-This can be useful in a scenario where, given a condition on an item, some specific operation should be executed (like a routing matching in a web api).
-
-To ensure meaningful results, the `RulesSetManager` requires its `RulesSet` not to have rules with the same `Code`.
-
-## The CompositeRulesSetManager
-
-The `CompositeRulesSetManager`, given a set of `RuleSet` and a corresponding key, is responsible for retrieving the item corresponding to the first `RuleSet` matched by a specific item.
-
-This can be useful in a scenario where, given a condition on an item, some specific operation should be executed (like a routing matching in a web api with many rules to be evaluated in AND).
+This means that the typical workflow os:
+1. get the rules definition
+1. pass them to the appropriate compiler
+1. use the generated compiled objects to validate your objects according to the rules definition
 
 ## How to install
 
