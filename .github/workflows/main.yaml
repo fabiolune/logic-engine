@@ -102,7 +102,8 @@ jobs:
     #     chmod +x codecov
     #     ./codecov
 
-    - name: Upload coverage reports to Codecov with GitHub Action
+    - name: Upload coverage reports to Codecov
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       uses: codecov/codecov-action@v3
 
     - name: publish code coverage results

@@ -45,4 +45,15 @@ public class RuleTests
             .Should()
             .Be($"[Rule (property: property, operator: {expected}, value: value, code: code)]");
     }
+
+    [TestCase(null, "")]
+    [TestCase("", "")]
+    [TestCase(" ", " ")]
+    [TestCase("whatever", "whatever")]
+    public void Code_ShouldNeverBeNull(string code, string expected)
+    {
+        var rule = new Rule("property", OperatorType.Equal, "value", code);
+
+        rule.Code.Should().Be(expected);
+    }
 }
