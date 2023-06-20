@@ -236,7 +236,7 @@ If you want to upgrade from a version < 3.0.0 to the latest version you will nee
 
 The main differences can be condensed in the removal of the managers: the entire logic is now completely captured by the compiled objects `CompiledRule<T>`, `CompiledRulesSet<T>`, `CompiledCatalog<T>`, without the need of external wrappers.
 
-This means that the typical workflow os:
+This means that the typical workflow is:
 1. get the rules definition
 1. pass them to the appropriate compiler
 1. use the generated compiled objects to validate your objects according to the rules definition
