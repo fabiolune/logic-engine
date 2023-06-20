@@ -72,6 +72,7 @@ jobs:
         dotnet sonarscanner begin \
           /o:fabiolune \
           /k:fabiolune_logic-engine \
+          /d:sonar.cs.opencover.reportsPaths="./**/coverage.opencover.xml" \
           /d:sonar.host.url=https://sonarcloud.io
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -86,13 +87,6 @@ jobs:
           /p:UseSharedCompilation=false
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-    - name: stop sonarscanner
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
-      run: |
-        dotnet sonarscanner end
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     
     - name: Perform CodeQL Analysis
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
@@ -101,24 +95,41 @@ jobs:
     - name: test
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: |
-        dotnet test --no-restore --verbosity normal
+        dotnet test \
+            --no-restore \
+            --configuration Release \
+            --verbosity normal
       env:
-        CoverletOutputFormat: lcov
+        CoverletOutputFormat: lcov,opencover
         CollectCoverage: true
 
     - name: retrieve list of coverage info reports
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: |
-        find ./[Tt]est*/ -name "coverage.info" | paste -sd ";"
-        echo COVERAGE_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
+        echo OPENCOVER_REPORTS=$(find ./[Tt]est*/ -name "opencover*.xml" | paste -sd ";") >> $GITHUB_ENV
+        echo LCOV_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
+    
+    # - name: merge code coverage data
+    #   if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+    #   uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
+    #   with:
+    #     reports: '${{ env.OPENCOVER_REPORTS }}'
+    #     reporttypes: 'opencover'
 
     - name: merge code coverage data
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
       with:
-        reports: '${{ env.COVERAGE_REPORTS }}'
+        reports: '${{ env.LCOV_REPORTS }}'
         reporttypes: 'lcov'
-    
+
+    - name: stop sonarscanner
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
+      run: |
+        dotnet sonarscanner end
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
     - name: Upload coverage reports to Codecov
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       uses: codecov/codecov-action@v3

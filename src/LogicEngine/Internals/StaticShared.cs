@@ -5,7 +5,7 @@ namespace LogicEngine.Internals;
 
 internal static class StaticShared
 {
-    internal class Functions<T>
+    internal static class Functions<T>
     {
         internal static readonly Func<T, T> Identity = t => t;
 
@@ -13,7 +13,7 @@ internal static class StaticShared
 
     }
 
-    internal class Functions<T1, T2>
+    internal static class Functions<T1, T2>
     {
         internal static Func<T1, T2> Constant(T2 result) => _ => result;
 
