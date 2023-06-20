@@ -108,13 +108,6 @@ jobs:
       run: |
         echo OPENCOVER_REPORTS=$(find ./[Tt]est*/ -name "opencover*.xml" | paste -sd ";") >> $GITHUB_ENV
         echo LCOV_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
-    
-    # - name: merge code coverage data
-    #   if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-    #   uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
-    #   with:
-    #     reports: '${{ env.OPENCOVER_REPORTS }}'
-    #     reporttypes: 'opencover'
 
     - name: merge code coverage data
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
