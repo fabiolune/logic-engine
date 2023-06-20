@@ -25,7 +25,7 @@ public record CompiledCatalog<T> :
             .Where(c => c.IsSome)
             .Select(s => s.Unwrap())
             .ToOption(e => !e.Any())
-            .Map(e => e.ToArray())
+            .Map(e => e.ToList())
             .Map(rs => (GetApplyFromRules(rs), GetDetailedApplyFromRules(rs), GetFirstMatchingFromRules(rs)))
             .OrElse((Functions<T>.AlwaysTrue, Functions<T, IEnumerable<string>>.AlwaysRightEitherUnit, Functions<T, Option<string>>.Constant(Option<string>.None())))
             .Map(t => (t.Item1, t.Item2, t.Item3, name));
@@ -36,19 +36,19 @@ public record CompiledCatalog<T> :
 
     public Option<string> FirstMatching(T item) => _firstMaching(item);
 
-    private static Func<T, bool> GetApplyFromRules(CompiledRulesSet<T>[] ruleSets) =>
-        item => ruleSets.Any(s => s.Apply(item));
+    private static Func<T, bool> GetApplyFromRules(List<CompiledRulesSet<T>> ruleSets) =>
+       item => ruleSets.Exists(s => s.Apply(item));
 
-    private static Func<T, Either<IEnumerable<string>, Unit>> GetDetailedApplyFromRules(CompiledRulesSet<T>[] ruleSets) =>
+    private static Func<T, Either<IEnumerable<string>, Unit>> GetDetailedApplyFromRules(List<CompiledRulesSet<T>> ruleSets) =>
         item => ruleSets
             .Select(s => s.DetailedApply(item))
             .Map(r => r.Any(e => e.IsRight)
                 ? Either<IEnumerable<string>, Unit>.Right(Unit.Default)
                 : r.FilterLeft().SelectMany(_ => _).Map(Either<IEnumerable<string>, Unit>.Left));
 
-    private static Func<T, Option<string>> GetFirstMatchingFromRules(CompiledRulesSet<T>[] ruleSets) =>
+    private static Func<T, Option<string>> GetFirstMatchingFromRules(List<CompiledRulesSet<T>> ruleSets) =>
         item => ruleSets
-            .FirstOrDefault(r => r.Apply(item))
+            .Find(r => r.Apply(item))
             .ToOption()
             .Map(r => r.Name);
 }
