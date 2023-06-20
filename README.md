@@ -5,7 +5,7 @@
 ![GitHub CI](https://github.com/fabiolune/logic-engine/actions/workflows/main.yaml/badge.svg)
 [![codecov](https://codecov.io/gh/fabiolune/logic-engine/branch/main/graph/badge.svg?token=EYWA9ONWVX)](https://codecov.io/gh/fabiolune/logic-engine)
 
-The __logic-engine__ is a simple dotnet library to help introducing flexible logic systems.
+The __logic-engine__ is a simple dotnet library to help introduce flexible logic systems.
 
 It supports a generic set of rules that get compiled into executable code, allowing the possibility to dynamically change your business logic and adapt it to different needs without changing the core of your system.
 
@@ -26,9 +26,9 @@ Given a type to be applied to, a rule is defined by a set of fields
 
 ## The Operator
 
-The `Operator` can assume different possible values depending on the `Property` it is applied to and on the value the result should be compared to.
+The `Operator` can assume different possible values depending on the `Property` it is applied to and on the value, the result should be compared to.
 
-Operators are classified based on the way they work and their behaviour. The rules categorization is also influenced by some implementation details.
+Operators are classified based on the way they work and their behavior. The rules categorization is also influenced by some implementation details.
 
 ### Direct operators
 
@@ -54,7 +54,7 @@ var integerRule = new Rule("IntegerProperty", OperatorType.Equal, "10", "code 2"
 
 ### Internal direct operators
 
-Internal direct rules are similar to direct rules, but they are meant to be applied on values that are other fields of the same type; in this case `Value` should correspond to the name of another field in the analyzed type:
+Internal direct rules are similar to direct rules, but they are meant to be applied to values that are other fields of the same type; in this case, `Value` should correspond to the name of another field in the analyzed type:
 
 - `InnerEqual`: equality between two value typed fields
 - `InnerNotEqual`: equality between two value typed fields
@@ -220,15 +220,14 @@ The `RuleCompiler` is the component that parses and compiles a `Rule` into execu
 
 Every rule becomes an `Option<CompiledRule<T>>`, where the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
 A `CompiledRule<T>` is the actual portion of code that can be applied to an item of type `T` to provide a boolean result using its `ApplyApply(T item)` method.
-Ssometimes the boolean result is not enough: when the rule is not satisfied it could be useful to understand the reason why it failed. For this reason, a dedicated `Either<string, Unit> DetailedApply(T item)` method returns `Unit` when the rule is satisfied, or a string (the rule code) in case of failure.
+Sometimes the boolean result is not enough: when the rule is not satisfied it could be useful to understand the reason why it failed. For this reason, a dedicated `Either<string, Unit> DetailedApply(T item)` method returns `Unit` when the rule is satisfied, or a string (the rule code) in case of failure.
 
-
-Similar to the `RuleCompiler`, the `RulesSetCompiler` transforms a `RulesSet` into an `Option<CompiledRulesSet<T>>`. 
+Like the `RuleCompiler`, the `RulesSetCompiler` transforms a `RulesSet` into an `Option<CompiledRulesSet<T>>`. 
 A `CompiledRulesSet<T>` can logically be seen as a set of compiled rules, hence, when applied to an item of type `T` it returns a boolean that is `true` if all the compiled rules return `true` on it. From a logical point of view, a `CompiledRulesSet<T>` represents the `AND` superposition of its `CompiledRule<T>`. 
 The corresponding `Either<string, Unit> DetailedApply(T item)` method of the `CompiledRulesSet<T>` returns `Unit` when all the rules are satisfied, or the set of codes for the rules that are not.
 
 Finally, the `RulesCatalogCompiler` transforms a `RulesCatalog` into an `Option<CompiledCatalog<T>>`, where the `None` status represents a catalog that cannot be compiled.
-A `CompiledCatalog<T>` logically represents the executable code that applies a set of set of rules to an object of type `T`: the result of its application can be `true` if at least one set of rules returns `true`, otherwise `false` (this represents the logical `OR` composition operations on rules joined by a logical `AND`).
+A `CompiledCatalog<T>` logically represents the executable code that applies a set of rule sets to an object of type `T`: the result of its application can be `true` if at least one set of rules returns `true`, otherwise `false` (this represents the logical `OR` composition operations on rules joined by a logical `AND`).
 Similar to the `Either<string, Unit> DetailedApply(T item)` of the `CompiledRulesSet<T>`, it can return `Unit` when at least one internal rule set returns `Unit`, otherwise the flattened set of all the codes for all the rules that don't successfully apply.
 
 ## ⚠️ Breaking changes
