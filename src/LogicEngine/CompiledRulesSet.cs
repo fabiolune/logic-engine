@@ -22,6 +22,7 @@ public record CompiledRulesSet<T> :
     public CompiledRulesSet(CompiledRule<T>[] rules, string name) =>
         (_apply, _detailedApply, _firstMaching, Name) = rules
             .ToOption(e => !e.Any())
+            .Map(e => e.ToList())
             .Map(e => (GetApplyFromRules(e), GetDetailedApplyFromRules(e), GetFirstMatchingFromRules(e)))
             .OrElse((Functions<T>.AlwaysTrue, Functions<T, IEnumerable<string>>.AlwaysRightEitherUnit, Functions<T, Option<string>>.Constant(Option<string>.None())))
             .Map(t => (t.Item1, t.Item2, t.Item3, name));
@@ -32,18 +33,18 @@ public record CompiledRulesSet<T> :
 
     public Option<string> FirstMatching(T item) => _firstMaching(item);
 
-    private static Func<T, bool> GetApplyFromRules(CompiledRule<T>[] rules) =>
-        item => rules.All(r => r.Apply(item));
+    private static Func<T, bool> GetApplyFromRules(List<CompiledRule<T>> rules) =>
+        item => rules.TrueForAll(r => r.Apply(item));
 
-    private static Func<T, Either<IEnumerable<string>, Unit>> GetDetailedApplyFromRules(CompiledRule<T>[] rules) =>
+    private static Func<T, Either<IEnumerable<string>, Unit>> GetDetailedApplyFromRules(List<CompiledRule<T>> rules) =>
         item => rules
             .Select(r => r.DetailedApply(item))
             .FilterLeft()
             .Map<IEnumerable<string>, Either<IEnumerable<string>, Unit>>(e => e.ToEither(_ => Unit.Default, _ => _.Any(), e));
 
-    private static Func<T, Option<string>> GetFirstMatchingFromRules(CompiledRule<T>[] rules) =>
+    private static Func<T, Option<string>> GetFirstMatchingFromRules(List<CompiledRule<T>> rules) =>
         item => rules
-            .FirstOrDefault(r => r.Apply(item))
+            .Find(r => r.Apply(item))
             .ToOption()
             .Map(r => r.Code);
 }
