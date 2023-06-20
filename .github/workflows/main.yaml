@@ -94,7 +94,13 @@ jobs:
     - name: test
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: |
-        dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\"
+        dotnet test \
+            --no-restore \
+            --configuration Release \
+            --verbosity normal
+      env:
+        CoverletOutputFormat: lcov,opencover
+        CollectCoverage: true
 
     - name: stop sonarscanner
       if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
