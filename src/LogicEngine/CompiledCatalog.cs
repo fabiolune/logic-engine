@@ -13,8 +13,8 @@ public record CompiledCatalog<T> :
     IDetailedAppliable<T, IEnumerable<string>>,
     IAppliedSelector<T, string> where T : new()
 {
-    private readonly Func<T, bool> _apply = Functions<T>.AlwaysTrueApply;
-    private readonly Func<T, Either<IEnumerable<string>, Unit>> _applyDetailed = Functions<T, IEnumerable<string>>.AlwaysUnitDetailedApply;
+    private readonly Func<T, bool> _apply = Functions<T>.AlwaysTrue;
+    private readonly Func<T, Either<IEnumerable<string>, Unit>> _applyDetailed = Functions<T, IEnumerable<string>>.AlwaysRightEitherUnit;
     private readonly Func<T, Option<string>> _firstMaching = Functions<T, Option<string>>.Constant(Option<string>.None());
 
     public string Name { get; }
@@ -27,7 +27,7 @@ public record CompiledCatalog<T> :
             .ToOption(e => !e.Any())
             .Map(e => e.ToArray())
             .Map(rs => (GetApplyFromRules(rs), GetDetailedApplyFromRules(rs), GetFirstMatchingFromRules(rs)))
-            .OrElse((Functions<T>.AlwaysTrueApply, Functions<T, IEnumerable<string>>.AlwaysUnitDetailedApply, Functions<T, Option<string>>.Constant(Option<string>.None())))
+            .OrElse((Functions<T>.AlwaysTrue, Functions<T, IEnumerable<string>>.AlwaysRightEitherUnit, Functions<T, Option<string>>.Constant(Option<string>.None())))
             .Map(t => (t.Item1, t.Item2, t.Item3, name));
 
     public bool Apply(T item) => _apply(item);
