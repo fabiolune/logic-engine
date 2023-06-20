@@ -61,6 +61,21 @@ jobs:
       with:
         languages: 'csharp'
 
+    - name: setup sonarscanner
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
+      run: |
+        dotnet tool install --global dotnet-sonarscanner
+
+    - name: start sonarscanner
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
+      run: |
+        dotnet sonarscanner begin \
+          /o:fabiolune \
+          /k:fabiolune_logic-engine \
+          /d:sonar.host.url=https://sonarcloud.io
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
     - name: build
       if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
       run: |
@@ -69,7 +84,16 @@ jobs:
           --no-restore \
           /p:Version=${{ env.GITVERSION_NUGETVERSIONV2 }} \
           /p:UseSharedCompilation=false
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+    - name: stop sonarscanner
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
+      run: |
+        dotnet sonarscanner end
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    
     - name: Perform CodeQL Analysis
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
       uses: github/codeql-action/analyze@v2
@@ -95,13 +119,6 @@ jobs:
         reports: '${{ env.COVERAGE_REPORTS }}'
         reporttypes: 'lcov'
     
-    # - name: codecov upload
-    #   if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-    #   run: |
-    #     curl -Os https://uploader.codecov.io/latest/linux/codecov
-    #     chmod +x codecov
-    #     ./codecov
-
     - name: Upload coverage reports to Codecov
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       uses: codecov/codecov-action@v3
