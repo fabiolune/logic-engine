@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LogicEngine.Internals;
 
@@ -45,5 +46,5 @@ internal static class OperatorClassification
     };
 
     internal static OperatorCategory GetOperatorType(OperatorType type)
-        => TypeCategoryMapping.ContainsKey(type) ? TypeCategoryMapping[type] : OperatorCategory.None;
+        => TypeCategoryMapping.TryGetValue(type, out var category) ? category : OperatorCategory.None;
 }

@@ -60,7 +60,7 @@ public class RuleCompiler : IRuleCompiler
                 .Map(_ => (_.rule, Parameter(_.Item2)))
                 .Map(_ => (_.rule, _.Item2, GetTypeFromPropertyName<T>(_.rule.Property)))
                 .Map(_ => (_.rule, _.Item2, _.Item3,
-                    _.Item3.IsArray ? _.Item3.GetElementType() : _.Item3.GetGenericArguments().First()))
+                    _.Item3.IsArray ? _.Item3.GetElementType() : _.Item3.GetGenericArguments()[0]))
                 .Map(_ => (EnumerableMapping[_.rule.Operator](_.rule, Property(_.Item2, _.rule.Property), _.Item4),
                     _.Item2, _.rule.Code)))
             .Map(GetOption);
@@ -76,7 +76,7 @@ public class RuleCompiler : IRuleCompiler
                 .Map(_ => (_.rule, _.Item2, _.Item3, _.Item4, GetTypeFromPropertyName<T>(_.rule.Property),
                     GetTypeFromPropertyName<T>(_.rule.Value)))
                 .Map(_ => (_.rule, _.Item2, _.Item3, _.Item4, _.Item5, _.Item6,
-                    _.Item5.IsArray ? _.Item5.GetElementType() : _.Item5.GetGenericArguments().First()))
+                    _.Item5.IsArray ? _.Item5.GetElementType() : _.Item5.GetGenericArguments()[0]))
                 .ToOption(_ => _.Item6.FullName != _.Item7.FullName)
                 .Map(_ => (InternalEnumerableMapping[_.rule.Operator](_.rule, _.Item3, _.Item5, _.Item4, _.Item5, _.Item6), _.Item2, _.rule.Code)))
             .Map(GetOption);
@@ -88,7 +88,7 @@ public class RuleCompiler : IRuleCompiler
                     GetTypeFromPropertyName<T>(_.rule.Value)))
                 .ToOption(_ => _.Item5.FullName != _.Item6.FullName)
                 .Map(_ => (_.rule, _.Item2, _.Item3, _.Item4, _.Item5, _.Item6,
-                    _.Item5.IsArray ? _.Item5.GetElementType() : _.Item5.GetGenericArguments().First()))
+                    _.Item5.IsArray ? _.Item5.GetElementType() : _.Item5.GetGenericArguments()[0]))
                 .Map(_ => (
                     InternalCrossEnumerableMapping
                         [_.rule.Operator](_.rule, _.Item3, _.Item5, _.Item4, _.Item6, _.Item7), _.Item2, _.rule.Code)))
