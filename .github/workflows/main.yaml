@@ -86,13 +86,6 @@ jobs:
           /p:UseSharedCompilation=false
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-    - name: stop sonarscanner
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
-      run: |
-        dotnet sonarscanner end
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     
     - name: Perform CodeQL Analysis
       if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
@@ -102,6 +95,13 @@ jobs:
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: |
         dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\"
+
+    - name: stop sonarscanner
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
+      run: |
+        dotnet sonarscanner end
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     - name: retrieve list of coverage info reports
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
