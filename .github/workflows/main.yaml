@@ -101,10 +101,7 @@ jobs:
     - name: test
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: |
-        dotnet test --no-restore --verbosity normal
-      env:
-        CoverletOutputFormat: lcov
-        CollectCoverage: true
+        dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=\"lcov,opencover\"
 
     - name: retrieve list of coverage info reports
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
