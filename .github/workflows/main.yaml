@@ -72,6 +72,7 @@ jobs:
         dotnet sonarscanner begin \
           /o:fabiolune \
           /k:fabiolune_logic-engine \
+          /d:sonar.cs.opencover.reportsPaths="./**/opencover*.xml" \
           /d:sonar.host.url=https://sonarcloud.io
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -102,6 +103,26 @@ jobs:
         CoverletOutputFormat: lcov,opencover
         CollectCoverage: true
 
+    - name: retrieve list of coverage info reports
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      run: |
+        echo OPENCOVER_REPORTS=$(find ./[Tt]est*/ -name "opencover*.xml" | paste -sd ";") >> $GITHUB_ENV
+        echo LCOV_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
+    
+    # - name: merge code coverage data
+    #   if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+    #   uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
+    #   with:
+    #     reports: '${{ env.OPENCOVER_REPORTS }}'
+    #     reporttypes: 'opencover'
+
+    - name: merge code coverage data
+      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
+      with:
+        reports: '${{ env.LCOV_REPORTS }}'
+        reporttypes: 'lcov'
+
     - name: stop sonarscanner
       if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
       run: |
@@ -109,19 +130,6 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-    - name: retrieve list of coverage info reports
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      run: |
-        find ./[Tt]est*/ -name "coverage.info" | paste -sd ";"
-        echo COVERAGE_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
-
-    - name: merge code coverage data
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
-      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
-      with:
-        reports: '${{ env.COVERAGE_REPORTS }}'
-        reporttypes: 'lcov'
-    
     - name: Upload coverage reports to Codecov
       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       uses: codecov/codecov-action@v3
