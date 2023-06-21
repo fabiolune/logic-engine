@@ -21,20 +21,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Get specific changed files
-      id: changed-files
-      uses: tj-actions/changed-files@v34
-      with:
-        files: |
-          **/*.yml
-          **/*.yaml
-          **/*.cs
-          **/*.csproj
-          **/*.sln
-          nuget.config
-
     - uses: actions/setup-dotnet@v3
-      if: ${{ (steps.changed-files.outputs.any_changed == 'true') || (github.event_name == 'release') }}
       with:
         dotnet-version: | 
           5.x
@@ -52,22 +39,18 @@ jobs:
       uses: gittools/actions/gitversion/execute@v0.9.15
     
     - name: restore dependencies
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release'}}
       run: dotnet restore
 
     - name: Initialize CodeQL
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push'}}
       uses: github/codeql-action/init@v2
       with:
         languages: 'csharp'
 
     - name: setup sonarscanner
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
       run: |
         dotnet tool install --global dotnet-sonarscanner
 
     - name: start sonarscanner
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
       run: |
         dotnet sonarscanner begin \
           /o:fabiolune \
@@ -78,7 +61,6 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     - name: build
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
       run: |
         dotnet build \
           --configuration Release \
@@ -89,11 +71,9 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     
     - name: Perform CodeQL Analysis
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' }}
       uses: github/codeql-action/analyze@v2
 
     - name: test
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: |
         dotnet test \
             --no-restore \
@@ -104,31 +84,26 @@ jobs:
         CollectCoverage: true
 
     - name: retrieve list of coverage info reports
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       run: |
-        echo OPENCOVER_REPORTS=$(find ./[Tt]est*/ -name "opencover*.xml" | paste -sd ";") >> $GITHUB_ENV
         echo LCOV_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
 
     - name: merge code coverage data
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
       with:
         reports: '${{ env.LCOV_REPORTS }}'
         reporttypes: 'lcov'
 
     - name: stop sonarscanner
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'release' }}
       run: |
         dotnet sonarscanner end
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     - name: Upload coverage reports to Codecov
-      if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
       uses: codecov/codecov-action@v3
 
     - name: publish code coverage results
-      if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' && steps.changed-files.outputs.any_changed == 'true' }}
+      if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
       uses: romeovs/lcov-reporter-action@v0.3.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
