@@ -1,10 +1,37 @@
-> This documentation is in line with the active development, hence should be considered work in progress. To check the latest stable version please visit https://fabiolune.github.io/logic-engine/
+> This documentation is in line with the active development, hence should be considered work in progress. To check the documentation for the latest stable version please visit [https://fabiolune.github.io/logic-engine/](https://fabiolune.github.io/logic-engine/)
 
 # Logic Engine
 
 ![GitHub CI](https://github.com/fabiolune/logic-engine/actions/workflows/main.yaml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fabiolune_logic-engine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fabiolune_logic-engine)
 [![codecov](https://codecov.io/gh/fabiolune/logic-engine/branch/main/graph/badge.svg?token=EYWA9ONWVX)](https://codecov.io/gh/fabiolune/logic-engine)
+
+## Table of contents
+
+1. [Introduction](#introduction)
+1. [The Rule](#the-rule)
+1. [The Operators](#the-operators)
+    1. [Direct operators](#direct-operators)
+    1. [Internal direct operators](#internal-direct-operators)
+    1. [Enumerable operators](#enumerable-operators)
+    1. [Internal enumerable operators](#internal-enumerable-operators)
+    1. [Key-value operators](#key-value-operators)
+    1. [Inverse enumerable operators](#inverse-enumerable-operators)
+    1. [Inverse enumerable operators](#inverse-enumerable-operators)
+1. [The RulesSets](#the-rulessets)
+1. [The RulesCatalog](#the-rulescatalog)
+1. [The Algebraic model](#the-algebraic-model)
+    1. [RulesSets sum](#rulessets-sum)
+    1. [RulesCatalog sum](#rulescatalog-sum)
+    1. [RulesCatalog product](#rulescatalog-product)
+1. [Compilers and compiled objects](#compilers-and-compiled-objects)
+1. [Known limitations](#known-limitations)
+1. [Breaking changes ⚠️](#breaking-changes-⚠️)
+1. [How to install the package](#how-to-install-the-package)
+
+
+
+## Introduction
 
 The __logic-engine__ is a simple dotnet library to help introduce flexible logic systems.
 
@@ -25,7 +52,7 @@ Given a type to be applied to, a rule is defined by a set of fields
 - `Value`: identifies the value against which compare the result of the operator on the property
 - `Code`: the error code to be generated when the rules applied on an object fails (returns `false`)
 
-## The Operator
+## The Operators
 
 The `Operator` can assume different possible values depending on the `Property` it is applied to and on the value, the result should be compared to.
 
@@ -159,7 +186,7 @@ var rule1 = new Rule("IntProperty", OperatorType.IsContained, "1,2,3");
 ```
 > sample rules for inverse enumerable operators
 
-## RulesSet
+## The RulesSets
 
 A `RulesSet` is basically a set of rules. From a functional point of view it represents a boolean typed function composed by a set of functions on a given type.
 
@@ -167,7 +194,7 @@ A `RulesSet` is basically a set of rules. From a functional point of view it rep
 
 A `RulesSet` corresponds to the logical `AND` operator on its rules.
 
-## RulesCatalog
+## The RulesCatalog
 
 A `RulesCatalog` represents a set of `RulesSet`, and functionally corresponds to a boolean typed function composed by a set of sets of functions on a given type.
 
@@ -215,7 +242,7 @@ c2 = {rs4, rs5}
 ```
 > product of two `RulesCatalog`
 
-## The compilers and compiled objects
+## Compilers and compiled objects
 
 The `RuleCompiler` is the component that parses and compiles a `Rule` into executable code. 
 
@@ -231,7 +258,14 @@ Finally, the `RulesCatalogCompiler` transforms a `RulesCatalog` into an `Option<
 A `CompiledCatalog<T>` logically represents the executable code that applies a set of rule sets to an object of type `T`: the result of its application can be `true` if at least one set of rules returns `true`, otherwise `false` (this represents the logical `OR` composition operations on rules joined by a logical `AND`).
 Similar to the `Either<string, Unit> DetailedApply(T item)` of the `CompiledRulesSet<T>`, it can return `Unit` when at least one internal rule set returns `Unit`, otherwise the flattened set of all the codes for all the rules that don't successfully apply.
 
-## ⚠️ Breaking changes
+## Known limitations
+The current implementation of the rules sytem has some limitations:
+* it is designed to work on plain objects (instances of classes, records or structures) with an empty constructor
+* rules can only be applied to 'first level members', no nesting is currently supported
+
+---
+
+## Breaking changes ⚠️
 If you want to upgrade from a version < 3.0.0 to the latest version you will need to adapt your implementation to manage the breaking changes introduced.
 
 The main differences can be condensed in the removal of the managers: the entire logic is now completely captured by the compiled objects `CompiledRule<T>`, `CompiledRulesSet<T>`, `CompiledCatalog<T>`, without the need of external wrappers.
@@ -241,7 +275,9 @@ This means that the typical workflow to update the library requires:
 1. pass them to the appropriate compiler
 1. use the generated compiled objects to validate your objects according to the rules definition
 
-## How to install
+---
+
+## How to install the package
 
 If you are using `nuget.org` you can add the dependency in your project using
 ```shell
@@ -251,4 +287,5 @@ dotnet add package logic-engine --version <version>
 To install the __logic-engine__ library from GitHub's packages system please refer to the [packages page](https://github.com/fabiolune?tab=packages&repo_name=logic-engine).
 
 [^1]: null or empty codes are removed because they don't carry reusable info
+
 [^2]: from a technical perspective this is obtained with a concrete implementation of the railway pattern
