@@ -231,6 +231,11 @@ Finally, the `RulesCatalogCompiler` transforms a `RulesCatalog` into an `Option<
 A `CompiledCatalog<T>` logically represents the executable code that applies a set of rule sets to an object of type `T`: the result of its application can be `true` if at least one set of rules returns `true`, otherwise `false` (this represents the logical `OR` composition operations on rules joined by a logical `AND`).
 Similar to the `Either<string, Unit> DetailedApply(T item)` of the `CompiledRulesSet<T>`, it can return `Unit` when at least one internal rule set returns `Unit`, otherwise the flattened set of all the codes for all the rules that don't successfully apply.
 
+## Known limitations
+The current implementation of the rules sytem has some limitations:
+* it is designed to work on plain objects (instances of classes, records or structures) with an empty constructor
+* rules can only be applied to 'first level members', no nesting is currently supported
+
 ## ⚠️ Breaking changes
 If you want to upgrade from a version < 3.0.0 to the latest version you will need to adapt your implementation to manage the breaking changes introduced.
 
