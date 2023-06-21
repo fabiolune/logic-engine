@@ -13,9 +13,9 @@ public record CompiledCatalog<T> :
     IDetailedAppliable<T, IEnumerable<string>>,
     IAppliedSelector<T, string> where T : new()
 {
-    private readonly Func<T, bool> _apply = Functions<T>.AlwaysTrue;
-    private readonly Func<T, Either<IEnumerable<string>, Unit>> _applyDetailed = Functions<T, IEnumerable<string>>.AlwaysRightEitherUnit;
-    private readonly Func<T, Option<string>> _firstMaching = Functions<T, Option<string>>.Constant(Option<string>.None());
+    private readonly Func<T, bool> _apply;
+    private readonly Func<T, Either<IEnumerable<string>, Unit>> _applyDetailed;
+    private readonly Func<T, Option<string>> _firstMaching;
 
     public string Name { get; }
 
