@@ -23,6 +23,11 @@ public enum OperatorType
     /// Item parameter string contains specified constant
     /// </summary>
     StringContains,
+    // ----------------
+    /// <summary>
+    /// Item parameter string matches specified regex
+    /// </summary>
+    StringRegexIsMatch,
     /// <summary>
     /// Item parameter greater than specified constant
     /// </summary>
