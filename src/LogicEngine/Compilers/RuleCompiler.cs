@@ -27,6 +27,7 @@ public class RuleCompiler : IRuleCompiler
         OperatorClassification.GetOperatorType(rule.Operator) switch
         {
             OperatorCategory.Direct => CompileDirectRule<T>(rule),
+            OperatorCategory.StringMethod => CompileStringMethodRule<T>(rule),
             OperatorCategory.Enumerable => CompileEnumerableRule<T>(rule),
             OperatorCategory.InternalDirect => CompileInternalDirectRule<T>(rule),
             OperatorCategory.InternalEnumerable => CompileInternalEnumerableRule<T>(rule),
@@ -53,6 +54,12 @@ public class RuleCompiler : IRuleCompiler
                 .Map(_ => (_.rule, _.Item2, _.Item3, _.Item4, GetTypeFromPropertyName<T>(_.rule.Property), GetTypeFromPropertyName<T>(_.rule.Value)))
                 .ToOption(_ => _.Item5.FullName != _.Item6.FullName)
                 .Map(_ => (MakeBinary(InternalDirectMapping[_.rule.Operator], _.Item3, _.Item4), _.Item2, _.rule.Code)))
+            .Map(GetOption);
+
+    private static Option<(BinaryExpression, ParameterExpression, string)> CompileStringMethodRule<T>(Rule rule) => 
+        Try(() => (rule, typeof(T))
+            .Map(_ => (parameter: Parameter(_.Item2), _.rule))
+            .Map(_ => (StringMethodMapping[_.rule.Operator](_.rule, Property(_.parameter, _.rule.Property)), _.parameter, _.rule.Code)))
             .Map(GetOption);
 
     private static Option<(BinaryExpression, ParameterExpression, string)> CompileEnumerableRule<T>(Rule rule) =>
