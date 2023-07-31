@@ -8,6 +8,21 @@ public enum OperatorType
     /// Item parameter is equal to specified constant
     /// </summary>
     Equal,
+    // ----------------
+    /// <summary>
+    /// Item parameter string starts with specified constant
+    /// </summary>
+    StringStartsWith,
+    // ----------------
+    /// <summary>
+    /// Item parameter string ends with specified constant
+    /// </summary>
+    StringEndsWith,
+    // ----------------
+    /// <summary>
+    /// Item parameter string contains specified constant
+    /// </summary>
+    StringContains,
     /// <summary>
     /// Item parameter greater than specified constant
     /// </summary>
