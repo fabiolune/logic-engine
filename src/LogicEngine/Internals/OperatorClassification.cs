@@ -18,6 +18,7 @@ internal static class OperatorClassification
         {OperatorType.StringStartsWith, OperatorCategory.StringMethod },
         {OperatorType.StringEndsWith, OperatorCategory.StringMethod },
         {OperatorType.StringContains, OperatorCategory.StringMethod },
+        {OperatorType.StringRegexIsMatch, OperatorCategory.StringMethod },
         // ------------------------------------------
         {OperatorType.Contains, OperatorCategory.Enumerable },
         {OperatorType.NotContains, OperatorCategory.Enumerable },

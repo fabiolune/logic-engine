@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using TinyFp.Extensions;
 using static LogicEngine.Internals.Constants;
 using static System.Convert;
@@ -45,7 +46,12 @@ internal static class OperationMappings
     {
         {OperatorType.StringStartsWith, (r, k) => GetStringMethodExpression(k, nameof(string.StartsWith), r.Value)},
         {OperatorType.StringEndsWith, (r, k) => GetStringMethodExpression(k, nameof(string.EndsWith), r.Value)},
-        {OperatorType.StringContains, (r, k) => GetStringMethodExpression(k, nameof(string.Contains), r.Value)}
+        {OperatorType.StringContains, (r, k) => GetStringMethodExpression(k, nameof(string.Contains), r.Value)},
+        {OperatorType.StringRegexIsMatch, (r, k) => 
+            MakeBinary(
+                ExpressionType.AndAlso,
+                MakeBinary(ExpressionType.NotEqual, k, NullValue),
+                Call(Constant(new Regex(r.Value, RegexOptions.Compiled)), typeof(Regex).GetMethod("IsMatch", new[] { StringType }), k)) }
     });
 
     private static BinaryExpression GetStringMethodExpression(MemberExpression memberExpression, string methodName, string value) => 
