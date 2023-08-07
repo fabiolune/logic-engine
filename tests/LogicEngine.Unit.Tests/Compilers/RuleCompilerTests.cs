@@ -13,6 +13,11 @@ public class RuleCompilerTests
     public void SetUp() => _sut = new RuleCompiler();
 
     [TestCase(OperatorType.Equal)]
+    [TestCase(OperatorType.StringStartsWith)]
+    [TestCase(OperatorType.StringEndsWith)]
+    [TestCase(OperatorType.StringContains)]
+    [TestCase(OperatorType.StringEndsWith)]
+    [TestCase(OperatorType.StringRegexIsMatch)]
     [TestCase(OperatorType.GreaterThan)]
     [TestCase(OperatorType.GreaterThanOrEqual)]
     [TestCase(OperatorType.LessThan)]
@@ -62,6 +67,32 @@ public class RuleCompilerTests
         var result = _sut.Compile<TestModel>(rule);
 
         result.IsSome.Should().BeTrue();
+    }
+
+    [TestCase(OperatorType.StringStartsWith)]
+    [TestCase(OperatorType.StringEndsWith)]
+    [TestCase(OperatorType.StringContains)]
+    [TestCase(OperatorType.StringRegexIsMatch)]
+    public void Compile_WhenMethodRulesAreCorrectWithStrings_ShouldReturnSome(OperatorType op)
+    {
+        var rule = new Rule(nameof(TestModel.StringProperty), op, "3", null);
+
+        var result = _sut.Compile<TestModel>(rule);
+
+        result.IsSome.Should().BeTrue();
+    }
+
+    [TestCase(OperatorType.StringStartsWith)]
+    [TestCase(OperatorType.StringEndsWith)]
+    [TestCase(OperatorType.StringContains)]
+    [TestCase(OperatorType.StringRegexIsMatch)]
+    public void Compile_WhenMethodRulesAreNotCorrectWithStrings_ShouldReturnSome(OperatorType op)
+    {
+        var rule = new Rule(nameof(TestModel.IntProperty), op, "3", null);
+
+        var result = _sut.Compile<TestModel>(rule);
+
+        result.IsNone.Should().BeTrue();
     }
 
     [TestCase(OperatorType.Equal)]
@@ -369,6 +400,126 @@ public class RuleCompilerTests
             {
                 IntProperty = 13
             }).IsRight.Should().BeFalse();
+        });
+    }
+
+    [Test]
+    public void Compile_WhenRuleStringStartsWith_ShouldReturnExpectedFunction()
+    {
+        var rule = new Rule(nameof(TestModel.StringProperty), OperatorType.StringStartsWith, "StringCased_", "string does not start with StringCased_");
+
+        var result = _sut.Compile<TestModel>(rule);
+
+        result.IsSome.Should().BeTrue();
+        result.OnSome(_ =>
+        {
+            var expectedLeft1 = _.DetailedApply(new TestModel
+            {
+                StringProperty = "shouldbeleftStringCased_"
+            });
+            expectedLeft1.IsLeft.Should().BeTrue();
+            expectedLeft1.UnwrapLeft().Should().Be("string does not start with StringCased_");
+            var expectedLeft2 = _.DetailedApply(new TestModel
+            {
+                StringProperty = null
+            });
+            expectedLeft2.IsLeft.Should().BeTrue();
+            expectedLeft2.UnwrapLeft().Should().Be("string does not start with StringCased_");
+
+            _.DetailedApply(new TestModel
+            {
+                StringProperty = "StringCased_teststring"
+            }).IsRight.Should().BeTrue();
+        });
+    }
+
+    [Test]
+    public void Compile_WhenRuleStringEndsWith_ShouldReturnExpectedFunction()
+    {
+        var rule = new Rule(nameof(TestModel.StringProperty), OperatorType.StringEndsWith, "_StringCased", "string does not end with _StringCased");
+
+        var result = _sut.Compile<TestModel>(rule);
+
+        result.IsSome.Should().BeTrue();
+        result.OnSome(_ =>
+        {
+            var expectedLeft1 = _.DetailedApply(new TestModel
+            {
+                StringProperty = "should_StringCasedbeleft"
+            });
+            expectedLeft1.IsLeft.Should().BeTrue();
+            expectedLeft1.UnwrapLeft().Should().Be("string does not end with _StringCased");
+            var expectedLeft2 = _.DetailedApply(new TestModel
+            {
+                StringProperty = null
+            });
+            expectedLeft2.IsLeft.Should().BeTrue();
+            expectedLeft2.UnwrapLeft().Should().Be("string does not end with _StringCased");
+
+            _.DetailedApply(new TestModel
+            {
+                StringProperty = "teststring_StringCased"
+            }).IsRight.Should().BeTrue();
+        });
+    }
+
+    [Test]
+    public void Compile_WhenRuleStringContains_ShouldReturnExpectedFunction()
+    {
+        var rule = new Rule(nameof(TestModel.StringProperty), OperatorType.StringContains, "_StringCased_", "string does not contain _StringCased_");
+
+        var result = _sut.Compile<TestModel>(rule);
+
+        result.IsSome.Should().BeTrue();
+        result.OnSome(_ =>
+        {
+            var expectedLeft1 = _.DetailedApply(new TestModel
+            {
+                StringProperty = "StringCase_should_StringCasedbeleft_StringCased"
+            });
+            expectedLeft1.IsLeft.Should().BeTrue();
+            expectedLeft1.UnwrapLeft().Should().Be("string does not contain _StringCased_");
+            var expectedLeft2 = _.DetailedApply(new TestModel
+            {
+                StringProperty = null
+            });
+            expectedLeft2.IsLeft.Should().BeTrue();
+            expectedLeft2.UnwrapLeft().Should().Be("string does not contain _StringCased_");
+
+            _.DetailedApply(new TestModel
+            {
+                StringProperty = "StringCased_should_StringCased_beleft_StringCased"
+            }).IsRight.Should().BeTrue();
+        });
+    }
+
+    [Test]
+    public void Compile_WhenRuleStringRegexIsMatch_ShouldReturnExpectedFunction()
+    {
+        var rule = new Rule(nameof(TestModel.StringProperty), OperatorType.StringRegexIsMatch, "(?i)(\\W|^)(baloney|darn)(\\W|$)", "string does not match regex (?i)(\\W|^)(baloney|darn)(\\W|$)");
+
+        var result = _sut.Compile<TestModel>(rule);
+
+        result.IsSome.Should().BeTrue();
+        result.OnSome(_ =>
+        {
+            var expectedLeft1 = _.DetailedApply(new TestModel
+            {
+                StringProperty = "feiwufuih sfojiwoej pwjiejfpo kjkjkkkk ejwijfdarn fjeqijfp o"
+            });
+            expectedLeft1.IsLeft.Should().BeTrue();
+            expectedLeft1.UnwrapLeft().Should().Be("string does not match regex (?i)(\\W|^)(baloney|darn)(\\W|$)");
+            var expectedLeft2 = _.DetailedApply(new TestModel
+            {
+                StringProperty = null
+            });
+            expectedLeft2.IsLeft.Should().BeTrue();
+            expectedLeft2.UnwrapLeft().Should().Be("string does not match regex (?i)(\\W|^)(baloney|darn)(\\W|$)");
+
+            _.DetailedApply(new TestModel
+            {
+                StringProperty = "feiwufuih sfojiwoej pwjiejfpo kjkjkkkk ejwijf darn fjeqijfp o"
+            }).IsRight.Should().BeTrue();
         });
     }
 

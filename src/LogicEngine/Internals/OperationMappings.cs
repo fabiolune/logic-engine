@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using TinyFp.Extensions;
 using static LogicEngine.Internals.Constants;
 using static System.Convert;
@@ -16,6 +17,7 @@ namespace LogicEngine.Internals;
 internal static class OperationMappings
 {
     private static readonly MethodInfo DictionaryGetItem = typeof(Dictionary<string, string>).GetMethod("get_Item");
+    private static readonly Type StringType = typeof(string);
     private static readonly Type EnumerableType = typeof(Enumerable);
     private static readonly char[] KeysDelimiter = "[".ToCharArray();
     private const char EndBracket = ']';
@@ -39,6 +41,24 @@ internal static class OperationMappings
         {OperatorType.InnerLessThanOrEqual, ExpressionType.LessThanOrEqual},
         {OperatorType.InnerNotEqual, ExpressionType.NotEqual}
     });
+
+    internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, BinaryExpression>> StringMethodMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, BinaryExpression>>
+    {
+        {OperatorType.StringStartsWith, (r, k) => GetStringMethodExpression(k, nameof(string.StartsWith), r.Value)},
+        {OperatorType.StringEndsWith, (r, k) => GetStringMethodExpression(k, nameof(string.EndsWith), r.Value)},
+        {OperatorType.StringContains, (r, k) => GetStringMethodExpression(k, nameof(string.Contains), r.Value)},
+        {OperatorType.StringRegexIsMatch, (r, k) => 
+            MakeBinary(
+                ExpressionType.AndAlso,
+                MakeBinary(ExpressionType.NotEqual, k, NullValue),
+                Call(Constant(new Regex(r.Value, RegexOptions.Compiled)), typeof(Regex).GetMethod("IsMatch", new[] { StringType }), k)) }
+    });
+
+    private static BinaryExpression GetStringMethodExpression(MemberExpression memberExpression, string methodName, string value) => 
+        MakeBinary(
+            ExpressionType.AndAlso,
+            MakeBinary(ExpressionType.NotEqual, memberExpression, NullValue),
+            Call(memberExpression, StringType.GetMethod(methodName, new[] { StringType }), Constant(value, StringType)));
 
     internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>> EnumerableMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>>
     {

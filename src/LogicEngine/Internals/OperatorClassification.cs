@@ -15,6 +15,11 @@ internal static class OperatorClassification
         {OperatorType.LessThanOrEqual, OperatorCategory.Direct },
         {OperatorType.NotEqual, OperatorCategory.Direct },
         // ------------------------------------------
+        {OperatorType.StringStartsWith, OperatorCategory.StringMethod },
+        {OperatorType.StringEndsWith, OperatorCategory.StringMethod },
+        {OperatorType.StringContains, OperatorCategory.StringMethod },
+        {OperatorType.StringRegexIsMatch, OperatorCategory.StringMethod },
+        // ------------------------------------------
         {OperatorType.Contains, OperatorCategory.Enumerable },
         {OperatorType.NotContains, OperatorCategory.Enumerable },
         {OperatorType.Overlaps, OperatorCategory.Enumerable },
