@@ -21,6 +21,7 @@ internal static class OperationMappings
     private static readonly Type EnumerableType = typeof(Enumerable);
     private static readonly char[] KeysDelimiter = "[".ToCharArray();
     private const char EndBracket = ']';
+    private static readonly TimeSpan RegexTimeOut = TimeSpan.FromMilliseconds(100);
 
     internal static readonly ReadOnlyDictionary<OperatorType, ExpressionType> DirectMapping = new(new Dictionary<OperatorType, ExpressionType>
     {
@@ -51,7 +52,7 @@ internal static class OperationMappings
             MakeBinary(
                 ExpressionType.AndAlso,
                 MakeBinary(ExpressionType.NotEqual, k, NullValue),
-                Call(Constant(new Regex(r.Value, RegexOptions.Compiled)), typeof(Regex).GetMethod("IsMatch", new[] { StringType }), k)) }
+                Call(Constant(new Regex(r.Value, RegexOptions.Compiled, RegexTimeOut)), typeof(Regex).GetMethod(nameof(Regex.IsMatch), new[] { StringType }), k)) }
     });
 
     private static BinaryExpression GetStringMethodExpression(MemberExpression memberExpression, string methodName, string value) => 
