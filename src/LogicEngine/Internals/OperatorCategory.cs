@@ -5,7 +5,7 @@ internal enum OperatorCategory
     None,
     InternalDirect,
     Direct,
-    StringMethod,
+    StringDirect,
     Enumerable,
     KeyValue,
     InternalEnumerable,
