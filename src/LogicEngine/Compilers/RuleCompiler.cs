@@ -27,7 +27,7 @@ public class RuleCompiler : IRuleCompiler
         OperatorClassification.GetOperatorType(rule.Operator) switch
         {
             OperatorCategory.Direct => CompileDirectRule<T>(rule),
-            OperatorCategory.StringMethod => CompileStringMethodRule<T>(rule),
+            OperatorCategory.StringDirect => CompileStringMethodRule<T>(rule),
             OperatorCategory.Enumerable => CompileEnumerableRule<T>(rule),
             OperatorCategory.InternalDirect => CompileInternalDirectRule<T>(rule),
             OperatorCategory.InternalEnumerable => CompileInternalEnumerableRule<T>(rule),

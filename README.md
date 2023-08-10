@@ -29,8 +29,6 @@
 1. [Breaking changes ⚠️](#breaking-changes-⚠️)
 1. [How to install the package](#how-to-install-the-package)
 
-
-
 ## Introduction
 
 The __logic-engine__ is a simple dotnet library to help introduce flexible logic systems.
@@ -41,12 +39,16 @@ The library deeply uses a functional programming approach implemented using Fran
 
 The core functionalities are encapsulated in different components, both logical and functional.
 
+The core system offers the possibility to immediately evaluate whether a an entity satisfies the conditions imposed by a logical system, but it also permits, in case of failure, to identify the underlying reasons[^0].
+
 ## The Rule
+
 The rule object represents the building block for the system. A rule is an abstraction for a function acting on the value of a type and returning a boolean response.
 
 > __DEFINITION__: A `Rule` is satisfied by an item `t` of type `T` if the associated function `f: T ──► bool` returns true if `f(t)` is `true`.
 
 Given a type to be applied to, a rule is defined by a set of fields
+
 - `Property`: identifies the property against which to execute the evaluation
 - `Operator`: defines the operation to execute on the property
 - `Value`: identifies the value against which compare the result of the operator on the property
@@ -61,6 +63,7 @@ Operators are classified based on the way they work and their behavior. The rule
 ### Direct operators
 
 These operators directly compare the `Property` to the `Value` considered as a constant:
+
 - `Equal`: equality on value types (strings, numbers, ...)
 - `NotEqual`: inequality on value types (strings, numbers, ...)
 - `GreaterThan`: only applies to numbers
@@ -77,7 +80,17 @@ public class MyClass
 
 var stringRule = new Rule("StringProperty", OperatorType.Equal, "Some Value", "code 1");
 var integerRule = new Rule("IntegerProperty", OperatorType.Equal, "10", "code 2");
+
+var myObj = new MyClass
+{
+    StringProperty = "Some Value",
+    IntegerProperty = 11
+}
+
+var result1 = stringRule.Apply(myObj); // returns true
+var result2 = integerRule.Apply(myObj); // returns false
 ```
+
 > sample rules with direct operators
 
 ### Internal direct operators
@@ -103,11 +116,32 @@ public class MyClass
 var stringRule = new Rule("StringProperty1", OperatorType.InnerEqual, "StringProperty2", "code 1");
 var integerRule = new Rule("IntegerProperty1", OperatorType.InnerGreaterThan, "IntegerProperty2", "code 2");
 ```
+
 > sample rules with internal direct operators
+
+### StringDirect operators
+
+These rules are specific for strings:
+
+- `StringStartsWith`: checks that the string in `Property` starts with `Value`
+- `StringEndsWith`: checks that the string in `Property` ends with `Value`
+- `StringContains`: checks that the string in `Property` contains `Value`
+- `StringRegexIsMatch`: checks that the string in `Property` matches `Value`
+
+```cs
+public class MyClass
+{
+    public string StringProperty {get; set;}
+}
+
+var stringRule = new Rule("StringProperty", OperatorType.StringStartsWith, "start", "code 1");
+```
+
+> sample rule with string direct operator
 
 ### Enumerable operators
 
-These rules apply to operand ot generic enumerable type:
+These rules apply to operand of generic enumerable type:
 
 - `Contains`: checks that `Property` contains `Value`
 - `NotContains`: checks that `Property` does not `Value`
@@ -123,16 +157,17 @@ public class MyClass
 var rule1 = new Rule("StringEnumerableProperty", OperatorType.Contains, "value", "code 1");
 var rule2 = new Rule("StringEnumerableProperty", OperatorType.Overlaps, "value1,value2", "code 2");
 ```
+
 > sample rules with enumerable operators
 
 ### Internal enumerable operators
 
 These operators act on enumerable fields by comparing them against fields of the same type:
 
-- `InnerContains`: 
-- `InnerNotContains`: 
-- `InnerOverlaps`: 
-- `InnerNotOverlaps`: 
+- `InnerContains`: checks that `Property` contains the value contained in the property `Value`
+- `InnerNotContains`: checks that `Property` doesn't contain the value contained in the property `Value`
+- `InnerOverlaps`: checks that `Property` has a non empty intersection with the value contained in the property `Value`
+- `InnerNotOverlaps`: checks that `Property` has an empty intersection with the value contained in the property `Value`
 
 ```cs
 public class MyClass
@@ -145,14 +180,15 @@ public class MyClass
 var rule1 = new Rule("EnumerableProperty1", OperatorType.InnerContains, "IntegerField");
 var rule2 = new Rule("EnumerableProperty1", OperatorType.InnerOverlaps, "EnumerableProperty2");
 ```
+
 > sample rules for internal enumerable operators
 
 ### Key-value operators
 
 These operators act on dictionary-like objects:
 
-- `ContainsKey`: checks that the `Property` contains the specfic key defined by the `Value`
-- `NotContainsKey`: checks that the `Property` doesn't contain the specfic key defined by the `Value`
+- `ContainsKey`: checks that the `Property` contains the specific key defined by the `Value`
+- `NotContainsKey`: checks that the `Property` doesn't contain the specific key defined by the `Value`
 - `ContainsValue`:  checks that the dictionary `Property` contains a value defined by the `Value`
 - `NotContainsValue`: checks that the dictionary `Property` doesn't contain a value defined by the `Value`
 - `KeyContainsValue`: checks that the dictionary `Property` has a key with a specific value
@@ -167,6 +203,7 @@ public class MyClass
 var rule1 = new Rule("DictProperty", OperatorType.ContainsKey, "mykey");
 var rule2 = new Rule("DictProperty", OperatorType.KeyContainsValue, "mykey[myvalue]");
 ```
+
 > sample rules for key-value enumerable operators
 
 ### Inverse enumerable operators
@@ -184,6 +221,7 @@ public class MyClass
 
 var rule1 = new Rule("IntProperty", OperatorType.IsContained, "1,2,3");
 ```
+
 > sample rules for inverse enumerable operators
 
 ## The RulesSets
@@ -210,48 +248,51 @@ As discussed above, composite types `RulesSet` and `RulesCatalog` represent logi
 
 > __DEFINITION__: The sum of two `RulesSet`s is a new `RulesSet`, and its rules are a set of rules obtained by concatenating the rules of the the two `RulesSet`s
 
-```
+```txt
 rs1 = {r1, r2, r3}
 rs2 = {r4, r5}
 
 ──► rs1 * rs2 = {r1, r2, r3, r4, r5}
 ```
+
 > sum of two `RulesSet`s
 
 ### RulesCatalog sum
 
 The sum of two `RulesCatalog` objects is a `RulesCatalog` with a set of `RulesSet` obtained by simply concatenating the two sets of `RulesSet`:
 
-```
+```txt
 c1 = {rs1, rs2, rs3}
 c2 = {rs4, rs5}
 
 ──► c1 + c2 = {rs1, rs2, rs3, rs4, rs5}
 ```
+
 > sum of two `RulesCatalog`
 
 ### RulesCatalog product
 
 The product of two catalogs is a catalog with a set of all the `RulesSet` obtained concatenating a set of the first catalog with one of the second.
 
-```
+```txt
 c1 = {rs1, rs2, rs3}
 c2 = {rs4, rs5}
 
 ──► c1 * c2 = {(rs1*rs4), (rs1*rs5), (rs2*rs4), (rs2*rs5), (rs3*rs4), (rs3*rs5)}
 ```
+
 > product of two `RulesCatalog`
 
 ## Compilers and compiled objects
 
-The `RuleCompiler` is the component that parses and compiles a `Rule` into executable code. 
+The `RuleCompiler` is the component that parses and compiles a `Rule` into executable code.
 
-Every rule becomes an `Option<CompiledRule<T>>`, where the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled.
+Every rule becomes an `Option<CompiledRule<T>>`, where the `None` status of the option corresponds to a `Rule` that is not formally correct and hence cannot be compiled[^1].
 A `CompiledRule<T>` is the actual portion of code that can be applied to an item of type `T` to provide a boolean result using its `ApplyApply(T item)` method.
 Sometimes the boolean result is not enough: when the rule is not satisfied it could be useful to understand the reason why it failed. For this reason, a dedicated `Either<string, Unit> DetailedApply(T item)` method returns `Unit` when the rule is satisfied, or a string (the rule code) in case of failure.
 
-Like the `RuleCompiler`, the `RulesSetCompiler` transforms a `RulesSet` into an `Option<CompiledRulesSet<T>>`. 
-A `CompiledRulesSet<T>` can logically be seen as a set of compiled rules, hence, when applied to an item of type `T` it returns a boolean that is `true` if all the compiled rules return `true` on it. From a logical point of view, a `CompiledRulesSet<T>` represents the `AND` superposition of its `CompiledRule<T>`. 
+Like the `RuleCompiler`, the `RulesSetCompiler` transforms a `RulesSet` into an `Option<CompiledRulesSet<T>>`.
+A `CompiledRulesSet<T>` can logically be seen as a set of compiled rules, hence, when applied to an item of type `T` it returns a boolean that is `true` if all the compiled rules return `true` on it. From a logical point of view, a `CompiledRulesSet<T>` represents the `AND` superposition of its `CompiledRule<T>`.
 The corresponding `Either<string, Unit> DetailedApply(T item)` method of the `CompiledRulesSet<T>` returns `Unit` when all the rules are satisfied, or the set of codes for the rules that are not.
 
 Finally, the `RulesCatalogCompiler` transforms a `RulesCatalog` into an `Option<CompiledCatalog<T>>`, where the `None` status represents a catalog that cannot be compiled.
@@ -259,18 +300,22 @@ A `CompiledCatalog<T>` logically represents the executable code that applies a s
 Similar to the `Either<string, Unit> DetailedApply(T item)` of the `CompiledRulesSet<T>`, it can return `Unit` when at least one internal rule set returns `Unit`, otherwise the flattened set of all the codes for all the rules that don't successfully apply.
 
 ## Known limitations
-The current implementation of the rules sytem has some limitations:
-* it is designed to work on plain objects (instances of classes, records or structures) with an empty constructor
-* rules can only be applied to 'first level members', no nesting is currently supported
+
+The current implementation of the rules system has some limitations:
+
+- it is designed to work on plain objects (instances of classes, records or structures) with an empty constructor
+- rules can only be applied to 'first level members', no nesting is currently supported
 
 ---
 
 ## Breaking changes ⚠️
+
 If you want to upgrade from a version < 3.0.0 to the latest version you will need to adapt your implementation to manage the breaking changes introduced.
 
 The main differences can be condensed in the removal of the managers: the entire logic is now completely captured by the compiled objects `CompiledRule<T>`, `CompiledRulesSet<T>`, `CompiledCatalog<T>`, without the need of external wrappers.
 
 This means that the typical workflow to update the library requires:
+
 1. getting the rules definition
 1. pass them to the appropriate compiler
 1. use the generated compiled objects to validate your objects according to the rules definition
@@ -280,12 +325,13 @@ This means that the typical workflow to update the library requires:
 ## How to install the package
 
 If you are using `nuget.org` you can add the dependency in your project using
+
 ```shell
 dotnet add package logic-engine --version <version>
 ```
 
 To install the __logic-engine__ library from GitHub's packages system please refer to the [packages page](https://github.com/fabiolune?tab=packages&repo_name=logic-engine).
 
-[^1]: null or empty codes are removed because they don't carry reusable info
+[^0]: from a technical perspective this is obtained with a concrete implementation of the railway pattern
 
-[^2]: from a technical perspective this is obtained with a concrete implementation of the railway pattern
+[^1]: null or empty codes are removed because they don't carry reusable info
