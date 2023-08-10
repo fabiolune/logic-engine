@@ -51,6 +51,7 @@ jobs:
         dotnet tool install --global dotnet-sonarscanner
 
     - name: start sonarscanner
+      if: ${{github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
         dotnet sonarscanner begin \
           /o:fabiolune \
@@ -69,7 +70,7 @@ jobs:
           /p:UseSharedCompilation=false
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    
+
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
 
@@ -94,6 +95,7 @@ jobs:
         reporttypes: 'lcov'
 
     - name: stop sonarscanner
+      if: ${{github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
         dotnet sonarscanner end
       env:
@@ -115,14 +117,14 @@ jobs:
         dotnet pack --configuration Release -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output .
         dotnet nuget push *.nupkg --skip-duplicate
         dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
-    
+
     - name: Produce `index.md` for gh pages
       if: ${{ github.event_name == 'release' }}
       run: |
         mkdir out
         echo "version ${{ env.GITVERSION_NUGETVERSIONV2 }}" > out/index.md
         tail -n +4 README.md >> out/index.md
-    
+
     - name: Push documentation to dedicated branch
       if: ${{ github.event_name == 'release' }}
       env:
