@@ -13,6 +13,7 @@
 1. [The Operators](#the-operators)
     1. [Direct operators](#direct-operators)
     1. [Internal direct operators](#internal-direct-operators)
+    1. [String direct operators](#string-direct-operators)
     1. [Enumerable operators](#enumerable-operators)
     1. [Internal enumerable operators](#internal-enumerable-operators)
     1. [Key-value operators](#key-value-operators)
@@ -119,7 +120,7 @@ var integerRule = new Rule("IntegerProperty1", OperatorType.InnerGreaterThan, "I
 
 > sample rules with internal direct operators
 
-### StringDirect operators
+### String direct operators
 
 These rules are specific for strings:
 

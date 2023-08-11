@@ -5,7 +5,7 @@ on:
     branches:
     - main
   pull_request:
-    branches: 
+    branches:
     - main
   release:
     types:
@@ -23,7 +23,7 @@ jobs:
 
     - uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: | 
+        dotnet-version: |
           5.x
           6.x
           7.x
@@ -37,7 +37,7 @@ jobs:
 
     - name: Compute version numbers
       uses: gittools/actions/gitversion/execute@v0.9.15
-    
+
     - name: restore dependencies
       run: dotnet restore
 
@@ -47,11 +47,12 @@ jobs:
         languages: 'csharp'
 
     - name: setup sonarscanner
+      if: ${{github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
         dotnet tool install --global dotnet-sonarscanner
 
     - name: start sonarscanner
-      if: ${{github.event.pull_request.head.repo.full_name == github.repository}}
+      if: ${{github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
         dotnet sonarscanner begin \
           /o:fabiolune \
@@ -95,7 +96,7 @@ jobs:
         reporttypes: 'lcov'
 
     - name: stop sonarscanner
-      if: ${{github.event.pull_request.head.repo.full_name == github.repository}}
+      if: ${{github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
         dotnet sonarscanner end
       env:
