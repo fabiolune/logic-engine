@@ -1,4 +1,5 @@
-﻿using LogicEngine.Compilers;
+﻿using AutoBogus;
+using LogicEngine.Compilers;
 using LogicEngine.Interfaces.Compilers;
 using LogicEngine.Internals;
 using LogicEngine.Models;
@@ -10,14 +11,14 @@ namespace LogicEngine.Unit.Tests.Compilers;
 
 public class RulesCatalogCompilerTests
 {
-    private Mock<IRulesSetCompiler> _mockCompiler;
+    private IRulesSetCompiler _mockCompiler;
     private RulesCatalogCompiler _sut;
 
     [SetUp]
     public void SetUp()
     {
-        _mockCompiler = new Mock<IRulesSetCompiler>();
-        _sut = new RulesCatalogCompiler(_mockCompiler.Object);
+        _mockCompiler = Substitute.For<IRulesSetCompiler>();
+        _sut = new RulesCatalogCompiler(_mockCompiler);
     }
 
     [Test]
@@ -38,7 +39,7 @@ public class RulesCatalogCompilerTests
 
         var compiledRulesSet = new CompiledRulesSet<TestModel>(new[] { compiledRule }, "set 1");
 
-        _mockCompiler.Setup(_ => _.Compile<TestModel>(set1)).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet));
+        _mockCompiler.Compile<TestModel>(set1).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet));
 
         var result = _sut.Compile<TestModel>(catalog);
 
@@ -46,20 +47,23 @@ public class RulesCatalogCompilerTests
             .Tee(r => r.IsSome.Should().BeTrue())
             .OnSome(c =>
             {
+                var item = new AutoFaker<TestModel>().Generate();
+
                 c.Name.Should().Be("some name");
 
-                c.Apply(It.IsAny<TestModel>()).Should().BeFalse();
+                c.Apply(item).Should().BeFalse();
 
-                c.DetailedApply(It.IsAny<TestModel>())
+                c.DetailedApply(item)
                     .Tee(e => e.IsLeft.Should().BeTrue())
                     .OnLeft(s => s.Should().BeEquivalentTo("whatever"));
 
-                c.FirstMatching(It.IsAny<TestModel>())
+                c.FirstMatching(item)
                     .IsNone.Should().BeTrue();
             });
 
         _mockCompiler
-            .Verify(c => c.Compile<TestModel>(set1), Times.Once);
+            .Received(1)
+            .Compile<TestModel>(set1);
     }
 
     [Test]
@@ -80,7 +84,7 @@ public class RulesCatalogCompilerTests
 
         var compiledRulesSet = new CompiledRulesSet<TestModel>(new[] { compiledRule }, "set 1");
 
-        _mockCompiler.Setup(_ => _.Compile<TestModel>(set1)).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet));
+        _mockCompiler.Compile<TestModel>(set1).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet));
 
         var result = _sut.Compile<TestModel>(catalog);
 
@@ -88,19 +92,22 @@ public class RulesCatalogCompilerTests
             .Tee(r => r.IsSome.Should().BeTrue())
             .OnSome(c =>
             {
+                var item = new AutoFaker<TestModel>().Generate();
+
                 c.Name.Should().Be("some name");
 
-                c.Apply(It.IsAny<TestModel>()).Should().BeTrue();
+                c.Apply(item).Should().BeTrue();
 
-                c.DetailedApply(It.IsAny<TestModel>()).IsRight.Should().BeTrue();
+                c.DetailedApply(item).IsRight.Should().BeTrue();
 
-                c.FirstMatching(It.IsAny<TestModel>())
+                c.FirstMatching(item)
                     .Tee(o => o.IsSome.Should().BeTrue())
                     .OnSome(s => s.Should().Be("set 1"));
             });
 
         _mockCompiler
-            .Verify(c => c.Compile<TestModel>(set1), Times.Once);
+            .Received(1)
+            .Compile<TestModel>(set1);
     }
 
     [Test]
@@ -134,8 +141,8 @@ public class RulesCatalogCompilerTests
         var compiledRule2 = new CompiledRule<TestModel>(_ => true.Tee(_ => secondCalled = true), "code");
         var compiledRulesSet2 = new CompiledRulesSet<TestModel>(new[] { compiledRule2 }, "set 2");
 
-        _mockCompiler.Setup(_ => _.Compile<TestModel>(set1)).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet1));
-        _mockCompiler.Setup(_ => _.Compile<TestModel>(set2)).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet2));
+        _mockCompiler.Compile<TestModel>(set1).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet1));
+        _mockCompiler.Compile<TestModel>(set2).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet2));
 
         var result = _sut.Compile<TestModel>(catalog);
 
@@ -143,13 +150,15 @@ public class RulesCatalogCompilerTests
             .Tee(r => r.IsSome.Should().BeTrue())
             .OnSome(c =>
             {
+                var item = new AutoFaker<TestModel>().Generate();
+
                 c.Name.Should().Be("some name");
 
-                c.Apply(It.IsAny<TestModel>()).Should().BeTrue();
+                c.Apply(item).Should().BeTrue();
 
-                c.DetailedApply(It.IsAny<TestModel>()).IsRight.Should().BeTrue();
+                c.DetailedApply(item).IsRight.Should().BeTrue();
 
-                c.FirstMatching(It.IsAny<TestModel>())
+                c.FirstMatching(item)
                     .Tee(o => o.IsSome.Should().BeTrue())
                     .OnSome(s => s.Should().Be("set 1"));
             });
@@ -158,9 +167,11 @@ public class RulesCatalogCompilerTests
         secondCalled.Should().BeFalse();
 
         _mockCompiler
-            .Verify(c => c.Compile<TestModel>(set1), Times.Once);
+            .Received(1)
+            .Compile<TestModel>(set1);
         _mockCompiler
-            .Verify(c => c.Compile<TestModel>(set2), Times.Once);
+            .Received(1)
+            .Compile<TestModel>(set2);
     }
 
     [Test]
@@ -206,8 +217,8 @@ public class RulesCatalogCompilerTests
         var compiledRule3 = new CompiledRule<TestModel>(_ => true.Tee(_ => thirdCalled = true), "code");
         var compiledRulesSet3 = new CompiledRulesSet<TestModel>(new[] { compiledRule3 }, "set 2");
 
-        _mockCompiler.Setup(_ => _.Compile<TestModel>(set1)).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet1));
-        _mockCompiler.Setup(_ => _.Compile<TestModel>(set2)).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet2));
+        _mockCompiler.Compile<TestModel>(set1).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet1));
+        _mockCompiler.Compile<TestModel>(set2).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet2));
 
         var result = _sut.Compile<TestModel>(catalog);
 
@@ -215,13 +226,15 @@ public class RulesCatalogCompilerTests
             .Tee(r => r.IsSome.Should().BeTrue())
             .OnSome(c =>
             {
+                var item = new AutoFaker<TestModel>().Generate();
+
                 c.Name.Should().Be("some name");
 
-                c.Apply(It.IsAny<TestModel>()).Should().BeTrue();
+                c.Apply(item).Should().BeTrue();
 
-                c.DetailedApply(It.IsAny<TestModel>()).IsRight.Should().BeTrue();
+                c.DetailedApply(item).IsRight.Should().BeTrue();
 
-                c.FirstMatching(It.IsAny<TestModel>())
+                c.FirstMatching(item)
                     .Tee(o => o.IsSome.Should().BeTrue())
                     .OnSome(s => s.Should().Be("set 1"));
             });
@@ -231,9 +244,11 @@ public class RulesCatalogCompilerTests
         thirdCalled.Should().BeFalse();
 
         _mockCompiler
-            .Verify(c => c.Compile<TestModel>(set1), Times.Once);
+            .Received(1)
+            .Compile<TestModel>(set1);
         _mockCompiler
-            .Verify(c => c.Compile<TestModel>(set2), Times.Once);
+            .Received(1)
+            .Compile<TestModel>(set2);
     }
 
     [Test]

@@ -1,4 +1,5 @@
-﻿using TinyFp.Extensions;
+﻿using AutoBogus;
+using TinyFp.Extensions;
 
 namespace LogicEngine.Unit.Tests;
 public class CompiledRuleTests
@@ -11,7 +12,9 @@ public class CompiledRuleTests
 
         var rule = new CompiledRule<TestModel>(item => returnValue.Tee(b => timesCalled++), "some code");
 
-        rule.Apply(It.IsAny<TestModel>()).Should().Be(returnValue);
+        var item = new AutoFaker<TestModel>().Generate();
+
+        rule.Apply(item).Should().Be(returnValue);
 
         timesCalled.Should().Be(1);
     }
@@ -22,8 +25,10 @@ public class CompiledRuleTests
         var timesCalled = 0;
 
         var rule = new CompiledRule<TestModel>(item => true.Tee(b => timesCalled++), "some code");
+        
+        var item = new AutoFaker<TestModel>().Generate();
 
-        rule.DetailedApply(It.IsAny<TestModel>()).IsRight.Should().BeTrue();
+        rule.DetailedApply(item).IsRight.Should().BeTrue();
 
         timesCalled.Should().Be(1);
     }
@@ -35,7 +40,9 @@ public class CompiledRuleTests
 
         var rule = new CompiledRule<TestModel>(item => false.Tee(b => timesCalled++), "some code");
 
-        rule.DetailedApply(It.IsAny<TestModel>()).Tee(e => e.IsLeft.Should().BeTrue()).OnLeft(s => s.Should().Be("some code"));
+        var item = new AutoFaker<TestModel>().Generate();
+
+        rule.DetailedApply(item).Tee(e => e.IsLeft.Should().BeTrue()).OnLeft(s => s.Should().Be("some code"));
 
         timesCalled.Should().Be(1);
     }

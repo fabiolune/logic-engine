@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AutoBogus;
+using System.Collections.Generic;
 using TinyFp;
 using TinyFp.Extensions;
 
@@ -132,7 +133,9 @@ public class CompiledCatalogTests
 
         var sut = new CompiledCatalog<TestModel>(rulesSets, "catalog name");
 
-        sut.Apply(It.IsAny<TestModel>()).Should().Be(expected);
+        var item = new AutoFaker<TestModel>().Generate();
+
+        sut.Apply(item).Should().Be(expected);
 
         called11.Should().Be(funcCalled.Item1);
         called12.Should().Be(funcCalled.Item2);
@@ -213,7 +216,9 @@ public class CompiledCatalogTests
 
         var sut = new CompiledCatalog<TestModel>(rulesSets, "catalog name");
 
-        sut.DetailedApply(It.IsAny<TestModel>())
+        var item = new AutoFaker<TestModel>().Generate();
+
+        sut.DetailedApply(item)
             .Tee(e => e.IsLeft.Should().BeTrue())
             .OnLeft(e => e.Should().BeEquivalentTo(expected));
 
@@ -288,7 +293,9 @@ public class CompiledCatalogTests
 
         var sut = new CompiledCatalog<TestModel>(rulesSets, "catalog name");
 
-        sut.DetailedApply(It.IsAny<TestModel>()).IsRight.Should().BeTrue();
+        var item = new AutoFaker<TestModel>().Generate();
+
+        sut.DetailedApply(item).IsRight.Should().BeTrue();
 
         called11.Should().Be(funcCalled.Item1);
         called12.Should().Be(funcCalled.Item2);
@@ -423,7 +430,9 @@ public class CompiledCatalogTests
 
         var sut = new CompiledCatalog<TestModel>(rulesSets, "catalog name");
 
-        sut.FirstMatching(It.IsAny<TestModel>()).Should().Be(expected);
+        var item = new AutoFaker<TestModel>().Generate();
+
+        sut.FirstMatching(item).Should().Be(expected);
 
         called11.Should().Be(funcCalled.Item1);
         called12.Should().Be(funcCalled.Item2);
