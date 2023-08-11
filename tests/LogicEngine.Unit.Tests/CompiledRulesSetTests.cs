@@ -1,4 +1,5 @@
-﻿using TinyFp;
+﻿using AutoBogus;
+using TinyFp;
 using TinyFp.Extensions;
 
 namespace LogicEngine.Unit.Tests;
@@ -79,7 +80,9 @@ public class CompiledRulesSetTests
 
         var sut = new CompiledRulesSet<TestModel>(compiledRules, "set name");
 
-        sut.Apply(It.IsAny<TestModel>()).Should().Be(expected);
+        var item = new AutoFaker<TestModel>().Generate();
+
+        sut.Apply(item).Should().Be(expected);
 
         called1.Should().Be(expectedFuncCalls.Item1);
         called2.Should().Be(expectedFuncCalls.Item2);
@@ -153,8 +156,10 @@ public class CompiledRulesSetTests
 
         var sut = new CompiledRulesSet<TestModel>(compiledRules, "set name");
 
+        var item = new AutoFaker<TestModel>().Generate();
+
         sut
-            .DetailedApply(It.IsAny<TestModel>())
+            .DetailedApply(item)
             .Tee(e => e.IsLeft.Should().BeTrue())
             .OnLeft(e => e.Should().BeEquivalentTo(expected));
 
@@ -243,8 +248,10 @@ public class CompiledRulesSetTests
 
         var sut = new CompiledRulesSet<TestModel>(compiledRules, "set name");
 
+        var item = new AutoFaker<TestModel>().Generate();
+
         sut
-            .FirstMatching(It.IsAny<TestModel>())
+            .FirstMatching(item)
             .Should().BeEquivalentTo(expected);
 
         called1.Should().Be(expectedFuncCalls.Item1);

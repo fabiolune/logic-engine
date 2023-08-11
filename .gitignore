@@ -235,3 +235,4 @@ BenchmarkDotNet.Artifacts/*
 
 **/coverage.json
 **/coverage.info
+**/coverage.opencover.xml

@@ -68,19 +68,19 @@ public class EnumerableExtensionsTests
     [TestCaseSource(nameof(FirstOrDefaultTestCases))]
     public void Filter_ShouldReturnItemsForWhichApplyIsTrue(bool apply1, bool apply2, TestModel expected)
     {
-        var mockApplyable = new Mock<IAppliable<TestModel>>();
+        var mockAppliable = Substitute.For<IAppliable<TestModel>>();
 
         var data = new[] { Item1, Item2 };
 
-        mockApplyable
-            .Setup(a => a.Apply(Item1))
+        mockAppliable
+            .Apply(Item1)
             .Returns(apply1);
 
-        mockApplyable
-            .Setup(a => a.Apply(Item2))
+        mockAppliable
+            .Apply(Item2)
             .Returns(apply2);
 
-        data.FirstOrDefault(mockApplyable.Object)
+        data.FirstOrDefault(mockAppliable)
             .Should()
             .BeEquivalentTo(expected);
     }
@@ -88,19 +88,19 @@ public class EnumerableExtensionsTests
     [TestCaseSource(nameof(FilterTestCases))]
     public void Filter_ShouldReturnItemsForWhichApplyIsTrue(bool apply1, bool apply2, TestModel[] expected)
     {
-        var mockApplyable = new Mock<IAppliable<TestModel>>();
+        var mockAppliable = Substitute.For<IAppliable<TestModel>>();
 
         var data = new[] { Item1, Item2 };
 
-        mockApplyable
-            .Setup(a => a.Apply(Item1))
+        mockAppliable
+            .Apply(Item1)
             .Returns(apply1);
 
-        mockApplyable
-            .Setup(a => a.Apply(Item2))
+        mockAppliable
+            .Apply(Item2)
             .Returns(apply2);
 
-        data.Filter(mockApplyable.Object)
+        data.Filter(mockAppliable)
             .Should()
             .BeEquivalentTo(expected);
     }
