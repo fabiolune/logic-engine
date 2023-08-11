@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace LogicEngine.Unit.Tests;
 
 [ExcludeFromCodeCoverage]
-public struct TestModel
+public record TestModel
 {
     public TestEnum EnumProperty { get; set; }
     public string StringProperty { get; set; }
