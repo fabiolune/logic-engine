@@ -5,6 +5,8 @@
 ![GitHub CI](https://github.com/fabiolune/logic-engine/actions/workflows/main.yaml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fabiolune_logic-engine&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fabiolune_logic-engine)
 [![codecov](https://codecov.io/gh/fabiolune/logic-engine/branch/main/graph/badge.svg?token=EYWA9ONWVX)](https://codecov.io/gh/fabiolune/logic-engine)
+[![NuGet](https://img.shields.io/nuget/v/logic-engine)](https://www.nuget.org/packages/logic-engine/)
+[![NuGet](https://img.shields.io/nuget/dt/logic-engine)](https://www.nuget.org/packages/logic-engine/)
 
 ## Table of contents
 
