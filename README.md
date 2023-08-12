@@ -27,7 +27,7 @@
     1. [RulesCatalog product](#rulescatalog-product)
 1. [Compilers and compiled objects](#compilers-and-compiled-objects)
 1. [Known limitations](#known-limitations)
-1. [Breaking changes ⚠️](#breaking-changes-⚠️)
+1. [Breaking changes ⚠️](#breaking-changes-%EF%B8%8F)
 1. [How to install the package](#how-to-install-the-package)
 
 ## Introduction

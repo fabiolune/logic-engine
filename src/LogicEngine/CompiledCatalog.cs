@@ -8,6 +8,9 @@ using static LogicEngine.Internals.StaticShared;
 
 namespace LogicEngine;
 
+/* The code defines a public record called `CompiledCatalog<T>`. This record implements three
+interfaces: `IAppliable<T>`, `IDetailedAppliable<T, IEnumerable<string>>`, and `IAppliedSelector<T,
+string>`. */
 public record CompiledCatalog<T> :
     IAppliable<T>,
     IDetailedAppliable<T, IEnumerable<string>>,
@@ -15,12 +18,12 @@ public record CompiledCatalog<T> :
 {
     private readonly Func<T, bool> _apply;
     private readonly Func<T, Either<IEnumerable<string>, Unit>> _applyDetailed;
-    private readonly Func<T, Option<string>> _firstMaching;
+    private readonly Func<T, Option<string>> _firstMatching;
 
     public string Name { get; }
 
     public CompiledCatalog(CompiledRulesSet<T>[] ruleSets, string name) =>
-        (_apply, _applyDetailed, _firstMaching, Name) = ruleSets
+        (_apply, _applyDetailed, _firstMatching, Name) = ruleSets
             .Select(s => s.ToOption())
             .Where(c => c.IsSome)
             .Select(s => s.Unwrap())
@@ -34,7 +37,7 @@ public record CompiledCatalog<T> :
 
     public Either<IEnumerable<string>, Unit> DetailedApply(T item) => _applyDetailed(item);
 
-    public Option<string> FirstMatching(T item) => _firstMaching(item);
+    public Option<string> FirstMatching(T item) => _firstMatching(item);
 
     private static Func<T, bool> GetApplyFromRules(List<CompiledRulesSet<T>> ruleSets) =>
        item => ruleSets.Exists(s => s.Apply(item));
