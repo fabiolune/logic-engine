@@ -5,6 +5,9 @@ using TinyFp.Extensions;
 
 namespace LogicEngine;
 
+/* The code defines a public record called `CompiledRule<T>`. This record implements two interfaces:
+`IAppliable<T>` and `IDetailedAppliable<T, string>`. The `CompiledRule<T>` record has a generic type
+parameter `T` which must have a parameterless constructor. */
 public record CompiledRule<T> : IAppliable<T>, IDetailedAppliable<T, string> where T : new()
 {
     public string Code { get; }
