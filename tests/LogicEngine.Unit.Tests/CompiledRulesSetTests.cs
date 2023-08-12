@@ -10,50 +10,50 @@ public class CompiledRulesSetTests
     {
         new object[]
         {
-            (true, true, true),
+            new[]{ true, true, true },
             true,
-            (true, true, true)
+            new[]{ true, true, true }
         },
         new object[]
         {
-            (true, true, false),
+            new[]{ true, true, false },
             false,
-            (true, true, true)
+            new[]{ true, true, true }
         },
         new object[]
         {
-            (true, false, true),
+            new[]{ true, false, true },
             false,
-            (true, true, false)
+            new[]{ true, true, false }
         },
         new object[]
         {
-            (false, true, true),
+            new[]{ false, true, true },
             false,
-            (true, false, false)
+            new[]{ true, false, false }
         },
         new object[]
         {
-            (true, false, false),
+            new[] { true, false, false },
             false,
-            (true, true, false)
+            new[]{ true, true, false }
         },
         new object[]
         {
-            (false, true, false),
+            new[] { false, true, false },
             false,
-            (true, false, false)
+            new[] { true, false, false }
         },
         new object[]
         {
-            (false, false, true),
+            new[] { false, false, true },
             false,
-            (true, false, false)
+            new[] { true, false, false }
         }
     };
 
     [TestCaseSource(nameof(ApplyTestSource))]
-    public void Apply_WhenCompiledRulesReturnDifferentValues_ShouldReturnExpectedResults((bool, bool, bool) funcOutputs, bool expected, (bool, bool, bool) expectedFuncCalls)
+    public void Apply_WhenCompiledRulesReturnDifferentValues_ShouldReturnExpectedResults(bool[] funcOutputs, bool expected, bool[] expectedFuncCalls)
     {
         var called1 = false;
         var called2 = false;
@@ -64,17 +64,17 @@ public class CompiledRulesSetTests
             new (item =>
             {
                 called1 = true;
-                return funcOutputs.Item1;
+                return funcOutputs[0];
             }, "code 1"),
             new (item =>
             {
                 called2 = true;
-                return funcOutputs.Item2;
+                return funcOutputs[1];
             }, "code 2"),
             new (item =>
             {
                 called3 = true;
-                return funcOutputs.Item3;
+                return funcOutputs[2];
             }, "code 3")
         };
 
@@ -84,52 +84,52 @@ public class CompiledRulesSetTests
 
         sut.Apply(item).Should().Be(expected);
 
-        called1.Should().Be(expectedFuncCalls.Item1);
-        called2.Should().Be(expectedFuncCalls.Item2);
-        called3.Should().Be(expectedFuncCalls.Item3);
+        called1.Should().Be(expectedFuncCalls[0]);
+        called2.Should().Be(expectedFuncCalls[1]);
+        called3.Should().Be(expectedFuncCalls[2]);
     }
 
     internal static object[] DetailedApplyTestSource = new[]
     {
         new object[]
         {
-            (false, false, false),
+            new[] { false, false, false },
             new[] { "code 1", "code 2", "code 3" }
         },
         new object[]
         {
-            (true, false, false),
+            new[] { true, false, false },
             new[] { "code 2", "code 3" }
         },
         new object[]
         {
-            (false, true, false),
+            new[] { false, true, false },
             new[] { "code 1", "code 3" }
         },
         new object[]
         {
-            (false, false, true),
+            new[] { false, false, true },
             new[] { "code 1", "code 2" }
         },
         new object[]
         {
-            (false, true, true),
+            new[] { false, true, true },
             new[] { "code 1" }
         },
         new object[]
         {
-            (true, false, true),
+            new[] { true, false, true },
             new[] { "code 2" }
         },
         new object[]
         {
-            (true, true, false),
+            new[] { true, true, false },
             new[] { "code 3" }
         }
     };
 
     [TestCaseSource(nameof(DetailedApplyTestSource))]
-    public void DetailedApply_WhenSomeRuleIsNotSatisfied_ShouldReturnLeft((bool, bool, bool) funcOutputs, string[] expected)
+    public void DetailedApply_WhenSomeRuleIsNotSatisfied_ShouldReturnLeft(bool[] funcOutputs, string[] expected)
     {
         var called1 = false;
         var called2 = false;
@@ -140,17 +140,17 @@ public class CompiledRulesSetTests
             new (item =>
             {
                 called1 = true;
-                return funcOutputs.Item1;
+                return funcOutputs[0];
             }, "code 1"),
             new (item =>
             {
                 called2 = true;
-                return funcOutputs.Item2;
+                return funcOutputs[1];
             }, "code 2"),
             new (item =>
             {
                 called3 = true;
-                return funcOutputs.Item3;
+                return funcOutputs[2];
             }, "code 3")
         };
 
@@ -172,56 +172,56 @@ public class CompiledRulesSetTests
     {
         new object[]
         {
-            (false, false, false),
+            new[] { false, false, false },
             Option<string>.None(),
-            (true, true, true)
+            new[] { true, true, true }
         },
         new object[]
         {
-            (true, false, false),
+            new[] { true, false, false },
             Option<string>.Some("code 1"),
-            (true, false, false)
+            new[] { true, false, false }
         },
         new object[]
         {
-            (false, true, false),
+            new[] { false, true, false },
             Option<string>.Some("code 2"),
-            (true, true, false)
+            new[] { true, true, false }
         },
         new object[]
         {
-            (false, false, true),
+            new[] { false, false, true },
             Option<string>.Some("code 3"),
-            (true, true, true)
+            new[] { true, true, true }
         },
         new object[]
         {
-            (false, true, true),
+            new[] { false, true, true },
             Option<string>.Some("code 2"),
-            (true, true, false)
+            new[] { true, true, false }
         },
         new object[]
         {
-            (true, false, true),
+            new[] { true, false, true },
             Option<string>.Some("code 1"),
-            (true, false, false)
+            new[] { true, false, false }
         },
         new object[]
         {
-            (true, true, false),
+            new[] { true, true, false },
             Option<string>.Some("code 1"),
-            (true, false, false)
+            new[] { true, false, false }
         },
         new object[]
         {
-            (true, true, true),
+            new[] { true, true, true },
             Option<string>.Some("code 1"),
-            (true, false, false)
+            new[] { true, false, false }
         }
     };
 
     [TestCaseSource(nameof(FirstMatchingTestSource))]
-    public void FirstMatching_ShouldReturnExpectedValue((bool, bool, bool) funcOutputs, Option<string> expected, (bool, bool, bool) expectedFuncCalls)
+    public void FirstMatching_ShouldReturnExpectedValue(bool[] funcOutputs, Option<string> expected, bool[] expectedFuncCalls)
     {
         var called1 = false;
         var called2 = false;
@@ -232,17 +232,17 @@ public class CompiledRulesSetTests
             new (item =>
             {
                 called1 = true;
-                return funcOutputs.Item1;
+                return funcOutputs[0];
             }, "code 1"),
             new (item =>
             {
                 called2 = true;
-                return funcOutputs.Item2;
+                return funcOutputs[1];
             }, "code 2"),
             new (item =>
             {
                 called3 = true;
-                return funcOutputs.Item3;
+                return funcOutputs[2];
             }, "code 3")
         };
 
@@ -254,8 +254,8 @@ public class CompiledRulesSetTests
             .FirstMatching(item)
             .Should().BeEquivalentTo(expected);
 
-        called1.Should().Be(expectedFuncCalls.Item1);
-        called2.Should().Be(expectedFuncCalls.Item2);
-        called3.Should().Be(expectedFuncCalls.Item3);
+        called1.Should().Be(expectedFuncCalls[0]);
+        called2.Should().Be(expectedFuncCalls[1]);
+        called3.Should().Be(expectedFuncCalls[2]);
     }
 }

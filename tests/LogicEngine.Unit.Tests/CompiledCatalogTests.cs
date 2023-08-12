@@ -12,105 +12,105 @@ public class CompiledCatalogTests
         // 0 false
         new object[]
         {
-            (true, true, true, true),
+            new[]{ true, true, true, true },
             true,
-            (true, true, false, false)
+            new[]{ true, true, false, false }
         },
         // 1 false
         new object[]
         {
-            (true, true, true, false),
+            new[]{ true, true, true, false },
             true,
-            (true, true, false, false)
+            new[]{ true, true, false, false }
         },
         new object[]
         {
-            (true, true, false, true),
+            new[]{ true, true, false, true },
             true,
-            (true, true, false, false)
+            new[]{ true, true, false, false }
         },
         new object[]
         {
-            (true, false, true, true),
+            new[]{ true, false, true, true },
             true,
-            (true, true, true, true)
+            new[]{ true, true, true, true }
         },
         new object[]
         {
-            (false, true, true, true),
+            new[]{ false, true, true, true },
             true,
-            (true, false, true, true)
+            new[]{ true, false, true, true }
         },
         // 2 false
         new object[]
         {
-            (true, true, false, false),
+            new[]{ true, true, false, false },
             true,
-            (true, true, false, false)
+            new[]{ true, true, false, false }
         },
         new object[]
         {
-            (true, false, false, true),
+            new[]{ true, false, false, true },
             false,
-            (true, true, true, false)
+            new[]{ true, true, true, false }
         },
         new object[]
         {
-            (false, false, true, true),
+            new[]{ false, false, true, true },
             true,
-            (true, false, true, true)
+            new[]{ true, false, true, true }
         },
         new object[]
         {
-            (false, true, false, true),
+            new[]{ false, true, false, true },
             false,
-            (true, false, true, false)
+            new[]{ true, false, true, false }
         },
         new object[]
         {
-            (true, false, true, false),
+            new[]{ true, false, true, false },
             false,
-            (true, true, true, true)
+            new[]{ true, true, true, true }
         },
         // 3 false
         new object[]
         {
-            (true, false, false, false),
+            new[]{ true, false, false, false },
             false,
-            (true, true, true, false)
+            new[]{ true, true, true, false }
         },
         new object[]
         {
-            (false, false, true, false),
+            new[]{ false, false, true, false },
             false,
-            (true, false, true, true)
+            new[]{ true, false, true, true }
         },
         new object[]
         {
-            (false, true, false, false),
+            new[]{ false, true, false, false },
             false,
-            (true, false, true, false)
+            new[]{ true, false, true, false }
         },
         new object[]
         {
-            (false, false, false, true),
+            new[]{ false, false, false, true },
             false,
-            (true, false, true, false)
+            new[]{ true, false, true, false }
         },
         // 4 false
         new object[]
         {
-            (false, false, false, false),
+            new[]{ false, false, false, false },
             false,
-            (true, false, true, false)
+            new[]{ true, false, true, false }
         }
     };
 
     [TestCaseSource(nameof(ApplyTestSource))]
     public void Apply_WhenRulesSetsProvideDifferentResults_ShouldReturnExpectedResult(
-        (bool, bool, bool, bool) funcOutputs,
+        bool[] funcOutputs,
         bool expected,
-        (bool, bool, bool, bool) funcCalled)
+        bool[] funcCalled)
     {
         var called11 = false;
         var called12 = false;
@@ -121,13 +121,13 @@ public class CompiledCatalogTests
         {
             new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
             {
-                new (item => {called11 = true;  return funcOutputs.Item1; }, "code 1.1"),
-                new (item => {called12 = true;  return funcOutputs.Item2; }, "code 1.2")
+                new (item => {called11 = true;  return funcOutputs[0]; }, "code 1.1"),
+                new (item => {called12 = true;  return funcOutputs[1]; }, "code 1.2")
             }, "set 1"),
             new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
             {
-                new (item => {called21 = true;  return funcOutputs.Item3; }, "code 2.1"),
-                new (item => {called22 = true;  return funcOutputs.Item4; }, "code 2.2")
+                new (item => {called21 = true;  return funcOutputs[2]; }, "code 2.1"),
+                new (item => {called22 = true;  return funcOutputs[3]; }, "code 2.2")
             }, "set 2")
         };
 
@@ -137,61 +137,61 @@ public class CompiledCatalogTests
 
         sut.Apply(item).Should().Be(expected);
 
-        called11.Should().Be(funcCalled.Item1);
-        called12.Should().Be(funcCalled.Item2);
-        called21.Should().Be(funcCalled.Item3);
-        called22.Should().Be(funcCalled.Item4);
+        called11.Should().Be(funcCalled[0]);
+        called12.Should().Be(funcCalled[1]);
+        called21.Should().Be(funcCalled[2]);
+        called22.Should().Be(funcCalled[3]);
     }
 
     internal static object[] DetailedApplyFailingTestSource = new[]
     {
         new object[]
         {
-            (true, false, false, true),
+            new[]{ true, false, false, true },
             new[]{ "code 1.2", "code 2.1" }
         },
         new object[]
         {
-            (false, true, false, true),
+            new[]{ false, true, false, true },
             new[]{ "code 1.1", "code 2.1" }
         },
         new object[]
         {
-            (true, false, true, false),
+            new[]{ true, false, true, false },
             new[]{ "code 1.2", "code 2.2" }
         },
         // 3 false
         new object[]
         {
-            (true, false, false, false),
+            new[]{ true, false, false, false },
             new[]{ "code 1.2", "code 2.1", "code 2.2" }
         },
         new object[]
         {
-            (false, false, true, false),
+            new[]{ false, false, true, false },
             new[]{ "code 1.1", "code 1.2", "code 2.2" }
         },
         new object[]
         {
-            (false, true, false, false),
+            new[]{ false, true, false, false },
             new[]{ "code 1.1", "code 2.1", "code 2.2" }
         },
         new object[]
         {
-            (false, false, false, true),
+            new[]{ false, false, false, true },
             new[]{ "code 1.1", "code 1.2", "code 2.1" }
         },
         // 4 false
         new object[]
         {
-            (false, false, false, false),
+            new[]{ false, false, false, false },
             new[]{ "code 1.1", "code 1.2", "code 2.1", "code 2.2" }
         }
     };
 
     [TestCaseSource(nameof(DetailedApplyFailingTestSource))]
     public void DetailedApply_WhenRulesSetIsNotSuccessful_ShouldReturnExpectedCodes(
-        (bool, bool, bool, bool) funcOutputs,
+        bool[] funcOutputs,
         IEnumerable<string> expected
         )
     {
@@ -204,13 +204,13 @@ public class CompiledCatalogTests
         {
             new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
             {
-                new (item => {called11 = true;  return funcOutputs.Item1; }, "code 1.1"),
-                new (item => {called12 = true;  return funcOutputs.Item2; }, "code 1.2")
+                new (item => {called11 = true;  return funcOutputs[0]; }, "code 1.1"),
+                new (item => {called12 = true;  return funcOutputs[1]; }, "code 1.2")
             }, "set 1"),
             new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
             {
-                new (item => {called21 = true;  return funcOutputs.Item3; }, "code 2.1"),
-                new (item => {called22 = true;  return funcOutputs.Item4; }, "code 2.2")
+                new (item => {called21 = true;  return funcOutputs[2]; }, "code 2.1"),
+                new (item => {called22 = true;  return funcOutputs[3]; }, "code 2.2")
             }, "set 2")
         };
 
@@ -232,45 +232,45 @@ public class CompiledCatalogTests
     {
         new object[]
         {
-            (true, true, true, true),
-            (true, true, false, false)
+            new[]{ true, true, true, true },
+            new[]{ true, true, false, false }
         },
         new object[]
         {
-            (true, true, true, false),
-            (true, true, false, false)
+            new[]{ true, true, true, false },
+            new[]{ true, true, false, false }
         },
         new object[]
         {
-            (true, true, false, true),
-            (true, true, false, false)
+            new[]{ true, true, false, true },
+            new[]{ true, true, false, false }
         },
         new object[]
         {
-            (true, false, true, true),
-            (true, true, true, true)
+            new[]{ true, false, true, true },
+            new[]{ true, true, true, true }
         },
         new object[]
         {
-            (false, true, true, true),
-            (true, false, true, true)
+            new[]{ false, true, true, true },
+            new[]{ true, false, true, true }
         },
         new object[]
         {
-            (true, true, false, false),
-            (true, true, false, false)
+            new[]{ true, true, false, false },
+            new[]{ true, true, false, false }
         },
         new object[]
         {
-            (false, false, true, true),
-            (true, false, true, true)
+            new[]{ false, false, true, true },
+            new[]{ true, false, true, true }
         }
     };
 
     [TestCaseSource(nameof(DetailedApplySuccessfullTestSource))]
     public void DetailedApply_WhenRulesSetIsSuccessful_ShouldReturnRight(
-        (bool, bool, bool, bool) funcOutputs,
-        (bool, bool, bool, bool) funcCalled)
+        bool[] funcOutputs,
+        bool[] funcCalled)
     {
         var called11 = false;
         var called12 = false;
@@ -281,13 +281,13 @@ public class CompiledCatalogTests
         {
             new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
             {
-                new (item => {called11 = true;  return funcOutputs.Item1; }, "code 1.1"),
-                new (item => {called12 = true;  return funcOutputs.Item2; }, "code 1.2")
+                new (item => {called11 = true;  return funcOutputs[0]; }, "code 1.1"),
+                new (item => {called12 = true;  return funcOutputs[1]; }, "code 1.2")
             }, "set 1"),
             new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
             {
-                new (item => {called21 = true;  return funcOutputs.Item3; }, "code 2.1"),
-                new (item => {called22 = true;  return funcOutputs.Item4; }, "code 2.2")
+                new (item => {called21 = true;  return funcOutputs[2]; }, "code 2.1"),
+                new (item => {called22 = true;  return funcOutputs[3]; }, "code 2.2")
             }, "set 2")
         };
 
@@ -297,117 +297,117 @@ public class CompiledCatalogTests
 
         sut.DetailedApply(item).IsRight.Should().BeTrue();
 
-        called11.Should().Be(funcCalled.Item1);
-        called12.Should().Be(funcCalled.Item2);
-        called21.Should().Be(funcCalled.Item3);
-        called22.Should().Be(funcCalled.Item4);
+        called11.Should().Be(funcCalled[0]);
+        called12.Should().Be(funcCalled[1]);
+        called21.Should().Be(funcCalled[2]);
+        called22.Should().Be(funcCalled[3]);
     }
 
     internal static object[] FirstMatchingTestSource = new[]
     {
         new object[]
         {
-            (false, false, false, false),
+            new[]{ false, false, false, false },
             Option<string>.None(),
-            (true, false, true, false)
+            new[]{ true, false, true, false }
         },
         new object[]
         {
-            (true, false, false, false),
+            new[]{ true, false, false, false },
             Option<string>.None(),
-            (true, true, true, false)
+            new[]{ true, true, true, false }
         },
         new object[]
         {
-            (false, true, false, false),
+            new[]{ false, true, false, false },
             Option<string>.None(),
-            (true, false, true, false)
+            new[]{ true, false, true, false }
         },
         new object[]
         {
-            (false, false, true, false),
+            new[]{ false, false, true, false },
             Option<string>.None(),
-            (true, false, true, true)
+            new[]{ true, false, true, true }
         },
         new object[]
         {
-            (false, false, false, true),
+            new[]{ false, false, false, true },
             Option<string>.None(),
-            (true, false, true, false)
+            new[]{ true, false, true, false }
         },
         new object[]
         {
-            (true, true, false, false),
+            new[]{ true, true, false, false },
             Option<string>.Some("set 1"),
-            (true, true, false, false)
+            new[]{ true, true, false, false }
         },
         new object[]
         {
-            (true, false, true, false),
+            new[]{ true, false, true, false },
             Option<string>.None(),
-            (true, true, true, true)
+            new[]{ true, true, true, true }
         },
         new object[]
         {
-            (false, true, true, false),
+            new[]{ false, true, true, false },
             Option<string>.None(),
-            (true, false, true, true)
+            new[]{ true, false, true, true }
         },
         new object[]
         {
-            (true, false, false, true),
+            new[]{ true, false, false, true },
             Option<string>.None(),
-            (true, true, true, false)
+            new[]{ true, true, true, false }
         },
         new object[]
         {
-            (false, true, false, true),
+            new[]{ false, true, false, true },
             Option<string>.None(),
-            (true, false, true, false)
+            new[]{ true, false, true, false }
         },
         new object[]
         {
-            (false, false, true, true),
+            new[]{ false, false, true, true },
             Option<string>.Some("set 2"),
-            (true, false, true, true)
+            new[]{ true, false, true, true }
         },
         new object[]
         {
-            (true, true, true, false),
+            new[]{ true, true, true, false },
             Option<string>.Some("set 1"),
-            (true, true, false, false)
+            new[]{ true, true, false, false }
         },
         new object[]
         {
-            (true, true, false, true),
+            new[]{ true, true, false, true },
             Option<string>.Some("set 1"),
-            (true, true, false, false)
+            new[]{ true, true, false, false }
         },
         new object[]
         {
-            (true, false, true, true),
+            new[]{ true, false, true, true },
             Option<string>.Some("set 2"),
-            (true, true, true, true)
+            new[]{ true, true, true, true }
         },
         new object[]
         {
-            (false, true, true, true),
+            new[]{ false, true, true, true },
             Option<string>.Some("set 2"),
-            (true, false, true, true)
+            new[]{ true, false, true, true }
         },
         new object[]
         {
-            (true, true, true, true),
+            new[]{ true, true, true, true },
             Option<string>.Some("set 1"),
-            (true, true, false, false)
+            new[]{ true, true, false, false }
         }
     };
 
     [TestCaseSource(nameof(FirstMatchingTestSource))]
     public void FirstMatching_ShouldReturnExpectedValue(
-            (bool, bool, bool, bool) funcOutputs,
+            bool[] funcOutputs,
             Option<string> expected,
-            (bool, bool, bool, bool) funcCalled)
+            bool[] funcCalled)
     {
         var called11 = false;
         var called12 = false;
@@ -418,13 +418,13 @@ public class CompiledCatalogTests
         {
             new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
             {
-                new (item => {called11 = true;  return funcOutputs.Item1; }, "code 1.1"),
-                new (item => {called12 = true;  return funcOutputs.Item2; }, "code 1.2")
+                new (item => {called11 = true;  return funcOutputs[0]; }, "code 1.1"),
+                new (item => {called12 = true;  return funcOutputs[1]; }, "code 1.2")
             }, "set 1"),
             new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
             {
-                new (item => {called21 = true;  return funcOutputs.Item3; }, "code 2.1"),
-                new (item => {called22 = true;  return funcOutputs.Item4; }, "code 2.2")
+                new (item => {called21 = true;  return funcOutputs[2]; }, "code 2.1"),
+                new (item => {called22 = true;  return funcOutputs[3]; }, "code 2.2")
             }, "set 2")
         };
 
@@ -434,9 +434,9 @@ public class CompiledCatalogTests
 
         sut.FirstMatching(item).Should().Be(expected);
 
-        called11.Should().Be(funcCalled.Item1);
-        called12.Should().Be(funcCalled.Item2);
-        called21.Should().Be(funcCalled.Item3);
-        called22.Should().Be(funcCalled.Item4);
+        called11.Should().Be(funcCalled[0]);
+        called12.Should().Be(funcCalled[1]);
+        called21.Should().Be(funcCalled[2]);
+        called22.Should().Be(funcCalled[3]);
     }
 }
