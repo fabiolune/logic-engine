@@ -8,6 +8,9 @@ using static LogicEngine.Internals.StaticShared;
 
 namespace LogicEngine;
 
+/* The code defines a public record called `CompiledRulesSet<T>`. This record implements three
+interfaces: `IAppliable<T>`, `IDetailedAppliable<T, IEnumerable<string>>`, and `IAppliedSelector<T,
+string>`. The record has a generic type parameter `T` which must have a parameterless constructor. */
 public record CompiledRulesSet<T> :
     IAppliable<T>,
     IDetailedAppliable<T, IEnumerable<string>>,

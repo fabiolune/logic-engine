@@ -12,6 +12,12 @@ public class RulesSetCompiler : IRulesSetCompiler
 
     public RulesSetCompiler(IRuleCompiler singleRuleCompiler) => _singleRuleCompiler = singleRuleCompiler;
 
+    /// <summary>
+    /// The function compiles a set of rules into a compiled rules set for a given type, returning an
+    /// option type.
+    /// </summary>
+    /// <param name="RulesSet">The `RulesSet` parameter is an object that represents a set of rules. It
+    /// contains a collection of rules that need to be compiled.</param>
     public Option<CompiledRulesSet<T>> Compile<T>(RulesSet set) where T : new() =>
         set
             .Rules
