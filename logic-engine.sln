@@ -26,8 +26,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicEngine", "src\LogicEng
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicEngine.Unit.Tests", "tests\LogicEngine.Unit.Tests\LogicEngine.Unit.Tests.csproj", "{CDB883E6-1078-439C-A1A5-637DB73642B7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{6EFCE1B6-BC92-4F6D-B650-6B736DA0D145}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
