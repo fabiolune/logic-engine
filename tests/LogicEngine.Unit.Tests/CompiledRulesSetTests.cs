@@ -14,42 +14,36 @@ public class CompiledRulesSetTests
             true,
             new[]{ true, true, true }
         },
-        new object[]
-        {
+        [
             new[]{ true, true, false },
             false,
             new[]{ true, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, false, true },
             false,
             new[]{ true, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, true, true },
             false,
             new[]{ true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { true, false, false },
             false,
             new[]{ true, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { false, true, false },
             false,
             new[] { true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { false, false, true },
             false,
             new[] { true, false, false }
-        }
+        ]
     };
 
     [TestCaseSource(nameof(ApplyTestSource))]
@@ -96,36 +90,30 @@ public class CompiledRulesSetTests
             new[] { false, false, false },
             new[] { "code 1", "code 2", "code 3" }
         },
-        new object[]
-        {
+        [
             new[] { true, false, false },
             new[] { "code 2", "code 3" }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { false, true, false },
             new[] { "code 1", "code 3" }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { false, false, true },
             new[] { "code 1", "code 2" }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { false, true, true },
             new[] { "code 1" }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { true, false, true },
             new[] { "code 2" }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { true, true, false },
             new[] { "code 3" }
-        }
+        ]
     };
 
     [TestCaseSource(nameof(DetailedApplyTestSource))]
@@ -176,48 +164,41 @@ public class CompiledRulesSetTests
             Option<string>.None(),
             new[] { true, true, true }
         },
-        new object[]
-        {
+        [
             new[] { true, false, false },
             Option<string>.Some("code 1"),
             new[] { true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { false, true, false },
             Option<string>.Some("code 2"),
             new[] { true, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { false, false, true },
             Option<string>.Some("code 3"),
             new[] { true, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { false, true, true },
             Option<string>.Some("code 2"),
             new[] { true, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { true, false, true },
             Option<string>.Some("code 1"),
             new[] { true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { true, true, false },
             Option<string>.Some("code 1"),
             new[] { true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[] { true, true, true },
             Option<string>.Some("code 1"),
             new[] { true, false, false }
-        }
+        ]
     };
 
     [TestCaseSource(nameof(FirstMatchingTestSource))]

@@ -37,7 +37,7 @@ public class RulesCatalogCompilerTests
 
         var compiledRule = new CompiledRule<TestModel>(_ => false, "whatever");
 
-        var compiledRulesSet = new CompiledRulesSet<TestModel>(new[] { compiledRule }, "set 1");
+        var compiledRulesSet = new CompiledRulesSet<TestModel>([compiledRule], "set 1");
 
         _mockCompiler.Compile<TestModel>(set1).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet));
 
@@ -82,7 +82,7 @@ public class RulesCatalogCompilerTests
 
         var compiledRule = new CompiledRule<TestModel>(_ => true, "code");
 
-        var compiledRulesSet = new CompiledRulesSet<TestModel>(new[] { compiledRule }, "set 1");
+        var compiledRulesSet = new CompiledRulesSet<TestModel>([compiledRule], "set 1");
 
         _mockCompiler.Compile<TestModel>(set1).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet));
 
@@ -136,10 +136,10 @@ public class RulesCatalogCompilerTests
         var catalog = new RulesCatalog(new[] { set1, set2 }, "some name");
 
         var compiledRule1 = new CompiledRule<TestModel>(_ => true.Tee(_ => firstCalled = true), "code");
-        var compiledRulesSet1 = new CompiledRulesSet<TestModel>(new[] { compiledRule1 }, "set 1");
+        var compiledRulesSet1 = new CompiledRulesSet<TestModel>([compiledRule1], "set 1");
 
         var compiledRule2 = new CompiledRule<TestModel>(_ => true.Tee(_ => secondCalled = true), "code");
-        var compiledRulesSet2 = new CompiledRulesSet<TestModel>(new[] { compiledRule2 }, "set 2");
+        var compiledRulesSet2 = new CompiledRulesSet<TestModel>([compiledRule2], "set 2");
 
         _mockCompiler.Compile<TestModel>(set1).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet1));
         _mockCompiler.Compile<TestModel>(set2).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet2));
@@ -209,13 +209,13 @@ public class RulesCatalogCompilerTests
         var catalog = new RulesCatalog(new[] { set1, set2 }, "some name");
 
         var compiledRule1 = new CompiledRule<TestModel>(_ => true.Tee(_ => firstCalled = true), "code");
-        var compiledRulesSet1 = new CompiledRulesSet<TestModel>(new[] { compiledRule1 }, "set 1");
+        var compiledRulesSet1 = new CompiledRulesSet<TestModel>([compiledRule1], "set 1");
 
         var compiledRule2 = new CompiledRule<TestModel>(_ => false.Tee(_ => secondCalled = true), "code");
-        var compiledRulesSet2 = new CompiledRulesSet<TestModel>(new[] { compiledRule2 }, "set 2");
+        var compiledRulesSet2 = new CompiledRulesSet<TestModel>([compiledRule2], "set 2");
 
         var compiledRule3 = new CompiledRule<TestModel>(_ => true.Tee(_ => thirdCalled = true), "code");
-        var compiledRulesSet3 = new CompiledRulesSet<TestModel>(new[] { compiledRule3 }, "set 2");
+        var compiledRulesSet3 = new CompiledRulesSet<TestModel>([compiledRule3], "set 2");
 
         _mockCompiler.Compile<TestModel>(set1).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet1));
         _mockCompiler.Compile<TestModel>(set2).Returns(Option<CompiledRulesSet<TestModel>>.Some(compiledRulesSet2));
@@ -254,7 +254,7 @@ public class RulesCatalogCompilerTests
     [Test]
     public void CompileCatalog_WhenRulesSetsAreEmpty_ShouldReturnNone()
     {
-        var catalog = new RulesCatalog(Array.Empty<RulesSet>(), "some name");
+        var catalog = new RulesCatalog([], "some name");
 
         var result = _sut.Compile<TestModel>(catalog);
 
