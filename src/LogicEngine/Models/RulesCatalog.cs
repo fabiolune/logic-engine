@@ -12,7 +12,7 @@ public record RulesCatalog
 
     public IEnumerable<RulesSet> RulesSets
     {
-        get => _rulesSets ?? Array.Empty<RulesSet>();
+        get => _rulesSets ?? [];
         private init => _rulesSets = value;
     }
 

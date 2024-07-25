@@ -25,8 +25,7 @@ jobs:
       with:
         dotnet-version: |
           5.x
-          6.x
-          7.x
+          8.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

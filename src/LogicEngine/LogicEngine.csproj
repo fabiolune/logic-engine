@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6;net7</TargetFrameworks>
+    <TargetFrameworks>net8</TargetFrameworks>
     <PackageId>logic-engine</PackageId>
     <RepositoryUrl>https://github.com/fabiolune/logic-engine.git</RepositoryUrl>
     <PackageDescription>logic rules engine library</PackageDescription>
@@ -12,7 +12,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="tiny-fp" Version="1.2.3" />
+    <PackageReference Include="tiny-fp" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
