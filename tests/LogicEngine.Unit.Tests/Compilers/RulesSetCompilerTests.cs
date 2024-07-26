@@ -203,7 +203,7 @@ public class RulesSetCompilerTests
     [Test]
     public void Compile_WhenRulesAreEmpty_ShouldReturnNone()
     {
-        var set = new RulesSet(Array.Empty<Rule>(), "ruleset 1");
+        var set = new RulesSet([], "ruleset 1");
 
         var result = _sut.Compile<TestModel>(set);
 

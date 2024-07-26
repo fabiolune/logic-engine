@@ -25,8 +25,7 @@ jobs:
       with:
         dotnet-version: |
           5.x
-          6.x
-          7.x
+          8.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -42,7 +41,7 @@ jobs:
       run: dotnet restore
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: 'csharp'
 
@@ -54,11 +53,15 @@ jobs:
     - name: start sonarscanner
       if: ${{github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
+        ls -l $JAVA_HOME_17_X64/bin
+
         dotnet sonarscanner begin \
           /o:fabiolune \
           /k:fabiolune_logic-engine \
           /d:sonar.cs.opencover.reportsPaths="./**/coverage.opencover.xml" \
-          /d:sonar.host.url=https://sonarcloud.io
+          /d:sonar.host.url=https://sonarcloud.io \
+          /d:sonar.scanner.skipJreProvisioning=true \
+          /d:sonar.scanner.javaExePath=$JAVA_HOME_17_X64/bin/java
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -73,7 +76,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
 
     - name: test
       run: |
@@ -90,7 +93,7 @@ jobs:
         echo LCOV_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
 
     - name: merge code coverage data
-      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.12
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.3.8
       with:
         reports: '${{ env.LCOV_REPORTS }}'
         reporttypes: 'lcov'
@@ -103,7 +106,9 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
 
     - name: publish code coverage results
       if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}

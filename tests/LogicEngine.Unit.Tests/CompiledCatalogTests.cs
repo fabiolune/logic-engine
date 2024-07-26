@@ -17,93 +17,79 @@ public class CompiledCatalogTests
             new[]{ true, true, false, false }
         },
         // 1 false
-        new object[]
-        {
+        [
             new[]{ true, true, true, false },
             true,
             new[]{ true, true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, true, false, true },
             true,
             new[]{ true, true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, false, true, true },
             true,
             new[]{ true, true, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, true, true, true },
             true,
             new[]{ true, false, true, true }
-        },
+        ],
         // 2 false
-        new object[]
-        {
+        [
             new[]{ true, true, false, false },
             true,
             new[]{ true, true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, false, false, true },
             false,
             new[]{ true, true, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, false, true, true },
             true,
             new[]{ true, false, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, true, false, true },
             false,
             new[]{ true, false, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, false, true, false },
             false,
             new[]{ true, true, true, true }
-        },
+        ],
         // 3 false
-        new object[]
-        {
+        [
             new[]{ true, false, false, false },
             false,
             new[]{ true, true, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, false, true, false },
             false,
             new[]{ true, false, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, true, false, false },
             false,
             new[]{ true, false, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, false, false, true },
             false,
             new[]{ true, false, true, false }
-        },
+        ],
         // 4 false
-        new object[]
-        {
+        [
             new[]{ false, false, false, false },
             false,
             new[]{ true, false, true, false }
-        }
+        ]
     };
 
     [TestCaseSource(nameof(ApplyTestSource))]
@@ -119,16 +105,16 @@ public class CompiledCatalogTests
 
         var rulesSets = new CompiledRulesSet<TestModel>[]
         {
-            new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
-            {
+            new(
+            [
                 new (item => {called11 = true;  return funcOutputs[0]; }, "code 1.1"),
                 new (item => {called12 = true;  return funcOutputs[1]; }, "code 1.2")
-            }, "set 1"),
-            new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
-            {
+            ], "set 1"),
+            new(
+            [
                 new (item => {called21 = true;  return funcOutputs[2]; }, "code 2.1"),
                 new (item => {called22 = true;  return funcOutputs[3]; }, "code 2.2")
-            }, "set 2")
+            ], "set 2")
         };
 
         var sut = new CompiledCatalog<TestModel>(rulesSets, "catalog name");
@@ -150,43 +136,36 @@ public class CompiledCatalogTests
             new[]{ true, false, false, true },
             new[]{ "code 1.2", "code 2.1" }
         },
-        new object[]
-        {
+        [
             new[]{ false, true, false, true },
             new[]{ "code 1.1", "code 2.1" }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, false, true, false },
             new[]{ "code 1.2", "code 2.2" }
-        },
+        ],
         // 3 false
-        new object[]
-        {
+        [
             new[]{ true, false, false, false },
             new[]{ "code 1.2", "code 2.1", "code 2.2" }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, false, true, false },
             new[]{ "code 1.1", "code 1.2", "code 2.2" }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, true, false, false },
             new[]{ "code 1.1", "code 2.1", "code 2.2" }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, false, false, true },
             new[]{ "code 1.1", "code 1.2", "code 2.1" }
-        },
+        ],
         // 4 false
-        new object[]
-        {
+        [
             new[]{ false, false, false, false },
             new[]{ "code 1.1", "code 1.2", "code 2.1", "code 2.2" }
-        }
+        ]
     };
 
     [TestCaseSource(nameof(DetailedApplyFailingTestSource))]
@@ -202,16 +181,16 @@ public class CompiledCatalogTests
 
         var rulesSets = new CompiledRulesSet<TestModel>[]
         {
-            new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
-            {
+            new(
+            [
                 new (item => {called11 = true;  return funcOutputs[0]; }, "code 1.1"),
                 new (item => {called12 = true;  return funcOutputs[1]; }, "code 1.2")
-            }, "set 1"),
-            new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
-            {
+            ], "set 1"),
+            new(
+            [
                 new (item => {called21 = true;  return funcOutputs[2]; }, "code 2.1"),
                 new (item => {called22 = true;  return funcOutputs[3]; }, "code 2.2")
-            }, "set 2")
+            ], "set 2")
         };
 
         var sut = new CompiledCatalog<TestModel>(rulesSets, "catalog name");
@@ -235,36 +214,30 @@ public class CompiledCatalogTests
             new[]{ true, true, true, true },
             new[]{ true, true, false, false }
         },
-        new object[]
-        {
+        [
             new[]{ true, true, true, false },
             new[]{ true, true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, true, false, true },
             new[]{ true, true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, false, true, true },
             new[]{ true, true, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, true, true, true },
             new[]{ true, false, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, true, false, false },
             new[]{ true, true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, false, true, true },
             new[]{ true, false, true, true }
-        }
+        ]
     };
 
     [TestCaseSource(nameof(DetailedApplySuccessfullTestSource))]
@@ -279,16 +252,16 @@ public class CompiledCatalogTests
 
         var rulesSets = new CompiledRulesSet<TestModel>[]
         {
-            new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
-            {
+            new(
+            [
                 new (item => {called11 = true;  return funcOutputs[0]; }, "code 1.1"),
                 new (item => {called12 = true;  return funcOutputs[1]; }, "code 1.2")
-            }, "set 1"),
-            new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
-            {
+            ], "set 1"),
+            new(
+            [
                 new (item => {called21 = true;  return funcOutputs[2]; }, "code 2.1"),
                 new (item => {called22 = true;  return funcOutputs[3]; }, "code 2.2")
-            }, "set 2")
+            ], "set 2")
         };
 
         var sut = new CompiledCatalog<TestModel>(rulesSets, "catalog name");
@@ -311,96 +284,81 @@ public class CompiledCatalogTests
             Option<string>.None(),
             new[]{ true, false, true, false }
         },
-        new object[]
-        {
+        [
             new[]{ true, false, false, false },
             Option<string>.None(),
             new[]{ true, true, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, true, false, false },
             Option<string>.None(),
             new[]{ true, false, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, false, true, false },
             Option<string>.None(),
             new[]{ true, false, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, false, false, true },
             Option<string>.None(),
             new[]{ true, false, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, true, false, false },
             Option<string>.Some("set 1"),
             new[]{ true, true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, false, true, false },
             Option<string>.None(),
             new[]{ true, true, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, true, true, false },
             Option<string>.None(),
             new[]{ true, false, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, false, false, true },
             Option<string>.None(),
             new[]{ true, true, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, true, false, true },
             Option<string>.None(),
             new[]{ true, false, true, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, false, true, true },
             Option<string>.Some("set 2"),
             new[]{ true, false, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, true, true, false },
             Option<string>.Some("set 1"),
             new[]{ true, true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, true, false, true },
             Option<string>.Some("set 1"),
             new[]{ true, true, false, false }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, false, true, true },
             Option<string>.Some("set 2"),
             new[]{ true, true, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ false, true, true, true },
             Option<string>.Some("set 2"),
             new[]{ true, false, true, true }
-        },
-        new object[]
-        {
+        ],
+        [
             new[]{ true, true, true, true },
             Option<string>.Some("set 1"),
             new[]{ true, true, false, false }
-        }
+        ]
     };
 
     [TestCaseSource(nameof(FirstMatchingTestSource))]
@@ -416,16 +374,16 @@ public class CompiledCatalogTests
 
         var rulesSets = new CompiledRulesSet<TestModel>[]
         {
-            new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
-            {
+            new(
+            [
                 new (item => {called11 = true;  return funcOutputs[0]; }, "code 1.1"),
                 new (item => {called12 = true;  return funcOutputs[1]; }, "code 1.2")
-            }, "set 1"),
-            new CompiledRulesSet<TestModel>(new CompiledRule<TestModel>[]
-            {
+            ], "set 1"),
+            new(
+            [
                 new (item => {called21 = true;  return funcOutputs[2]; }, "code 2.1"),
                 new (item => {called22 = true;  return funcOutputs[3]; }, "code 2.2")
-            }, "set 2")
+            ], "set 2")
         };
 
         var sut = new CompiledCatalog<TestModel>(rulesSets, "catalog name");

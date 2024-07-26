@@ -10,7 +10,7 @@ public class EnumerableExtensionsTests
     private static readonly TestModel Item2 = new() { IntProperty = 2 };
 
     internal static object[] FilterTestCases =
-    {
+    [
         new object[]
         {
             true,
@@ -35,10 +35,10 @@ public class EnumerableExtensionsTests
             false,
             Array.Empty<TestModel>()
         }
-    };
+    ];
 
     internal static object[] FirstOrDefaultTestCases =
-    {
+    [
         new object[]
         {
             true,
@@ -63,7 +63,7 @@ public class EnumerableExtensionsTests
             false,
             default(TestModel)
         }
-    };
+    ];
 
     [TestCaseSource(nameof(FirstOrDefaultTestCases))]
     public void Filter_ShouldReturnItemsForWhichApplyIsTrue(bool apply1, bool apply2, TestModel expected)

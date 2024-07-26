@@ -52,28 +52,28 @@ internal static class OperationMappings
             MakeBinary(
                 ExpressionType.AndAlso,
                 MakeBinary(ExpressionType.NotEqual, k, NullValue),
-                Call(Constant(new Regex(r.Value, RegexOptions.Compiled, RegexTimeOut)), typeof(Regex).GetMethod(nameof(Regex.IsMatch), new[] { StringType }), k)) }
+                Call(Constant(new Regex(r.Value, RegexOptions.Compiled, RegexTimeOut)), typeof(Regex).GetMethod(nameof(Regex.IsMatch), [StringType]), k)) }
     });
 
     private static BinaryExpression GetStringMethodExpression(MemberExpression memberExpression, string methodName, string value) => 
         MakeBinary(
             ExpressionType.AndAlso,
             MakeBinary(ExpressionType.NotEqual, memberExpression, NullValue),
-            Call(memberExpression, StringType.GetMethod(methodName, new[] { StringType }), Constant(value, StringType)));
+            Call(memberExpression, StringType.GetMethod(methodName, [StringType]), Constant(value, StringType)));
 
     internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>> EnumerableMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, BinaryExpression>>
     {
         {
             OperatorType.Contains, (r, k, s) => MakeBinary(ExpressionType.AndAlso,
                 MakeBinary(ExpressionType.NotEqual, k, NullValue),
-                Call(EnumerableType, nameof(Enumerable.Contains), new[] {s},
+                Call(EnumerableType, nameof(Enumerable.Contains), [s],
                     k, Constant(ChangeType(r.Value, s))))
         },
         {
             OperatorType.NotContains, (r, k, s) => MakeBinary(ExpressionType.OrElse,
                 MakeBinary(ExpressionType.Equal, k, NullValue),
                 IsFalse(Call(EnumerableType, nameof(Enumerable.Contains),
-                    new[] {s}, k,
+                    [s], k,
                     Constant(ChangeType(r.Value, s)))))
         },
         {
@@ -87,8 +87,8 @@ internal static class OperationMappings
                     MakeBinary(ExpressionType.AndAlso,
                         MakeBinary(ExpressionType.NotEqual, k, NullValue),
                         MakeBinary(ExpressionType.NotEqual, _, NullValue)),
-                    IsTrue(Call(EnumerableType, nameof(Enumerable.Any), new[] { s },
-                        Call(EnumerableType, nameof(Enumerable.Intersect), new[] { s }, k, _)))))
+                    IsTrue(Call(EnumerableType, nameof(Enumerable.Any), [s],
+                        Call(EnumerableType, nameof(Enumerable.Intersect), [s], k, _)))))
         },
         {
             OperatorType.NotOverlaps, (r, k, s) => NewArrayInit(s,
@@ -103,8 +103,8 @@ internal static class OperationMappings
                         MakeBinary(ExpressionType.Equal, k, NullValue),
                         MakeBinary(ExpressionType.Equal, _, NullValue)),
                     IsFalse(Call(EnumerableType, nameof(Enumerable.Any),
-                        new[] { s },
-                        Call(EnumerableType, nameof(Enumerable.Intersect), new[] { s }, k, _)))))
+                        [s],
+                        Call(EnumerableType, nameof(Enumerable.Intersect), [s], k, _)))))
         }
     });
 
@@ -184,21 +184,21 @@ internal static class OperationMappings
             OperatorType.IsContained,
             (k, p, ae) => MakeBinary(ExpressionType.AndAlso,
                 MakeBinary(ExpressionType.NotEqual, ae, NullValue),
-                Call(EnumerableType, nameof(Enumerable.Contains), new[] {p}, ae, k))
+                Call(EnumerableType, nameof(Enumerable.Contains), [p], ae, k))
         },
         {
             OperatorType.IsNotContained,
             (k, p, ae) => MakeBinary(ExpressionType.OrElse,
                 MakeBinary(ExpressionType.Equal, ae, NullValue),
                 IsFalse(Call(EnumerableType, nameof(Enumerable.Contains),
-                    new[] {p}, ae, k)))
+                    [p], ae, k)))
         }
     });
 
     internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>> InternalEnumerableMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>>
     {
-        { OperatorType.InnerContains,  (_, k, _, k2, _, svt) => MakeBinary(ExpressionType.AndAlso, MakeBinary(ExpressionType.NotEqual, k, NullValue), Call(EnumerableType, nameof(Enumerable.Contains), new[] { svt }, k, k2))},
-        { OperatorType.InnerNotContains, (_, k, _, k2, _, svt) => MakeBinary(ExpressionType.OrElse, MakeBinary(ExpressionType.Equal, k, NullValue), IsFalse(Call(EnumerableType, nameof(Enumerable.Contains), new[] { svt }, k, k2)))}
+        { OperatorType.InnerContains,  (_, k, _, k2, _, svt) => MakeBinary(ExpressionType.AndAlso, MakeBinary(ExpressionType.NotEqual, k, NullValue), Call(EnumerableType, nameof(Enumerable.Contains), [svt], k, k2))},
+        { OperatorType.InnerNotContains, (_, k, _, k2, _, svt) => MakeBinary(ExpressionType.OrElse, MakeBinary(ExpressionType.Equal, k, NullValue), IsFalse(Call(EnumerableType, nameof(Enumerable.Contains), [svt], k, k2)))}
     });
 
     internal static readonly ReadOnlyDictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>> InternalCrossEnumerableMapping = new(new Dictionary<OperatorType, Func<Rule, MemberExpression, Type, MemberExpression, Type, Type, BinaryExpression>>
@@ -210,8 +210,8 @@ internal static class OperationMappings
             ), IsTrue(Call(
                 EnumerableType,
                 nameof(Enumerable.Any),
-                new[] { svt },
-                Call(EnumerableType, nameof(Enumerable.Intersect), new[] { svt },
+                [svt],
+                Call(EnumerableType, nameof(Enumerable.Intersect), [svt],
                     k, k2)
             )))
         },
@@ -222,8 +222,8 @@ internal static class OperationMappings
             ), IsFalse(Call(
                 EnumerableType,
                 nameof(Enumerable.Any),
-                new[] { svt },
-                Call(EnumerableType, nameof(Enumerable.Intersect), new[] { svt }, k, k2)
+                [svt],
+                Call(EnumerableType, nameof(Enumerable.Intersect), [svt], k, k2)
             )))
         }
     });
