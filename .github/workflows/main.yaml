@@ -53,7 +53,7 @@ jobs:
     - name: start sonarscanner
       if: ${{github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
-        ls -l $JAVA_HOME_17_X64
+        ls -l $JAVA_HOME_17_X64/bin
 
         dotnet sonarscanner begin \
           /o:fabiolune \
