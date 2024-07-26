@@ -127,16 +127,15 @@ jobs:
           -f stryker-config.json
 
     - name: generate mutation report
-      # if: ${{ github.event_name != 'release' && github.event_name != 'pull_request' }}
+      if: ${{ github.event_name != 'release' && github.event_name != 'pull_request' }}
       run: |
         dotnet tool install -g dotnet-stryker
         export PATH="$PATH:$HOME/.dotnet/tools"
         dotnet stryker \
           --reporter "dashboard" \
           --dashboard-api-key ${{ secrets.STRYKER_API_KEY }} \
-          --version test \
+          --version ${GITHUB_REF#refs/heads/} \
           -f stryker-config.json
-          # --version ${GITHUB_REF#refs/heads/} \
 
     - name: Create and push package
       if: ${{ github.event_name == 'release' }}
