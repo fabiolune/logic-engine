@@ -53,8 +53,6 @@ jobs:
     - name: start sonarscanner
       if: ${{github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
-        ls -l $JAVA_HOME_17_X64/bin
-
         dotnet sonarscanner begin \
           /o:fabiolune \
           /k:fabiolune_logic-engine \
@@ -81,9 +79,9 @@ jobs:
     - name: test
       run: |
         dotnet test \
-            --no-restore \
-            --configuration Release \
-            --verbosity normal
+          --no-restore \
+          --configuration Release \
+          --verbosity normal
       env:
         CoverletOutputFormat: lcov,opencover
         CollectCoverage: true
@@ -115,7 +113,29 @@ jobs:
       uses: romeovs/lcov-reporter-action@v0.3.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        lcov-file: ./coveragereport/lcov.info 
+        lcov-file: ./coveragereport/lcov.info
+
+    - name: generate mutation report
+      if: ${{ github.event_name == 'release' }}
+      run: |
+        dotnet tool install -g dotnet-stryker
+        export PATH="$PATH:$HOME/.dotnet/tools"
+        dotnet stryker \
+          --reporter "dashboard" \
+          --dashboard-api-key ${{ secrets.STRYKER_API_KEY }} \
+          --version ${{ env.GITVERSION_NUGETVERSIONV2 }} \
+          -f stryker-config.json
+
+    - name: generate mutation report
+      if: ${{ github.event_name != 'release' && github.event_name != 'pull_request' }}
+      run: |
+        dotnet tool install -g dotnet-stryker
+        export PATH="$PATH:$HOME/.dotnet/tools"
+        dotnet stryker \
+          --reporter "dashboard" \
+          --dashboard-api-key ${{ secrets.STRYKER_API_KEY }} \
+          --version ${GITHUB_REF#refs/heads/} \
+          -f stryker-config.json
 
     - name: Create and push package
       if: ${{ github.event_name == 'release' }}
