@@ -61,7 +61,7 @@ jobs:
           /d:sonar.cs.opencover.reportsPaths="./**/coverage.opencover.xml" \
           /d:sonar.host.url=https://sonarcloud.io \
           /d:sonar.scanner.skipJreProvisioning=true \
-          /d:sonar.scanner.javaExePath=$JAVA_HOME_17_X64
+          /d:sonar.scanner.javaExePath=$JAVA_HOME_17_X64/bin/java
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
