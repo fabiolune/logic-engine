@@ -7,6 +7,8 @@
 [![codecov](https://codecov.io/gh/fabiolune/logic-engine/branch/main/graph/badge.svg?token=EYWA9ONWVX)](https://codecov.io/gh/fabiolune/logic-engine)
 [![NuGet](https://img.shields.io/nuget/v/logic-engine)](https://www.nuget.org/packages/logic-engine/)
 [![NuGet](https://img.shields.io/nuget/dt/logic-engine)](https://www.nuget.org/packages/logic-engine/)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Ffabiolune%2Flogic-engine%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/fabiolune/logic-engine/main)
+
 
 ## Table of contents
 
