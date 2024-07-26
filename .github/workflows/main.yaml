@@ -48,16 +48,20 @@ jobs:
     - name: setup sonarscanner
       if: ${{github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
-        dotnet tool install --global dotnet-sonarscanner --version 5.2.1
+        dotnet tool install --global dotnet-sonarscanner
 
     - name: start sonarscanner
       if: ${{github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
+        ls -l $JAVA_HOME_17_X64
+
         dotnet sonarscanner begin \
           /o:fabiolune \
           /k:fabiolune_logic-engine \
           /d:sonar.cs.opencover.reportsPaths="./**/coverage.opencover.xml" \
-          /d:sonar.host.url=https://sonarcloud.io
+          /d:sonar.host.url=https://sonarcloud.io \
+          /d:sonar.scanner.skipJreProvisioning=true \
+          /d:sonar.scanner.javaExePath=$JAVA_HOME_17_X64
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
