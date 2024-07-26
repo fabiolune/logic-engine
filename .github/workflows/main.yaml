@@ -48,7 +48,7 @@ jobs:
     - name: setup sonarscanner
       if: ${{github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository}}
       run: |
-        dotnet tool install --global dotnet-sonarscanner
+        dotnet tool install --global dotnet-sonarscanner --version 5.2.1
 
     - name: start sonarscanner
       if: ${{github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository}}
