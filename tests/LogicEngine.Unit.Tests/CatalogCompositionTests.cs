@@ -85,7 +85,7 @@ public class CatalogCompositionTests
         var c1 = new RulesCatalog(null, "catalog 1");
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
-            .Select(cr => new RulesSet([], $"ruleset {_}")), "catalog 2");
+            .Select(cr => new RulesSet([], $"ruleset {cr}")), "catalog 2");
 
         var prodCatalog1 = c1 * c2;
 
