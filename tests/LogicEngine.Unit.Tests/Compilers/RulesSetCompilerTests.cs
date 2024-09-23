@@ -30,15 +30,14 @@ public class RulesSetCompilerTests
 
         var set = new RulesSet
         (
-            new[]
-            {
+            [
                 rule1,
                 rule2
-            },
+            ],
             "ruleset 1"
         );
 
-        var compiledRule = new CompiledRule<TestModel>(_ => false, "whatever");
+        var compiledRule = new CompiledRule<TestModel>(cr => false, "whatever");
 
         _mockCompiler
             .Compile<TestModel>(rule1)
@@ -75,19 +74,18 @@ public class RulesSetCompilerTests
 
         var set = new RulesSet
         (
-            new[]
-            {
+            [
                 rule1,
                 rule2
-            },
+            ],
             "ruleset 1"
         );
 
         var firstExecuted = false;
         var secondExecuted = false;
 
-        var compiledRule1 = new CompiledRule<TestModel>(_ => true.Tee(_ => firstExecuted = true), "code 1");
-        var compiledRule2 = new CompiledRule<TestModel>(_ => true.Tee(_ => secondExecuted = true), "code 2");
+        var compiledRule1 = new CompiledRule<TestModel>(cr => true.Tee(cr => firstExecuted = true), "code 1");
+        var compiledRule2 = new CompiledRule<TestModel>(cr => true.Tee(cr => secondExecuted = true), "code 2");
 
         _mockCompiler
             .Compile<TestModel>(rule1)
@@ -128,11 +126,10 @@ public class RulesSetCompilerTests
 
         var set = new RulesSet
         (
-            new[]
-            {
+            [
                 rule1,
                 rule2
-            },
+            ],
             "ruleset 1"
         );
 
@@ -140,9 +137,9 @@ public class RulesSetCompilerTests
         var secondExecuted = false;
         var thirdExecuted = false;
 
-        var compiledRule1 = new CompiledRule<TestModel>(_ => true.Tee(_ => firstExecuted = true), "code 1");
-        var compiledRule2 = new CompiledRule<TestModel>(_ => false.Tee(_ => secondExecuted = true), "code 2");
-        var compiledRule3 = new CompiledRule<TestModel>(_ => true.Tee(_ => thirdExecuted = true), "code 3");
+        var compiledRule1 = new CompiledRule<TestModel>(cr => true.Tee(cr => firstExecuted = true), "code 1");
+        var compiledRule2 = new CompiledRule<TestModel>(cr => false.Tee(cr => secondExecuted = true), "code 2");
+        var compiledRule3 = new CompiledRule<TestModel>(cr => true.Tee(cr => thirdExecuted = true), "code 3");
 
         _mockCompiler
             .Compile<TestModel>(rule1)
@@ -183,11 +180,10 @@ public class RulesSetCompilerTests
 
         var set = new RulesSet
         (
-            new[]
-            {
+            [
                 rule1,
                 rule2
-            },
+            ],
             "ruleset 1"
         );
 
