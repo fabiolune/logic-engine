@@ -26,6 +26,6 @@ public class RulesCatalogCompiler : IRulesCatalogCompiler
             .Select(_rulesSetCompiler.Compile<T>)
             .Filter()
             .ToArray()
-            .ToOption(e => !e.Any())
-            .Map(_ => new CompiledCatalog<T>(_, catalog.Name));
+            .ToOption(e => e.Length == 0)
+            .Map(set => new CompiledCatalog<T>(set, catalog.Name));
 }

@@ -17,11 +17,11 @@ public class CatalogCompositionTests
     {
         var c1 = new RulesCatalog(Enumerable
             .Range(0, ruleSets1)
-            .Select(_ => new RulesSet([], "ruleset 1")), "name 1");
+            .Select(cr => new RulesSet([], "ruleset 1")), "name 1");
 
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
-            .Select(_ => new RulesSet([], "ruleset 2")), "name 2");
+            .Select(cr => new RulesSet([], "ruleset 2")), "name 2");
 
         var sumCatalog = c1 + c2;
 
@@ -38,11 +38,11 @@ public class CatalogCompositionTests
     {
         var c1 = new RulesCatalog(Enumerable
             .Range(0, ruleSets1)
-            .Select(_ => new RulesSet([], "ruleset 1")), "name 1");
+            .Select(cr => new RulesSet([], "ruleset 1")), "name 1");
 
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
-            .Select(_ => new RulesSet([], "ruleset 2")), "name 2");
+            .Select(cr => new RulesSet([], "ruleset 2")), "name 2");
 
         var sumCatalog = c1 * c2;
 
@@ -54,17 +54,16 @@ public class CatalogCompositionTests
     public void CatalogsSum_WhenFirstRulesSetIsNull_ShouldReturnProperSum()
     {
         var c1 = new RulesCatalog(null, "catalog 1");
-        var c2 = new RulesCatalog(new[]
-        {
+        var c2 = new RulesCatalog(
+        [
             new RulesSet
             (
-                new[]
-                {
+                [
                     new Rule("a", OperatorType.Equal, "b", "code")
-                },
+                ],
                 "ruleset 1"
             )
-        }, "catalog 2");
+        ], "catalog 2");
 
         var sumCatalog1 = c1 + c2;
 
@@ -86,7 +85,7 @@ public class CatalogCompositionTests
         var c1 = new RulesCatalog(null, "catalog 1");
         var c2 = new RulesCatalog(Enumerable
             .Range(0, ruleSets2)
-            .Select(_ => new RulesSet([], $"ruleset {_}")), "catalog 2");
+            .Select(cr => new RulesSet([], $"ruleset {_}")), "catalog 2");
 
         var prodCatalog1 = c1 * c2;
 

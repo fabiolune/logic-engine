@@ -24,7 +24,7 @@ public record CompiledRulesSet<T> :
 
     public CompiledRulesSet(CompiledRule<T>[] rules, string name) =>
         (_apply, _detailedApply, _firstMaching, Name) = rules
-            .ToOption(e => !e.Any())
+            .ToOption(e => e.Length == 0)
             .Map(e => e.ToList())
             .Map(e => (GetApplyFromRules(e), GetDetailedApplyFromRules(e), GetFirstMatchingFromRules(e)))
             .OrElse((Functions<T>.AlwaysTrue, Functions<T, IEnumerable<string>>.AlwaysRightEitherUnit, Functions<T, Option<string>>.Constant(Option<string>.None())))

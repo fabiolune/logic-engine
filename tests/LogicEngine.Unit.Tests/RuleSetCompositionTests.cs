@@ -15,8 +15,8 @@ public class RuleSetCompositionTests
         var rule3 = new Rule("a", OperatorType.Equal, "b", "code3");
         var rule4 = new Rule("a", OperatorType.Equal, "b", "code4");
 
-        var set1 = new RulesSet(new[] { rule1, rule2 }, "set 1");
-        var set2 = new RulesSet(new[] { rule3, rule4 }, "set 2");
+        var set1 = new RulesSet([rule1, rule2], "set 1");
+        var set2 = new RulesSet([rule3, rule4], "set 2");
 
         var prodSet = set1 * set2;
 
