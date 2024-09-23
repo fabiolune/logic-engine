@@ -23,6 +23,7 @@ public class RulesSetCompiler : IRulesSetCompiler
             .Rules
             .Select(_singleRuleCompiler.Compile<T>)
             .Filter()
-            .ToOption(e => !e.Any())
-            .Map(_ => new CompiledRulesSet<T>(_.ToArray(), set.Name));
+            .ToArray()
+            .ToOption(e => e.Length == 0)
+            .Map(rules => new CompiledRulesSet<T>(rules, set.Name));
 }
