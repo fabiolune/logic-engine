@@ -44,7 +44,7 @@ The library deeply uses a functional programming approach implemented using Fran
 
 The core functionalities are encapsulated in different components, both logical and functional.
 
-The core system offers the possibility to immediately evaluate whether a an entity satisfies the conditions imposed by a logical system, but it also permits, in case of failure, to identify the underlying reasons[^0].
+The core system offers the possibility to immediately evaluate whether an entity satisfies the conditions imposed by a logical system, but it also permits, in case of failure, to identify the underlying reasons[^0].
 
 ## The Rule
 
@@ -56,8 +56,8 @@ Given a type to be applied to, a rule is defined by a set of fields
 
 - `Property`: identifies the property against which to execute the evaluation
 - `Operator`: defines the operation to execute on the property
-- `Value`: identifies the value against which compare the result of the operator on the property
-- `Code`: the error code to be generated when the rules applied on an object fails (returns `false`)
+- `Value`: identifies the value against which the result of the operator on the property should be compared
+- `Code`: the error code to be generated when the rules applied on an object fail (returns `false`)
 
 ## The Operators
 
@@ -76,7 +76,7 @@ These operators directly compare the `Property` to the `Value` considered as a c
 - `LessThan`: only applies to numbers
 - `LessThanOrEqual`: only applies to numbers
 
-```cs
+```csharp
 public class MyClass
 {
     public string StringProperty {get; set;}
@@ -96,7 +96,7 @@ var result1 = stringRule.Apply(myObj); // returns true
 var result2 = integerRule.Apply(myObj); // returns false
 ```
 
-> sample rules with direct operators
+> Sample rules with direct operators
 
 ### Internal direct operators
 
@@ -109,7 +109,7 @@ Internal direct rules are similar to direct rules, but they are meant to be appl
 - `InnerLessThan`: only applies when `Property` and `Value` are numbers
 - `InnerLessThanOrEqual`: only applies when `Property` and `Value` are numbers
 
-```cs
+```csharp
 public class MyClass
 {
     public string StringProperty1 {get; set;}
@@ -122,18 +122,18 @@ var stringRule = new Rule("StringProperty1", OperatorType.InnerEqual, "StringPro
 var integerRule = new Rule("IntegerProperty1", OperatorType.InnerGreaterThan, "IntegerProperty2", "code 2");
 ```
 
-> sample rules with internal direct operators
+> Sample rules with internal direct operators
 
 ### String direct operators
 
-These rules are specific for strings:
+These rules are specific to strings:
 
 - `StringStartsWith`: checks that the string in `Property` starts with `Value`
 - `StringEndsWith`: checks that the string in `Property` ends with `Value`
 - `StringContains`: checks that the string in `Property` contains `Value`
 - `StringRegexIsMatch`: checks that the string in `Property` matches `Value`
 
-```cs
+```csharp
 public class MyClass
 {
     public string StringProperty {get; set;}
@@ -142,18 +142,18 @@ public class MyClass
 var stringRule = new Rule("StringProperty", OperatorType.StringStartsWith, "start", "code 1");
 ```
 
-> sample rule with string direct operator
+> Sample rule with string direct operator
 
 ### Enumerable operators
 
-These rules apply to operand of generic enumerable type:
+These rules apply to operands of generic enumerable type:
 
 - `Contains`: checks that `Property` contains `Value`
 - `NotContains`: checks that `Property` does not `Value`
-- `Overlaps`: checks that `Property` has a non empty intersection with `Value`
+- `Overlaps`: checks that `Property` has a non-empty intersection with `Value`
 - `NotOverlaps`: checks that `Property` has an empty intersection with `Value`
 
-```cs
+```csharp
 public class MyClass
 {
     public IEnumerable<string> StringEnumerableProperty {get; set;}
@@ -163,7 +163,7 @@ var rule1 = new Rule("StringEnumerableProperty", OperatorType.Contains, "value",
 var rule2 = new Rule("StringEnumerableProperty", OperatorType.Overlaps, "value1,value2", "code 2");
 ```
 
-> sample rules with enumerable operators
+> Sample rules with enumerable operators
 
 ### Internal enumerable operators
 
@@ -171,10 +171,10 @@ These operators act on enumerable fields by comparing them against fields of the
 
 - `InnerContains`: checks that `Property` contains the value contained in the property `Value`
 - `InnerNotContains`: checks that `Property` doesn't contain the value contained in the property `Value`
-- `InnerOverlaps`: checks that `Property` has a non empty intersection with the value contained in the property `Value`
+- `InnerOverlaps`: checks that `Property` has a non-empty intersection with the value contained in the property `Value`
 - `InnerNotOverlaps`: checks that `Property` has an empty intersection with the value contained in the property `Value`
 
-```cs
+```csharp
 public class MyClass
 {
     public IEnumerable<int> EnumerableProperty1 {get; set;}
@@ -186,7 +186,7 @@ var rule1 = new Rule("EnumerableProperty1", OperatorType.InnerContains, "Integer
 var rule2 = new Rule("EnumerableProperty1", OperatorType.InnerOverlaps, "EnumerableProperty2");
 ```
 
-> sample rules for internal enumerable operators
+> Sample rules for internal enumerable operators
 
 ### Key-value operators
 
@@ -199,7 +199,7 @@ These operators act on dictionary-like objects:
 - `KeyContainsValue`: checks that the dictionary `Property` has a key with a specific value
 - `NotKeyContainsValue`: checks that the dictionary `Property` doesn't have a key with a specific value
 
-```cs
+```csharp
 public class MyClass
 {
     public IDictionary<string, int> DictProperty {get; set;}
@@ -218,7 +218,7 @@ These rules apply to scalars against enumerable fields:
 - `IsContained`: checks that `Property` is contained in a specific set
 - `IsNotContained`: checks that `Property` is not contained in a specific set
 
-```cs
+```csharp
 public class MyClass
 {
     public int IntProperty {get; set;}
@@ -227,11 +227,11 @@ public class MyClass
 var rule1 = new Rule("IntProperty", OperatorType.IsContained, "1,2,3");
 ```
 
-> sample rules for inverse enumerable operators
+> Sample rules for inverse enumerable operators
 
 ## The RulesSets
 
-A `RulesSet` is basically a set of rules. From a functional point of view it represents a boolean typed function composed by a set of functions on a given type.
+A `RulesSet` is a set of rules. From a functional point of view, it represents a boolean typed function composed by a set of functions on a given type.
 
 > __DEFINITION__: A `RulesSet` is satisfied by an item `t` of type `T` if all the functions of the set are satisfied by `t`.
 
@@ -251,7 +251,7 @@ As discussed above, composite types `RulesSet` and `RulesCatalog` represent logi
 
 ### RulesSets sum
 
-> __DEFINITION__: The sum of two `RulesSet`s is a new `RulesSet`, and its rules are a set of rules obtained by concatenating the rules of the the two `RulesSet`s
+> __DEFINITION__: The sum of two `RulesSet`s is a new `RulesSet`, and its rules are a set of rules obtained by concatenating the rules of the two `RulesSet`s
 
 ```txt
 rs1 = {r1, r2, r3}
@@ -308,7 +308,7 @@ Similar to the `Either<string, Unit> DetailedApply(T item)` of the `CompiledRule
 
 The current implementation of the rules system has some limitations:
 
-- it is designed to work on plain objects (instances of classes, records or structures) with an empty constructor
+- it is designed to work on plain objects (instances of classes, records, or structures) with an empty constructor
 - rules can only be applied to 'first level members', no nesting is currently supported
 
 ---
