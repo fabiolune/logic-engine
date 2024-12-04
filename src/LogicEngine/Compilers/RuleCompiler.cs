@@ -17,10 +17,11 @@ namespace LogicEngine.Compilers;
 public class RuleCompiler : IRuleCompiler
 {
     /// <summary>
-    /// Compiles a given Rule into a <see cref="CompiledRule{T}"/>. It transforms the rule into a lambda expression, compiles it into a function, and wraps it in a <see cref="CompiledRule{T}"/> object. The method returns an Option<CompiledRule<T>>, which contains the compiled rule if the compilation is successful, or None if it fails
+    /// Compiles a given Rule into a <see cref="CompiledRule{T}"/>. It transforms the rule into a lambda expression, compiles it into a function, and wraps it in a <see cref="CompiledRule{T}"/> object. The method returns an Option, which contains the compiled rule if the compilation is successful, or None if it fails
     /// </summary>
-    /// <param name="Rule">The "Rule" parameter is an input rule that needs to be compiled.
-    /// It is of type "Rule".</param>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="rule"></param>
+    /// <returns></returns>
     public Option<CompiledRule<T>> Compile<T>(Rule rule) where T : new() =>
         rule
             .Map(CreateCompiledRule<T>)
