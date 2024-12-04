@@ -9,7 +9,6 @@
 [![NuGet](https://img.shields.io/nuget/dt/logic-engine)](https://www.nuget.org/packages/logic-engine/)
 [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Ffabiolune%2Flogic-engine%2Fmain)](https://dashboard.stryker-mutator.io/reports/github.com/fabiolune/logic-engine/main)
 
-
 ## Table of contents
 
 1. [Introduction](#introduction)
@@ -31,7 +30,7 @@
     1. [RulesCatalog product](#rulescatalog-product)
 1. [Compilers and compiled objects](#compilers-and-compiled-objects)
 1. [Known limitations](#known-limitations)
-1. [Breaking changes ⚠️](#breaking-changes-%EF%B8%8F)
+1. [Breaking changes](#breaking-changes)
 1. [How to install the package](#how-to-install-the-package)
 
 ## Introduction
@@ -313,7 +312,7 @@ The current implementation of the rules system has some limitations:
 
 ---
 
-## Breaking changes ⚠️
+## Breaking changes
 
 If you want to upgrade from a version < 3.0.0 to the latest version you will need to adapt your implementation to manage the breaking changes introduced.
 
