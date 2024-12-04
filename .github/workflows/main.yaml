@@ -156,6 +156,7 @@ jobs:
         echo "version ${{ env.GITVERSION_NUGETVERSIONV2 }}" >> docs/index.md
         tail -n +4 README.md >> docs/index.md
         cp src/LogicEngine/README.md docs/docs/logic-engine.md
+        docfx docs/docfx.json
 
     - name: Push documentation to dedicated branch
       if: ${{ github.event_name == 'release' }}
