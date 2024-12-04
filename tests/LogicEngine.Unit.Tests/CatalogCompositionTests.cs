@@ -1,6 +1,5 @@
 ﻿using LogicEngine.Internals;
 using LogicEngine.Models;
-using System;
 using System.Linq;
 
 namespace LogicEngine.Unit.Tests;

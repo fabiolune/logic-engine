@@ -48,14 +48,14 @@ internal static class OperationMappings
         {OperatorType.StringStartsWith, (r, k) => GetStringMethodExpression(k, nameof(string.StartsWith), r.Value)},
         {OperatorType.StringEndsWith, (r, k) => GetStringMethodExpression(k, nameof(string.EndsWith), r.Value)},
         {OperatorType.StringContains, (r, k) => GetStringMethodExpression(k, nameof(string.Contains), r.Value)},
-        {OperatorType.StringRegexIsMatch, (r, k) => 
+        {OperatorType.StringRegexIsMatch, (r, k) =>
             MakeBinary(
                 ExpressionType.AndAlso,
                 MakeBinary(ExpressionType.NotEqual, k, NullValue),
                 Call(Constant(new Regex(r.Value, RegexOptions.Compiled, RegexTimeOut)), typeof(Regex).GetMethod(nameof(Regex.IsMatch), [StringType]), k)) }
     });
 
-    private static BinaryExpression GetStringMethodExpression(MemberExpression memberExpression, string methodName, string value) => 
+    private static BinaryExpression GetStringMethodExpression(MemberExpression memberExpression, string methodName, string value) =>
         MakeBinary(
             ExpressionType.AndAlso,
             MakeBinary(ExpressionType.NotEqual, memberExpression, NullValue),

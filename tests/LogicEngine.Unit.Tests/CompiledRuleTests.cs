@@ -25,7 +25,7 @@ public class CompiledRuleTests
         var timesCalled = 0;
 
         var rule = new CompiledRule<TestModel>(item => true.Tee(b => timesCalled++), "some code");
-        
+
         var item = new AutoFaker<TestModel>().Generate();
 
         rule.DetailedApply(item).IsRight.Should().BeTrue();
