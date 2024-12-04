@@ -140,16 +140,21 @@ jobs:
     - name: Create and push package
       if: ${{ github.event_name == 'release' }}
       run: |
-        dotnet pack --configuration Release -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output .
+        dotnet pack --configuration Release -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output . --include-symbols
+        ls *.nupkg | awk '! /symbols/' | xargs rm
         dotnet nuget push *.nupkg --skip-duplicate
         dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
 
     - name: Produce `index.md` for gh pages
       if: ${{ github.event_name == 'release' }}
       run: |
-        mkdir out
-        echo "version ${{ env.GITVERSION_NUGETVERSIONV2 }}" > out/index.md
-        tail -n +4 README.md >> out/index.md
+        dotnet tool update -g docfx
+        mkdir docs/images
+        cp logo.png docs/images/logo.png
+        echo "" >> docs/index.md
+        echo "version ${{ env.GITVERSION_NUGETVERSIONV2 }}" >> docs/index.md
+        tail -n +4 README.md >> docs/index.md
+        cp src/LogicEngine/README.md docs/docs/logic-engine.md
 
     - name: Push documentation to dedicated branch
       if: ${{ github.event_name == 'release' }}

@@ -17,11 +17,11 @@ namespace LogicEngine.Compilers;
 public class RuleCompiler : IRuleCompiler
 {
     /// <summary>
-    /// The function compiles a rule into a lambda expression and returns an option containing the
-    /// compiled rule.
+    /// Compiles a given Rule into a <see cref="CompiledRule{T}"/>. It transforms the rule into a lambda expression, compiles it into a function, and wraps it in a <see cref="CompiledRule{T}"/> object. The method returns an Option, which contains the compiled rule if the compilation is successful, or None if it fails
     /// </summary>
-    /// <param name="Rule">The "Rule" parameter is an input rule that needs to be compiled.
-    /// It is of type "Rule".</param>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="rule"></param>
+    /// <returns></returns>
     public Option<CompiledRule<T>> Compile<T>(Rule rule) where T : new() =>
         rule
             .Map(CreateCompiledRule<T>)
@@ -46,11 +46,11 @@ public class RuleCompiler : IRuleCompiler
     private static Option<(BinaryExpression, ParameterExpression, string)> CompileDirectRule<T>(Rule rule) =>
         Try(() => (rule, type: typeof(T))
             .Map(t => (
-                Parameter(t.type), 
-                GetTypeFromPropertyName<T>(t.rule.Property), 
+                Parameter(t.type),
+                GetTypeFromPropertyName<T>(t.rule.Property),
                 t.rule.Property,
-                t.rule.Value, 
-                t.rule.Code, 
+                t.rule.Value,
+                t.rule.Code,
                 t.rule.Operator
             ))
             .Map(t => (t.Item1, t.Item2, t.Property, t.Code, t.Operator, Constant(t.Item2.BaseType == typeof(Enum)
@@ -68,7 +68,7 @@ public class RuleCompiler : IRuleCompiler
             .Map(t => (MakeBinary(InternalDirectMapping[t.rule.Operator], t.Item3, t.Item4), t.Item2, t.rule.Code)))
             .Map(GetOption);
 
-    private static Option<(BinaryExpression, ParameterExpression, string)> CompileStringMethodRule<T>(Rule rule) => 
+    private static Option<(BinaryExpression, ParameterExpression, string)> CompileStringMethodRule<T>(Rule rule) =>
         Try(() => (rule, type: typeof(T))
             .Map(t => (parameter: Parameter(t.type), t.rule))
             .Map(_ => (StringMethodMapping[_.rule.Operator](_.rule, Property(_.parameter, _.rule.Property)), _.parameter, _.rule.Code)))
@@ -79,13 +79,13 @@ public class RuleCompiler : IRuleCompiler
                 .Map(t => (t.rule, Parameter(t.type)))
                 .Map(t => (t.rule, t.Item2, GetTypeFromPropertyName<T>(t.rule.Property)))
                 .Map(t => (
-                    t.rule, 
-                    t.Item2, 
+                    t.rule,
+                    t.Item2,
                     t.Item3,
                     t.Item3.IsArray ? t.Item3.GetElementType() : t.Item3.GetGenericArguments()[0]))
                 .Map(t => (
                     EnumerableMapping[t.rule.Operator](t.rule, Property(t.Item2, t.rule.Property), t.Item4),
-                    t.Item2, 
+                    t.Item2,
                     t.rule.Code)))
             .Map(GetOption);
 

@@ -13,13 +13,13 @@ public class RulesCatalogCompiler : IRulesCatalogCompiler
     public RulesCatalogCompiler(IRulesSetCompiler rulesSetCompiler) => _rulesSetCompiler = rulesSetCompiler;
 
     /// <summary>
-    /// The function compiles a catalog of rules into a compiled catalog of a specified type, returning
-    /// an option that contains the compiled catalog if successful.
+    /// ompiles a RulesCatalog into a <see cref="CompiledCatalog{T}"/>.
+    /// It filters out any null RulesSets, compiles each valid RulesSet using the <see cref="IRulesSetCompiler"/>, and then constructs a <see cref="CompiledCatalog{T}"/> with the compiled rule sets and the catalog's name.
+    /// The result is wrapped in an Option to handle cases where no valid rule sets are present.
     /// </summary>
-    /// <param name="RulesCatalog">The `RulesCatalog` parameter is an object that contains a collection
-    /// of `RulesSets`. Each `RulesSet` represents a set of rules that can be compiled into a
-    /// `CompiledCatalog<T>`. The `Compile<T>` method takes this `RulesCatalog` as input and returns an
-    /// `Option<</param>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="catalog"></param>
+    /// <returns></returns>
     public Option<CompiledCatalog<T>> Compile<T>(RulesCatalog catalog) where T : new() =>
         catalog.RulesSets
             .Where(rs => rs is not null)

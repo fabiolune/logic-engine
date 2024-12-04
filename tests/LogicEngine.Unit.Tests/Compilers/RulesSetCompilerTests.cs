@@ -3,7 +3,6 @@ using LogicEngine.Compilers;
 using LogicEngine.Interfaces.Compilers;
 using LogicEngine.Internals;
 using LogicEngine.Models;
-using System;
 using TinyFp;
 using TinyFp.Extensions;
 using static TinyFp.Prelude;

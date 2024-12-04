@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TinyFp.Extensions;
 
@@ -9,13 +8,19 @@ public record RulesCatalog
 {
     private readonly IEnumerable<RulesSet> _rulesSets;
     public string Name { get; }
-
+    /// <summary>
+    /// Rules sets that make up the catalog
+    /// </summary>
     public IEnumerable<RulesSet> RulesSets
     {
         get => _rulesSets ?? [];
         private init => _rulesSets = value;
     }
-
+    /// <summary>
+    /// Creates a new rules catalog
+    /// </summary>
+    /// <param name="rulesSets"></param>
+    /// <param name="name"></param>
     public RulesCatalog(IEnumerable<RulesSet> rulesSets, string name)
     {
         RulesSets = rulesSets;
@@ -23,7 +28,7 @@ public record RulesCatalog
     }
 
     /// <summary>
-    ///     This represents the logical OR between two catalogs
+    /// This represents the logical OR between two catalogs
     /// </summary>
     /// <param name="catalog1"></param>
     /// <param name="catalog2"></param>
@@ -32,7 +37,7 @@ public record RulesCatalog
         new(catalog1.RulesSets.Concat(catalog2.RulesSets), $"({catalog1.Name} OR {catalog2.Name})");
 
     /// <summary>
-    ///     his represents the logical AND between two catalogs
+    /// This represents the logical AND between two catalogs
     /// </summary>
     /// <param name="catalog1"></param>
     /// <param name="catalog2"></param>
