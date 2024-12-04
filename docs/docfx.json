@@ -43,7 +43,8 @@
       "_appName": "",
       "_appTitle": "Logic Engine",
       "_enableSearch": true,
-      "pdf": true
+      "pdf": true,
+      "_appLogoPath": "images/logo.png"
     }
   }
 }
