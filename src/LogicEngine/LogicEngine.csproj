@@ -6,6 +6,7 @@
     <PackageDescription>logic rules engine library</PackageDescription>
     <PackageTags>business logic rules algebraic system functional programming</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>full</DebugType>
@@ -19,5 +20,6 @@
       <_Parameter1>$(AssemblyName).Unit.Tests</_Parameter1>
     </AssemblyAttribute>
     <None Include="../../README.md" Pack="true" PackagePath="\" />
+    <None Include="../../logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>
