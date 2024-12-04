@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8</TargetFrameworks>
+    <TargetFrameworks>net8;net9</TargetFrameworks>
     <PackageId>logic-engine</PackageId>
     <RepositoryUrl>https://github.com/fabiolune/logic-engine.git</RepositoryUrl>
     <PackageDescription>logic rules engine library</PackageDescription>
