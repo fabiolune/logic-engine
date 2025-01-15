@@ -81,8 +81,7 @@ public class EnumerableExtensionsTests
             .Returns(apply2);
 
         data.FirstOrDefault(mockAppliable)
-            .Should()
-            .BeEquivalentTo(expected);
+            .ShouldBe(expected);
     }
 
     [TestCaseSource(nameof(FilterTestCases))]
@@ -101,7 +100,6 @@ public class EnumerableExtensionsTests
             .Returns(apply2);
 
         data.Filter(mockAppliable)
-            .Should()
-            .BeEquivalentTo(expected);
+            .ShouldBe(expected);
     }
 }

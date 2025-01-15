@@ -76,11 +76,11 @@ public class CompiledRulesSetTests
 
         var item = new AutoFaker<TestModel>().Generate();
 
-        sut.Apply(item).Should().Be(expected);
+        sut.Apply(item).ShouldBe(expected);
 
-        called1.Should().Be(expectedFuncCalls[0]);
-        called2.Should().Be(expectedFuncCalls[1]);
-        called3.Should().Be(expectedFuncCalls[2]);
+        called1.ShouldBe(expectedFuncCalls[0]);
+        called2.ShouldBe(expectedFuncCalls[1]);
+        called3.ShouldBe(expectedFuncCalls[2]);
     }
 
     internal static object[] DetailedApplyTestSource = new[]
@@ -148,12 +148,12 @@ public class CompiledRulesSetTests
 
         sut
             .DetailedApply(item)
-            .Tee(e => e.IsLeft.Should().BeTrue())
-            .OnLeft(e => e.Should().BeEquivalentTo(expected));
+            .Tee(e => e.IsLeft.ShouldBeTrue())
+            .OnLeft(e => e.ShouldBe(expected));
 
-        called1.Should().Be(true);
-        called2.Should().Be(true);
-        called3.Should().Be(true);
+        called1.ShouldBe(true);
+        called2.ShouldBe(true);
+        called3.ShouldBe(true);
     }
 
     internal static object[] FirstMatchingTestSource = new[]
@@ -233,10 +233,10 @@ public class CompiledRulesSetTests
 
         sut
             .FirstMatching(item)
-            .Should().BeEquivalentTo(expected);
+            .ShouldBeEquivalentTo(expected);
 
-        called1.Should().Be(expectedFuncCalls[0]);
-        called2.Should().Be(expectedFuncCalls[1]);
-        called3.Should().Be(expectedFuncCalls[2]);
+        called1.ShouldBe(expectedFuncCalls[0]);
+        called2.ShouldBe(expectedFuncCalls[1]);
+        called3.ShouldBe(expectedFuncCalls[2]);
     }
 }

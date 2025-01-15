@@ -52,7 +52,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsNone.Should().BeTrue();
+        result.IsNone.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.Equal)]
@@ -67,7 +67,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.StringStartsWith)]
@@ -80,7 +80,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.StringStartsWith)]
@@ -93,7 +93,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsNone.Should().BeTrue();
+        result.IsNone.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.Equal)]
@@ -104,7 +104,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.Contains)]
@@ -115,7 +115,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.InnerEqual)]
@@ -130,7 +130,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.InnerEqual)]
@@ -145,7 +145,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsNone.Should().BeTrue();
+        result.IsNone.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.InnerContains, nameof(TestModel.IntEnumerableProperty), nameof(TestModel.IntProperty))]
@@ -162,7 +162,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [TestCase("IntEnumerableProperty", "1,2", OperatorType.Overlaps, true)]
@@ -182,7 +182,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().Be(expectedSome);
+        result.IsSome.ShouldBe(expectedSome);
     }
 
     [TestCase(OperatorType.ContainsKey)]
@@ -195,7 +195,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.KeyContainsValue)]
@@ -206,7 +206,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.InnerContains)]
@@ -219,7 +219,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsNone.Should().BeTrue();
+        result.IsNone.ShouldBeTrue();
     }
 
     [TestCase(OperatorType.IsContained)]
@@ -230,7 +230,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [Test]
@@ -240,7 +240,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsNone.Should().BeTrue();
+        result.IsNone.ShouldBeTrue();
     }
 
     [Test]
@@ -250,7 +250,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
     }
 
     [Test]
@@ -260,18 +260,18 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 13
-            }).IsLeft.Should().BeTrue();
+            }).IsLeft.ShouldBeTrue();
         });
     }
 
@@ -282,18 +282,18 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12
-            }).IsLeft.Should().BeTrue();
+            }).IsLeft.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 13
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
         });
     }
 
@@ -304,18 +304,18 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12
-            }).IsLeft.Should().BeTrue();
+            }).IsLeft.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 13
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
         });
     }
 
@@ -326,18 +326,18 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 13
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
         });
     }
 
@@ -348,7 +348,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -357,14 +357,14 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 11
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -372,8 +372,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -385,18 +385,18 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 11
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -404,8 +404,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -417,26 +417,26 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             var expectedLeft1 = cr.DetailedApply(new TestModel
             {
                 StringProperty = "shouldbeleftStringCased_"
             });
-            expectedLeft1.IsLeft.Should().BeTrue();
-            expectedLeft1.UnwrapLeft().Should().Be("string does not start with StringCased_");
+            expectedLeft1.IsLeft.ShouldBeTrue();
+            expectedLeft1.UnwrapLeft().ShouldBe("string does not start with StringCased_");
             var expectedLeft2 = cr.DetailedApply(new TestModel
             {
                 StringProperty = null
             });
-            expectedLeft2.IsLeft.Should().BeTrue();
-            expectedLeft2.UnwrapLeft().Should().Be("string does not start with StringCased_");
+            expectedLeft2.IsLeft.ShouldBeTrue();
+            expectedLeft2.UnwrapLeft().ShouldBe("string does not start with StringCased_");
 
             cr.DetailedApply(new TestModel
             {
                 StringProperty = "StringCased_teststring"
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
         });
     }
 
@@ -447,26 +447,26 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             var expectedLeft1 = cr.DetailedApply(new TestModel
             {
                 StringProperty = "should_StringCasedbeleft"
             });
-            expectedLeft1.IsLeft.Should().BeTrue();
-            expectedLeft1.UnwrapLeft().Should().Be("string does not end with _StringCased");
+            expectedLeft1.IsLeft.ShouldBeTrue();
+            expectedLeft1.UnwrapLeft().ShouldBe("string does not end with _StringCased");
             var expectedLeft2 = cr.DetailedApply(new TestModel
             {
                 StringProperty = null
             });
-            expectedLeft2.IsLeft.Should().BeTrue();
-            expectedLeft2.UnwrapLeft().Should().Be("string does not end with _StringCased");
+            expectedLeft2.IsLeft.ShouldBeTrue();
+            expectedLeft2.UnwrapLeft().ShouldBe("string does not end with _StringCased");
 
             cr.DetailedApply(new TestModel
             {
                 StringProperty = "teststring_StringCased"
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
         });
     }
 
@@ -477,26 +477,26 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             var expectedLeft1 = cr.DetailedApply(new TestModel
             {
                 StringProperty = "StringCase_should_StringCasedbeleft_StringCased"
             });
-            expectedLeft1.IsLeft.Should().BeTrue();
-            expectedLeft1.UnwrapLeft().Should().Be("string does not contain _StringCased_");
+            expectedLeft1.IsLeft.ShouldBeTrue();
+            expectedLeft1.UnwrapLeft().ShouldBe("string does not contain _StringCased_");
             var expectedLeft2 = cr.DetailedApply(new TestModel
             {
                 StringProperty = null
             });
-            expectedLeft2.IsLeft.Should().BeTrue();
-            expectedLeft2.UnwrapLeft().Should().Be("string does not contain _StringCased_");
+            expectedLeft2.IsLeft.ShouldBeTrue();
+            expectedLeft2.UnwrapLeft().ShouldBe("string does not contain _StringCased_");
 
             cr.DetailedApply(new TestModel
             {
                 StringProperty = "StringCased_should_StringCased_beleft_StringCased"
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
         });
     }
 
@@ -507,26 +507,26 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             var expectedLeft1 = cr.DetailedApply(new TestModel
             {
                 StringProperty = "feiwufuih sfojiwoej pwjiejfpo kjkjkkkk ejwijfdarn fjeqijfp o"
             });
-            expectedLeft1.IsLeft.Should().BeTrue();
-            expectedLeft1.UnwrapLeft().Should().Be("string does not match regex (?i)(\\W|^)(baloney|darn)(\\W|$)");
+            expectedLeft1.IsLeft.ShouldBeTrue();
+            expectedLeft1.UnwrapLeft().ShouldBe("string does not match regex (?i)(\\W|^)(baloney|darn)(\\W|$)");
             var expectedLeft2 = cr.DetailedApply(new TestModel
             {
                 StringProperty = null
             });
-            expectedLeft2.IsLeft.Should().BeTrue();
-            expectedLeft2.UnwrapLeft().Should().Be("string does not match regex (?i)(\\W|^)(baloney|darn)(\\W|$)");
+            expectedLeft2.IsLeft.ShouldBeTrue();
+            expectedLeft2.UnwrapLeft().ShouldBe("string does not match regex (?i)(\\W|^)(baloney|darn)(\\W|$)");
 
             cr.DetailedApply(new TestModel
             {
                 StringProperty = "feiwufuih sfojiwoej pwjiejfpo kjkjkkkk ejwijf darn fjeqijfp o"
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
         });
     }
 
@@ -537,13 +537,13 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = [11, 12, 13]
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -551,8 +551,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -564,7 +564,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -573,14 +573,14 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = [11, 13]
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
         });
     }
 
@@ -591,18 +591,18 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = [11, 12, 13]
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = [11, 13]
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
         });
     }
 
@@ -613,7 +613,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -622,8 +622,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
@@ -632,8 +632,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -645,7 +645,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -655,7 +655,7 @@ public class RuleCompilerTests
                     {"my_key", "my_value"},
                     {"another_key", "another_value"},
                 }
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -667,15 +667,15 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel())
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -687,7 +687,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -700,8 +700,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
@@ -711,9 +711,9 @@ public class RuleCompilerTests
                     {"my_wrong_key", "my_value"},
                     {"another_key", "another_value"},
                 }
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
-            cr.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
+            cr.DetailedApply(new TestModel()).IsRight.ShouldBeTrue();
         });
     }
 
@@ -724,7 +724,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -734,7 +734,7 @@ public class RuleCompilerTests
                     {"my_key", "my_value"},
                     {"another_key", "another_value"},
                 }
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -746,15 +746,15 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel())
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -766,7 +766,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -779,8 +779,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
@@ -790,9 +790,9 @@ public class RuleCompilerTests
                     {"my_wrong_key", "my_wrong_value"},
                     {"another_key", "another_value"},
                 }
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
-            cr.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
+            cr.DetailedApply(new TestModel()).IsRight.ShouldBeTrue();
         });
     }
 
@@ -803,7 +803,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -813,7 +813,7 @@ public class RuleCompilerTests
                     { "my_key", "my_value" },
                     { "another_key", "another_value" },
                 }
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -825,8 +825,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
@@ -839,15 +839,15 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel())
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -859,7 +859,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -872,8 +872,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
@@ -883,7 +883,7 @@ public class RuleCompilerTests
                     { "my_key", "my_wrong_value" },
                     { "another_key", "another_value" },
                 }
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -892,9 +892,9 @@ public class RuleCompilerTests
                     {"my_wrong_key", "my_wrong_value"},
                     {"another_key", "another_value"},
                 }
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
-            cr.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
+            cr.DetailedApply(new TestModel()).IsRight.ShouldBeTrue();
         });
     }
 
@@ -905,13 +905,13 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -919,15 +919,15 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel())
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -939,7 +939,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -948,16 +948,16 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 14
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
-            cr.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
+            cr.DetailedApply(new TestModel()).IsRight.ShouldBeTrue();
         });
     }
 
@@ -968,21 +968,21 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 14
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
-            cr.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
+            cr.DetailedApply(new TestModel()).IsRight.ShouldBeTrue();
         });
     }
 
@@ -993,14 +993,14 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -1009,8 +1009,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
@@ -1019,11 +1019,11 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
-            cr.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
+            cr.DetailedApply(new TestModel()).IsRight.ShouldBeTrue();
         });
     }
 
@@ -1034,7 +1034,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -1044,8 +1044,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
@@ -1054,15 +1054,15 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel())
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -1074,7 +1074,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -1084,26 +1084,26 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 14,
                 IntProperty2 = 13
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 14
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel())
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -1115,7 +1115,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -1125,26 +1125,26 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 14,
                 IntProperty2 = 13
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 14
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel())
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -1156,27 +1156,27 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 14,
                 IntProperty2 = 13
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 14
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
-            cr.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
+            cr.DetailedApply(new TestModel()).IsRight.ShouldBeTrue();
         });
     }
 
@@ -1187,7 +1187,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -1197,15 +1197,15 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 13,
                 IntProperty2 = 14
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -1213,15 +1213,15 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel())
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -1233,20 +1233,20 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntProperty2 = 12
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 13,
                 IntProperty2 = 14
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -1254,11 +1254,11 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
-            cr.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
+            cr.DetailedApply(new TestModel()).IsRight.ShouldBeTrue();
         });
     }
 
@@ -1269,14 +1269,14 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 12,
                 IntEnumerableProperty = [11, 12]
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -1285,8 +1285,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
@@ -1295,15 +1295,15 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel())
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -1315,7 +1315,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -1325,22 +1325,22 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 13,
                 IntEnumerableProperty = [11, 12]
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntProperty = 14
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
-            cr.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
+            cr.DetailedApply(new TestModel()).IsRight.ShouldBeTrue();
         });
     }
 
@@ -1351,14 +1351,14 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = [11, 12],
                 IntEnumerableProperty2 = [11, 13]
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
@@ -1367,8 +1367,8 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
@@ -1377,15 +1377,15 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel())
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
         });
     }
@@ -1397,7 +1397,7 @@ public class RuleCompilerTests
 
         var result = _sut.Compile<TestModel>(rule);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
         result.OnSome(cr =>
         {
             cr.DetailedApply(new TestModel
@@ -1407,22 +1407,22 @@ public class RuleCompilerTests
             })
             .Do(e =>
             {
-                e.IsLeft.Should().BeTrue();
-                e.UnwrapLeft().Should().Be("code");
+                e.IsLeft.ShouldBeTrue();
+                e.UnwrapLeft().ShouldBe("code");
             });
 
             cr.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = [11, 12],
                 IntEnumerableProperty2 = [13, 14]
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
             cr.DetailedApply(new TestModel
             {
                 IntEnumerableProperty = [11, 12],
-            }).IsRight.Should().BeTrue();
+            }).IsRight.ShouldBeTrue();
 
-            cr.DetailedApply(new TestModel()).IsRight.Should().BeTrue();
+            cr.DetailedApply(new TestModel()).IsRight.ShouldBeTrue();
         });
     }
 }

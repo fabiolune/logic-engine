@@ -24,8 +24,8 @@ public class CatalogCompositionTests
 
         var sumCatalog = c1 + c2;
 
-        sumCatalog.RulesSets.Should().HaveCount(ruleSets1 + ruleSets2);
-        sumCatalog.Name.Should().Be("(name 1 OR name 2)");
+        sumCatalog.RulesSets.Count().ShouldBe(ruleSets1 + ruleSets2);
+        sumCatalog.Name.ShouldBe("(name 1 OR name 2)");
     }
 
     [TestCase(0, 0)]
@@ -45,8 +45,8 @@ public class CatalogCompositionTests
 
         var sumCatalog = c1 * c2;
 
-        sumCatalog.RulesSets.Should().HaveCount(ruleSets1 * ruleSets2);
-        sumCatalog.Name.Should().Be("(name 1 AND name 2)");
+        sumCatalog.RulesSets.Count().ShouldBe(ruleSets1 * ruleSets2);
+        sumCatalog.Name.ShouldBe("(name 1 AND name 2)");
     }
 
     [Test]
@@ -66,13 +66,13 @@ public class CatalogCompositionTests
 
         var sumCatalog1 = c1 + c2;
 
-        sumCatalog1.RulesSets.Should().HaveCount(1);
-        sumCatalog1.Name.Should().Be("(catalog 1 OR catalog 2)");
+        sumCatalog1.RulesSets.Count().ShouldBe(1);
+        sumCatalog1.Name.ShouldBe("(catalog 1 OR catalog 2)");
 
         var sumCatalog2 = c2 + c1;
 
-        sumCatalog2.RulesSets.Should().HaveCount(1);
-        sumCatalog2.Name.Should().Be("(catalog 2 OR catalog 1)");
+        sumCatalog2.RulesSets.Count().ShouldBe(1);
+        sumCatalog2.Name.ShouldBe("(catalog 2 OR catalog 1)");
     }
 
     [TestCase(0)]
@@ -88,13 +88,13 @@ public class CatalogCompositionTests
 
         var prodCatalog1 = c1 * c2;
 
-        prodCatalog1.RulesSets.Should().HaveCount(0);
-        prodCatalog1.Name.Should().Be("(catalog 1 AND catalog 2)");
+        prodCatalog1.RulesSets.Count().ShouldBe(0);
+        prodCatalog1.Name.ShouldBe("(catalog 1 AND catalog 2)");
 
         var prodCatalog2 = c2 * c1;
 
-        prodCatalog2.RulesSets.Should().HaveCount(0);
-        prodCatalog2.Name.Should().Be("(catalog 2 AND catalog 1)");
+        prodCatalog2.RulesSets.Count().ShouldBe(0);
+        prodCatalog2.Name.ShouldBe("(catalog 2 AND catalog 1)");
 
     }
 
@@ -106,7 +106,7 @@ public class CatalogCompositionTests
 
         var prodCatalog1 = c1 * c2;
 
-        prodCatalog1.RulesSets.Should().HaveCount(0);
-        prodCatalog1.Name.Should().Be("(catalog 1 AND catalog 2)");
+        prodCatalog1.RulesSets.Count().ShouldBe(0);
+        prodCatalog1.Name.ShouldBe("(catalog 1 AND catalog 2)");
     }
 }

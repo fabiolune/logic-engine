@@ -48,20 +48,20 @@ public class RulesSetCompilerTests
 
         var result = _sut.Compile<TestModel>(set);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
 
         result.OnSome(rs =>
         {
             var item = new AutoFaker<TestModel>().Generate();
 
-            rs.Apply(item).Should().BeFalse();
+            rs.Apply(item).ShouldBeFalse();
 
             rs.DetailedApply(item)
-                .Tee(a => a.IsLeft.Should().BeTrue())
-                .OnLeft(s => s.Should().BeEquivalentTo("whatever"));
+                .Tee(a => a.IsLeft.ShouldBeTrue())
+                .OnLeft(s => s.ShouldBe(["whatever"]));
 
             rs.FirstMatching(item)
-                .IsNone.Should().BeTrue();
+                .IsNone.ShouldBeTrue();
         });
     }
 
@@ -96,23 +96,23 @@ public class RulesSetCompilerTests
 
         var result = _sut.Compile<TestModel>(set);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
 
         result.OnSome(rs =>
         {
             var item = new AutoFaker<TestModel>().Generate();
 
-            rs.Apply(item).Should().BeTrue();
+            rs.Apply(item).ShouldBeTrue();
 
             rs.DetailedApply(item)
-                .Tee(a => a.IsRight.Should().BeTrue());
+                .Tee(a => a.IsRight.ShouldBeTrue());
 
             rs.FirstMatching(item)
-                .Tee(s => s.IsSome.Should().BeTrue())
-                .OnSome(s => s.Should().Be("code 1"));
+                .Tee(s => s.IsSome.ShouldBeTrue())
+                .OnSome(s => s.ShouldBe("code 1"));
 
-            firstExecuted.Should().BeTrue();
-            secondExecuted.Should().BeTrue();
+            firstExecuted.ShouldBeTrue();
+            secondExecuted.ShouldBeTrue();
         });
     }
 
@@ -150,24 +150,24 @@ public class RulesSetCompilerTests
 
         var result = _sut.Compile<TestModel>(set);
 
-        result.IsSome.Should().BeTrue();
+        result.IsSome.ShouldBeTrue();
 
         result.OnSome(rs =>
         {
             var item = new AutoFaker<TestModel>().Generate();
 
-            rs.Apply(item).Should().BeTrue();
+            rs.Apply(item).ShouldBeTrue();
 
             rs.DetailedApply(item)
-                .Tee(a => a.IsRight.Should().BeTrue());
+                .Tee(a => a.IsRight.ShouldBeTrue());
 
             rs.FirstMatching(item)
-                .Tee(s => s.IsSome.Should().BeTrue())
-                .OnSome(s => s.Should().Be("code 1"));
+                .Tee(s => s.IsSome.ShouldBeTrue())
+                .OnSome(s => s.ShouldBe("code 1"));
 
-            firstExecuted.Should().BeTrue();
-            secondExecuted.Should().BeTrue();
-            thirdExecuted.Should().BeFalse();
+            firstExecuted.ShouldBeTrue();
+            secondExecuted.ShouldBeTrue();
+            thirdExecuted.ShouldBeFalse();
         });
     }
 
@@ -192,7 +192,7 @@ public class RulesSetCompilerTests
 
         var result = _sut.Compile<TestModel>(set);
 
-        result.IsNone.Should().BeTrue();
+        result.IsNone.ShouldBeTrue();
     }
 
     [Test]
@@ -202,7 +202,7 @@ public class RulesSetCompilerTests
 
         var result = _sut.Compile<TestModel>(set);
 
-        result.IsNone.Should().BeTrue();
+        result.IsNone.ShouldBeTrue();
     }
 
     [Test]
@@ -212,6 +212,6 @@ public class RulesSetCompilerTests
 
         var result = _sut.Compile<TestModel>(set);
 
-        result.IsNone.Should().BeTrue();
+        result.IsNone.ShouldBeTrue();
     }
 }
