@@ -121,12 +121,12 @@ public class CompiledCatalogTests
 
         var item = new AutoFaker<TestModel>().Generate();
 
-        sut.Apply(item).Should().Be(expected);
+        sut.Apply(item).ShouldBe(expected);
 
-        called11.Should().Be(funcCalled[0]);
-        called12.Should().Be(funcCalled[1]);
-        called21.Should().Be(funcCalled[2]);
-        called22.Should().Be(funcCalled[3]);
+        called11.ShouldBe(funcCalled[0]);
+        called12.ShouldBe(funcCalled[1]);
+        called21.ShouldBe(funcCalled[2]);
+        called22.ShouldBe(funcCalled[3]);
     }
 
     internal static object[] DetailedApplyFailingTestSource = new[]
@@ -198,13 +198,13 @@ public class CompiledCatalogTests
         var item = new AutoFaker<TestModel>().Generate();
 
         sut.DetailedApply(item)
-            .Tee(e => e.IsLeft.Should().BeTrue())
-            .OnLeft(e => e.Should().BeEquivalentTo(expected));
+            .Tee(e => e.IsLeft.ShouldBeTrue())
+            .OnLeft(e => e.ShouldBe(expected));
 
-        called11.Should().BeTrue();
-        called12.Should().BeTrue();
-        called21.Should().BeTrue();
-        called22.Should().BeTrue();
+        called11.ShouldBeTrue();
+        called12.ShouldBeTrue();
+        called21.ShouldBeTrue();
+        called22.ShouldBeTrue();
     }
 
     internal static object[] DetailedApplySuccessfullTestSource = new[]
@@ -268,12 +268,12 @@ public class CompiledCatalogTests
 
         var item = new AutoFaker<TestModel>().Generate();
 
-        sut.DetailedApply(item).IsRight.Should().BeTrue();
+        sut.DetailedApply(item).IsRight.ShouldBeTrue();
 
-        called11.Should().Be(funcCalled[0]);
-        called12.Should().Be(funcCalled[1]);
-        called21.Should().Be(funcCalled[2]);
-        called22.Should().Be(funcCalled[3]);
+        called11.ShouldBe(funcCalled[0]);
+        called12.ShouldBe(funcCalled[1]);
+        called21.ShouldBe(funcCalled[2]);
+        called22.ShouldBe(funcCalled[3]);
     }
 
     internal static object[] FirstMatchingTestSource = new[]
@@ -390,11 +390,11 @@ public class CompiledCatalogTests
 
         var item = new AutoFaker<TestModel>().Generate();
 
-        sut.FirstMatching(item).Should().Be(expected);
+        sut.FirstMatching(item).ShouldBe(expected);
 
-        called11.Should().Be(funcCalled[0]);
-        called12.Should().Be(funcCalled[1]);
-        called21.Should().Be(funcCalled[2]);
-        called22.Should().Be(funcCalled[3]);
+        called11.ShouldBe(funcCalled[0]);
+        called12.ShouldBe(funcCalled[1]);
+        called21.ShouldBe(funcCalled[2]);
+        called22.ShouldBe(funcCalled[3]);
     }
 }

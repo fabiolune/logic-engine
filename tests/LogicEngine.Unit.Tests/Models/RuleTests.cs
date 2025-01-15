@@ -42,8 +42,7 @@ public class RuleTests
         result
             .Replace("\n", "")
             .Replace("\r", "")
-            .Should()
-            .Be($"[Rule (property: property, operator: {expected}, value: value, code: code)]");
+            .ShouldBe($"[Rule (property: property, operator: {expected}, value: value, code: code)]");
     }
 
     [TestCase(null, "")]
@@ -54,6 +53,6 @@ public class RuleTests
     {
         var rule = new Rule("property", OperatorType.Equal, "value", code);
 
-        rule.Code.Should().Be(expected);
+        rule.Code.ShouldBe(expected);
     }
 }

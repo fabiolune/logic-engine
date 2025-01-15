@@ -20,7 +20,7 @@ public class RuleSetCompositionTests
 
         var prodSet = set1 * set2;
 
-        prodSet.Rules.Should().BeEquivalentTo(new[] { rule1, rule2, rule3, rule4 });
-        prodSet.Name.Should().Be("(set 1 AND set 2)");
+        prodSet.Rules.ShouldBe([rule1, rule2, rule3, rule4]);
+        prodSet.Name.ShouldBe("(set 1 AND set 2)");
     }
 }

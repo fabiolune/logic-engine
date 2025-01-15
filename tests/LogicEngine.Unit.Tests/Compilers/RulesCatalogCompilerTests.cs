@@ -42,21 +42,21 @@ public class RulesCatalogCompilerTests
         var result = _sut.Compile<TestModel>(catalog);
 
         result
-            .Tee(r => r.IsSome.Should().BeTrue())
+            .Tee(r => r.IsSome.ShouldBeTrue())
             .OnSome(c =>
             {
                 var item = new AutoFaker<TestModel>().Generate();
 
-                c.Name.Should().Be("some name");
+                c.Name.ShouldBe("some name");
 
-                c.Apply(item).Should().BeFalse();
+                c.Apply(item).ShouldBeFalse();
 
                 c.DetailedApply(item)
-                    .Tee(e => e.IsLeft.Should().BeTrue())
-                    .OnLeft(s => s.Should().BeEquivalentTo("whatever"));
+                    .Tee(e => e.IsLeft.ShouldBeTrue())
+                    .OnLeft(s => s.ShouldBe(["whatever"]));
 
                 c.FirstMatching(item)
-                    .IsNone.Should().BeTrue();
+                    .IsNone.ShouldBeTrue();
             });
 
         _mockCompiler
@@ -86,20 +86,20 @@ public class RulesCatalogCompilerTests
         var result = _sut.Compile<TestModel>(catalog);
 
         result
-            .Tee(r => r.IsSome.Should().BeTrue())
+            .Tee(r => r.IsSome.ShouldBeTrue())
             .OnSome(c =>
             {
                 var item = new AutoFaker<TestModel>().Generate();
 
-                c.Name.Should().Be("some name");
+                c.Name.ShouldBe("some name");
 
-                c.Apply(item).Should().BeTrue();
+                c.Apply(item).ShouldBeTrue();
 
-                c.DetailedApply(item).IsRight.Should().BeTrue();
+                c.DetailedApply(item).IsRight.ShouldBeTrue();
 
                 c.FirstMatching(item)
-                    .Tee(o => o.IsSome.Should().BeTrue())
-                    .OnSome(s => s.Should().Be("set 1"));
+                    .Tee(o => o.IsSome.ShouldBeTrue())
+                    .OnSome(s => s.ShouldBe("set 1"));
             });
 
         _mockCompiler
@@ -142,24 +142,24 @@ public class RulesCatalogCompilerTests
         var result = _sut.Compile<TestModel>(catalog);
 
         result
-            .Tee(r => r.IsSome.Should().BeTrue())
+            .Tee(r => r.IsSome.ShouldBeTrue())
             .OnSome(c =>
             {
                 var item = new AutoFaker<TestModel>().Generate();
 
-                c.Name.Should().Be("some name");
+                c.Name.ShouldBe("some name");
 
-                c.Apply(item).Should().BeTrue();
+                c.Apply(item).ShouldBeTrue();
 
-                c.DetailedApply(item).IsRight.Should().BeTrue();
+                c.DetailedApply(item).IsRight.ShouldBeTrue();
 
                 c.FirstMatching(item)
-                    .Tee(o => o.IsSome.Should().BeTrue())
-                    .OnSome(s => s.Should().Be("set 1"));
+                    .Tee(o => o.IsSome.ShouldBeTrue())
+                    .OnSome(s => s.ShouldBe("set 1"));
             });
 
-        firstCalled.Should().BeTrue();
-        secondCalled.Should().BeFalse();
+        firstCalled.ShouldBeTrue();
+        secondCalled.ShouldBeFalse();
 
         _mockCompiler
             .Received(1)
@@ -215,25 +215,25 @@ public class RulesCatalogCompilerTests
         var result = _sut.Compile<TestModel>(catalog);
 
         result
-            .Tee(r => r.IsSome.Should().BeTrue())
+            .Tee(r => r.IsSome.ShouldBeTrue())
             .OnSome(c =>
             {
                 var item = new AutoFaker<TestModel>().Generate();
 
-                c.Name.Should().Be("some name");
+                c.Name.ShouldBe("some name");
 
-                c.Apply(item).Should().BeTrue();
+                c.Apply(item).ShouldBeTrue();
 
-                c.DetailedApply(item).IsRight.Should().BeTrue();
+                c.DetailedApply(item).IsRight.ShouldBeTrue();
 
                 c.FirstMatching(item)
-                    .Tee(o => o.IsSome.Should().BeTrue())
-                    .OnSome(s => s.Should().Be("set 1"));
+                    .Tee(o => o.IsSome.ShouldBeTrue())
+                    .OnSome(s => s.ShouldBe("set 1"));
             });
 
-        firstCalled.Should().BeTrue();
-        secondCalled.Should().BeFalse();
-        thirdCalled.Should().BeFalse();
+        firstCalled.ShouldBeTrue();
+        secondCalled.ShouldBeFalse();
+        thirdCalled.ShouldBeFalse();
 
         _mockCompiler
             .Received(1)
@@ -250,7 +250,7 @@ public class RulesCatalogCompilerTests
 
         var result = _sut.Compile<TestModel>(catalog);
 
-        result.IsNone.Should().BeTrue();
+        result.IsNone.ShouldBeTrue();
     }
 
     [Test]
@@ -260,6 +260,6 @@ public class RulesCatalogCompilerTests
 
         var result = _sut.Compile<TestModel>(catalog);
 
-        result.IsNone.Should().BeTrue();
+        result.IsNone.ShouldBeTrue();
     }
 }

@@ -14,9 +14,9 @@ public class CompiledRuleTests
 
         var item = new AutoFaker<TestModel>().Generate();
 
-        rule.Apply(item).Should().Be(returnValue);
+        rule.Apply(item).ShouldBe(returnValue);
 
-        timesCalled.Should().Be(1);
+        timesCalled.ShouldBe(1);
     }
 
     [Test]
@@ -28,9 +28,9 @@ public class CompiledRuleTests
 
         var item = new AutoFaker<TestModel>().Generate();
 
-        rule.DetailedApply(item).IsRight.Should().BeTrue();
+        rule.DetailedApply(item).IsRight.ShouldBeTrue();
 
-        timesCalled.Should().Be(1);
+        timesCalled.ShouldBe(1);
     }
 
     [Test]
@@ -42,8 +42,8 @@ public class CompiledRuleTests
 
         var item = new AutoFaker<TestModel>().Generate();
 
-        rule.DetailedApply(item).Tee(e => e.IsLeft.Should().BeTrue()).OnLeft(s => s.Should().Be("some code"));
+        rule.DetailedApply(item).Tee(e => e.IsLeft.ShouldBeTrue()).OnLeft(s => s.ShouldBe("some code"));
 
-        timesCalled.Should().Be(1);
+        timesCalled.ShouldBe(1);
     }
 }

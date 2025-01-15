@@ -14,7 +14,7 @@ public class StaticSharedTests
         };
 
         StaticShared.Functions<TestModel>.Identity(input)
-            .Should().Be(input);
+            .ShouldBe(input);
     }
 
     [TestCase(1)]
@@ -28,7 +28,7 @@ public class StaticSharedTests
         };
 
         StaticShared.Functions<TestModel>.AlwaysTrue(input)
-            .Should().BeTrue();
+            .ShouldBeTrue();
     }
 
     [TestCase(1)]
@@ -46,7 +46,7 @@ public class StaticSharedTests
         };
 
         StaticShared.Functions<TestModel, object>.Constant(output)(input)
-            .Should().Be(output);
+            .ShouldBe(output);
     }
 
     [TestCase(1)]
@@ -60,6 +60,6 @@ public class StaticSharedTests
         };
 
         StaticShared.Functions<TestModel, object>.AlwaysRightEitherUnit(input)
-            .IsRight.Should().BeTrue();
+            .IsRight.ShouldBeTrue();
     }
 }
