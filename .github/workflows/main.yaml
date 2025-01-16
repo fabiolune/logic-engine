@@ -129,6 +129,8 @@ jobs:
 
     - name: generate mutation report
       if: ${{ github.event_name != 'release' && github.event_name != 'pull_request' }}
+      env:
+        VSTEST_CONNECTION_TIMEOUT: 240
       run: |
         dotnet tool install -g dotnet-stryker
         export PATH="$PATH:$HOME/.dotnet/tools"
