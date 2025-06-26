@@ -11,6 +11,7 @@ using static System.Globalization.CultureInfo;
 using static System.Linq.Expressions.Expression;
 using static TinyFp.Prelude;
 using Convert = System.Convert;
+using FastExpressionCompiler;
 
 namespace LogicEngine.Compilers;
 
@@ -26,7 +27,7 @@ public class RuleCompiler : IRuleCompiler
         rule
             .Map(CreateCompiledRule<T>)
             .Map(t => (exp: Lambda<Func<T, bool>>(t.Item1, t.Item2), code: t.Item3))
-            .Map(t => (func: t.exp.Compile(), t.code))
+            .Map(t => (func: t.exp.CompileFast(), t.code))
             .Map(t => new CompiledRule<T>(t.func, t.code));
 
     private static Option<(BinaryExpression, ParameterExpression, string)> CreateCompiledRule<T>(Rule rule) =>
