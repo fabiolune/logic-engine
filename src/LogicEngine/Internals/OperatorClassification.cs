@@ -4,7 +4,7 @@ namespace LogicEngine.Internals;
 
 internal static class OperatorClassification
 {
-    private static readonly IDictionary<OperatorType, OperatorCategory> TypeCategoryMapping = new Dictionary<OperatorType, OperatorCategory>
+    private static readonly Dictionary<OperatorType, OperatorCategory> TypeCategoryMapping = new()
     {
         {OperatorType.None,  OperatorCategory.None},
         // ------------------------------------------
