@@ -24,19 +24,19 @@ jobs:
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
-          5.x
+          6.x
           8.x
           9.x
         source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - uses: gittools/actions/gitversion/setup@v0.13.6
+    - uses: gittools/actions/gitversion/setup@v4.0.0
       with:
-        versionSpec: '5.11.1'
+        versionSpec: '6.3.x'
 
     - name: Compute version numbers
-      uses: gittools/actions/gitversion/execute@v0.13.6
+      uses: gittools/actions/gitversion/execute@v4.0.0
 
     - name: restore dependencies
       run: dotnet restore
