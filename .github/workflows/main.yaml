@@ -124,7 +124,7 @@ jobs:
         dotnet stryker \
           --reporter "dashboard" \
           --dashboard-api-key ${{ secrets.STRYKER_API_KEY }} \
-          --version ${{ env.GITVERSION_NUGETVERSIONV2 }} \
+          --version ${{ env.GitVersion_FullSemVer }} \
           -f stryker-config.json
 
     - name: generate mutation report
@@ -133,7 +133,7 @@ jobs:
         VSTEST_CONNECTION_TIMEOUT: 500
       continue-on-error: true
       run: |
-        dotnet tool install -g dotnet-stryker --version 4.4.1
+        dotnet tool install -g dotnet-stryker
         export PATH="$PATH:$HOME/.dotnet/tools"
         dotnet stryker \
           --reporter "dashboard" \
@@ -144,7 +144,7 @@ jobs:
     - name: Create and push package
       if: ${{ github.event_name == 'release' }}
       run: |
-        dotnet pack --configuration Release -p:PackageVersion=${{ env.GITVERSION_NUGETVERSIONV2 }} --output . --include-symbols
+        dotnet pack --configuration Release -p:PackageVersion=${{ env.GitVersion_FullSemVer }} --output . --include-symbols
         ls *.nupkg | awk '! /symbols/' | xargs rm
         dotnet nuget push *.nupkg --skip-duplicate
         dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
@@ -156,7 +156,7 @@ jobs:
         mkdir docs/images
         cp logo.png docs/images/logo.png
         echo "" >> docs/index.md
-        echo "version ${{ env.GITVERSION_NUGETVERSIONV2 }}" >> docs/index.md
+        echo "version ${{ env.GitVersion_FullSemVer }}" >> docs/index.md
         tail -n +4 README.md >> docs/index.md
         cp src/LogicEngine/README.md docs/docs/logic-engine.md
         docfx docs/docfx.json
