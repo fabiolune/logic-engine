@@ -69,7 +69,7 @@ jobs:
         dotnet build \
           --configuration Release \
           --no-restore \
-          /p:Version=${{ env.GitVersion_fullSemVer }} \
+          /p:Version=${{ env.GitVersion_FullSemVer }} \
           /p:UseSharedCompilation=false
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
