@@ -1,13 +1,16 @@
 branches:
   main:
-    regex: ^master$|^main$
-    mode: ContinuousDeployment
-    tag: alpha
+    mode: ContinuousDelivery
+    label: alpha
     increment: Minor
-    prevent-increment-of-merged-branch-version: false
+    prevent-increment:
+      of-merged-branch: false
     track-merge-target: true
+    track-merge-message: true
+    regex: ^master$|^main$
     source-branches: []
+    is-source-branch-for: []
     tracks-release-branches: true
     is-release-branch: false
-    is-mainline: true
+    is-main-branch: true
     pre-release-weight: 0
