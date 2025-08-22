@@ -118,12 +118,14 @@ jobs:
 
     - name: generate mutation report
       if: ${{ github.event_name == 'release' }}
+      env:
+        STRYKER_API_KEY: ${{ secrets.STRYKER_API_KEY }}
       run: |
         dotnet tool install -g dotnet-stryker
         export PATH="$PATH:$HOME/.dotnet/tools"
         dotnet stryker \
           --reporter "dashboard" \
-          --dashboard-api-key ${{ secrets.STRYKER_API_KEY }} \
+          --dashboard-api-key "$STRYKER_API_KEY" \
           --version ${{ env.GitVersion_FullSemVer }} \
           -f stryker-config.json
 
@@ -131,23 +133,26 @@ jobs:
       if: ${{ github.event_name != 'release' && github.event_name != 'pull_request' }}
       env:
         VSTEST_CONNECTION_TIMEOUT: 500
+        STRYKER_API_KEY: ${{ secrets.STRYKER_API_KEY }}
       continue-on-error: true
       run: |
         dotnet tool install -g dotnet-stryker
         export PATH="$PATH:$HOME/.dotnet/tools"
         dotnet stryker \
           --reporter "dashboard" \
-          --dashboard-api-key ${{ secrets.STRYKER_API_KEY }} \
+          --dashboard-api-key "$STRYKER_API_KEY" \
           --version ${GITHUB_REF#refs/heads/} \
           -f stryker-config.json
 
     - name: Create and push package
       if: ${{ github.event_name == 'release' }}
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       run: |
         dotnet pack --configuration Release -p:PackageVersion=${{ env.GitVersion_FullSemVer }} --output . --include-symbols
         ls *.nupkg | awk '! /symbols/' | xargs rm
         dotnet nuget push *.nupkg --skip-duplicate
-        dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+        dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
 
     - name: Produce `index.md` for gh pages
       if: ${{ github.event_name == 'release' }}
