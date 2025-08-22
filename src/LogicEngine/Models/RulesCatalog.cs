@@ -11,7 +11,7 @@ public record RulesCatalog
     /// <summary>
     /// Rules sets that make up the catalog
     /// </summary>
-    public readonly IEnumerable<RulesSet> RulesSets
+    public IEnumerable<RulesSet> RulesSets
     {
         get => _rulesSets ?? [];
         private init => _rulesSets = value;
