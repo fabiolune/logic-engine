@@ -8,9 +8,14 @@ using static LogicEngine.Internals.StaticShared;
 
 namespace LogicEngine;
 
-/* The code defines a public record called `CompiledRulesSet<T>`. This record implements three
-interfaces: `IAppliable<T>`, `IDetailedAppliable<T, IEnumerable<string>>`, and `IAppliedSelector<T,
-string>`. The record has a generic type parameter `T` which must have a parameterless constructor. */
+/// <summary>
+/// Represents a compiled set of rules that can be applied to items of type <typeparamref name="T"/>.
+/// </summary>
+/// <remarks>This class provides functionality to apply a set of compiled rules to an item, check detailed results
+/// of rule application, and retrieve the first matching rule. It implements the <see cref="IAppliable{T}"/>, <see
+/// cref="IDetailedAppliable{T, IEnumerable{string}}"/>, and <see cref="IAppliedSelector{T, string}"/>
+/// interfaces.</remarks>
+/// <typeparam name="T">The type of items to which the rules are applied. Must have a parameterless constructor.</typeparam>
 public record CompiledRulesSet<T> :
     IAppliable<T>,
     IDetailedAppliable<T, IEnumerable<string>>,
@@ -22,10 +27,13 @@ public record CompiledRulesSet<T> :
 
     public string Name { get; }
     /// <summary>
-    /// Creates a new compiled rules set
+    /// Represents a compiled set of rules that can be applied to evaluate conditions and retrieve results.
     /// </summary>
-    /// <param name="rules"></param>
-    /// <param name="name"></param>
+    /// <remarks>The <see cref="CompiledRulesSet{T}"/> class initializes a set of rules that can be applied to
+    /// input data. If the provided <paramref name="rules"/> array is empty, default functions are used for rule
+    /// evaluation.</remarks>
+    /// <param name="rules">An array of compiled rules to include in the set. Must not be empty. If empty, default functions are used.</param>
+    /// <param name="name">The name of the compiled rules set. This is used to identify the set.</param>
     public CompiledRulesSet(CompiledRule<T>[] rules, string name) =>
         (_apply, _detailedApply, _firstMaching, Name) = rules
             .ToOption(e => e.Length == 0)
@@ -33,23 +41,34 @@ public record CompiledRulesSet<T> :
             .Map(e => (GetApplyFromRules(e), GetDetailedApplyFromRules(e), GetFirstMatchingFromRules(e)))
             .OrElse((Functions<T>.AlwaysTrue, Functions<T, IEnumerable<string>>.AlwaysRightEitherUnit, Functions<T, Option<string>>.Constant(Option<string>.None())))
             .Map(t => (t.Item1, t.Item2, t.Item3, name));
+
     /// <summary>
-    /// Applies the rules set to an item
+    /// Applies the specified operation to the given item and returns the result.
     /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
+    /// <param name="item">The item to which the operation is applied.</param>
+    /// <returns><see langword="true"/> if the operation succeeds; otherwise, <see langword="false"/>. </returns>
     public bool Apply(T item) => _apply(item);
+    
     /// <summary>
-    /// Applies the rules set to an item and returns either a list of strings (the codes of the rules that are not satisfied) or a unit
+    /// Applies the specified operation to the given item and returns either a collection of error messages or a success
+    /// indicator.
     /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
+    /// <remarks>Use this method to perform an operation on the provided item while capturing detailed error
+    /// information in case of failure. The returned <see cref="Either{TLeft, TRight}"/> allows callers to handle
+    /// success and failure cases explicitly.</remarks>
+    /// <param name="item">The item to which the operation is applied. Cannot be null.</param>
+    /// <returns>An <see cref="Either{TLeft, TRight}"/> containing a collection of error messages if the operation fails,  or a
+    /// <see cref="Unit"/> value indicating success if the operation completes successfully.</returns>
     public Either<IEnumerable<string>, Unit> DetailedApply(T item) => _detailedApply(item);
+    
     /// <summary>
-    /// Returns the code of the first rule that is satisfied by the item, None if no rule is satisfied
+    /// Finds the first matching string for the specified item.
     /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
+    /// <remarks>The method uses the provided item to determine a match and returns the first result. If no
+    /// match is found, the returned <see cref="Option{T}"/> will be empty.</remarks>
+    /// <param name="item">The item to match against.</param>
+    /// <returns>An <see cref="Option{T}"/> containing the first matching string if a match is found;  otherwise, an empty <see
+    /// cref="Option{T}"/>.</returns>
     public Option<string> FirstMatching(T item) => _firstMaching(item);
 
     private static Func<T, bool> GetApplyFromRules(List<CompiledRule<T>> rules) =>

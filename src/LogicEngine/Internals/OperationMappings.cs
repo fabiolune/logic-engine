@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using TinyFp.Extensions;
-using static LogicEngine.Internals.Constants;
+using static LogicEngine.Internals.Shared;
 using static System.Convert;
 using static System.Linq.Expressions.Expression;
 

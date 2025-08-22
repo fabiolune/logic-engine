@@ -18,11 +18,14 @@ namespace LogicEngine.Compilers;
 public class RuleCompiler : IRuleCompiler
 {
     /// <summary>
-    /// Compiles a given Rule into a <see cref="CompiledRule{T}"/>. It transforms the rule into a lambda expression, compiles it into a function, and wraps it in a <see cref="CompiledRule{T}"/> object. The method returns an Option, which contains the compiled rule if the compilation is successful, or None if it fails
+    /// Compiles a rule into a strongly-typed, executable representation.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="rule"></param>
-    /// <returns></returns>
+    /// <remarks>The compiled rule includes both a delegate for evaluating the rule and the original code
+    /// representation.</remarks>
+    /// <typeparam name="T">The type of the object that the compiled rule will evaluate. Must have a parameterless constructor.</typeparam>
+    /// <param name="rule">The rule to compile. This must be a valid rule that can be transformed into a compiled representation.</param>
+    /// <returns>An <see cref="Option{T}"/> containing a <see cref="CompiledRule{T}"/> if the compilation succeeds; otherwise, an
+    /// empty option if the rule cannot be compiled.</returns>
     public Option<CompiledRule<T>> Compile<T>(Rule rule) where T : new() =>
         rule
             .Map(CreateCompiledRule<T>)
@@ -124,7 +127,7 @@ public class RuleCompiler : IRuleCompiler
                 .Map(r => (r.Property, r.Code, r.Operator, GetTypeFromPropertyName<T>(r.Property), Parameter(typeof(T)),
                     r.Value))
                 .Map(_ => (ExternalEnumerableMapping[_.Operator](Property(_.Item5, _.Property), _.Item4, NewArrayInit(
-                    _.Item4, _.Value.Split(Constants.Comma)
+                    _.Item4, _.Value.Split(Shared.Comma)
                         .Select(v => Convert.ChangeType(v, _.Item4, InvariantCulture))
                         .Select(Constant))), _.Item5, _.Code)))
             .Map(GetOption);
