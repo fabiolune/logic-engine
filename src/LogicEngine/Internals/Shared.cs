@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace LogicEngine.Internals;
 
-internal static class Constants
+internal static class Shared
 {
     internal const char Comma = ',';
 

@@ -6,18 +6,20 @@ using TinyFp.Extensions;
 
 namespace LogicEngine.Compilers;
 
-public class RulesSetCompiler : IRulesSetCompiler
+public class RulesSetCompiler(IRuleCompiler singleRuleCompiler) : IRulesSetCompiler
 {
-    private readonly IRuleCompiler _singleRuleCompiler;
-
-    public RulesSetCompiler(IRuleCompiler singleRuleCompiler) => _singleRuleCompiler = singleRuleCompiler;
+    private readonly IRuleCompiler _singleRuleCompiler = singleRuleCompiler;
 
     /// <summary>
-    /// Compiles a given RulesSet into an <see cref="Option{A}"/> of <see cref="CompiledRulesSet{T}"/> by compiling each individual rule in the set using the <see cref="IRuleCompiler"/>, filtering out any invalid rules, and then creating a new <see cref="CompiledRulesSet{T}"/> with the valid compiled rules and the original set's name. If no rules are valid, it returns None.
+    /// Compiles a set of rules into a compiled rules set for the specified type.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="set"></param>
-    /// <returns></returns>
+    /// <remarks>This method processes the rules in the provided <paramref name="set"/> by compiling each rule
+    /// individually, filtering out invalid or uncompiled rules, and then aggregating the results into a compiled rules
+    /// set.</remarks>
+    /// <typeparam name="T">The type of object the rules will operate on. Must have a parameterless constructor.</typeparam>
+    /// <param name="set">The set of rules to compile. Cannot be null.</param>
+    /// <returns>An <see cref="Option{T}"/> containing a <see cref="CompiledRulesSet{T}"/> if the compilation is successful, or
+    /// an empty option if no rules are compiled.</returns>
     public Option<CompiledRulesSet<T>> Compile<T>(RulesSet set) where T : new() =>
         set
             .Rules
