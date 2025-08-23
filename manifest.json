@@ -1,0 +1,424 @@
+{
+  "source_base_path": "/home/runner/work/logic-engine/logic-engine/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.CompiledCatalog-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.CompiledCatalog-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.CompiledCatalog<T>",
+      "Summary": "<p sourcefile=\"api/LogicEngine.CompiledCatalog-1.yml\" sourcestartlinenumber=\"1\">Represents a compiled catalog of rules that can be applied to items of type <code class=\"typeparamref\">T</code>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.CompiledRule-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.CompiledRule-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.CompiledRule<T>",
+      "Summary": "<p sourcefile=\"api/LogicEngine.CompiledRule-1.yml\" sourcestartlinenumber=\"1\">Represents a compiled rule that can be applied to an object of type <code class=\"typeparamref\">T</code>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.CompiledRulesSet-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.CompiledRulesSet-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.CompiledRulesSet<T>",
+      "Summary": "<p sourcefile=\"api/LogicEngine.CompiledRulesSet-1.yml\" sourcestartlinenumber=\"1\">Represents a compiled set of rules that can be applied to items of type <code class=\"typeparamref\">T</code>.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Compilers.RuleCompiler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Compilers.RuleCompiler.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Compilers.RuleCompiler",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Compilers.RulesCatalogCompiler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Compilers.RulesCatalogCompiler.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Compilers.RulesCatalogCompiler",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Compilers.RulesSetCompiler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Compilers.RulesSetCompiler.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Compilers.RulesSetCompiler",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Compilers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Compilers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Compilers",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Extensions.EnumerableExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Extensions.EnumerableExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Extensions.EnumerableExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Extensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Extensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Interfaces.Compilers.IRuleCompiler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Interfaces.Compilers.IRuleCompiler.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Interfaces.Compilers.IRuleCompiler",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Interfaces.Compilers.IRulesSetCompiler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Interfaces.Compilers.IRulesSetCompiler.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Interfaces.Compilers.IRulesSetCompiler",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Interfaces.Compilers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Interfaces.Compilers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Interfaces.Compilers",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Interfaces.IAppliable-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Interfaces.IAppliable-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Interfaces.IAppliable<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Interfaces.IAppliedSelector-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Interfaces.IAppliedSelector-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Interfaces.IAppliedSelector<TIn, TOut>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Interfaces.IDetailedAppliable-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Interfaces.IDetailedAppliable-2.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Interfaces.IDetailedAppliable<T, TOut>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Interfaces.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Interfaces.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Interfaces",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Internals.OperatorType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Internals.OperatorType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Internals.OperatorType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Internals.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Internals.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Internals",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Models.Rule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Models.Rule.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Models.Rule",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Models.RulesCatalog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Models.RulesCatalog.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Models.RulesCatalog",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Models.RulesSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Models.RulesSet.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Models.RulesSet",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.Models.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine.Models",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/LogicEngine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/LogicEngine.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "LogicEngine",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/logic-engine.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/logic-engine.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/toc.html"
+        },
+        ".json": {
+          "relative_path": "docs/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.png"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

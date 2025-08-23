@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Logic Engine | Logic Engine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Logic Engine | Logic Engine ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/fabiolune/logic-engine/blob/v4.4.0/docs/docs/logic-engine.md/#L1">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="logic-engine">Logic Engine</h1>
+
+<h2 id="table-of-contents">Table of contents</h2>
+<ol>
+<li><a href="#the-rule">The Rule</a></li>
+<li><a href="#the-operators">The Operators</a>
+<ol>
+<li><a href="#direct-operators">Direct operators</a></li>
+<li><a href="#internal-direct-operators">Internal direct operators</a></li>
+<li><a href="#string-direct-operators">String direct operators</a></li>
+<li><a href="#enumerable-operators">Enumerable operators</a></li>
+<li><a href="#internal-enumerable-operators">Internal enumerable operators</a></li>
+<li><a href="#key-value-operators">Key-value operators</a></li>
+<li><a href="#inverse-enumerable-operators">Inverse enumerable operators</a></li>
+<li><a href="#inverse-enumerable-operators">Inverse enumerable operators</a></li>
+</ol>
+</li>
+<li><a href="#the-rulessets">The RulesSets</a></li>
+<li><a href="#the-rulescatalog">The RulesCatalog</a></li>
+<li><a href="#the-algebraic-model">The Algebraic model</a>
+<ol>
+<li><a href="#rulessets-product">RulesSets product</a></li>
+<li><a href="#rulescatalog-sum">RulesCatalog sum</a></li>
+<li><a href="#rulescatalog-product">RulesCatalog product</a></li>
+</ol>
+</li>
+<li><a href="#compilers-and-compiled-objects">Compilers and compiled objects</a></li>
+<li><a href="#known-limitations">Known limitations</a></li>
+<li><a href="#breaking-changes">Breaking changes</a></li>
+<li><a href="#how-to-install-the-package">How to install the package</a></li>
+</ol>
+<h2 id="the-rule">The Rule</h2>
+<p>The rule object represents the building block for the system. A rule is an abstraction for a function acting on the value of a type and returning a boolean response.</p>
+<blockquote>
+<p><strong>DEFINITION</strong>: A <code>Rule</code> is satisfied by an item <code>t</code> of type <code>T</code> if the associated function <code>f: T ──► bool</code> returns true if <code>f(t)</code> is <code>true</code>.</p>
+</blockquote>
+<p>Given a type to be applied to, a rule is defined by a set of fields</p>
+<ul>
+<li><code>Property</code>: identifies the property against which to execute the evaluation</li>
+<li><code>Operator</code>: defines the operation to execute on the property</li>
+<li><code>Value</code>: identifies the value against which the result of the operator on the property should be compared</li>
+<li><code>Code</code>: the error code to be generated when the rules applied on an object fail (returns <code>false</code>)</li>
+</ul>
+<h2 id="the-operators">The Operators</h2>
+<p>The <code>Operator</code> can assume different possible values depending on the <code>Property</code> it is applied to and on the value, the result should be compared to.</p>
+<p>Operators are classified based on the way they work and their behavior. The rules categorization is also influenced by some implementation details.</p>
+<h3 id="direct-operators">Direct operators</h3>
+<p>These operators directly compare the <code>Property</code> to the <code>Value</code> considered as a constant:</p>
+<ul>
+<li><code>Equal</code>: equality on value types (strings, numbers, ...)</li>
+<li><code>NotEqual</code>: inequality on value types (strings, numbers, ...)</li>
+<li><code>GreaterThan</code>: only applies to numbers</li>
+<li><code>GreaterThanOrEqual</code>: only applies to numbers</li>
+<li><code>LessThan</code>: only applies to numbers</li>
+<li><code>LessThanOrEqual</code>: only applies to numbers</li>
+</ul>
+<pre><code class="lang-csharp">public class MyClass
+{
+    public string StringProperty {get; set;}
+    public int IntegerProperty {get; set;}
+}
+
+var stringRule = new Rule(&quot;StringProperty&quot;, OperatorType.Equal, &quot;Some Value&quot;, &quot;code 1&quot;);
+var integerRule = new Rule(&quot;IntegerProperty&quot;, OperatorType.Equal, &quot;10&quot;, &quot;code 2&quot;);
+
+var myObj = new MyClass
+{
+    StringProperty = &quot;Some Value&quot;,
+    IntegerProperty = 11
+}
+
+var result1 = stringRule.Apply(myObj); // returns true
+var result2 = integerRule.Apply(myObj); // returns false
+</code></pre>
+<blockquote>
+<p>Sample rules with direct operators</p>
+</blockquote>
+<h3 id="internal-direct-operators">Internal direct operators</h3>
+<p>Internal direct rules are similar to direct rules, but they are meant to be applied to values that are other fields of the same type; in this case, <code>Value</code> should correspond to the name of another field in the analyzed type:</p>
+<ul>
+<li><code>InnerEqual</code>: equality between two value typed fields</li>
+<li><code>InnerNotEqual</code>: equality between two value typed fields</li>
+<li><code>InnerGreaterThan</code>: only applies when <code>Property</code> and <code>Value</code> are numbers</li>
+<li><code>InnerGreaterThanOrEqual</code>: only applies when <code>Property</code> and <code>Value</code> are numbers</li>
+<li><code>InnerLessThan</code>: only applies when <code>Property</code> and <code>Value</code> are numbers</li>
+<li><code>InnerLessThanOrEqual</code>: only applies when <code>Property</code> and <code>Value</code> are numbers</li>
+</ul>
+<pre><code class="lang-csharp">public class MyClass
+{
+    public string StringProperty1 {get; set;}
+    public string StringProperty2 {get; set;}
+    public int IntegerProperty1 {get; set;}
+    public int IntegerProperty2 {get; set;}
+}
+
+var stringRule = new Rule(&quot;StringProperty1&quot;, OperatorType.InnerEqual, &quot;StringProperty2&quot;, &quot;code 1&quot;);
+var integerRule = new Rule(&quot;IntegerProperty1&quot;, OperatorType.InnerGreaterThan, &quot;IntegerProperty2&quot;, &quot;code 2&quot;);
+</code></pre>
+<blockquote>
+<p>Sample rules with internal direct operators</p>
+</blockquote>
+<h3 id="string-direct-operators">String direct operators</h3>
+<p>These rules are specific to strings:</p>
+<ul>
+<li><code>StringStartsWith</code>: checks that the string in <code>Property</code> starts with <code>Value</code></li>
+<li><code>StringEndsWith</code>: checks that the string in <code>Property</code> ends with <code>Value</code></li>
+<li><code>StringContains</code>: checks that the string in <code>Property</code> contains <code>Value</code></li>
+<li><code>StringRegexIsMatch</code>: checks that the string in <code>Property</code> matches <code>Value</code></li>
+</ul>
+<pre><code class="lang-csharp">public class MyClass
+{
+    public string StringProperty {get; set;}
+}
+
+var stringRule = new Rule(&quot;StringProperty&quot;, OperatorType.StringStartsWith, &quot;start&quot;, &quot;code 1&quot;);
+</code></pre>
+<blockquote>
+<p>Sample rule with string direct operator</p>
+</blockquote>
+<h3 id="enumerable-operators">Enumerable operators</h3>
+<p>These rules apply to operands of generic enumerable type:</p>
+<ul>
+<li><code>Contains</code>: checks that <code>Property</code> contains <code>Value</code></li>
+<li><code>NotContains</code>: checks that <code>Property</code> does not <code>Value</code></li>
+<li><code>Overlaps</code>: checks that <code>Property</code> has a non-empty intersection with <code>Value</code></li>
+<li><code>NotOverlaps</code>: checks that <code>Property</code> has an empty intersection with <code>Value</code></li>
+</ul>
+<pre><code class="lang-csharp">public class MyClass
+{
+    public IEnumerable&lt;string&gt; StringEnumerableProperty {get; set;}
+}
+
+var rule1 = new Rule(&quot;StringEnumerableProperty&quot;, OperatorType.Contains, &quot;value&quot;, &quot;code 1&quot;);
+var rule2 = new Rule(&quot;StringEnumerableProperty&quot;, OperatorType.Overlaps, &quot;value1,value2&quot;, &quot;code 2&quot;);
+</code></pre>
+<blockquote>
+<p>Sample rules with enumerable operators</p>
+</blockquote>
+<h3 id="internal-enumerable-operators">Internal enumerable operators</h3>
+<p>These operators act on enumerable fields by comparing them against fields of the same type:</p>
+<ul>
+<li><code>InnerContains</code>: checks that <code>Property</code> contains the value contained in the property <code>Value</code></li>
+<li><code>InnerNotContains</code>: checks that <code>Property</code> doesn't contain the value contained in the property <code>Value</code></li>
+<li><code>InnerOverlaps</code>: checks that <code>Property</code> has a non-empty intersection with the value contained in the property <code>Value</code></li>
+<li><code>InnerNotOverlaps</code>: checks that <code>Property</code> has an empty intersection with the value contained in the property <code>Value</code></li>
+</ul>
+<pre><code class="lang-csharp">public class MyClass
+{
+    public IEnumerable&lt;int&gt; EnumerableProperty1 {get; set;}
+    public IEnumerable&lt;int&gt; EnumerableProperty2 {get; set;}
+    public int IntegerField {get; set;}
+}
+
+var rule1 = new Rule(&quot;EnumerableProperty1&quot;, OperatorType.InnerContains, &quot;IntegerField&quot;);
+var rule2 = new Rule(&quot;EnumerableProperty1&quot;, OperatorType.InnerOverlaps, &quot;EnumerableProperty2&quot;);
+</code></pre>
+<blockquote>
+<p>Sample rules for internal enumerable operators</p>
+</blockquote>
+<h3 id="key-value-operators">Key-value operators</h3>
+<p>These operators act on dictionary-like objects:</p>
+<ul>
+<li><code>ContainsKey</code>: checks that the <code>Property</code> contains the specific key defined by the <code>Value</code></li>
+<li><code>NotContainsKey</code>: checks that the <code>Property</code> doesn't contain the specific key defined by the <code>Value</code></li>
+<li><code>ContainsValue</code>:  checks that the dictionary <code>Property</code> contains a value defined by the <code>Value</code></li>
+<li><code>NotContainsValue</code>: checks that the dictionary <code>Property</code> doesn't contain a value defined by the <code>Value</code></li>
+<li><code>KeyContainsValue</code>: checks that the dictionary <code>Property</code> has a key with a specific value</li>
+<li><code>NotKeyContainsValue</code>: checks that the dictionary <code>Property</code> doesn't have a key with a specific value</li>
+</ul>
+<pre><code class="lang-csharp">public class MyClass
+{
+    public IDictionary&lt;string, int&gt; DictProperty {get; set;}
+}
+
+var rule1 = new Rule(&quot;DictProperty&quot;, OperatorType.ContainsKey, &quot;mykey&quot;);
+var rule2 = new Rule(&quot;DictProperty&quot;, OperatorType.KeyContainsValue, &quot;mykey[myvalue]&quot;);
+</code></pre>
+<blockquote>
+<p>sample rules for key-value enumerable operators</p>
+</blockquote>
+<h3 id="inverse-enumerable-operators">Inverse enumerable operators</h3>
+<p>These rules apply to scalars against enumerable fields:</p>
+<ul>
+<li><code>IsContained</code>: checks that <code>Property</code> is contained in a specific set</li>
+<li><code>IsNotContained</code>: checks that <code>Property</code> is not contained in a specific set</li>
+</ul>
+<pre><code class="lang-csharp">public class MyClass
+{
+    public int IntProperty {get; set;}
+}
+
+var rule1 = new Rule(&quot;IntProperty&quot;, OperatorType.IsContained, &quot;1,2,3&quot;);
+</code></pre>
+<blockquote>
+<p>Sample rules for inverse enumerable operators</p>
+</blockquote>
+<h2 id="the-rulessets">The RulesSets</h2>
+<p>A <code>RulesSet</code> is a set of rules. From a functional point of view, it represents a boolean typed function composed by a set of functions on a given type.</p>
+<blockquote>
+<p><strong>DEFINITION</strong>: A <code>RulesSet</code> is satisfied by an item <code>t</code> of type <code>T</code> if all the functions of the set are satisfied by <code>t</code>.</p>
+</blockquote>
+<p>A <code>RulesSet</code> corresponds to the logical <code>AND</code> operator on its rules.</p>
+<h2 id="the-rulescatalog">The RulesCatalog</h2>
+<p>A <code>RulesCatalog</code> represents a set of <code>RulesSet</code>, and functionally corresponds to a boolean typed function composed by a set of sets of functions on a given type.</p>
+<blockquote>
+<p><strong>DEFINITION</strong>: A <code>RulesCatalog</code> is satisfied by an item <code>t</code> of type <code>T</code> if at least one of its <code>RulesSet</code>s is satisfied by <code>t</code>.</p>
+</blockquote>
+<p>A <code>RulesCatalog</code> corresponds to the logical <code>OR</code> operator on its <code>RulesSet</code>s.</p>
+<h2 id="the-algebraic-model">The Algebraic model</h2>
+<p>As discussed above, composite types <code>RulesSet</code> and <code>RulesCatalog</code> represent logical operations on the field of functions <code>f: T ──► bool</code>; it seems than possible to define an algebraic model defining the composition of different entities.</p>
+<h3 id="rulessets-product">RulesSets product</h3>
+<blockquote>
+<p><strong>DEFINITION</strong>: The product of two <code>RulesSet</code>s is a new <code>RulesSet</code>, and its rules are a set of rules obtained by concatenating the rules of the two <code>RulesSet</code>s</p>
+</blockquote>
+<pre><code class="lang-txt">rs1 = {r1, r2, r3}
+rs2 = {r4, r5}
+
+──► rs1 * rs2 = {r1, r2, r3, r4, r5}
+</code></pre>
+<blockquote>
+<p>product of two <code>RulesSet</code>s</p>
+</blockquote>
+<h3 id="rulescatalog-sum">RulesCatalog sum</h3>
+<p>The sum of two <code>RulesCatalog</code> objects is a <code>RulesCatalog</code> with a set of <code>RulesSet</code> obtained by simply concatenating the two sets of <code>RulesSet</code>:</p>
+<pre><code class="lang-txt">c1 = {rs1, rs2, rs3}
+c2 = {rs4, rs5}
+
+──► c1 + c2 = {rs1, rs2, rs3, rs4, rs5}
+</code></pre>
+<blockquote>
+<p>sum of two <code>RulesCatalog</code></p>
+</blockquote>
+<h3 id="rulescatalog-product">RulesCatalog product</h3>
+<p>The product of two catalogs is a catalog with a set of all the <code>RulesSet</code> obtained concatenating a set of the first catalog with one of the second.</p>
+<pre><code class="lang-txt">c1 = {rs1, rs2, rs3}
+c2 = {rs4, rs5}
+
+──► c1 * c2 = {(rs1*rs4), (rs1*rs5), (rs2*rs4), (rs2*rs5), (rs3*rs4), (rs3*rs5)}
+</code></pre>
+<blockquote>
+<p>product of two <code>RulesCatalog</code></p>
+</blockquote>
+<h2 id="compilers-and-compiled-objects">Compilers and compiled objects</h2>
+<p>The <code>RuleCompiler</code> is the component that parses and compiles a <code>Rule</code> into executable code.</p>
+<p>Every rule becomes an <code>Option&lt;CompiledRule&lt;T&gt;&gt;</code>, where the <code>None</code> status of the option corresponds to a <code>Rule</code> that is not formally correct and hence cannot be compiled[^1].
+A <code>CompiledRule&lt;T&gt;</code> is the actual portion of code that can be applied to an item of type <code>T</code> to provide a boolean result using its <code>ApplyApply(T item)</code> method.
+Sometimes the boolean result is not enough: when the rule is not satisfied it could be useful to understand the reason why it failed. For this reason, a dedicated <code>Either&lt;string, Unit&gt; DetailedApply(T item)</code> method returns <code>Unit</code> when the rule is satisfied, or a string (the rule code) in case of failure.</p>
+<p>Like the <code>RuleCompiler</code>, the <code>RulesSetCompiler</code> transforms a <code>RulesSet</code> into an <code>Option&lt;CompiledRulesSet&lt;T&gt;&gt;</code>.
+A <code>CompiledRulesSet&lt;T&gt;</code> can logically be seen as a set of compiled rules, hence, when applied to an item of type <code>T</code> it returns a boolean that is <code>true</code> if all the compiled rules return <code>true</code> on it. From a logical point of view, a <code>CompiledRulesSet&lt;T&gt;</code> represents the <code>AND</code> superposition of its <code>CompiledRule&lt;T&gt;</code>.
+The corresponding <code>Either&lt;string, Unit&gt; DetailedApply(T item)</code> method of the <code>CompiledRulesSet&lt;T&gt;</code> returns <code>Unit</code> when all the rules are satisfied, or the set of codes for the rules that are not.</p>
+<p>Finally, the <code>RulesCatalogCompiler</code> transforms a <code>RulesCatalog</code> into an <code>Option&lt;CompiledCatalog&lt;T&gt;&gt;</code>, where the <code>None</code> status represents a catalog that cannot be compiled.
+A <code>CompiledCatalog&lt;T&gt;</code> logically represents the executable code that applies a set of rule sets to an object of type <code>T</code>: the result of its application can be <code>true</code> if at least one set of rules returns <code>true</code>, otherwise <code>false</code> (this represents the logical <code>OR</code> composition operations on rules joined by a logical <code>AND</code>).
+Similar to the <code>Either&lt;string, Unit&gt; DetailedApply(T item)</code> of the <code>CompiledRulesSet&lt;T&gt;</code>, it can return <code>Unit</code> when at least one internal rule set returns <code>Unit</code>, otherwise the flattened set of all the codes for all the rules that don't successfully apply.</p>
+<h2 id="known-limitations">Known limitations</h2>
+<p>The current implementation of the rules system has some limitations:</p>
+<ul>
+<li>it is designed to work on plain objects (instances of classes, records, or structures) with an empty constructor</li>
+<li>rules can only be applied to 'first level members', no nesting is currently supported</li>
+</ul>
+<hr>
+<h2 id="breaking-changes">Breaking changes</h2>
+<p>If you want to upgrade from a version &lt; 3.0.0 to the latest version you will need to adapt your implementation to manage the breaking changes introduced.</p>
+<p>The main differences can be condensed in the removal of the managers: the entire logic is now completely captured by the compiled objects <code>CompiledRule&lt;T&gt;</code>, <code>CompiledRulesSet&lt;T&gt;</code>, <code>CompiledCatalog&lt;T&gt;</code>, without the need of external wrappers.</p>
+<p>This means that the typical workflow to update the library requires:</p>
+<ol>
+<li>getting the rules definition</li>
+<li>pass them to the appropriate compiler</li>
+<li>use the generated compiled objects to validate your objects according to the rules definition</li>
+</ol>
+<hr>
+<h2 id="how-to-install-the-package">How to install the package</h2>
+<p>If you are using <code>nuget.org</code> you can add the dependency in your project using</p>
+<pre><code class="lang-shell">dotnet add package logic-engine --version &lt;version&gt;
+</code></pre>
+<p>To install the <strong>logic-engine</strong> library from GitHub's packages system please refer to the <a href="https://github.com/fabiolune?tab=packages&amp;repo_name=logic-engine">packages page</a>.</p>
+<p>[^0]: from a technical perspective this is obtained with a concrete implementation of the railway pattern</p>
+<p>[^1]: null or empty codes are removed because they don't carry reusable info</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/fabiolune/logic-engine/blob/v4.4.0/docs/docs/logic-engine.md/#L1" class="edit-link">Edit this page</a>
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

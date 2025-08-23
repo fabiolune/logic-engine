@@ -1,0 +1,1055 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: LogicEngine
+  name: LogicEngine
+  href: api/LogicEngine.html
+  commentId: N:LogicEngine
+  fullName: LogicEngine
+  nameWithType: LogicEngine
+- uid: LogicEngine.CompiledCatalog`1
+  name: CompiledCatalog<T>
+  href: api/LogicEngine.CompiledCatalog-1.html
+  commentId: T:LogicEngine.CompiledCatalog`1
+  name.vb: CompiledCatalog(Of T)
+  fullName: LogicEngine.CompiledCatalog<T>
+  fullName.vb: LogicEngine.CompiledCatalog(Of T)
+  nameWithType: CompiledCatalog<T>
+  nameWithType.vb: CompiledCatalog(Of T)
+- uid: LogicEngine.CompiledCatalog`1.#ctor(LogicEngine.CompiledRulesSet{`0}[],System.String)
+  name: CompiledCatalog(CompiledRulesSet<T>[], string)
+  href: api/LogicEngine.CompiledCatalog-1.html#LogicEngine_CompiledCatalog_1__ctor_LogicEngine_CompiledRulesSet__0____System_String_
+  commentId: M:LogicEngine.CompiledCatalog`1.#ctor(LogicEngine.CompiledRulesSet{`0}[],System.String)
+  name.vb: New(CompiledRulesSet(Of T)(), String)
+  fullName: LogicEngine.CompiledCatalog<T>.CompiledCatalog(LogicEngine.CompiledRulesSet<T>[], string)
+  fullName.vb: LogicEngine.CompiledCatalog(Of T).New(LogicEngine.CompiledRulesSet(Of T)(), String)
+  nameWithType: CompiledCatalog<T>.CompiledCatalog(CompiledRulesSet<T>[], string)
+  nameWithType.vb: CompiledCatalog(Of T).New(CompiledRulesSet(Of T)(), String)
+- uid: LogicEngine.CompiledCatalog`1.#ctor*
+  name: CompiledCatalog
+  href: api/LogicEngine.CompiledCatalog-1.html#LogicEngine_CompiledCatalog_1__ctor_
+  commentId: Overload:LogicEngine.CompiledCatalog`1.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: LogicEngine.CompiledCatalog<T>.CompiledCatalog
+  fullName.vb: LogicEngine.CompiledCatalog(Of T).New
+  nameWithType: CompiledCatalog<T>.CompiledCatalog
+  nameWithType.vb: CompiledCatalog(Of T).New
+- uid: LogicEngine.CompiledCatalog`1.Apply(`0)
+  name: Apply(T)
+  href: api/LogicEngine.CompiledCatalog-1.html#LogicEngine_CompiledCatalog_1_Apply__0_
+  commentId: M:LogicEngine.CompiledCatalog`1.Apply(`0)
+  fullName: LogicEngine.CompiledCatalog<T>.Apply(T)
+  fullName.vb: LogicEngine.CompiledCatalog(Of T).Apply(T)
+  nameWithType: CompiledCatalog<T>.Apply(T)
+  nameWithType.vb: CompiledCatalog(Of T).Apply(T)
+- uid: LogicEngine.CompiledCatalog`1.Apply*
+  name: Apply
+  href: api/LogicEngine.CompiledCatalog-1.html#LogicEngine_CompiledCatalog_1_Apply_
+  commentId: Overload:LogicEngine.CompiledCatalog`1.Apply
+  isSpec: "True"
+  fullName: LogicEngine.CompiledCatalog<T>.Apply
+  fullName.vb: LogicEngine.CompiledCatalog(Of T).Apply
+  nameWithType: CompiledCatalog<T>.Apply
+  nameWithType.vb: CompiledCatalog(Of T).Apply
+- uid: LogicEngine.CompiledCatalog`1.DetailedApply(`0)
+  name: DetailedApply(T)
+  href: api/LogicEngine.CompiledCatalog-1.html#LogicEngine_CompiledCatalog_1_DetailedApply__0_
+  commentId: M:LogicEngine.CompiledCatalog`1.DetailedApply(`0)
+  fullName: LogicEngine.CompiledCatalog<T>.DetailedApply(T)
+  fullName.vb: LogicEngine.CompiledCatalog(Of T).DetailedApply(T)
+  nameWithType: CompiledCatalog<T>.DetailedApply(T)
+  nameWithType.vb: CompiledCatalog(Of T).DetailedApply(T)
+- uid: LogicEngine.CompiledCatalog`1.DetailedApply*
+  name: DetailedApply
+  href: api/LogicEngine.CompiledCatalog-1.html#LogicEngine_CompiledCatalog_1_DetailedApply_
+  commentId: Overload:LogicEngine.CompiledCatalog`1.DetailedApply
+  isSpec: "True"
+  fullName: LogicEngine.CompiledCatalog<T>.DetailedApply
+  fullName.vb: LogicEngine.CompiledCatalog(Of T).DetailedApply
+  nameWithType: CompiledCatalog<T>.DetailedApply
+  nameWithType.vb: CompiledCatalog(Of T).DetailedApply
+- uid: LogicEngine.CompiledCatalog`1.FirstMatching(`0)
+  name: FirstMatching(T)
+  href: api/LogicEngine.CompiledCatalog-1.html#LogicEngine_CompiledCatalog_1_FirstMatching__0_
+  commentId: M:LogicEngine.CompiledCatalog`1.FirstMatching(`0)
+  fullName: LogicEngine.CompiledCatalog<T>.FirstMatching(T)
+  fullName.vb: LogicEngine.CompiledCatalog(Of T).FirstMatching(T)
+  nameWithType: CompiledCatalog<T>.FirstMatching(T)
+  nameWithType.vb: CompiledCatalog(Of T).FirstMatching(T)
+- uid: LogicEngine.CompiledCatalog`1.FirstMatching*
+  name: FirstMatching
+  href: api/LogicEngine.CompiledCatalog-1.html#LogicEngine_CompiledCatalog_1_FirstMatching_
+  commentId: Overload:LogicEngine.CompiledCatalog`1.FirstMatching
+  isSpec: "True"
+  fullName: LogicEngine.CompiledCatalog<T>.FirstMatching
+  fullName.vb: LogicEngine.CompiledCatalog(Of T).FirstMatching
+  nameWithType: CompiledCatalog<T>.FirstMatching
+  nameWithType.vb: CompiledCatalog(Of T).FirstMatching
+- uid: LogicEngine.CompiledCatalog`1.Name
+  name: Name
+  href: api/LogicEngine.CompiledCatalog-1.html#LogicEngine_CompiledCatalog_1_Name
+  commentId: P:LogicEngine.CompiledCatalog`1.Name
+  fullName: LogicEngine.CompiledCatalog<T>.Name
+  fullName.vb: LogicEngine.CompiledCatalog(Of T).Name
+  nameWithType: CompiledCatalog<T>.Name
+  nameWithType.vb: CompiledCatalog(Of T).Name
+- uid: LogicEngine.CompiledCatalog`1.Name*
+  name: Name
+  href: api/LogicEngine.CompiledCatalog-1.html#LogicEngine_CompiledCatalog_1_Name_
+  commentId: Overload:LogicEngine.CompiledCatalog`1.Name
+  isSpec: "True"
+  fullName: LogicEngine.CompiledCatalog<T>.Name
+  fullName.vb: LogicEngine.CompiledCatalog(Of T).Name
+  nameWithType: CompiledCatalog<T>.Name
+  nameWithType.vb: CompiledCatalog(Of T).Name
+- uid: LogicEngine.CompiledRule`1
+  name: CompiledRule<T>
+  href: api/LogicEngine.CompiledRule-1.html
+  commentId: T:LogicEngine.CompiledRule`1
+  name.vb: CompiledRule(Of T)
+  fullName: LogicEngine.CompiledRule<T>
+  fullName.vb: LogicEngine.CompiledRule(Of T)
+  nameWithType: CompiledRule<T>
+  nameWithType.vb: CompiledRule(Of T)
+- uid: LogicEngine.CompiledRule`1.#ctor(System.Func{`0,System.Boolean},System.String)
+  name: CompiledRule(Func<T, bool>, string)
+  href: api/LogicEngine.CompiledRule-1.html#LogicEngine_CompiledRule_1__ctor_System_Func__0_System_Boolean__System_String_
+  commentId: M:LogicEngine.CompiledRule`1.#ctor(System.Func{`0,System.Boolean},System.String)
+  name.vb: New(Func(Of T, Boolean), String)
+  fullName: LogicEngine.CompiledRule<T>.CompiledRule(System.Func<T, bool>, string)
+  fullName.vb: LogicEngine.CompiledRule(Of T).New(System.Func(Of T, Boolean), String)
+  nameWithType: CompiledRule<T>.CompiledRule(Func<T, bool>, string)
+  nameWithType.vb: CompiledRule(Of T).New(Func(Of T, Boolean), String)
+- uid: LogicEngine.CompiledRule`1.#ctor*
+  name: CompiledRule
+  href: api/LogicEngine.CompiledRule-1.html#LogicEngine_CompiledRule_1__ctor_
+  commentId: Overload:LogicEngine.CompiledRule`1.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: LogicEngine.CompiledRule<T>.CompiledRule
+  fullName.vb: LogicEngine.CompiledRule(Of T).New
+  nameWithType: CompiledRule<T>.CompiledRule
+  nameWithType.vb: CompiledRule(Of T).New
+- uid: LogicEngine.CompiledRule`1.Apply(`0)
+  name: Apply(T)
+  href: api/LogicEngine.CompiledRule-1.html#LogicEngine_CompiledRule_1_Apply__0_
+  commentId: M:LogicEngine.CompiledRule`1.Apply(`0)
+  fullName: LogicEngine.CompiledRule<T>.Apply(T)
+  fullName.vb: LogicEngine.CompiledRule(Of T).Apply(T)
+  nameWithType: CompiledRule<T>.Apply(T)
+  nameWithType.vb: CompiledRule(Of T).Apply(T)
+- uid: LogicEngine.CompiledRule`1.Apply*
+  name: Apply
+  href: api/LogicEngine.CompiledRule-1.html#LogicEngine_CompiledRule_1_Apply_
+  commentId: Overload:LogicEngine.CompiledRule`1.Apply
+  isSpec: "True"
+  fullName: LogicEngine.CompiledRule<T>.Apply
+  fullName.vb: LogicEngine.CompiledRule(Of T).Apply
+  nameWithType: CompiledRule<T>.Apply
+  nameWithType.vb: CompiledRule(Of T).Apply
+- uid: LogicEngine.CompiledRule`1.Code
+  name: Code
+  href: api/LogicEngine.CompiledRule-1.html#LogicEngine_CompiledRule_1_Code
+  commentId: P:LogicEngine.CompiledRule`1.Code
+  fullName: LogicEngine.CompiledRule<T>.Code
+  fullName.vb: LogicEngine.CompiledRule(Of T).Code
+  nameWithType: CompiledRule<T>.Code
+  nameWithType.vb: CompiledRule(Of T).Code
+- uid: LogicEngine.CompiledRule`1.Code*
+  name: Code
+  href: api/LogicEngine.CompiledRule-1.html#LogicEngine_CompiledRule_1_Code_
+  commentId: Overload:LogicEngine.CompiledRule`1.Code
+  isSpec: "True"
+  fullName: LogicEngine.CompiledRule<T>.Code
+  fullName.vb: LogicEngine.CompiledRule(Of T).Code
+  nameWithType: CompiledRule<T>.Code
+  nameWithType.vb: CompiledRule(Of T).Code
+- uid: LogicEngine.CompiledRule`1.DetailedApply(`0)
+  name: DetailedApply(T)
+  href: api/LogicEngine.CompiledRule-1.html#LogicEngine_CompiledRule_1_DetailedApply__0_
+  commentId: M:LogicEngine.CompiledRule`1.DetailedApply(`0)
+  fullName: LogicEngine.CompiledRule<T>.DetailedApply(T)
+  fullName.vb: LogicEngine.CompiledRule(Of T).DetailedApply(T)
+  nameWithType: CompiledRule<T>.DetailedApply(T)
+  nameWithType.vb: CompiledRule(Of T).DetailedApply(T)
+- uid: LogicEngine.CompiledRule`1.DetailedApply*
+  name: DetailedApply
+  href: api/LogicEngine.CompiledRule-1.html#LogicEngine_CompiledRule_1_DetailedApply_
+  commentId: Overload:LogicEngine.CompiledRule`1.DetailedApply
+  isSpec: "True"
+  fullName: LogicEngine.CompiledRule<T>.DetailedApply
+  fullName.vb: LogicEngine.CompiledRule(Of T).DetailedApply
+  nameWithType: CompiledRule<T>.DetailedApply
+  nameWithType.vb: CompiledRule(Of T).DetailedApply
+- uid: LogicEngine.CompiledRulesSet`1
+  name: CompiledRulesSet<T>
+  href: api/LogicEngine.CompiledRulesSet-1.html
+  commentId: T:LogicEngine.CompiledRulesSet`1
+  name.vb: CompiledRulesSet(Of T)
+  fullName: LogicEngine.CompiledRulesSet<T>
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T)
+  nameWithType: CompiledRulesSet<T>
+  nameWithType.vb: CompiledRulesSet(Of T)
+- uid: LogicEngine.CompiledRulesSet`1.#ctor(LogicEngine.CompiledRule{`0}[],System.String)
+  name: CompiledRulesSet(CompiledRule<T>[], string)
+  href: api/LogicEngine.CompiledRulesSet-1.html#LogicEngine_CompiledRulesSet_1__ctor_LogicEngine_CompiledRule__0____System_String_
+  commentId: M:LogicEngine.CompiledRulesSet`1.#ctor(LogicEngine.CompiledRule{`0}[],System.String)
+  name.vb: New(CompiledRule(Of T)(), String)
+  fullName: LogicEngine.CompiledRulesSet<T>.CompiledRulesSet(LogicEngine.CompiledRule<T>[], string)
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T).New(LogicEngine.CompiledRule(Of T)(), String)
+  nameWithType: CompiledRulesSet<T>.CompiledRulesSet(CompiledRule<T>[], string)
+  nameWithType.vb: CompiledRulesSet(Of T).New(CompiledRule(Of T)(), String)
+- uid: LogicEngine.CompiledRulesSet`1.#ctor*
+  name: CompiledRulesSet
+  href: api/LogicEngine.CompiledRulesSet-1.html#LogicEngine_CompiledRulesSet_1__ctor_
+  commentId: Overload:LogicEngine.CompiledRulesSet`1.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: LogicEngine.CompiledRulesSet<T>.CompiledRulesSet
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T).New
+  nameWithType: CompiledRulesSet<T>.CompiledRulesSet
+  nameWithType.vb: CompiledRulesSet(Of T).New
+- uid: LogicEngine.CompiledRulesSet`1.Apply(`0)
+  name: Apply(T)
+  href: api/LogicEngine.CompiledRulesSet-1.html#LogicEngine_CompiledRulesSet_1_Apply__0_
+  commentId: M:LogicEngine.CompiledRulesSet`1.Apply(`0)
+  fullName: LogicEngine.CompiledRulesSet<T>.Apply(T)
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T).Apply(T)
+  nameWithType: CompiledRulesSet<T>.Apply(T)
+  nameWithType.vb: CompiledRulesSet(Of T).Apply(T)
+- uid: LogicEngine.CompiledRulesSet`1.Apply*
+  name: Apply
+  href: api/LogicEngine.CompiledRulesSet-1.html#LogicEngine_CompiledRulesSet_1_Apply_
+  commentId: Overload:LogicEngine.CompiledRulesSet`1.Apply
+  isSpec: "True"
+  fullName: LogicEngine.CompiledRulesSet<T>.Apply
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T).Apply
+  nameWithType: CompiledRulesSet<T>.Apply
+  nameWithType.vb: CompiledRulesSet(Of T).Apply
+- uid: LogicEngine.CompiledRulesSet`1.DetailedApply(`0)
+  name: DetailedApply(T)
+  href: api/LogicEngine.CompiledRulesSet-1.html#LogicEngine_CompiledRulesSet_1_DetailedApply__0_
+  commentId: M:LogicEngine.CompiledRulesSet`1.DetailedApply(`0)
+  fullName: LogicEngine.CompiledRulesSet<T>.DetailedApply(T)
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T).DetailedApply(T)
+  nameWithType: CompiledRulesSet<T>.DetailedApply(T)
+  nameWithType.vb: CompiledRulesSet(Of T).DetailedApply(T)
+- uid: LogicEngine.CompiledRulesSet`1.DetailedApply*
+  name: DetailedApply
+  href: api/LogicEngine.CompiledRulesSet-1.html#LogicEngine_CompiledRulesSet_1_DetailedApply_
+  commentId: Overload:LogicEngine.CompiledRulesSet`1.DetailedApply
+  isSpec: "True"
+  fullName: LogicEngine.CompiledRulesSet<T>.DetailedApply
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T).DetailedApply
+  nameWithType: CompiledRulesSet<T>.DetailedApply
+  nameWithType.vb: CompiledRulesSet(Of T).DetailedApply
+- uid: LogicEngine.CompiledRulesSet`1.FirstMatching(`0)
+  name: FirstMatching(T)
+  href: api/LogicEngine.CompiledRulesSet-1.html#LogicEngine_CompiledRulesSet_1_FirstMatching__0_
+  commentId: M:LogicEngine.CompiledRulesSet`1.FirstMatching(`0)
+  fullName: LogicEngine.CompiledRulesSet<T>.FirstMatching(T)
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T).FirstMatching(T)
+  nameWithType: CompiledRulesSet<T>.FirstMatching(T)
+  nameWithType.vb: CompiledRulesSet(Of T).FirstMatching(T)
+- uid: LogicEngine.CompiledRulesSet`1.FirstMatching*
+  name: FirstMatching
+  href: api/LogicEngine.CompiledRulesSet-1.html#LogicEngine_CompiledRulesSet_1_FirstMatching_
+  commentId: Overload:LogicEngine.CompiledRulesSet`1.FirstMatching
+  isSpec: "True"
+  fullName: LogicEngine.CompiledRulesSet<T>.FirstMatching
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T).FirstMatching
+  nameWithType: CompiledRulesSet<T>.FirstMatching
+  nameWithType.vb: CompiledRulesSet(Of T).FirstMatching
+- uid: LogicEngine.CompiledRulesSet`1.Name
+  name: Name
+  href: api/LogicEngine.CompiledRulesSet-1.html#LogicEngine_CompiledRulesSet_1_Name
+  commentId: P:LogicEngine.CompiledRulesSet`1.Name
+  fullName: LogicEngine.CompiledRulesSet<T>.Name
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T).Name
+  nameWithType: CompiledRulesSet<T>.Name
+  nameWithType.vb: CompiledRulesSet(Of T).Name
+- uid: LogicEngine.CompiledRulesSet`1.Name*
+  name: Name
+  href: api/LogicEngine.CompiledRulesSet-1.html#LogicEngine_CompiledRulesSet_1_Name_
+  commentId: Overload:LogicEngine.CompiledRulesSet`1.Name
+  isSpec: "True"
+  fullName: LogicEngine.CompiledRulesSet<T>.Name
+  fullName.vb: LogicEngine.CompiledRulesSet(Of T).Name
+  nameWithType: CompiledRulesSet<T>.Name
+  nameWithType.vb: CompiledRulesSet(Of T).Name
+- uid: LogicEngine.Compilers
+  name: LogicEngine.Compilers
+  href: api/LogicEngine.Compilers.html
+  commentId: N:LogicEngine.Compilers
+  fullName: LogicEngine.Compilers
+  nameWithType: LogicEngine.Compilers
+- uid: LogicEngine.Compilers.RuleCompiler
+  name: RuleCompiler
+  href: api/LogicEngine.Compilers.RuleCompiler.html
+  commentId: T:LogicEngine.Compilers.RuleCompiler
+  fullName: LogicEngine.Compilers.RuleCompiler
+  nameWithType: RuleCompiler
+- uid: LogicEngine.Compilers.RuleCompiler.Compile*
+  name: Compile
+  href: api/LogicEngine.Compilers.RuleCompiler.html#LogicEngine_Compilers_RuleCompiler_Compile_
+  commentId: Overload:LogicEngine.Compilers.RuleCompiler.Compile
+  isSpec: "True"
+  fullName: LogicEngine.Compilers.RuleCompiler.Compile
+  nameWithType: RuleCompiler.Compile
+- uid: LogicEngine.Compilers.RuleCompiler.Compile``1(LogicEngine.Models.Rule)
+  name: Compile<T>(Rule)
+  href: api/LogicEngine.Compilers.RuleCompiler.html#LogicEngine_Compilers_RuleCompiler_Compile__1_LogicEngine_Models_Rule_
+  commentId: M:LogicEngine.Compilers.RuleCompiler.Compile``1(LogicEngine.Models.Rule)
+  name.vb: Compile(Of T)(Rule)
+  fullName: LogicEngine.Compilers.RuleCompiler.Compile<T>(LogicEngine.Models.Rule)
+  fullName.vb: LogicEngine.Compilers.RuleCompiler.Compile(Of T)(LogicEngine.Models.Rule)
+  nameWithType: RuleCompiler.Compile<T>(Rule)
+  nameWithType.vb: RuleCompiler.Compile(Of T)(Rule)
+- uid: LogicEngine.Compilers.RulesCatalogCompiler
+  name: RulesCatalogCompiler
+  href: api/LogicEngine.Compilers.RulesCatalogCompiler.html
+  commentId: T:LogicEngine.Compilers.RulesCatalogCompiler
+  fullName: LogicEngine.Compilers.RulesCatalogCompiler
+  nameWithType: RulesCatalogCompiler
+- uid: LogicEngine.Compilers.RulesCatalogCompiler.#ctor(LogicEngine.Interfaces.Compilers.IRulesSetCompiler)
+  name: RulesCatalogCompiler(IRulesSetCompiler)
+  href: api/LogicEngine.Compilers.RulesCatalogCompiler.html#LogicEngine_Compilers_RulesCatalogCompiler__ctor_LogicEngine_Interfaces_Compilers_IRulesSetCompiler_
+  commentId: M:LogicEngine.Compilers.RulesCatalogCompiler.#ctor(LogicEngine.Interfaces.Compilers.IRulesSetCompiler)
+  name.vb: New(IRulesSetCompiler)
+  fullName: LogicEngine.Compilers.RulesCatalogCompiler.RulesCatalogCompiler(LogicEngine.Interfaces.Compilers.IRulesSetCompiler)
+  fullName.vb: LogicEngine.Compilers.RulesCatalogCompiler.New(LogicEngine.Interfaces.Compilers.IRulesSetCompiler)
+  nameWithType: RulesCatalogCompiler.RulesCatalogCompiler(IRulesSetCompiler)
+  nameWithType.vb: RulesCatalogCompiler.New(IRulesSetCompiler)
+- uid: LogicEngine.Compilers.RulesCatalogCompiler.#ctor*
+  name: RulesCatalogCompiler
+  href: api/LogicEngine.Compilers.RulesCatalogCompiler.html#LogicEngine_Compilers_RulesCatalogCompiler__ctor_
+  commentId: Overload:LogicEngine.Compilers.RulesCatalogCompiler.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: LogicEngine.Compilers.RulesCatalogCompiler.RulesCatalogCompiler
+  fullName.vb: LogicEngine.Compilers.RulesCatalogCompiler.New
+  nameWithType: RulesCatalogCompiler.RulesCatalogCompiler
+  nameWithType.vb: RulesCatalogCompiler.New
+- uid: LogicEngine.Compilers.RulesCatalogCompiler.Compile*
+  name: Compile
+  href: api/LogicEngine.Compilers.RulesCatalogCompiler.html#LogicEngine_Compilers_RulesCatalogCompiler_Compile_
+  commentId: Overload:LogicEngine.Compilers.RulesCatalogCompiler.Compile
+  isSpec: "True"
+  fullName: LogicEngine.Compilers.RulesCatalogCompiler.Compile
+  nameWithType: RulesCatalogCompiler.Compile
+- uid: LogicEngine.Compilers.RulesCatalogCompiler.Compile``1(LogicEngine.Models.RulesCatalog)
+  name: Compile<T>(RulesCatalog)
+  href: api/LogicEngine.Compilers.RulesCatalogCompiler.html#LogicEngine_Compilers_RulesCatalogCompiler_Compile__1_LogicEngine_Models_RulesCatalog_
+  commentId: M:LogicEngine.Compilers.RulesCatalogCompiler.Compile``1(LogicEngine.Models.RulesCatalog)
+  name.vb: Compile(Of T)(RulesCatalog)
+  fullName: LogicEngine.Compilers.RulesCatalogCompiler.Compile<T>(LogicEngine.Models.RulesCatalog)
+  fullName.vb: LogicEngine.Compilers.RulesCatalogCompiler.Compile(Of T)(LogicEngine.Models.RulesCatalog)
+  nameWithType: RulesCatalogCompiler.Compile<T>(RulesCatalog)
+  nameWithType.vb: RulesCatalogCompiler.Compile(Of T)(RulesCatalog)
+- uid: LogicEngine.Compilers.RulesSetCompiler
+  name: RulesSetCompiler
+  href: api/LogicEngine.Compilers.RulesSetCompiler.html
+  commentId: T:LogicEngine.Compilers.RulesSetCompiler
+  fullName: LogicEngine.Compilers.RulesSetCompiler
+  nameWithType: RulesSetCompiler
+- uid: LogicEngine.Compilers.RulesSetCompiler.#ctor(LogicEngine.Interfaces.Compilers.IRuleCompiler)
+  name: RulesSetCompiler(IRuleCompiler)
+  href: api/LogicEngine.Compilers.RulesSetCompiler.html#LogicEngine_Compilers_RulesSetCompiler__ctor_LogicEngine_Interfaces_Compilers_IRuleCompiler_
+  commentId: M:LogicEngine.Compilers.RulesSetCompiler.#ctor(LogicEngine.Interfaces.Compilers.IRuleCompiler)
+  name.vb: New(IRuleCompiler)
+  fullName: LogicEngine.Compilers.RulesSetCompiler.RulesSetCompiler(LogicEngine.Interfaces.Compilers.IRuleCompiler)
+  fullName.vb: LogicEngine.Compilers.RulesSetCompiler.New(LogicEngine.Interfaces.Compilers.IRuleCompiler)
+  nameWithType: RulesSetCompiler.RulesSetCompiler(IRuleCompiler)
+  nameWithType.vb: RulesSetCompiler.New(IRuleCompiler)
+- uid: LogicEngine.Compilers.RulesSetCompiler.#ctor*
+  name: RulesSetCompiler
+  href: api/LogicEngine.Compilers.RulesSetCompiler.html#LogicEngine_Compilers_RulesSetCompiler__ctor_
+  commentId: Overload:LogicEngine.Compilers.RulesSetCompiler.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: LogicEngine.Compilers.RulesSetCompiler.RulesSetCompiler
+  fullName.vb: LogicEngine.Compilers.RulesSetCompiler.New
+  nameWithType: RulesSetCompiler.RulesSetCompiler
+  nameWithType.vb: RulesSetCompiler.New
+- uid: LogicEngine.Compilers.RulesSetCompiler.Compile*
+  name: Compile
+  href: api/LogicEngine.Compilers.RulesSetCompiler.html#LogicEngine_Compilers_RulesSetCompiler_Compile_
+  commentId: Overload:LogicEngine.Compilers.RulesSetCompiler.Compile
+  isSpec: "True"
+  fullName: LogicEngine.Compilers.RulesSetCompiler.Compile
+  nameWithType: RulesSetCompiler.Compile
+- uid: LogicEngine.Compilers.RulesSetCompiler.Compile``1(LogicEngine.Models.RulesSet)
+  name: Compile<T>(RulesSet)
+  href: api/LogicEngine.Compilers.RulesSetCompiler.html#LogicEngine_Compilers_RulesSetCompiler_Compile__1_LogicEngine_Models_RulesSet_
+  commentId: M:LogicEngine.Compilers.RulesSetCompiler.Compile``1(LogicEngine.Models.RulesSet)
+  name.vb: Compile(Of T)(RulesSet)
+  fullName: LogicEngine.Compilers.RulesSetCompiler.Compile<T>(LogicEngine.Models.RulesSet)
+  fullName.vb: LogicEngine.Compilers.RulesSetCompiler.Compile(Of T)(LogicEngine.Models.RulesSet)
+  nameWithType: RulesSetCompiler.Compile<T>(RulesSet)
+  nameWithType.vb: RulesSetCompiler.Compile(Of T)(RulesSet)
+- uid: LogicEngine.Extensions
+  name: LogicEngine.Extensions
+  href: api/LogicEngine.Extensions.html
+  commentId: N:LogicEngine.Extensions
+  fullName: LogicEngine.Extensions
+  nameWithType: LogicEngine.Extensions
+- uid: LogicEngine.Extensions.EnumerableExtensions
+  name: EnumerableExtensions
+  href: api/LogicEngine.Extensions.EnumerableExtensions.html
+  commentId: T:LogicEngine.Extensions.EnumerableExtensions
+  fullName: LogicEngine.Extensions.EnumerableExtensions
+  nameWithType: EnumerableExtensions
+- uid: LogicEngine.Extensions.EnumerableExtensions.Filter*
+  name: Filter
+  href: api/LogicEngine.Extensions.EnumerableExtensions.html#LogicEngine_Extensions_EnumerableExtensions_Filter_
+  commentId: Overload:LogicEngine.Extensions.EnumerableExtensions.Filter
+  isSpec: "True"
+  fullName: LogicEngine.Extensions.EnumerableExtensions.Filter
+  nameWithType: EnumerableExtensions.Filter
+- uid: LogicEngine.Extensions.EnumerableExtensions.Filter``1(System.Collections.Generic.IEnumerable{``0},LogicEngine.Interfaces.IAppliable{``0})
+  name: Filter<T>(IEnumerable<T>, IAppliable<T>)
+  href: api/LogicEngine.Extensions.EnumerableExtensions.html#LogicEngine_Extensions_EnumerableExtensions_Filter__1_System_Collections_Generic_IEnumerable___0__LogicEngine_Interfaces_IAppliable___0__
+  commentId: M:LogicEngine.Extensions.EnumerableExtensions.Filter``1(System.Collections.Generic.IEnumerable{``0},LogicEngine.Interfaces.IAppliable{``0})
+  name.vb: Filter(Of T)(IEnumerable(Of T), IAppliable(Of T))
+  fullName: LogicEngine.Extensions.EnumerableExtensions.Filter<T>(System.Collections.Generic.IEnumerable<T>, LogicEngine.Interfaces.IAppliable<T>)
+  fullName.vb: LogicEngine.Extensions.EnumerableExtensions.Filter(Of T)(System.Collections.Generic.IEnumerable(Of T), LogicEngine.Interfaces.IAppliable(Of T))
+  nameWithType: EnumerableExtensions.Filter<T>(IEnumerable<T>, IAppliable<T>)
+  nameWithType.vb: EnumerableExtensions.Filter(Of T)(IEnumerable(Of T), IAppliable(Of T))
+- uid: LogicEngine.Extensions.EnumerableExtensions.FirstOrDefault*
+  name: FirstOrDefault
+  href: api/LogicEngine.Extensions.EnumerableExtensions.html#LogicEngine_Extensions_EnumerableExtensions_FirstOrDefault_
+  commentId: Overload:LogicEngine.Extensions.EnumerableExtensions.FirstOrDefault
+  isSpec: "True"
+  fullName: LogicEngine.Extensions.EnumerableExtensions.FirstOrDefault
+  nameWithType: EnumerableExtensions.FirstOrDefault
+- uid: LogicEngine.Extensions.EnumerableExtensions.FirstOrDefault``1(System.Collections.Generic.IEnumerable{``0},LogicEngine.Interfaces.IAppliable{``0})
+  name: FirstOrDefault<T>(IEnumerable<T>, IAppliable<T>)
+  href: api/LogicEngine.Extensions.EnumerableExtensions.html#LogicEngine_Extensions_EnumerableExtensions_FirstOrDefault__1_System_Collections_Generic_IEnumerable___0__LogicEngine_Interfaces_IAppliable___0__
+  commentId: M:LogicEngine.Extensions.EnumerableExtensions.FirstOrDefault``1(System.Collections.Generic.IEnumerable{``0},LogicEngine.Interfaces.IAppliable{``0})
+  name.vb: FirstOrDefault(Of T)(IEnumerable(Of T), IAppliable(Of T))
+  fullName: LogicEngine.Extensions.EnumerableExtensions.FirstOrDefault<T>(System.Collections.Generic.IEnumerable<T>, LogicEngine.Interfaces.IAppliable<T>)
+  fullName.vb: LogicEngine.Extensions.EnumerableExtensions.FirstOrDefault(Of T)(System.Collections.Generic.IEnumerable(Of T), LogicEngine.Interfaces.IAppliable(Of T))
+  nameWithType: EnumerableExtensions.FirstOrDefault<T>(IEnumerable<T>, IAppliable<T>)
+  nameWithType.vb: EnumerableExtensions.FirstOrDefault(Of T)(IEnumerable(Of T), IAppliable(Of T))
+- uid: LogicEngine.Interfaces
+  name: LogicEngine.Interfaces
+  href: api/LogicEngine.Interfaces.html
+  commentId: N:LogicEngine.Interfaces
+  fullName: LogicEngine.Interfaces
+  nameWithType: LogicEngine.Interfaces
+- uid: LogicEngine.Interfaces.Compilers
+  name: LogicEngine.Interfaces.Compilers
+  href: api/LogicEngine.Interfaces.Compilers.html
+  commentId: N:LogicEngine.Interfaces.Compilers
+  fullName: LogicEngine.Interfaces.Compilers
+  nameWithType: LogicEngine.Interfaces.Compilers
+- uid: LogicEngine.Interfaces.Compilers.IRuleCompiler
+  name: IRuleCompiler
+  href: api/LogicEngine.Interfaces.Compilers.IRuleCompiler.html
+  commentId: T:LogicEngine.Interfaces.Compilers.IRuleCompiler
+  fullName: LogicEngine.Interfaces.Compilers.IRuleCompiler
+  nameWithType: IRuleCompiler
+- uid: LogicEngine.Interfaces.Compilers.IRuleCompiler.Compile*
+  name: Compile
+  href: api/LogicEngine.Interfaces.Compilers.IRuleCompiler.html#LogicEngine_Interfaces_Compilers_IRuleCompiler_Compile_
+  commentId: Overload:LogicEngine.Interfaces.Compilers.IRuleCompiler.Compile
+  isSpec: "True"
+  fullName: LogicEngine.Interfaces.Compilers.IRuleCompiler.Compile
+  nameWithType: IRuleCompiler.Compile
+- uid: LogicEngine.Interfaces.Compilers.IRuleCompiler.Compile``1(LogicEngine.Models.Rule)
+  name: Compile<T>(Rule)
+  href: api/LogicEngine.Interfaces.Compilers.IRuleCompiler.html#LogicEngine_Interfaces_Compilers_IRuleCompiler_Compile__1_LogicEngine_Models_Rule_
+  commentId: M:LogicEngine.Interfaces.Compilers.IRuleCompiler.Compile``1(LogicEngine.Models.Rule)
+  name.vb: Compile(Of T)(Rule)
+  fullName: LogicEngine.Interfaces.Compilers.IRuleCompiler.Compile<T>(LogicEngine.Models.Rule)
+  fullName.vb: LogicEngine.Interfaces.Compilers.IRuleCompiler.Compile(Of T)(LogicEngine.Models.Rule)
+  nameWithType: IRuleCompiler.Compile<T>(Rule)
+  nameWithType.vb: IRuleCompiler.Compile(Of T)(Rule)
+- uid: LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler
+  name: IRulesCatalogCompiler
+  href: api/LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.html
+  commentId: T:LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler
+  fullName: LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler
+  nameWithType: IRulesCatalogCompiler
+- uid: LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.Compile*
+  name: Compile
+  href: api/LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.html#LogicEngine_Interfaces_Compilers_IRulesCatalogCompiler_Compile_
+  commentId: Overload:LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.Compile
+  isSpec: "True"
+  fullName: LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.Compile
+  nameWithType: IRulesCatalogCompiler.Compile
+- uid: LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.Compile``1(LogicEngine.Models.RulesCatalog)
+  name: Compile<T>(RulesCatalog)
+  href: api/LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.html#LogicEngine_Interfaces_Compilers_IRulesCatalogCompiler_Compile__1_LogicEngine_Models_RulesCatalog_
+  commentId: M:LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.Compile``1(LogicEngine.Models.RulesCatalog)
+  name.vb: Compile(Of T)(RulesCatalog)
+  fullName: LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.Compile<T>(LogicEngine.Models.RulesCatalog)
+  fullName.vb: LogicEngine.Interfaces.Compilers.IRulesCatalogCompiler.Compile(Of T)(LogicEngine.Models.RulesCatalog)
+  nameWithType: IRulesCatalogCompiler.Compile<T>(RulesCatalog)
+  nameWithType.vb: IRulesCatalogCompiler.Compile(Of T)(RulesCatalog)
+- uid: LogicEngine.Interfaces.Compilers.IRulesSetCompiler
+  name: IRulesSetCompiler
+  href: api/LogicEngine.Interfaces.Compilers.IRulesSetCompiler.html
+  commentId: T:LogicEngine.Interfaces.Compilers.IRulesSetCompiler
+  fullName: LogicEngine.Interfaces.Compilers.IRulesSetCompiler
+  nameWithType: IRulesSetCompiler
+- uid: LogicEngine.Interfaces.Compilers.IRulesSetCompiler.Compile*
+  name: Compile
+  href: api/LogicEngine.Interfaces.Compilers.IRulesSetCompiler.html#LogicEngine_Interfaces_Compilers_IRulesSetCompiler_Compile_
+  commentId: Overload:LogicEngine.Interfaces.Compilers.IRulesSetCompiler.Compile
+  isSpec: "True"
+  fullName: LogicEngine.Interfaces.Compilers.IRulesSetCompiler.Compile
+  nameWithType: IRulesSetCompiler.Compile
+- uid: LogicEngine.Interfaces.Compilers.IRulesSetCompiler.Compile``1(LogicEngine.Models.RulesSet)
+  name: Compile<T>(RulesSet)
+  href: api/LogicEngine.Interfaces.Compilers.IRulesSetCompiler.html#LogicEngine_Interfaces_Compilers_IRulesSetCompiler_Compile__1_LogicEngine_Models_RulesSet_
+  commentId: M:LogicEngine.Interfaces.Compilers.IRulesSetCompiler.Compile``1(LogicEngine.Models.RulesSet)
+  name.vb: Compile(Of T)(RulesSet)
+  fullName: LogicEngine.Interfaces.Compilers.IRulesSetCompiler.Compile<T>(LogicEngine.Models.RulesSet)
+  fullName.vb: LogicEngine.Interfaces.Compilers.IRulesSetCompiler.Compile(Of T)(LogicEngine.Models.RulesSet)
+  nameWithType: IRulesSetCompiler.Compile<T>(RulesSet)
+  nameWithType.vb: IRulesSetCompiler.Compile(Of T)(RulesSet)
+- uid: LogicEngine.Interfaces.IAppliable`1
+  name: IAppliable<T>
+  href: api/LogicEngine.Interfaces.IAppliable-1.html
+  commentId: T:LogicEngine.Interfaces.IAppliable`1
+  name.vb: IAppliable(Of T)
+  fullName: LogicEngine.Interfaces.IAppliable<T>
+  fullName.vb: LogicEngine.Interfaces.IAppliable(Of T)
+  nameWithType: IAppliable<T>
+  nameWithType.vb: IAppliable(Of T)
+- uid: LogicEngine.Interfaces.IAppliable`1.Apply(`0)
+  name: Apply(T)
+  href: api/LogicEngine.Interfaces.IAppliable-1.html#LogicEngine_Interfaces_IAppliable_1_Apply__0_
+  commentId: M:LogicEngine.Interfaces.IAppliable`1.Apply(`0)
+  fullName: LogicEngine.Interfaces.IAppliable<T>.Apply(T)
+  fullName.vb: LogicEngine.Interfaces.IAppliable(Of T).Apply(T)
+  nameWithType: IAppliable<T>.Apply(T)
+  nameWithType.vb: IAppliable(Of T).Apply(T)
+- uid: LogicEngine.Interfaces.IAppliable`1.Apply*
+  name: Apply
+  href: api/LogicEngine.Interfaces.IAppliable-1.html#LogicEngine_Interfaces_IAppliable_1_Apply_
+  commentId: Overload:LogicEngine.Interfaces.IAppliable`1.Apply
+  isSpec: "True"
+  fullName: LogicEngine.Interfaces.IAppliable<T>.Apply
+  fullName.vb: LogicEngine.Interfaces.IAppliable(Of T).Apply
+  nameWithType: IAppliable<T>.Apply
+  nameWithType.vb: IAppliable(Of T).Apply
+- uid: LogicEngine.Interfaces.IAppliedSelector`2
+  name: IAppliedSelector<TIn, TOut>
+  href: api/LogicEngine.Interfaces.IAppliedSelector-2.html
+  commentId: T:LogicEngine.Interfaces.IAppliedSelector`2
+  name.vb: IAppliedSelector(Of TIn, TOut)
+  fullName: LogicEngine.Interfaces.IAppliedSelector<TIn, TOut>
+  fullName.vb: LogicEngine.Interfaces.IAppliedSelector(Of TIn, TOut)
+  nameWithType: IAppliedSelector<TIn, TOut>
+  nameWithType.vb: IAppliedSelector(Of TIn, TOut)
+- uid: LogicEngine.Interfaces.IAppliedSelector`2.FirstMatching(`0)
+  name: FirstMatching(TIn)
+  href: api/LogicEngine.Interfaces.IAppliedSelector-2.html#LogicEngine_Interfaces_IAppliedSelector_2_FirstMatching__0_
+  commentId: M:LogicEngine.Interfaces.IAppliedSelector`2.FirstMatching(`0)
+  fullName: LogicEngine.Interfaces.IAppliedSelector<TIn, TOut>.FirstMatching(TIn)
+  fullName.vb: LogicEngine.Interfaces.IAppliedSelector(Of TIn, TOut).FirstMatching(TIn)
+  nameWithType: IAppliedSelector<TIn, TOut>.FirstMatching(TIn)
+  nameWithType.vb: IAppliedSelector(Of TIn, TOut).FirstMatching(TIn)
+- uid: LogicEngine.Interfaces.IAppliedSelector`2.FirstMatching*
+  name: FirstMatching
+  href: api/LogicEngine.Interfaces.IAppliedSelector-2.html#LogicEngine_Interfaces_IAppliedSelector_2_FirstMatching_
+  commentId: Overload:LogicEngine.Interfaces.IAppliedSelector`2.FirstMatching
+  isSpec: "True"
+  fullName: LogicEngine.Interfaces.IAppliedSelector<TIn, TOut>.FirstMatching
+  fullName.vb: LogicEngine.Interfaces.IAppliedSelector(Of TIn, TOut).FirstMatching
+  nameWithType: IAppliedSelector<TIn, TOut>.FirstMatching
+  nameWithType.vb: IAppliedSelector(Of TIn, TOut).FirstMatching
+- uid: LogicEngine.Interfaces.IDetailedAppliable`2
+  name: IDetailedAppliable<T, TOut>
+  href: api/LogicEngine.Interfaces.IDetailedAppliable-2.html
+  commentId: T:LogicEngine.Interfaces.IDetailedAppliable`2
+  name.vb: IDetailedAppliable(Of T, TOut)
+  fullName: LogicEngine.Interfaces.IDetailedAppliable<T, TOut>
+  fullName.vb: LogicEngine.Interfaces.IDetailedAppliable(Of T, TOut)
+  nameWithType: IDetailedAppliable<T, TOut>
+  nameWithType.vb: IDetailedAppliable(Of T, TOut)
+- uid: LogicEngine.Interfaces.IDetailedAppliable`2.DetailedApply(`0)
+  name: DetailedApply(T)
+  href: api/LogicEngine.Interfaces.IDetailedAppliable-2.html#LogicEngine_Interfaces_IDetailedAppliable_2_DetailedApply__0_
+  commentId: M:LogicEngine.Interfaces.IDetailedAppliable`2.DetailedApply(`0)
+  fullName: LogicEngine.Interfaces.IDetailedAppliable<T, TOut>.DetailedApply(T)
+  fullName.vb: LogicEngine.Interfaces.IDetailedAppliable(Of T, TOut).DetailedApply(T)
+  nameWithType: IDetailedAppliable<T, TOut>.DetailedApply(T)
+  nameWithType.vb: IDetailedAppliable(Of T, TOut).DetailedApply(T)
+- uid: LogicEngine.Interfaces.IDetailedAppliable`2.DetailedApply*
+  name: DetailedApply
+  href: api/LogicEngine.Interfaces.IDetailedAppliable-2.html#LogicEngine_Interfaces_IDetailedAppliable_2_DetailedApply_
+  commentId: Overload:LogicEngine.Interfaces.IDetailedAppliable`2.DetailedApply
+  isSpec: "True"
+  fullName: LogicEngine.Interfaces.IDetailedAppliable<T, TOut>.DetailedApply
+  fullName.vb: LogicEngine.Interfaces.IDetailedAppliable(Of T, TOut).DetailedApply
+  nameWithType: IDetailedAppliable<T, TOut>.DetailedApply
+  nameWithType.vb: IDetailedAppliable(Of T, TOut).DetailedApply
+- uid: LogicEngine.Internals
+  name: LogicEngine.Internals
+  href: api/LogicEngine.Internals.html
+  commentId: N:LogicEngine.Internals
+  fullName: LogicEngine.Internals
+  nameWithType: LogicEngine.Internals
+- uid: LogicEngine.Internals.OperatorType
+  name: OperatorType
+  href: api/LogicEngine.Internals.OperatorType.html
+  commentId: T:LogicEngine.Internals.OperatorType
+  fullName: LogicEngine.Internals.OperatorType
+  nameWithType: OperatorType
+- uid: LogicEngine.Internals.OperatorType.Contains
+  name: Contains
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_Contains
+  commentId: F:LogicEngine.Internals.OperatorType.Contains
+  fullName: LogicEngine.Internals.OperatorType.Contains
+  nameWithType: OperatorType.Contains
+- uid: LogicEngine.Internals.OperatorType.ContainsKey
+  name: ContainsKey
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_ContainsKey
+  commentId: F:LogicEngine.Internals.OperatorType.ContainsKey
+  fullName: LogicEngine.Internals.OperatorType.ContainsKey
+  nameWithType: OperatorType.ContainsKey
+- uid: LogicEngine.Internals.OperatorType.ContainsValue
+  name: ContainsValue
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_ContainsValue
+  commentId: F:LogicEngine.Internals.OperatorType.ContainsValue
+  fullName: LogicEngine.Internals.OperatorType.ContainsValue
+  nameWithType: OperatorType.ContainsValue
+- uid: LogicEngine.Internals.OperatorType.Equal
+  name: Equal
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_Equal
+  commentId: F:LogicEngine.Internals.OperatorType.Equal
+  fullName: LogicEngine.Internals.OperatorType.Equal
+  nameWithType: OperatorType.Equal
+- uid: LogicEngine.Internals.OperatorType.GreaterThan
+  name: GreaterThan
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_GreaterThan
+  commentId: F:LogicEngine.Internals.OperatorType.GreaterThan
+  fullName: LogicEngine.Internals.OperatorType.GreaterThan
+  nameWithType: OperatorType.GreaterThan
+- uid: LogicEngine.Internals.OperatorType.GreaterThanOrEqual
+  name: GreaterThanOrEqual
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_GreaterThanOrEqual
+  commentId: F:LogicEngine.Internals.OperatorType.GreaterThanOrEqual
+  fullName: LogicEngine.Internals.OperatorType.GreaterThanOrEqual
+  nameWithType: OperatorType.GreaterThanOrEqual
+- uid: LogicEngine.Internals.OperatorType.InnerContains
+  name: InnerContains
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_InnerContains
+  commentId: F:LogicEngine.Internals.OperatorType.InnerContains
+  fullName: LogicEngine.Internals.OperatorType.InnerContains
+  nameWithType: OperatorType.InnerContains
+- uid: LogicEngine.Internals.OperatorType.InnerEqual
+  name: InnerEqual
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_InnerEqual
+  commentId: F:LogicEngine.Internals.OperatorType.InnerEqual
+  fullName: LogicEngine.Internals.OperatorType.InnerEqual
+  nameWithType: OperatorType.InnerEqual
+- uid: LogicEngine.Internals.OperatorType.InnerGreaterThan
+  name: InnerGreaterThan
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_InnerGreaterThan
+  commentId: F:LogicEngine.Internals.OperatorType.InnerGreaterThan
+  fullName: LogicEngine.Internals.OperatorType.InnerGreaterThan
+  nameWithType: OperatorType.InnerGreaterThan
+- uid: LogicEngine.Internals.OperatorType.InnerGreaterThanOrEqual
+  name: InnerGreaterThanOrEqual
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_InnerGreaterThanOrEqual
+  commentId: F:LogicEngine.Internals.OperatorType.InnerGreaterThanOrEqual
+  fullName: LogicEngine.Internals.OperatorType.InnerGreaterThanOrEqual
+  nameWithType: OperatorType.InnerGreaterThanOrEqual
+- uid: LogicEngine.Internals.OperatorType.InnerLessThan
+  name: InnerLessThan
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_InnerLessThan
+  commentId: F:LogicEngine.Internals.OperatorType.InnerLessThan
+  fullName: LogicEngine.Internals.OperatorType.InnerLessThan
+  nameWithType: OperatorType.InnerLessThan
+- uid: LogicEngine.Internals.OperatorType.InnerLessThanOrEqual
+  name: InnerLessThanOrEqual
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_InnerLessThanOrEqual
+  commentId: F:LogicEngine.Internals.OperatorType.InnerLessThanOrEqual
+  fullName: LogicEngine.Internals.OperatorType.InnerLessThanOrEqual
+  nameWithType: OperatorType.InnerLessThanOrEqual
+- uid: LogicEngine.Internals.OperatorType.InnerNotContains
+  name: InnerNotContains
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_InnerNotContains
+  commentId: F:LogicEngine.Internals.OperatorType.InnerNotContains
+  fullName: LogicEngine.Internals.OperatorType.InnerNotContains
+  nameWithType: OperatorType.InnerNotContains
+- uid: LogicEngine.Internals.OperatorType.InnerNotEqual
+  name: InnerNotEqual
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_InnerNotEqual
+  commentId: F:LogicEngine.Internals.OperatorType.InnerNotEqual
+  fullName: LogicEngine.Internals.OperatorType.InnerNotEqual
+  nameWithType: OperatorType.InnerNotEqual
+- uid: LogicEngine.Internals.OperatorType.InnerNotOverlaps
+  name: InnerNotOverlaps
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_InnerNotOverlaps
+  commentId: F:LogicEngine.Internals.OperatorType.InnerNotOverlaps
+  fullName: LogicEngine.Internals.OperatorType.InnerNotOverlaps
+  nameWithType: OperatorType.InnerNotOverlaps
+- uid: LogicEngine.Internals.OperatorType.InnerOverlaps
+  name: InnerOverlaps
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_InnerOverlaps
+  commentId: F:LogicEngine.Internals.OperatorType.InnerOverlaps
+  fullName: LogicEngine.Internals.OperatorType.InnerOverlaps
+  nameWithType: OperatorType.InnerOverlaps
+- uid: LogicEngine.Internals.OperatorType.IsContained
+  name: IsContained
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_IsContained
+  commentId: F:LogicEngine.Internals.OperatorType.IsContained
+  fullName: LogicEngine.Internals.OperatorType.IsContained
+  nameWithType: OperatorType.IsContained
+- uid: LogicEngine.Internals.OperatorType.IsNotContained
+  name: IsNotContained
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_IsNotContained
+  commentId: F:LogicEngine.Internals.OperatorType.IsNotContained
+  fullName: LogicEngine.Internals.OperatorType.IsNotContained
+  nameWithType: OperatorType.IsNotContained
+- uid: LogicEngine.Internals.OperatorType.KeyContainsValue
+  name: KeyContainsValue
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_KeyContainsValue
+  commentId: F:LogicEngine.Internals.OperatorType.KeyContainsValue
+  fullName: LogicEngine.Internals.OperatorType.KeyContainsValue
+  nameWithType: OperatorType.KeyContainsValue
+- uid: LogicEngine.Internals.OperatorType.LessThan
+  name: LessThan
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_LessThan
+  commentId: F:LogicEngine.Internals.OperatorType.LessThan
+  fullName: LogicEngine.Internals.OperatorType.LessThan
+  nameWithType: OperatorType.LessThan
+- uid: LogicEngine.Internals.OperatorType.LessThanOrEqual
+  name: LessThanOrEqual
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_LessThanOrEqual
+  commentId: F:LogicEngine.Internals.OperatorType.LessThanOrEqual
+  fullName: LogicEngine.Internals.OperatorType.LessThanOrEqual
+  nameWithType: OperatorType.LessThanOrEqual
+- uid: LogicEngine.Internals.OperatorType.None
+  name: None
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_None
+  commentId: F:LogicEngine.Internals.OperatorType.None
+  fullName: LogicEngine.Internals.OperatorType.None
+  nameWithType: OperatorType.None
+- uid: LogicEngine.Internals.OperatorType.NotContains
+  name: NotContains
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_NotContains
+  commentId: F:LogicEngine.Internals.OperatorType.NotContains
+  fullName: LogicEngine.Internals.OperatorType.NotContains
+  nameWithType: OperatorType.NotContains
+- uid: LogicEngine.Internals.OperatorType.NotContainsKey
+  name: NotContainsKey
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_NotContainsKey
+  commentId: F:LogicEngine.Internals.OperatorType.NotContainsKey
+  fullName: LogicEngine.Internals.OperatorType.NotContainsKey
+  nameWithType: OperatorType.NotContainsKey
+- uid: LogicEngine.Internals.OperatorType.NotContainsValue
+  name: NotContainsValue
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_NotContainsValue
+  commentId: F:LogicEngine.Internals.OperatorType.NotContainsValue
+  fullName: LogicEngine.Internals.OperatorType.NotContainsValue
+  nameWithType: OperatorType.NotContainsValue
+- uid: LogicEngine.Internals.OperatorType.NotEqual
+  name: NotEqual
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_NotEqual
+  commentId: F:LogicEngine.Internals.OperatorType.NotEqual
+  fullName: LogicEngine.Internals.OperatorType.NotEqual
+  nameWithType: OperatorType.NotEqual
+- uid: LogicEngine.Internals.OperatorType.NotKeyContainsValue
+  name: NotKeyContainsValue
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_NotKeyContainsValue
+  commentId: F:LogicEngine.Internals.OperatorType.NotKeyContainsValue
+  fullName: LogicEngine.Internals.OperatorType.NotKeyContainsValue
+  nameWithType: OperatorType.NotKeyContainsValue
+- uid: LogicEngine.Internals.OperatorType.NotOverlaps
+  name: NotOverlaps
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_NotOverlaps
+  commentId: F:LogicEngine.Internals.OperatorType.NotOverlaps
+  fullName: LogicEngine.Internals.OperatorType.NotOverlaps
+  nameWithType: OperatorType.NotOverlaps
+- uid: LogicEngine.Internals.OperatorType.Overlaps
+  name: Overlaps
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_Overlaps
+  commentId: F:LogicEngine.Internals.OperatorType.Overlaps
+  fullName: LogicEngine.Internals.OperatorType.Overlaps
+  nameWithType: OperatorType.Overlaps
+- uid: LogicEngine.Internals.OperatorType.StringContains
+  name: StringContains
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_StringContains
+  commentId: F:LogicEngine.Internals.OperatorType.StringContains
+  fullName: LogicEngine.Internals.OperatorType.StringContains
+  nameWithType: OperatorType.StringContains
+- uid: LogicEngine.Internals.OperatorType.StringEndsWith
+  name: StringEndsWith
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_StringEndsWith
+  commentId: F:LogicEngine.Internals.OperatorType.StringEndsWith
+  fullName: LogicEngine.Internals.OperatorType.StringEndsWith
+  nameWithType: OperatorType.StringEndsWith
+- uid: LogicEngine.Internals.OperatorType.StringRegexIsMatch
+  name: StringRegexIsMatch
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_StringRegexIsMatch
+  commentId: F:LogicEngine.Internals.OperatorType.StringRegexIsMatch
+  fullName: LogicEngine.Internals.OperatorType.StringRegexIsMatch
+  nameWithType: OperatorType.StringRegexIsMatch
+- uid: LogicEngine.Internals.OperatorType.StringStartsWith
+  name: StringStartsWith
+  href: api/LogicEngine.Internals.OperatorType.html#LogicEngine_Internals_OperatorType_StringStartsWith
+  commentId: F:LogicEngine.Internals.OperatorType.StringStartsWith
+  fullName: LogicEngine.Internals.OperatorType.StringStartsWith
+  nameWithType: OperatorType.StringStartsWith
+- uid: LogicEngine.Models
+  name: LogicEngine.Models
+  href: api/LogicEngine.Models.html
+  commentId: N:LogicEngine.Models
+  fullName: LogicEngine.Models
+  nameWithType: LogicEngine.Models
+- uid: LogicEngine.Models.Rule
+  name: Rule
+  href: api/LogicEngine.Models.Rule.html
+  commentId: T:LogicEngine.Models.Rule
+  fullName: LogicEngine.Models.Rule
+  nameWithType: Rule
+- uid: LogicEngine.Models.Rule.#ctor(System.String,LogicEngine.Internals.OperatorType,System.String,System.String)
+  name: Rule(string, OperatorType, string, string)
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule__ctor_System_String_LogicEngine_Internals_OperatorType_System_String_System_String_
+  commentId: M:LogicEngine.Models.Rule.#ctor(System.String,LogicEngine.Internals.OperatorType,System.String,System.String)
+  name.vb: New(String, OperatorType, String, String)
+  fullName: LogicEngine.Models.Rule.Rule(string, LogicEngine.Internals.OperatorType, string, string)
+  fullName.vb: LogicEngine.Models.Rule.New(String, LogicEngine.Internals.OperatorType, String, String)
+  nameWithType: Rule.Rule(string, OperatorType, string, string)
+  nameWithType.vb: Rule.New(String, OperatorType, String, String)
+- uid: LogicEngine.Models.Rule.#ctor*
+  name: Rule
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule__ctor_
+  commentId: Overload:LogicEngine.Models.Rule.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: LogicEngine.Models.Rule.Rule
+  fullName.vb: LogicEngine.Models.Rule.New
+  nameWithType: Rule.Rule
+  nameWithType.vb: Rule.New
+- uid: LogicEngine.Models.Rule.Code
+  name: Code
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule_Code
+  commentId: P:LogicEngine.Models.Rule.Code
+  fullName: LogicEngine.Models.Rule.Code
+  nameWithType: Rule.Code
+- uid: LogicEngine.Models.Rule.Code*
+  name: Code
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule_Code_
+  commentId: Overload:LogicEngine.Models.Rule.Code
+  isSpec: "True"
+  fullName: LogicEngine.Models.Rule.Code
+  nameWithType: Rule.Code
+- uid: LogicEngine.Models.Rule.Operator
+  name: Operator
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule_Operator
+  commentId: P:LogicEngine.Models.Rule.Operator
+  fullName: LogicEngine.Models.Rule.Operator
+  nameWithType: Rule.Operator
+- uid: LogicEngine.Models.Rule.Operator*
+  name: Operator
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule_Operator_
+  commentId: Overload:LogicEngine.Models.Rule.Operator
+  isSpec: "True"
+  fullName: LogicEngine.Models.Rule.Operator
+  nameWithType: Rule.Operator
+- uid: LogicEngine.Models.Rule.Property
+  name: Property
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule_Property
+  commentId: P:LogicEngine.Models.Rule.Property
+  fullName: LogicEngine.Models.Rule.Property
+  nameWithType: Rule.Property
+- uid: LogicEngine.Models.Rule.Property*
+  name: Property
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule_Property_
+  commentId: Overload:LogicEngine.Models.Rule.Property
+  isSpec: "True"
+  fullName: LogicEngine.Models.Rule.Property
+  nameWithType: Rule.Property
+- uid: LogicEngine.Models.Rule.ToString
+  name: ToString()
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule_ToString
+  commentId: M:LogicEngine.Models.Rule.ToString
+  fullName: LogicEngine.Models.Rule.ToString()
+  nameWithType: Rule.ToString()
+- uid: LogicEngine.Models.Rule.ToString*
+  name: ToString
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule_ToString_
+  commentId: Overload:LogicEngine.Models.Rule.ToString
+  isSpec: "True"
+  fullName: LogicEngine.Models.Rule.ToString
+  nameWithType: Rule.ToString
+- uid: LogicEngine.Models.Rule.Value
+  name: Value
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule_Value
+  commentId: P:LogicEngine.Models.Rule.Value
+  fullName: LogicEngine.Models.Rule.Value
+  nameWithType: Rule.Value
+- uid: LogicEngine.Models.Rule.Value*
+  name: Value
+  href: api/LogicEngine.Models.Rule.html#LogicEngine_Models_Rule_Value_
+  commentId: Overload:LogicEngine.Models.Rule.Value
+  isSpec: "True"
+  fullName: LogicEngine.Models.Rule.Value
+  nameWithType: Rule.Value
+- uid: LogicEngine.Models.RulesCatalog
+  name: RulesCatalog
+  href: api/LogicEngine.Models.RulesCatalog.html
+  commentId: T:LogicEngine.Models.RulesCatalog
+  fullName: LogicEngine.Models.RulesCatalog
+  nameWithType: RulesCatalog
+- uid: LogicEngine.Models.RulesCatalog.#ctor(System.Collections.Generic.IEnumerable{LogicEngine.Models.RulesSet},System.String)
+  name: RulesCatalog(IEnumerable<RulesSet>, string)
+  href: api/LogicEngine.Models.RulesCatalog.html#LogicEngine_Models_RulesCatalog__ctor_System_Collections_Generic_IEnumerable_LogicEngine_Models_RulesSet__System_String_
+  commentId: M:LogicEngine.Models.RulesCatalog.#ctor(System.Collections.Generic.IEnumerable{LogicEngine.Models.RulesSet},System.String)
+  name.vb: New(IEnumerable(Of RulesSet), String)
+  fullName: LogicEngine.Models.RulesCatalog.RulesCatalog(System.Collections.Generic.IEnumerable<LogicEngine.Models.RulesSet>, string)
+  fullName.vb: LogicEngine.Models.RulesCatalog.New(System.Collections.Generic.IEnumerable(Of LogicEngine.Models.RulesSet), String)
+  nameWithType: RulesCatalog.RulesCatalog(IEnumerable<RulesSet>, string)
+  nameWithType.vb: RulesCatalog.New(IEnumerable(Of RulesSet), String)
+- uid: LogicEngine.Models.RulesCatalog.#ctor*
+  name: RulesCatalog
+  href: api/LogicEngine.Models.RulesCatalog.html#LogicEngine_Models_RulesCatalog__ctor_
+  commentId: Overload:LogicEngine.Models.RulesCatalog.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: LogicEngine.Models.RulesCatalog.RulesCatalog
+  fullName.vb: LogicEngine.Models.RulesCatalog.New
+  nameWithType: RulesCatalog.RulesCatalog
+  nameWithType.vb: RulesCatalog.New
+- uid: LogicEngine.Models.RulesCatalog.Name
+  name: Name
+  href: api/LogicEngine.Models.RulesCatalog.html#LogicEngine_Models_RulesCatalog_Name
+  commentId: P:LogicEngine.Models.RulesCatalog.Name
+  fullName: LogicEngine.Models.RulesCatalog.Name
+  nameWithType: RulesCatalog.Name
+- uid: LogicEngine.Models.RulesCatalog.Name*
+  name: Name
+  href: api/LogicEngine.Models.RulesCatalog.html#LogicEngine_Models_RulesCatalog_Name_
+  commentId: Overload:LogicEngine.Models.RulesCatalog.Name
+  isSpec: "True"
+  fullName: LogicEngine.Models.RulesCatalog.Name
+  nameWithType: RulesCatalog.Name
+- uid: LogicEngine.Models.RulesCatalog.RulesSets
+  name: RulesSets
+  href: api/LogicEngine.Models.RulesCatalog.html#LogicEngine_Models_RulesCatalog_RulesSets
+  commentId: P:LogicEngine.Models.RulesCatalog.RulesSets
+  fullName: LogicEngine.Models.RulesCatalog.RulesSets
+  nameWithType: RulesCatalog.RulesSets
+- uid: LogicEngine.Models.RulesCatalog.RulesSets*
+  name: RulesSets
+  href: api/LogicEngine.Models.RulesCatalog.html#LogicEngine_Models_RulesCatalog_RulesSets_
+  commentId: Overload:LogicEngine.Models.RulesCatalog.RulesSets
+  isSpec: "True"
+  fullName: LogicEngine.Models.RulesCatalog.RulesSets
+  nameWithType: RulesCatalog.RulesSets
+- uid: LogicEngine.Models.RulesCatalog.op_Addition(LogicEngine.Models.RulesCatalog,LogicEngine.Models.RulesCatalog)
+  name: operator +(RulesCatalog, RulesCatalog)
+  href: api/LogicEngine.Models.RulesCatalog.html#LogicEngine_Models_RulesCatalog_op_Addition_LogicEngine_Models_RulesCatalog_LogicEngine_Models_RulesCatalog_
+  commentId: M:LogicEngine.Models.RulesCatalog.op_Addition(LogicEngine.Models.RulesCatalog,LogicEngine.Models.RulesCatalog)
+  name.vb: +(RulesCatalog, RulesCatalog)
+  fullName: LogicEngine.Models.RulesCatalog.operator +(LogicEngine.Models.RulesCatalog, LogicEngine.Models.RulesCatalog)
+  fullName.vb: LogicEngine.Models.RulesCatalog.+(LogicEngine.Models.RulesCatalog, LogicEngine.Models.RulesCatalog)
+  nameWithType: RulesCatalog.operator +(RulesCatalog, RulesCatalog)
+  nameWithType.vb: RulesCatalog.+(RulesCatalog, RulesCatalog)
+- uid: LogicEngine.Models.RulesCatalog.op_Addition*
+  name: operator +
+  href: api/LogicEngine.Models.RulesCatalog.html#LogicEngine_Models_RulesCatalog_op_Addition_
+  commentId: Overload:LogicEngine.Models.RulesCatalog.op_Addition
+  isSpec: "True"
+  name.vb: +
+  fullName: LogicEngine.Models.RulesCatalog.operator +
+  fullName.vb: LogicEngine.Models.RulesCatalog.+
+  nameWithType: RulesCatalog.operator +
+  nameWithType.vb: RulesCatalog.+
+- uid: LogicEngine.Models.RulesCatalog.op_Multiply(LogicEngine.Models.RulesCatalog,LogicEngine.Models.RulesCatalog)
+  name: operator *(RulesCatalog, RulesCatalog)
+  href: api/LogicEngine.Models.RulesCatalog.html#LogicEngine_Models_RulesCatalog_op_Multiply_LogicEngine_Models_RulesCatalog_LogicEngine_Models_RulesCatalog_
+  commentId: M:LogicEngine.Models.RulesCatalog.op_Multiply(LogicEngine.Models.RulesCatalog,LogicEngine.Models.RulesCatalog)
+  name.vb: '*(RulesCatalog, RulesCatalog)'
+  fullName: LogicEngine.Models.RulesCatalog.operator *(LogicEngine.Models.RulesCatalog, LogicEngine.Models.RulesCatalog)
+  fullName.vb: LogicEngine.Models.RulesCatalog.*(LogicEngine.Models.RulesCatalog, LogicEngine.Models.RulesCatalog)
+  nameWithType: RulesCatalog.operator *(RulesCatalog, RulesCatalog)
+  nameWithType.vb: RulesCatalog.*(RulesCatalog, RulesCatalog)
+- uid: LogicEngine.Models.RulesCatalog.op_Multiply*
+  name: operator *
+  href: api/LogicEngine.Models.RulesCatalog.html#LogicEngine_Models_RulesCatalog_op_Multiply_
+  commentId: Overload:LogicEngine.Models.RulesCatalog.op_Multiply
+  isSpec: "True"
+  name.vb: '*'
+  fullName: LogicEngine.Models.RulesCatalog.operator *
+  fullName.vb: LogicEngine.Models.RulesCatalog.*
+  nameWithType: RulesCatalog.operator *
+  nameWithType.vb: RulesCatalog.*
+- uid: LogicEngine.Models.RulesSet
+  name: RulesSet
+  href: api/LogicEngine.Models.RulesSet.html
+  commentId: T:LogicEngine.Models.RulesSet
+  fullName: LogicEngine.Models.RulesSet
+  nameWithType: RulesSet
+- uid: LogicEngine.Models.RulesSet.#ctor(System.Collections.Generic.IEnumerable{LogicEngine.Models.Rule},System.String)
+  name: RulesSet(IEnumerable<Rule>, string)
+  href: api/LogicEngine.Models.RulesSet.html#LogicEngine_Models_RulesSet__ctor_System_Collections_Generic_IEnumerable_LogicEngine_Models_Rule__System_String_
+  commentId: M:LogicEngine.Models.RulesSet.#ctor(System.Collections.Generic.IEnumerable{LogicEngine.Models.Rule},System.String)
+  name.vb: New(IEnumerable(Of Rule), String)
+  fullName: LogicEngine.Models.RulesSet.RulesSet(System.Collections.Generic.IEnumerable<LogicEngine.Models.Rule>, string)
+  fullName.vb: LogicEngine.Models.RulesSet.New(System.Collections.Generic.IEnumerable(Of LogicEngine.Models.Rule), String)
+  nameWithType: RulesSet.RulesSet(IEnumerable<Rule>, string)
+  nameWithType.vb: RulesSet.New(IEnumerable(Of Rule), String)
+- uid: LogicEngine.Models.RulesSet.#ctor*
+  name: RulesSet
+  href: api/LogicEngine.Models.RulesSet.html#LogicEngine_Models_RulesSet__ctor_
+  commentId: Overload:LogicEngine.Models.RulesSet.#ctor
+  isSpec: "True"
+  name.vb: New
+  fullName: LogicEngine.Models.RulesSet.RulesSet
+  fullName.vb: LogicEngine.Models.RulesSet.New
+  nameWithType: RulesSet.RulesSet
+  nameWithType.vb: RulesSet.New
+- uid: LogicEngine.Models.RulesSet.Name
+  name: Name
+  href: api/LogicEngine.Models.RulesSet.html#LogicEngine_Models_RulesSet_Name
+  commentId: P:LogicEngine.Models.RulesSet.Name
+  fullName: LogicEngine.Models.RulesSet.Name
+  nameWithType: RulesSet.Name
+- uid: LogicEngine.Models.RulesSet.Name*
+  name: Name
+  href: api/LogicEngine.Models.RulesSet.html#LogicEngine_Models_RulesSet_Name_
+  commentId: Overload:LogicEngine.Models.RulesSet.Name
+  isSpec: "True"
+  fullName: LogicEngine.Models.RulesSet.Name
+  nameWithType: RulesSet.Name
+- uid: LogicEngine.Models.RulesSet.Rules
+  name: Rules
+  href: api/LogicEngine.Models.RulesSet.html#LogicEngine_Models_RulesSet_Rules
+  commentId: P:LogicEngine.Models.RulesSet.Rules
+  fullName: LogicEngine.Models.RulesSet.Rules
+  nameWithType: RulesSet.Rules
+- uid: LogicEngine.Models.RulesSet.Rules*
+  name: Rules
+  href: api/LogicEngine.Models.RulesSet.html#LogicEngine_Models_RulesSet_Rules_
+  commentId: Overload:LogicEngine.Models.RulesSet.Rules
+  isSpec: "True"
+  fullName: LogicEngine.Models.RulesSet.Rules
+  nameWithType: RulesSet.Rules
+- uid: LogicEngine.Models.RulesSet.op_Multiply(LogicEngine.Models.RulesSet,LogicEngine.Models.RulesSet)
+  name: operator *(RulesSet, RulesSet)
+  href: api/LogicEngine.Models.RulesSet.html#LogicEngine_Models_RulesSet_op_Multiply_LogicEngine_Models_RulesSet_LogicEngine_Models_RulesSet_
+  commentId: M:LogicEngine.Models.RulesSet.op_Multiply(LogicEngine.Models.RulesSet,LogicEngine.Models.RulesSet)
+  name.vb: '*(RulesSet, RulesSet)'
+  fullName: LogicEngine.Models.RulesSet.operator *(LogicEngine.Models.RulesSet, LogicEngine.Models.RulesSet)
+  fullName.vb: LogicEngine.Models.RulesSet.*(LogicEngine.Models.RulesSet, LogicEngine.Models.RulesSet)
+  nameWithType: RulesSet.operator *(RulesSet, RulesSet)
+  nameWithType.vb: RulesSet.*(RulesSet, RulesSet)
+- uid: LogicEngine.Models.RulesSet.op_Multiply*
+  name: operator *
+  href: api/LogicEngine.Models.RulesSet.html#LogicEngine_Models_RulesSet_op_Multiply_
+  commentId: Overload:LogicEngine.Models.RulesSet.op_Multiply
+  isSpec: "True"
+  name.vb: '*'
+  fullName: LogicEngine.Models.RulesSet.operator *
+  fullName.vb: LogicEngine.Models.RulesSet.*
+  nameWithType: RulesSet.operator *
+  nameWithType.vb: RulesSet.*

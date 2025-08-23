@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class CompiledRulesSet&lt;T&gt; | Logic Engine </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class CompiledRulesSet&lt;T&gt; | Logic Engine ">
+      
+      <meta name="description" content="Represents a compiled set of rules that can be applied to items of type T.">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/fabiolune/logic-engine/new/v4.4.0/apiSpec/new?filename=LogicEngine_CompiledRulesSet_1.md&amp;value=---%0Auid%3A%20LogicEngine.CompiledRulesSet%601%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="LogicEngine.CompiledRulesSet`1">
+
+
+
+  <h1 id="LogicEngine_CompiledRulesSet_1" data-uid="LogicEngine.CompiledRulesSet`1" class="text-break">
+Class CompiledRulesSet&lt;T&gt;  <a class="header-action link-secondary" title="View source" href="https://github.com/fabiolune/logic-engine/blob/v4.4.0/src/LogicEngine/CompiledRulesSet.cs/#L19"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="LogicEngine.html">LogicEngine</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>LogicEngine.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>Represents a compiled set of rules that can be applied to items of type <code class="typeparamref">T</code>.</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public record CompiledRulesSet&lt;T&gt; : IAppliable&lt;T&gt;, IDetailedAppliable&lt;T, IEnumerable&lt;string&gt;&gt;, IAppliedSelector&lt;T, string&gt;, IEquatable&lt;CompiledRulesSet&lt;T&gt;&gt; where T : new()</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd><p>The type of items to which the rules are applied. Must have a parameterless constructor.</p>
+</dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">CompiledRulesSet&lt;T&gt;</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="LogicEngine.Interfaces.IAppliable-1.html">IAppliable</a>&lt;T&gt;</div>
+      <div><a class="xref" href="LogicEngine.Interfaces.IDetailedAppliable-2.html">IDetailedAppliable</a>&lt;T, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;&gt;</div>
+      <div><a class="xref" href="LogicEngine.Interfaces.IAppliedSelector-2.html">IAppliedSelector</a>&lt;T, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</div>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="LogicEngine.CompiledRulesSet-1.html">CompiledRulesSet</a>&lt;T&gt;&gt;</div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+  <h2 id="LogicEngine_CompiledRulesSet_1_remarks">Remarks</h2>
+  <div class="markdown level0 remarks"><p>This class provides functionality to apply a set of compiled rules to an item, check detailed results
+of rule application, and retrieve the first matching rule. It implements the <a class="xref" href="LogicEngine.Interfaces.IAppliable-1.html">IAppliable&lt;T&gt;</a>, <a class="xref" href="LogicEngine.Interfaces.IDetailedAppliable-2.html">IDetailedAppliable&lt;T, TOut&gt;</a>, and <a class="xref" href="LogicEngine.Interfaces.IAppliedSelector-2.html">IAppliedSelector&lt;TIn, TOut&gt;</a>
+interfaces.</p>
+</div>
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="LogicEngine_CompiledRulesSet_1__ctor_" data-uid="LogicEngine.CompiledRulesSet`1.#ctor*"></a>
+
+  <h3 id="LogicEngine_CompiledRulesSet_1__ctor_LogicEngine_CompiledRule__0____System_String_" data-uid="LogicEngine.CompiledRulesSet`1.#ctor(LogicEngine.CompiledRule{`0}[],System.String)">
+  CompiledRulesSet(CompiledRule&lt;T&gt;[], string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fabiolune/logic-engine/blob/v4.4.0/src/LogicEngine/CompiledRulesSet.cs/#L37"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Represents a compiled set of rules that can be applied to evaluate conditions and retrieve results.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CompiledRulesSet(CompiledRule&lt;T&gt;[] rules, string name)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rules</code> <a class="xref" href="LogicEngine.CompiledRule-1.html">CompiledRule</a>&lt;T&gt;[]</dt>
+    <dd><p>An array of compiled rules to include in the set. Must not be empty. If empty, default functions are used.</p>
+</dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The name of the compiled rules set. This is used to identify the set.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h4 class="section" id="LogicEngine_CompiledRulesSet_1__ctor_LogicEngine_CompiledRule__0____System_String__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The <a class="xref" href="LogicEngine.CompiledRulesSet-1.html">CompiledRulesSet&lt;T&gt;</a> class initializes a set of rules that can be applied to
+input data. If the provided <code class="paramref">rules</code> array is empty, default functions are used for rule
+evaluation.</p>
+</div>
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="LogicEngine_CompiledRulesSet_1_Name_" data-uid="LogicEngine.CompiledRulesSet`1.Name*"></a>
+
+  <h3 id="LogicEngine_CompiledRulesSet_1_Name" data-uid="LogicEngine.CompiledRulesSet`1.Name">
+  Name
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fabiolune/logic-engine/blob/v4.4.0/src/LogicEngine/CompiledRulesSet.cs/#L28"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Name { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="LogicEngine_CompiledRulesSet_1_Apply_" data-uid="LogicEngine.CompiledRulesSet`1.Apply*"></a>
+
+  <h3 id="LogicEngine_CompiledRulesSet_1_Apply__0_" data-uid="LogicEngine.CompiledRulesSet`1.Apply(`0)">
+  Apply(T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fabiolune/logic-engine/blob/v4.4.0/src/LogicEngine/CompiledRulesSet.cs/#L50"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Applies the specified operation to the given item and returns the result.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Apply(T item)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>item</code> <span class="xref">T</span></dt>
+    <dd><p>The item to which the operation is applied.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the operation succeeds; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="LogicEngine_CompiledRulesSet_1_DetailedApply_" data-uid="LogicEngine.CompiledRulesSet`1.DetailedApply*"></a>
+
+  <h3 id="LogicEngine_CompiledRulesSet_1_DetailedApply__0_" data-uid="LogicEngine.CompiledRulesSet`1.DetailedApply(`0)">
+  DetailedApply(T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fabiolune/logic-engine/blob/v4.4.0/src/LogicEngine/CompiledRulesSet.cs/#L62"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Applies the specified operation to the given item and returns either a collection of error messages or a success
+indicator.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Either&lt;IEnumerable&lt;string&gt;, Unit&gt; DetailedApply(T item)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>item</code> <span class="xref">T</span></dt>
+    <dd><p>The item to which the operation is applied. Cannot be null.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Either</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;, <span class="xref">Unit</span>&gt;</dt>
+    <dd><p>An <span class="xref">TinyFp.Either&lt;L, R&gt;</span> containing a collection of error messages if the operation fails,  or a
+<span class="xref">TinyFp.Unit</span> value indicating success if the operation completes successfully.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="LogicEngine_CompiledRulesSet_1_DetailedApply__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>Use this method to perform an operation on the provided item while capturing detailed error
+information in case of failure. The returned <span class="xref">TinyFp.Either&lt;L, R&gt;</span> allows callers to handle
+success and failure cases explicitly.</p>
+</div>
+
+
+
+
+  <a id="LogicEngine_CompiledRulesSet_1_FirstMatching_" data-uid="LogicEngine.CompiledRulesSet`1.FirstMatching*"></a>
+
+  <h3 id="LogicEngine_CompiledRulesSet_1_FirstMatching__0_" data-uid="LogicEngine.CompiledRulesSet`1.FirstMatching(`0)">
+  FirstMatching(T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/fabiolune/logic-engine/blob/v4.4.0/src/LogicEngine/CompiledRulesSet.cs/#L72"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Finds the first matching string for the specified item.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Option&lt;string&gt; FirstMatching(T item)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>item</code> <span class="xref">T</span></dt>
+    <dd><p>The item to match against.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Option</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>An <span class="xref">TinyFp.Option&lt;A&gt;</span> containing the first matching string if a match is found;  otherwise, an empty <span class="xref">TinyFp.Option&lt;A&gt;</span>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+  <h4 class="section" id="LogicEngine_CompiledRulesSet_1_FirstMatching__0__remarks">Remarks</h4>
+  <div class="markdown level1 remarks"><p>The method uses the provided item to determine a match and returns the first result. If no
+match is found, the returned <span class="xref">TinyFp.Option&lt;A&gt;</span> will be empty.</p>
+</div>
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/fabiolune/logic-engine/blob/v4.4.0/src/LogicEngine/CompiledRulesSet.cs/#L19" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
