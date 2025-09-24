@@ -92,7 +92,7 @@ jobs:
         echo LCOV_REPORTS=$(find ./[Tt]est*/ -name "coverage.info" | paste -sd ";") >> $GITHUB_ENV
 
     - name: merge code coverage data
-      uses: danielpalme/ReportGenerator-GitHub-Action@v5.4.14
+      uses: danielpalme/ReportGenerator-GitHub-Action@v5.4.16
       with:
         reports: '${{ env.LCOV_REPORTS }}'
         reporttypes: 'lcov'
