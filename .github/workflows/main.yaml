@@ -31,12 +31,12 @@ jobs:
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - uses: gittools/actions/gitversion/setup@v4.3.0
+    - uses: gittools/actions/gitversion/setup@v4.3.2
       with:
         versionSpec: '6.3.x'
 
     - name: Compute version numbers
-      uses: gittools/actions/gitversion/execute@v4.3.0
+      uses: gittools/actions/gitversion/execute@v4.3.2
 
     - name: restore dependencies
       run: dotnet restore
